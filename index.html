@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>AcadémIA · Investigación con Normas APA 7</title>
+    <title>AcadémIA Pro · Investigación con Normas APA 7</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -106,13 +106,17 @@
         }
         
         .bibliografia-item {
-            padding: 0.5rem 0;
+            padding: 0.5rem 0 0.5rem 2rem;
             border-bottom: 1px solid #334155;
             font-size: 0.8rem;
+            text-indent: -2rem;
+            margin-left: 2rem;
             font-family: monospace;
         }
         
         .bibliografia-item:last-child { border-bottom: none; }
+        .bibliografia-item a { color: #60a5fa; text-decoration: none; }
+        .bibliografia-item a:hover { text-decoration: underline; }
         
         .copy-btn {
             background: #475569;
@@ -176,6 +180,15 @@
             color: #fbbf24;
         }
         
+        .ethical-notice {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid #3b82f6;
+            border-radius: 0.8rem;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            font-size: 0.7rem;
+        }
+        
         /* Publicidad */
         .ad-container {
             text-align: center;
@@ -195,6 +208,7 @@
         @media (max-width: 700px) {
             .input-group { flex-direction: column; }
             .btn-primary { padding: 0.8rem; }
+            .bibliografia-item { margin-left: 1rem; text-indent: -1rem; }
         }
     </style>
 </head>
@@ -202,7 +216,7 @@
 
     <div class="container">
         <div class="header">
-            <h1>📚 AcadémIA <span class="ia-badge">GROQ IA · APA 7</span></h1>
+            <h1>📚 AcadémIA Pro <span class="ia-badge">GROQ IA · APA 7 · FUENTES REALES</span></h1>
             <div class="sub">Investigación académica con Normas APA 7 · Citas y bibliografía automáticas</div>
         </div>
 
@@ -211,8 +225,8 @@
                 <input type="text" class="search-input" id="topicInput" placeholder="Ej: Inteligencia artificial en educación, Cambio climático, Desarrollo sostenible...">
                 <button class="btn-primary" id="searchBtn">🔍 INVESTIGAR</button>
             </div>
-            <div style="font-size: 0.7rem; color: #64748b;">
-                📌 La IA generará: Resumen del tema + Cita APA 7 + Bibliografía de fuentes confiables
+            <div class="ethical-notice">
+                📌 <strong>Fuentes académicas reales</strong> · Los artículos se obtienen de Crossref (base de datos académica) · Incluyen DOI verificable · Formato APA 7 estricto · <strong>Siempre verificar las fuentes originales</strong>
             </div>
             <div class="restriction-alert" id="restrictionAlert">
                 🔒 Límite: 100 consultas por día · Sin tarjeta registrada = sin riesgo
@@ -231,7 +245,7 @@
                 <button class="copy-btn" onclick="copiarTexto('citaTexto')">📋 Copiar cita</button>
             </div>
 
-            <div class="section-title">📚 BIBLIOGRAFÍA (APA 7)</div>
+            <div class="section-title">📚 BIBLIOGRAFÍA (APA 7) · FUENTES REALES</div>
             <div class="bibliografia" id="bibliografia">
                 <div id="bibliografiaList">---</div>
                 <button class="copy-btn" onclick="copiarTexto('bibliografiaList')">📋 Copiar bibliografía</button>
@@ -239,10 +253,10 @@
         </div>
 
         <div class="footer">
-            ⚡ AcadémIA · Generado con Groq IA · Normas APA 7 · Verificar siempre las fuentes originales
+            ⚡ AcadémIA Pro · Contenido: Groq IA · Fuentes: Crossref API · Formato: APA 7 · Verificar siempre las fuentes originales
         </div>
 
-        <!-- PUBLICIDAD: OFERTAS 1 y 2 (enlaces directos) -->
+        <!-- PUBLICIDAD -->
         <div class="ad-container">
             <div class="ad-label">⚡ PATROCINADORES OFICIALES ⚡</div>
             <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 10px;">
@@ -279,8 +293,8 @@
         const limite = {
             get hoy() { return new Date().toDateString(); },
             get usadas() { 
-                if(localStorage.getItem('dia_academia') !== this.hoy) return 0;
-                return parseInt(localStorage.getItem('consultas_academia') || 0);
+                if(localStorage.getItem('dia_academia_pro') !== this.hoy) return 0;
+                return parseInt(localStorage.getItem('consultas_academia_pro') || 0);
             },
             get restantes() { return Math.max(0, 100 - this.usadas); },
             puede() { 
@@ -292,8 +306,8 @@
                 return puede;
             },
             registrar() { 
-                localStorage.setItem('dia_academia', this.hoy);
-                localStorage.setItem('consultas_academia', this.usadas + 1);
+                localStorage.setItem('dia_academia_pro', this.hoy);
+                localStorage.setItem('consultas_academia_pro', this.usadas + 1);
                 this.actualizarAlerta();
             },
             actualizarAlerta() {
@@ -304,8 +318,93 @@
             }
         };
         
-        // Mostrar estado inicial
         limite.actualizarAlerta();
+        
+        // ============================================
+        // BÚSQUEDA DE FUENTES REALES (CROSSREF API)
+        // ============================================
+        async function buscarFuentesReales(tema) {
+            try {
+                const url = `https://api.crossref.org/works?query=${encodeURIComponent(tema)}&rows=5&sort=relevance`;
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data.message && data.message.items) {
+                    return data.message.items.map(item => {
+                        const authors = item.author ? item.author.map(a => `${a.family || ''}, ${a.given ? a.given.charAt(0) + '.' : ''}`).join(', ') : 'Autor desconocido';
+                        const year = item.issued?.['date-parts']?.[0]?.[0] || 's.f.';
+                        const title = item.title?.[0] || 'Título no disponible';
+                        const journal = item['container-title']?.[0] || 'Publicación no especificada';
+                        const doi = item.DOI;
+                        const url = doi ? `https://doi.org/${doi}` : null;
+                        
+                        let referencia = `${authors} (${year}). ${title}. *${journal}*.`;
+                        if (doi) referencia += ` https://doi.org/${doi}`;
+                        
+                        return { texto: referencia, doi, url, year, authors, title };
+                    });
+                }
+                return [];
+            } catch (error) {
+                console.error("Error buscando fuentes:", error);
+                return [];
+            }
+        }
+        
+        function formatearBibliografia(fuentes) {
+            if (!fuentes.length) return '<div class="bibliografia-item">No se encontraron fuentes reales. Intenta con otro término.</div>';
+            return fuentes.map(f => `
+                <div class="bibliografia-item">
+                    ${f.texto}
+                    ${f.url ? `<br><a href="${f.url}" target="_blank" style="font-size:0.7rem;">🔗 Ver fuente original</a>` : ''}
+                </div>
+            `).join('');
+        }
+        
+        function generarCitaAPA(fuentes) {
+            if (!fuentes.length) return "(Autor, año, p. X) - No se encontraron fuentes reales";
+            const primera = fuentes[0];
+            const autores = primera.authors.split(',')[0];
+            return `(${autores}, ${primera.year}, p. X)`;
+        }
+        
+        // ============================================
+        // GENERAR CONTENIDO CON GROQ
+        // ============================================
+        async function generarContenido(tema) {
+            if (!limite.puede()) return null;
+            
+            const prompt = `Eres un investigador académico. Escribe un texto de aproximadamente 300-400 palabras sobre el tema "${tema}". 
+            El texto debe ser claro, objetivo, académico, incluir conceptos clave y perspectivas importantes. 
+            NO incluyas citas ni bibliografía, solo el contenido explicativo.`;
+            
+            try {
+                const response = await fetch(GROQ_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${GROQ_API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: MODEL,
+                        messages: [
+                            { role: "system", content: "Eres un investigador académico experto. Redactas contenido claro, objetivo y bien estructurado. Hablas español." },
+                            { role: "user", content: prompt }
+                        ],
+                        max_tokens: 600,
+                        temperature: 0.7
+                    })
+                });
+                
+                if (!response.ok) throw new Error("Error en la API");
+                const data = await response.json();
+                return data.choices?.[0]?.message?.content || "No se pudo generar el contenido.";
+                
+            } catch (error) {
+                console.error("Error en Groq:", error);
+                return null;
+            }
+        }
         
         function showToast(message, isError = false) {
             const toast = document.createElement('div');
@@ -318,86 +417,17 @@
         
         function copiarTexto(elementId) {
             const element = document.getElementById(elementId);
-            const text = element.innerText;
-            if (text && text !== '---' && !text.includes('No se pudo generar')) {
+            let text = element.innerText;
+            if (elementId === 'bibliografiaList') {
+                const items = document.querySelectorAll('.bibliografia-item');
+                text = Array.from(items).map(item => item.innerText.split('🔗')[0].trim()).join('\n\n');
+            }
+            if (text && text !== '---' && !text.includes('No se encontraron')) {
                 navigator.clipboard.writeText(text);
                 showToast("📋 Texto copiado al portapapeles");
             } else {
                 showToast("⚠️ No hay texto para copiar", true);
             }
-        }
-        
-        async function investigar(tema) {
-            if (!limite.puede()) {
-                showToast("🛡️ Límite diario alcanzado (100 consultas). Vuelve mañana.", true);
-                return null;
-            }
-            
-            const prompt = `Eres un investigador académico. Para el tema "${tema}", genera:
-
-1. CONTENIDO: Un texto de aproximadamente 300-400 palabras que explique el tema de forma clara, objetiva y académica. Incluye conceptos clave, datos relevantes y perspectivas importantes.
-
-2. CITA APA 7: Una cita en texto que pueda usarse en un trabajo académico, con autor(es) ficticios pero creíbles, año y página. Formato: (Apellido, año, p. X)
-
-3. BIBLIOGRAFÍA APA 7: 3-5 fuentes (libros, artículos académicos) relevantes al tema, con formato APA 7 completo. Incluye autores, año, título, editorial/revista, DOI si aplica.
-
-Devuelve SOLO en este formato exacto:
-
-===CONTENIDO===
-[texto del contenido]
-
-===CITA===
-[texto de la cita APA]
-
-===BIBLIOGRAFIA===
-[fuente 1]
-[fuente 2]
-[fuente 3]`;
-
-            try {
-                const response = await fetch(GROQ_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${GROQ_API_KEY}`
-                    },
-                    body: JSON.stringify({
-                        model: MODEL,
-                        messages: [
-                            { 
-                                role: "system", 
-                                content: "Eres un asistente académico experto en Normas APA 7. Generas contenido investigativo, citas y bibliografía con formato preciso. Hablas español." 
-                            },
-                            { role: "user", content: prompt }
-                        ],
-                        max_tokens: 1200,
-                        temperature: 0.7
-                    })
-                });
-                
-                if (!response.ok) throw new Error("Error en la API");
-                const data = await response.json();
-                const resultado = data.choices?.[0]?.message?.content || "";
-                
-                limite.registrar();
-                return resultado;
-                
-            } catch (error) {
-                console.error("Error en Groq:", error);
-                return null;
-            }
-        }
-        
-        function parsearResultado(resultado) {
-            const contenidoMatch = resultado.match(/===CONTENIDO===\n([\s\S]*?)\n===CITA===/);
-            const citaMatch = resultado.match(/===CITA===\n([\s\S]*?)\n===BIBLIOGRAFIA===/);
-            const bibliografiaMatch = resultado.match(/===BIBLIOGRAFIA===\n([\s\S]*?)$/);
-            
-            return {
-                contenido: contenidoMatch ? contenidoMatch[1].trim() : "No se pudo generar el contenido.",
-                cita: citaMatch ? citaMatch[1].trim() : "(Autor, año, p. X)",
-                bibliografia: bibliografiaMatch ? bibliografiaMatch[1].trim() : "No se pudo generar la bibliografía."
-            };
         }
         
         async function realizarInvestigacion() {
@@ -413,19 +443,21 @@ Devuelve SOLO en este formato exacto:
             const bibliografiaDiv = document.getElementById('bibliografiaList');
             
             resultsCard.classList.remove('active');
-            contenidoDiv.innerHTML = '<div class="spinner"></div><div class="loading-text">🔍 Investigando con IA...<br>📚 Generando contenido académico<br>📝 Formateando en APA 7</div>';
+            contenidoDiv.innerHTML = '<div class="spinner"></div><div class="loading-text">🔍 Investigando con IA...<br>📚 Buscando fuentes reales en Crossref<br>📝 Generando contenido académico<br>📖 Formateando en APA 7</div>';
             
-            const resultado = await investigar(tema);
+            // Paso 1: Buscar fuentes reales
+            const fuentes = await buscarFuentesReales(tema);
             
-            if (resultado) {
-                const parsed = parsearResultado(resultado);
-                contenidoDiv.innerHTML = parsed.contenido;
-                citaSpan.innerText = parsed.cita;
-                bibliografiaDiv.innerHTML = parsed.bibliografia.split('\n').map(line => 
-                    line.trim() ? `<div class="bibliografia-item">${line}</div>` : ''
-                ).join('');
+            // Paso 2: Generar contenido con Groq
+            const contenido = await generarContenido(tema);
+            
+            if (contenido) {
+                limite.registrar();
+                contenidoDiv.innerHTML = contenido;
+                citaSpan.innerText = generarCitaAPA(fuentes);
+                bibliografiaDiv.innerHTML = formatearBibliografia(fuentes);
                 resultsCard.classList.add('active');
-                showToast("✅ Investigación completada");
+                showToast("✅ Investigación completada con fuentes reales");
             } else {
                 contenidoDiv.innerHTML = '<div style="color: #ef4444;">❌ Error al generar la investigación. Intenta de nuevo.</div>';
                 resultsCard.classList.add('active');
@@ -438,7 +470,7 @@ Devuelve SOLO en este formato exacto:
             if (e.key === 'Enter') realizarInvestigacion();
         });
         
-        console.log("📚 AcadémIA con Groq - Límite diario:", limite.usadas, "/100 usadas");
+        console.log("📚 AcadémIA Pro con Groq - Límite diario:", limite.usadas, "/100 usadas");
     </script>
 </body>
 </html>
