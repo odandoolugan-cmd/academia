@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>AcadémIA Pro · Investigación con Normas APA 7</title>
+    <title>AcadémIA Pro · Investigación con Normas APA 7 · VR</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -12,9 +12,15 @@
             color: #eef2ff;
             min-height: 100vh;
             padding: 1rem;
+            overflow-x: hidden;
         }
         
-        .container { max-width: 1200px; margin: 0 auto; }
+        .normal-mode {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
         
         .header { text-align: center; margin-bottom: 2rem; }
         h1 { font-size: 2rem; background: linear-gradient(135deg, #FFD166, #FF6B6B, #4ECDC4, #8B5CF6); -webkit-background-clip: text; background-clip: text; color: transparent; }
@@ -189,6 +195,53 @@
             font-size: 0.7rem;
         }
         
+        /* Botón VR */
+        .vr-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 40px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 100;
+            font-family: 'Cinzel', serif;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+            transition: transform 0.2s;
+        }
+        
+        .vr-button:hover { transform: scale(1.05); }
+        
+        .vr-mode {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            display: none;
+            background: #0a0f1e;
+        }
+        
+        .vr-mode.active { display: block; }
+        
+        .close-vr {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            border: 1px solid #e9c46a;
+            padding: 8px 16px;
+            border-radius: 30px;
+            color: #e9c46a;
+            cursor: pointer;
+            z-index: 1001;
+            font-family: monospace;
+        }
+        
         /* Publicidad */
         .ad-container {
             text-align: center;
@@ -214,7 +267,8 @@
 </head>
 <body>
 
-    <div class="container">
+    <!-- MODO NORMAL -->
+    <div class="normal-mode" id="normalMode">
         <div class="header">
             <h1>📚 AcadémIA Pro <span class="ia-badge">GROQ IA · APA 7 · FUENTES REALES</span></h1>
             <div class="sub">Investigación académica con Normas APA 7 · Citas y bibliografía automáticas</div>
@@ -277,6 +331,15 @@
             <div class="ad-label">🎁 OFERTAS ESPECIALES</div>
             <script src="https://www.profitablecpmratenetwork.com/sy5uvbav4x?key=c29e1fd554f321e910c2944fc5395589"></script>
         </div>
+    </div>
+
+    <!-- Botón para activar MODO VR -->
+    <button class="vr-button" id="vrModeBtn">🔮 ACTIVAR MODO VR</button>
+
+    <!-- MODO VR -->
+    <div class="vr-mode" id="vrMode">
+        <button class="close-vr" id="closeVrBtn">✕ SALIR DE VR</button>
+        <div id="vrContainer" style="width:100%;height:100%"></div>
     </div>
 
     <script>
@@ -445,10 +508,7 @@
             resultsCard.classList.remove('active');
             contenidoDiv.innerHTML = '<div class="spinner"></div><div class="loading-text">🔍 Investigando con IA...<br>📚 Buscando fuentes reales en Crossref<br>📝 Generando contenido académico<br>📖 Formateando en APA 7</div>';
             
-            // Paso 1: Buscar fuentes reales
             const fuentes = await buscarFuentesReales(tema);
-            
-            // Paso 2: Generar contenido con Groq
             const contenido = await generarContenido(tema);
             
             if (contenido) {
@@ -471,6 +531,204 @@
         });
         
         console.log("📚 AcadémIA Pro con Groq - Límite diario:", limite.usadas, "/100 usadas");
+    </script>
+
+    <!-- Script para el MODO VR (Three.js + WebXR) -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { VRButton } from 'three/addons/webxr/VRButton.js';
+        
+        let vrScene, vrCamera, vrRenderer, vrControls;
+        let vrActive = false;
+        
+        function initVR() {
+            const container = document.getElementById('vrContainer');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            vrScene = new THREE.Scene();
+            vrScene.background = new THREE.Color(0x0a0f1e);
+            vrScene.fog = new THREE.FogExp2(0x0a0f1e, 0.008);
+            
+            vrCamera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            vrCamera.position.set(5, 2, 6);
+            vrCamera.lookAt(0, 1.5, 0);
+            
+            vrRenderer = new THREE.WebGLRenderer({ antialias: true });
+            vrRenderer.setSize(container.clientWidth, container.clientHeight);
+            vrRenderer.setPixelRatio(window.devicePixelRatio);
+            vrRenderer.xr.enabled = true;
+            container.appendChild(vrRenderer.domElement);
+            
+            const vrBtn = VRButton.createButton(vrRenderer);
+            vrBtn.style.position = 'absolute';
+            vrBtn.style.bottom = '20px';
+            vrBtn.style.right = '20px';
+            vrBtn.style.zIndex = '1000';
+            container.appendChild(vrBtn);
+            
+            vrControls = new OrbitControls(vrCamera, vrRenderer.domElement);
+            vrControls.enableDamping = true;
+            vrControls.target.set(0, 1.5, 0);
+            
+            // Luces
+            const ambientLight = new THREE.AmbientLight(0x404060);
+            vrScene.add(ambientLight);
+            const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+            dirLight.position.set(5, 10, 7);
+            vrScene.add(dirLight);
+            const fillLight = new THREE.PointLight(0x8b5cf6, 0.4);
+            fillLight.position.set(0, 3, 2);
+            vrScene.add(fillLight);
+            
+            // Suelo
+            const floorMaterial = new THREE.MeshStandardMaterial({ color: 0x1a1f2e, roughness: 0.3, metalness: 0.7 });
+            const floor = new THREE.Mesh(new THREE.PlaneGeometry(16, 16), floorMaterial);
+            floor.rotation.x = -Math.PI / 2;
+            floor.position.y = -1.2;
+            vrScene.add(floor);
+            
+            // Cuadrícula
+            const gridHelper = new THREE.GridHelper(18, 20, 0x8b5cf6, 0x334155);
+            gridHelper.position.y = -1.1;
+            vrScene.add(gridHelper);
+            
+            // Estanterías
+            const woodMaterial = new THREE.MeshStandardMaterial({ color: 0x5a3a2a, roughness: 0.6 });
+            
+            // Estantería izquierda
+            const shelfLeft = new THREE.Group();
+            for (let i = 0; i < 4; i++) {
+                const plank = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.1, 1.6), woodMaterial);
+                plank.position.set(-4.2, i * 0.9 - 0.6, -1.2);
+                shelfLeft.add(plank);
+            }
+            vrScene.add(shelfLeft);
+            
+            // Estantería derecha
+            const shelfRight = new THREE.Group();
+            for (let i = 0; i < 4; i++) {
+                const plank = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.1, 1.6), woodMaterial);
+                plank.position.set(4.2, i * 0.9 - 0.6, -1.2);
+                shelfRight.add(plank);
+            }
+            vrScene.add(shelfRight);
+            
+            // Libros flotantes (símbolo de conocimiento)
+            const colors = [0x4a9eff, 0xf87171, 0xfbbf24, 0x60a5fa, 0xa78bfa, 0x34d399];
+            const libros = [];
+            for (let i = 0; i < 40; i++) {
+                const color = colors[i % colors.length];
+                const material = new THREE.MeshStandardMaterial({ color: color, emissive: color, emissiveIntensity: 0.15 });
+                const book = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.42, 0.2), material);
+                const angle = (i / 40) * Math.PI * 2;
+                const radius = 3.2;
+                book.position.x = Math.cos(angle) * radius;
+                book.position.z = Math.sin(angle) * radius - 1;
+                book.position.y = Math.sin(angle * 2) * 0.7 + 0.8;
+                book.rotation.y = angle;
+                vrScene.add(book);
+                libros.push(book);
+            }
+            
+            // Esferas brillantes (conocimiento)
+            for (let i = 0; i < 16; i++) {
+                const color = colors[i % colors.length];
+                const material = new THREE.MeshStandardMaterial({ color: color, emissive: color, emissiveIntensity: 0.3 });
+                const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.2, 16, 16), material);
+                const angle = (i / 16) * Math.PI * 2;
+                const radius = 5.5;
+                sphere.position.x = Math.cos(angle) * radius;
+                sphere.position.z = Math.sin(angle) * radius - 0.5;
+                sphere.position.y = Math.cos(angle * 2) * 0.5 + 1.2;
+                vrScene.add(sphere);
+            }
+            
+            // Texto flotante
+            const canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 128;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#0a0f1e';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.font = 'Bold 28px "Segoe UI"';
+            ctx.fillStyle = '#e9c46a';
+            ctx.textAlign = 'center';
+            ctx.fillText('ACADÉMIA PRO · BIBLIOTECA VIRTUAL', canvas.width/2, canvas.height/2);
+            const textTexture = new THREE.CanvasTexture(canvas);
+            const textMaterial = new THREE.MeshStandardMaterial({ map: textTexture, side: THREE.DoubleSide });
+            const textPlane = new THREE.Mesh(new THREE.PlaneGeometry(6, 1.4), textMaterial);
+            textPlane.position.set(0, 3.2, -3);
+            vrScene.add(textPlane);
+            
+            // Partículas (polvo de conocimiento)
+            const particleCount = 1200;
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesPositions = new Float32Array(particleCount * 3);
+            for (let i = 0; i < particleCount; i++) {
+                particlesPositions[i * 3] = (Math.random() - 0.5) * 16;
+                particlesPositions[i * 3 + 1] = Math.random() * 5;
+                particlesPositions[i * 3 + 2] = (Math.random() - 0.5) * 14 - 2;
+            }
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(particlesPositions, 3));
+            const particlesMaterial = new THREE.PointsMaterial({ color: 0xa78bfa, size: 0.04, transparent: true, opacity: 0.4 });
+            const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+            vrScene.add(particles);
+            
+            let time = 0;
+            function animate() {
+                requestAnimationFrame(animate);
+                time += 0.005;
+                libros.forEach((book, idx) => {
+                    book.rotation.y += 0.008;
+                    book.rotation.x = Math.sin(time + idx) * 0.1;
+                });
+                particles.rotation.y += 0.0005;
+                if (vrControls) vrControls.update();
+                if (vrRenderer) vrRenderer.render(vrScene, vrCamera);
+            }
+            animate();
+            
+            window.addEventListener('resize', () => {
+                if (vrRenderer && vrCamera) {
+                    const width = container.clientWidth;
+                    const height = container.clientHeight;
+                    vrCamera.aspect = width / height;
+                    vrCamera.updateProjectionMatrix();
+                    vrRenderer.setSize(width, height);
+                }
+            });
+        }
+        
+        const normalMode = document.getElementById('normalMode');
+        const vrModeDiv = document.getElementById('vrMode');
+        const vrBtn = document.getElementById('vrModeBtn');
+        const closeVrBtn = document.getElementById('closeVrBtn');
+        
+        vrBtn.addEventListener('click', () => {
+            normalMode.style.display = 'none';
+            vrModeDiv.classList.add('active');
+            if (!vrActive) {
+                initVR();
+                vrActive = true;
+            }
+        });
+        
+        closeVrBtn.addEventListener('click', () => {
+            vrModeDiv.classList.remove('active');
+            normalMode.style.display = 'block';
+        });
     </script>
 </body>
 </html>
