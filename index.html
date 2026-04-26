@@ -257,19 +257,32 @@
             font-family: monospace;
         }
         
-        .ad-container {
+        /* Auspiciantes en chiquito */
+        .sponsors {
             text-align: center;
-            margin: 30px 0 0 0;
-            padding: 15px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 10px;
+            margin: 20px 0 10px 0;
+            padding: 8px;
         }
-        .ad-label {
-            font-size: 11px;
-            color: #7a9aae;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .sponsors-link {
+            display: inline-flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .sponsors-link a {
+            background: rgba(255,255,255,0.08);
+            padding: 4px 12px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.65rem;
+            font-weight: normal;
+            transition: 0.2s;
+            color: #94a3b8;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .sponsors-link a:hover {
+            background: rgba(255,255,255,0.15);
+            color: #e9c46a;
         }
         
         @media (max-width: 700px) {
@@ -284,7 +297,7 @@
     <!-- MODO NORMAL -->
     <div class="normal-mode" id="normalMode">
         <div class="header">
-            <h1>📚 AcadémIA Pro <span class="ia-badge">GROQ IA · APA 7 · FUENTES REALES</span></h1>
+            <h1>📚 AcadémIA Pro <span class="ia-badge">GROQ IA · APA 7</span></h1>
             <div class="sub" id="subtitle">Investigación académica con Normas APA 7 · Citas y bibliografía automáticas</div>
             <div class="daily-message" id="dailyMessage">
                 <span id="dailyMessageText">📖 El conocimiento es la única riqueza que crece cuando se comparte.</span>
@@ -293,46 +306,36 @@
 
         <div class="search-card">
             <div class="input-group">
-                <input type="text" class="search-input" id="topicInput" placeholder="Ej: Inteligencia artificial en educación, Cambio climático, Desarrollo sostenible...">
+                <input type="text" class="search-input" id="topicInput" placeholder="Ej: Inteligencia artificial en educación, Cambio climático...">
                 <button class="btn-primary" id="searchBtn">🔍 INVESTIGAR</button>
             </div>
             <div class="ethical-notice">
-                📌 <strong>Fuentes académicas reales</strong> · Los artículos se obtienen de Crossref (base de datos académica) · Incluyen DOI verificable · Formato APA 7 estricto · <strong>Siempre verificar las fuentes originales</strong>
+                📌 <strong>Fuentes académicas reales</strong> · Crossref API · Formato APA 7 estricto
             </div>
             <div class="restriction-alert" id="restrictionAlert">
-                🔒 Límite: 100 consultas por día · Sin tarjeta registrada = sin riesgo
+                🔒 Límite: 100 consultas por día
             </div>
         </div>
 
         <div class="results-card" id="resultsCard">
-            <div class="section-title">📖 CONTENIDO DE LA INVESTIGACIÓN</div>
-            <div class="contenido-investigacion" id="contenido">
-                El contenido aparecerá aquí después de la búsqueda...
-            </div>
-
-            <div class="section-title">📝 CITA EN TEXTO (APA 7)</div>
-            <div class="cita-apa" id="cita">
-                <span id="citaTexto">---</span>
-                <button class="copy-btn" onclick="copiarTexto('citaTexto')">📋 Copiar cita</button>
-            </div>
-
-            <div class="section-title">📚 BIBLIOGRAFÍA (APA 7) · FUENTES REALES</div>
-            <div class="bibliografia" id="bibliografia">
-                <div id="bibliografiaList">---</div>
-                <button class="copy-btn" onclick="copiarTexto('bibliografiaList')">📋 Copiar bibliografía</button>
-            </div>
+            <div class="section-title">📖 CONTENIDO</div>
+            <div class="contenido-investigacion" id="contenido">---</div>
+            <div class="section-title">📝 CITA APA 7</div>
+            <div class="cita-apa"><span id="citaTexto">---</span><button class="copy-btn" onclick="copiarTexto('citaTexto')">📋 Copiar</button></div>
+            <div class="section-title">📚 BIBLIOGRAFÍA APA 7</div>
+            <div class="bibliografia"><div id="bibliografiaList">---</div><button class="copy-btn" onclick="copiarTexto('bibliografiaList')">📋 Copiar</button></div>
         </div>
 
-        <div class="ad-container">
-            <div class="ad-label">⚡ PATROCINADORES OFICIALES ⚡</div>
-            <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 10px;">
-                <a href="https://www.profitablecpmratenetwork.com/cuitcvgz?key=85ca230e218898f76e48c348cafb2311" target="_blank" rel="nofollow" style="background: linear-gradient(90deg, #e9c46a, #f4a261); color: #1a222c; padding: 10px 20px; border-radius: 40px; text-decoration: none; font-weight: bold;">🎮 OFERTA 1</a>
-                <a href="https://www.profitablecpmratenetwork.com/b27uffyn?key=5b35819451353807b0e99b21addde69a" target="_blank" rel="nofollow" style="background: linear-gradient(90deg, #2a9d8f, #264653); color: white; padding: 10px 20px; border-radius: 40px; text-decoration: none; font-weight: bold;">🎲 OFERTA 2</a>
+        <!-- AUSPICIANTES EN CHIQUITO -->
+        <div class="sponsors">
+            <div class="sponsors-link">
+                <a href="https://www.profitablecpmratenetwork.com/cuitcvgz?key=85ca230e218898f76e48c348cafb2311" target="_blank" rel="nofollow">🎮 OFERTA 1</a>
+                <a href="https://www.profitablecpmratenetwork.com/b27uffyn?key=5b35819451353807b0e99b21addde69a" target="_blank" rel="nofollow">🎲 OFERTA 2</a>
             </div>
         </div>
 
         <div class="footer-text" id="footer">
-            ⚡ AcadémIA Pro · Contenido: Groq IA · Fuentes: Crossref API · Formato: APA 7
+            ⚡ AcadémIA Pro · Fuentes: Crossref · Formato APA 7
         </div>
     </div>
 
@@ -350,11 +353,9 @@
         
         function actualizarContenidoDiario() {
             const hoy = new Date();
-            const diaSemana = hoy.getDay(); // 0=Domingo, 1=Lunes...
+            const diaSemana = hoy.getDay();
             const diaMes = hoy.getDate();
-            const mes = hoy.getMonth() + 1;
             
-            // Frases del día (diferente cada día)
             const frasesDiarias = [
                 "📖 Domingos de reflexión: Un buen investigador siempre cuestiona sus hallazgos.",
                 "📚 Lunes de organización: La bibliografía es el mapa de tu investigación.",
@@ -365,42 +366,25 @@
                 "🏆 Sábados de logros: Cada cita bien puesta es un paso hacia la excelencia."
             ];
             
-            // Subtítulos variables
             const subtitulos = [
                 "Investigación académica con Normas APA 7 · Citas y bibliografía automáticas",
                 "Tu aliado para investigaciones perfectamente formateadas en APA 7",
                 "Genera trabajos académicos con fuentes reales y citas automáticas",
                 "El rigor académico al alcance de un clic · APA 7 + IA",
-                "Referencias, citas y contenido · Todo en formato APA 7",
-                "Bibliografía automática desde Crossref · Formato APA 7 estricto",
-                "La herramienta que todo estudiante necesita · APA 7 · Fuentes reales"
+                "Referencias, citas y contenido · Todo en formato APA 7"
             ];
             
-            // Tips académicos derecho en el footer
-            const tipsAcademicos = [
-                "🔖 Tip: Siempre verifica los DOI en Crossref antes de entregar tu trabajo.",
-                "📝 Tip: Las citas textuales cortas (menos de 40 palabras) van entre comillas dobles.",
-                "📌 Tip: Para tres o más autores, usa 'et al.' desde la primera cita.",
-                "⚡ Tip: La sangría francesa es obligatoria en la lista de referencias APA 7.",
-                "🎯 Tip: Los niveles de título ayudan a estructurar tu trabajo académico.",
-                "📊 Tip: Las tablas y figuras deben tener su propia numeración y título.",
-                "🔍 Tip: El resumen (abstract) no debe exceder las 250 palabras.",
-                "✍️ Tip: Usa papel tamaño carta (Letter) para tus trabajos académicos.",
-                "📖 Tip: La tercera persona es preferida en escritos académicos formales.",
-                "🏆 Tip: Revisa siempre las fechas de acceso a fuentes en línea."
+            const tips = [
+                "🔖 Tip: Verifica los DOI en Crossref",
+                "📝 Tip: Citas cortas van entre comillas",
+                "📌 Tip: Usa 'et al.' para 3+ autores",
+                "⚡ Tip: Sangría francesa en referencias",
+                "🎯 Tip: Usa niveles de título"
             ];
             
-            const fraseDelDia = frasesDiarias[diaSemana];
-            const subtituloDelDia = subtitulos[diaMes % subtitulos.length];
-            const tipDelDia = tipsAcademicos[(diaMes * diaSemana) % tipsAcademicos.length];
-            const fechaStr = hoy.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-            
-            // Actualizar elementos en la página
-            document.getElementById('dailyMessageText').innerHTML = fraseDelDia;
-            document.getElementById('subtitle').innerHTML = subtituloDelDia;
-            document.getElementById('footer').innerHTML = `⚡ AcadémIA Pro · ${fechaStr} · ${tipDelDia}`;
-            
-            console.log("📅 Contenido actualizado para:", fechaStr);
+            document.getElementById('dailyMessageText').innerHTML = frasesDiarias[diaSemana];
+            document.getElementById('subtitle').innerHTML = subtitulos[diaMes % subtitulos.length];
+            document.getElementById('footer').innerHTML = `⚡ AcadémIA Pro · ${hoy.toLocaleDateString('es-ES')} · ${tips[diaSemana]}`;
         }
         
         // ============================================
@@ -410,417 +394,169 @@
         const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
         const MODEL = "llama-3.3-70b-versatile";
         
-        // ============================================
-        // RESTRICCIÓN: LÍMITE DE 100 CONSULTAS/DÍA
-        // ============================================
         const limite = {
             get hoy() { return new Date().toDateString(); },
             get usadas() { 
-                if(localStorage.getItem('dia_academia_pro') !== this.hoy) return 0;
-                return parseInt(localStorage.getItem('consultas_academia_pro') || 0);
+                if(localStorage.getItem('dia_academia') !== this.hoy) return 0;
+                return parseInt(localStorage.getItem('consultas_academia') || 0);
             },
-            get restantes() { return Math.max(0, 100 - this.usadas); },
-            puede() { 
-                const puede = this.usadas < 100;
-                if (!puede) {
-                    const alertDiv = document.getElementById('restrictionAlert');
-                    if (alertDiv) alertDiv.innerHTML = '🛑 LÍMITE ALCANZADO · Vuelve mañana · Sin tarjeta = sin riesgo 🛑';
-                }
-                return puede;
-            },
+            puede() { return this.usadas < 100; },
             registrar() { 
-                localStorage.setItem('dia_academia_pro', this.hoy);
-                localStorage.setItem('consultas_academia_pro', this.usadas + 1);
-                this.actualizarAlerta();
-            },
-            actualizarAlerta() {
+                localStorage.setItem('dia_academia', this.hoy);
+                localStorage.setItem('consultas_academia', this.usadas + 1);
                 const alertDiv = document.getElementById('restrictionAlert');
-                if (alertDiv && this.usadas < 100) {
-                    alertDiv.innerHTML = `🔒 Límite: ${this.usadas}/100 consultas hoy · ${this.restantes} restantes · Sin tarjeta = sin riesgo`;
-                }
+                if(alertDiv) alertDiv.innerHTML = `🔒 ${this.usadas+1}/100 consultas hoy`;
             }
         };
         
-        limite.actualizarAlerta();
-        
-        // ============================================
-        // BÚSQUEDA DE FUENTES REALES (CROSSREF API)
-        // ============================================
-        async function buscarFuentesReales(tema) {
+        async function buscarFuentes(tema) {
             try {
-                const url = `https://api.crossref.org/works?query=${encodeURIComponent(tema)}&rows=5&sort=relevance`;
-                const response = await fetch(url);
-                const data = await response.json();
-                
-                if (data.message && data.message.items) {
-                    return data.message.items.map(item => {
-                        const authors = item.author ? item.author.map(a => `${a.family || ''}, ${a.given ? a.given.charAt(0) + '.' : ''}`).join(', ') : 'Autor desconocido';
-                        const year = item.issued?.['date-parts']?.[0]?.[0] || 's.f.';
-                        const title = item.title?.[0] || 'Título no disponible';
-                        const journal = item['container-title']?.[0] || 'Publicación no especificada';
-                        const doi = item.DOI;
-                        const urlDoi = doi ? `https://doi.org/${doi}` : null;
-                        
-                        let referencia = `${authors} (${year}). ${title}. *${journal}*.`;
-                        if (doi) referencia += ` https://doi.org/${doi}`;
-                        
-                        return { texto: referencia, doi, url: urlDoi, year, authors, title };
-                    });
-                }
-                return [];
-            } catch (error) {
-                console.error("Error buscando fuentes:", error);
-                return [];
-            }
-        }
-        
-        function formatearBibliografia(fuentes) {
-            if (!fuentes.length) return '<div class="bibliografia-item">No se encontraron fuentes reales. Intenta con otro término.</div>';
-            return fuentes.map(f => `
-                <div class="bibliografia-item">
-                    ${f.texto}
-                    ${f.url ? `<br><a href="${f.url}" target="_blank" style="font-size:0.7rem;">🔗 Ver fuente original (DOI)</a>` : ''}
-                </div>
-            `).join('');
-        }
-        
-        function generarCitaAPA(fuentes) {
-            if (!fuentes.length) return "(Autor, año, p. X) - No se encontraron fuentes reales";
-            const primera = fuentes[0];
-            const autores = primera.authors.split(',')[0];
-            return `(${autores}, ${primera.year})`;
-        }
-        
-        // ============================================
-        // GENERAR CONTENIDO CON GROQ
-        // ============================================
-        async function generarContenido(tema) {
-            if (!limite.puede()) return null;
-            
-            const prompt = `Eres un investigador académico. Escribe un texto de aproximadamente 300-400 palabras sobre el tema "${tema}". 
-            El texto debe ser claro, objetivo, académico, incluir conceptos clave y perspectivas importantes. 
-            NO incluyas citas ni bibliografía, solo el contenido explicativo.`;
-            
-            try {
-                const response = await fetch(GROQ_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': application/json',
-                        'Authorization': `Bearer ${GROQ_API_KEY}`
-                    },
-                    body: JSON.stringify({
-                        model: MODEL,
-                        messages: [
-                            { role: "system", content: "Eres un investigador académico experto. Redactas contenido claro, objetivo y bien estructurado. Hablas español." },
-                            { role: "user", content: prompt }
-                        ],
-                        max_tokens: 600,
-                        temperature: 0.7
-                    })
+                const r = await fetch(`https://api.crossref.org/works?query=${encodeURIComponent(tema)}&rows=5`);
+                const d = await r.json();
+                if(d.message?.items) return d.message.items.map(i => {
+                    const a = i.author ? i.author.map(a=>`${a.family||''}, ${a.given?a.given.charAt(0)+'.':''}`).join(', ') : 'Autor';
+                    const year = i.issued?.['date-parts']?.[0]?.[0] || 's.f.';
+                    return { texto: `${a} (${year}). ${i.title?.[0]||''}. ${i['container-title']?.[0]||''}.${i.DOI?` https://doi.org/${i.DOI}`:''}`, url: i.DOI?`https://doi.org/${i.DOI}`:null, year, authors: a };
                 });
-                
-                if (!response.ok) throw new Error("Error en la API");
-                const data = await response.json();
-                return data.choices?.[0]?.message?.content || "No se pudo generar el contenido.";
-                
-            } catch (error) {
-                console.error("Error en Groq:", error);
-                return null;
-            }
+                return [];
+            } catch(e) { return []; }
         }
         
-        function showToast(message, isError = false) {
-            const toast = document.createElement('div');
-            toast.className = 'toast-msg';
-            if (isError) toast.style.background = '#ef4444';
-            toast.innerText = message;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
+        function formatearBibliog(f) {
+            if(!f.length) return '<div class="bibliografia-item">No se encontraron fuentes</div>';
+            return f.map(f=>`<div class="bibliografia-item">${f.texto}${f.url?`<br><a href="${f.url}" target="_blank">🔗 DOI</a>`:''}</div>`).join('');
         }
         
-        window.copiarTexto = function(elementId) {
-            const element = document.getElementById(elementId);
-            let text = element.innerText;
-            if (elementId === 'bibliografiaList') {
+        async function generarContenido(tema) {
+            if(!limite.puede()) return null;
+            try {
+                const r = await fetch(GROQ_URL, {
+                    method:'POST',
+                    headers:{'Content-Type':'application/json','Authorization':`Bearer ${GROQ_API_KEY}`},
+                    body:JSON.stringify({model:MODEL,messages:[{role:"system",content:"Eres investigador académico. Redactas contenido objetivo."},{role:"user",content:`Escribe 350 palabras sobre "${tema}"`}],max_tokens:600,temperature:0.7})
+                });
+                const d = await r.json();
+                return d.choices?.[0]?.message?.content || null;
+            } catch(e) { return null; }
+        }
+        
+        function showToast(msg, isErr=false) {
+            const t = document.createElement('div');
+            t.className = 'toast-msg';
+            if(isErr) t.style.background = '#ef4444';
+            t.innerText = msg;
+            document.body.appendChild(t);
+            setTimeout(()=>t.remove(),3000);
+        }
+        
+        window.copiarTexto = function(id) {
+            let t = document.getElementById(id).innerText;
+            if(id==='bibliografiaList') {
                 const items = document.querySelectorAll('.bibliografia-item');
-                text = Array.from(items).map(item => item.innerText.split('🔗')[0].trim()).join('\n\n');
+                t = Array.from(items).map(i=>i.innerText.split('🔗')[0].trim()).join('\n\n');
             }
-            if (text && text !== '---' && !text.includes('No se encontraron')) {
-                navigator.clipboard.writeText(text);
-                showToast("📋 Texto copiado al portapapeles");
+            if(t && t!=='---') { navigator.clipboard.writeText(t); showToast("📋 Copiado"); }
+            else showToast("⚠️ No hay texto", true);
+        };
+        
+        document.getElementById('searchBtn').onclick = async () => {
+            const tema = document.getElementById('topicInput').value.trim();
+            if(!tema) { showToast("Escribe un tema", true); return; }
+            const rc = document.getElementById('resultsCard'), cd = document.getElementById('contenido'), cs = document.getElementById('citaTexto'), bd = document.getElementById('bibliografiaList');
+            rc.classList.remove('active');
+            cd.innerHTML = '<div class="spinner"></div>';
+            const fuentes = await buscarFuentes(tema);
+            const contenido = await generarContenido(tema);
+            if(contenido) {
+                limite.registrar();
+                cd.innerHTML = contenido;
+                cs.innerText = fuentes.length ? `(${fuentes[0].authors.split(',')[0]}, ${fuentes[0].year})` : '(Autor, año)';
+                bd.innerHTML = formatearBibliog(fuentes);
+                rc.classList.add('active');
+                showToast("✅ Investigación completada");
             } else {
-                showToast("⚠️ No hay texto para copiar", true);
+                cd.innerHTML = '<div style="color:#ef4444;">Error. Intenta de nuevo.</div>';
+                rc.classList.add('active');
+                showToast("❌ Error", true);
             }
         };
         
-        async function realizarInvestigacion() {
-            const tema = document.getElementById('topicInput').value.trim();
-            if (!tema) {
-                showToast("⚠️ Escribe un tema para investigar", true);
-                return;
-            }
-            
-            const resultsCard = document.getElementById('resultsCard');
-            const contenidoDiv = document.getElementById('contenido');
-            const citaSpan = document.getElementById('citaTexto');
-            const bibliografiaDiv = document.getElementById('bibliografiaList');
-            
-            resultsCard.classList.remove('active');
-            contenidoDiv.innerHTML = '<div class="spinner"></div><div class="loading-text">🔍 Investigando con IA...<br>📚 Buscando fuentes reales en Crossref<br>📝 Generando contenido académico<br>📖 Formateando en APA 7</div>';
-            
-            const fuentes = await buscarFuentesReales(tema);
-            const contenido = await generarContenido(tema);
-            
-            if (contenido) {
-                limite.registrar();
-                contenidoDiv.innerHTML = contenido;
-                citaSpan.innerText = generarCitaAPA(fuentes);
-                bibliografiaDiv.innerHTML = formatearBibliografia(fuentes);
-                resultsCard.classList.add('active');
-                showToast("✅ Investigación completada con fuentes reales");
-            } else {
-                contenidoDiv.innerHTML = '<div style="color: #ef4444;">❌ Error al generar la investigación. Intenta de nuevo.</div>';
-                resultsCard.classList.add('active');
-                showToast("❌ Error en la investigación", true);
-            }
-        }
+        document.getElementById('topicInput').addEventListener('keypress', e => { if(e.key==='Enter') document.getElementById('searchBtn').click(); });
         
-        document.getElementById('searchBtn').addEventListener('click', realizarInvestigacion);
-        document.getElementById('topicInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') realizarInvestigacion();
-        });
-        
-        // ============================================
-        // INICIALIZAR TODO
-        // ============================================
-        function iniciar() {
-            actualizarContenidoDiario();
-            console.log("📚 AcadémIA Pro con Groq - Límite diario:", limite.usadas, "/100 usadas");
-        }
-        
-        iniciar();
+        actualizarContenidoDiario();
     </script>
 
-    <!-- Script para el MODO VR (Three.js + WebXR) -->
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
-            }
-        }
-    </script>
-
+    <!-- VR Three.js -->
+    <script type="importmap">{ "imports": { "three": "https://unpkg.com/three@0.128.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/" } }</script>
     <script type="module">
         import * as THREE from 'three';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
         import { VRButton } from 'three/addons/webxr/VRButton.js';
         
-        let vrScene, vrCamera, vrRenderer, vrControls;
-        let vrActive = false;
-        
-        function initVR() {
-            const container = document.getElementById('vrContainer');
-            if (!container) return;
-            
-            container.innerHTML = '';
-            
-            vrScene = new THREE.Scene();
-            vrScene.background = new THREE.Color(0x0a0f1e);
-            vrScene.fog = new THREE.FogExp2(0x0a0f1e, 0.008);
-            
-            vrCamera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-            vrCamera.position.set(5, 2, 6);
-            vrCamera.lookAt(0, 1.5, 0);
-            
-            vrRenderer = new THREE.WebGLRenderer({ antialias: true });
-            vrRenderer.setSize(container.clientWidth, container.clientHeight);
-            vrRenderer.setPixelRatio(window.devicePixelRatio);
-            vrRenderer.xr.enabled = true;
-            container.appendChild(vrRenderer.domElement);
-            
-            const vrBtn = VRButton.createButton(vrRenderer);
-            vrBtn.style.position = 'absolute';
-            vrBtn.style.bottom = '20px';
-            vrBtn.style.right = '20px';
-            vrBtn.style.zIndex = '1000';
-            container.appendChild(vrBtn);
-            
-            vrControls = new OrbitControls(vrCamera, vrRenderer.domElement);
-            vrControls.enableDamping = true;
-            vrControls.target.set(0, 1.5, 0);
-            
-            // Luces
-            const ambientLight = new THREE.AmbientLight(0x404060);
-            vrScene.add(ambientLight);
-            const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-            dirLight.position.set(5, 10, 7);
-            vrScene.add(dirLight);
-            const fillLight = new THREE.PointLight(0x8b5cf6, 0.4);
-            fillLight.position.set(0, 3, 2);
-            vrScene.add(fillLight);
-            
-            // Suelo
-            const floorMaterial = new THREE.MeshStandardMaterial({ color: 0x1a1f2e, roughness: 0.3, metalness: 0.7 });
-            const floor = new THREE.Mesh(new THREE.PlaneGeometry(16, 16), floorMaterial);
-            floor.rotation.x = -Math.PI / 2;
-            floor.position.y = -1.2;
-            vrScene.add(floor);
-            
-            // Cuadrícula
-            const gridHelper = new THREE.GridHelper(18, 20, 0x8b5cf6, 0x334155);
-            gridHelper.position.y = -1.1;
-            vrScene.add(gridHelper);
-            
-            // Estanterías
-            const woodMaterial = new THREE.MeshStandardMaterial({ color: 0x5a3a2a, roughness: 0.6 });
-            
-            const shelfLeft = new THREE.Group();
-            for (let i = 0; i < 4; i++) {
-                const plank = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.1, 1.6), woodMaterial);
-                plank.position.set(-4.2, i * 0.9 - 0.6, -1.2);
-                shelfLeft.add(plank);
+        let s,c,r,ctrl,a=false;
+        function init(){
+            const ct=document.getElementById('vrContainer');
+            if(!ct)return;
+            ct.innerHTML='';
+            s=new THREE.Scene();
+            s.background=new THREE.Color(0x0a0f1e);
+            c=new THREE.PerspectiveCamera(45,ct.clientWidth/ct.clientHeight,0.1,1000);
+            c.position.set(5,2,6);
+            r=new THREE.WebGLRenderer({antialias:true});
+            r.setSize(ct.clientWidth,ct.clientHeight);
+            r.xr.enabled=true;
+            ct.appendChild(r.domElement);
+            const vb=VRButton.createButton(r);
+            vb.style.cssText='position:absolute;bottom:20px;right:20px;z-index:1000';
+            ct.appendChild(vb);
+            ctrl=new OrbitControls(c,r.domElement);
+            ctrl.enableDamping=true;
+            const al=new THREE.AmbientLight(0x404060);
+            s.add(al);
+            const dl=new THREE.DirectionalLight(0xffffff,1);
+            dl.position.set(5,10,7);
+            s.add(dl);
+            const fm=new THREE.MeshStandardMaterial({color:0x1a1f2e});
+            const f=new THREE.Mesh(new THREE.PlaneGeometry(16,16),fm);
+            f.rotation.x=-Math.PI/2;
+            f.position.y=-1.2;
+            s.add(f);
+            const gh=new THREE.GridHelper(18,20,0x8b5cf6,0x334155);
+            gh.position.y=-1.1;
+            s.add(gh);
+            for(let i=0;i<40;i++){
+                const m=new THREE.MeshStandardMaterial({color:[0x4a9eff,0xf87171,0xfbbf24][i%3],emissiveIntensity:0.15});
+                const b=new THREE.Mesh(new THREE.BoxGeometry(0.32,0.42,0.2),m);
+                const ang=(i/40)*Math.PI*2;
+                b.position.set(Math.cos(ang)*3.2, Math.sin(ang*2)*0.7+0.8, Math.sin(ang)*3.2-1);
+                b.rotation.y=ang;
+                s.add(b);
             }
-            vrScene.add(shelfLeft);
-            
-            const shelfRight = new THREE.Group();
-            for (let i = 0; i < 4; i++) {
-                const plank = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.1, 1.6), woodMaterial);
-                plank.position.set(4.2, i * 0.9 - 0.6, -1.2);
-                shelfRight.add(plank);
-            }
-            vrScene.add(shelfRight);
-            
-            // Libros flotantes
-            const colors = [0x4a9eff, 0xf87171, 0xfbbf24, 0x60a5fa, 0xa78bfa, 0x34d399];
-            const libros = [];
-            for (let i = 0; i < 40; i++) {
-                const color = colors[i % colors.length];
-                const material = new THREE.MeshStandardMaterial({ color: color, emissive: color, emissiveIntensity: 0.15 });
-                const book = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.42, 0.2), material);
-                const angle = (i / 40) * Math.PI * 2;
-                const radius = 3.2;
-                book.position.x = Math.cos(angle) * radius;
-                book.position.z = Math.sin(angle) * radius - 1;
-                book.position.y = Math.sin(angle * 2) * 0.7 + 0.8;
-                book.rotation.y = angle;
-                vrScene.add(book);
-                libros.push(book);
-            }
-            
-            // Esferas brillantes
-            for (let i = 0; i < 16; i++) {
-                const color = colors[i % colors.length];
-                const material = new THREE.MeshStandardMaterial({ color: color, emissive: color, emissiveIntensity: 0.3 });
-                const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.2, 16, 16), material);
-                const angle = (i / 16) * Math.PI * 2;
-                const radius = 5.5;
-                sphere.position.x = Math.cos(angle) * radius;
-                sphere.position.z = Math.sin(angle) * radius - 0.5;
-                sphere.position.y = Math.cos(angle * 2) * 0.5 + 1.2;
-                vrScene.add(sphere);
-            }
-            
-            // Texto flotante
-            const canvas = document.createElement('canvas');
-            canvas.width = 512;
-            canvas.height = 128;
-            const ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#0a0f1e';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.font = 'Bold 28px "Segoe UI"';
-            ctx.fillStyle = '#e9c46a';
-            ctx.textAlign = 'center';
-            ctx.fillText('ACADÉMIA PRO · BIBLIOTECA VIRTUAL', canvas.width/2, canvas.height/2);
-            const textTexture = new THREE.CanvasTexture(canvas);
-            const textMaterial = new THREE.MeshStandardMaterial({ map: textTexture, side: THREE.DoubleSide });
-            const textPlane = new THREE.Mesh(new THREE.PlaneGeometry(6, 1.4), textMaterial);
-            textPlane.position.set(0, 3.2, -3);
-            vrScene.add(textPlane);
-            
-            // Partículas
-            const particleCount = 1200;
-            const particlesGeometry = new THREE.BufferGeometry();
-            const particlesPositions = new Float32Array(particleCount * 3);
-            for (let i = 0; i < particleCount; i++) {
-                particlesPositions[i * 3] = (Math.random() - 0.5) * 16;
-                particlesPositions[i * 3 + 1] = Math.random() * 5;
-                particlesPositions[i * 3 + 2] = (Math.random() - 0.5) * 14 - 2;
-            }
-            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(particlesPositions, 3));
-            const particlesMaterial = new THREE.PointsMaterial({ color: 0xa78bfa, size: 0.04, transparent: true, opacity: 0.4 });
-            const particles = new THREE.Points(particlesGeometry, particlesMaterial);
-            vrScene.add(particles);
-            
-            let time = 0;
-            function animate() {
-                requestAnimationFrame(animate);
-                time += 0.005;
-                libros.forEach((book, idx) => {
-                    book.rotation.y += 0.008;
-                    book.rotation.x = Math.sin(time + idx) * 0.1;
-                });
-                particles.rotation.y += 0.0005;
-                if (vrControls) vrControls.update();
-                if (vrRenderer) vrRenderer.render(vrScene, vrCamera);
-            }
+            const cnv=document.createElement('canvas');
+            cnv.width=512;cnv.height=128;
+            const ctx=cnv.getContext('2d');
+            ctx.fillStyle='#0a0f1e';
+            ctx.fillRect(0,0,512,128);
+            ctx.font='Bold 28px "Segoe UI"';
+            ctx.fillStyle='#e9c46a';
+            ctx.textAlign='center';
+            ctx.fillText('ACADÉMIA PRO',256,64);
+            const tp=new THREE.Mesh(new THREE.PlaneGeometry(6,1.4),new THREE.MeshStandardMaterial({map:new THREE.CanvasTexture(cnv),side:THREE.DoubleSide}));
+            tp.position.set(0,3.2,-3);
+            s.add(tp);
+            function animate(){requestAnimationFrame(animate);ctrl.update();r.render(s,c)}
             animate();
-            
-            window.addEventListener('resize', () => {
-                if (vrRenderer && vrCamera) {
-                    const width = container.clientWidth;
-                    const height = container.clientHeight;
-                    vrCamera.aspect = width / height;
-                    vrCamera.updateProjectionMatrix();
-                    vrRenderer.setSize(width, height);
-                }
-            });
+            window.addEventListener('resize',()=>{if(r&&c){c.aspect=ct.clientWidth/ct.clientHeight;c.updateProjectionMatrix();r.setSize(ct.clientWidth,ct.clientHeight)}});
         }
-        
-        const normalMode = document.getElementById('normalMode');
-        const vrModeDiv = document.getElementById('vrMode');
-        const vrBtn = document.getElementById('vrModeBtn');
-        const closeVrBtn = document.getElementById('closeVrBtn');
-        
-        vrBtn.addEventListener('click', () => {
-            normalMode.style.display = 'none';
-            vrModeDiv.classList.add('active');
-            if (!vrActive) {
-                initVR();
-                vrActive = true;
-            }
-        });
-        
-        closeVrBtn.addEventListener('click', () => {
-            vrModeDiv.classList.remove('active');
-            normalMode.style.display = 'block';
-        });
+        const nm=document.getElementById('normalMode'),vd=document.getElementById('vrMode'),vb2=document.getElementById('vrModeBtn'),cv=document.getElementById('closeVrBtn');
+        vb2.onclick=()=>{nm.style.display='none';vd.classList.add('active');if(!a){init();a=true}};
+        cv.onclick=()=>{vd.classList.remove('active');nm.style.display='block'};
     </script>
 
-    <!-- ============================================ -->
-    <!-- PUBLICIDAD -->
-    <!-- ============================================ -->
-    
-    <script type="text/javascript" data-cfasync="false">
-    /*<![CDATA[/* */
-    (function(){var y=window,j="fd00ec802f889d01aba4b20343501917",o=[["siteId",230+597-856*111+5387265],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],q=["d3d3LmJsb2NrYWRzbm90LmNvbS9IZFZaWi9uanN4Z3JhcGhjb3JlLmpz","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9OTVRISS9oL3Jwb3BwZXIubWluLmNzcw=="],n=-1,l,k,z=function(){clearTimeout(k);n++;if(q[n]&&!(1802736393000<(new Date).getTime()&&1<n)){l=y.document.createElement("script");l.type="text/javascript";l.async=!0;var f=y.document.getElementsByTagName("script")[0];l.src="https://"+atob(q[n]);l.crossOrigin="anonymous";l.onerror=z;l.onload=function(){clearTimeout(k);y[j.slice(0,16)+j.slice(0,16)]||z()};k=setTimeout(z,5E3);f.parentNode.insertBefore(l,f)}};if(!y[j]){try{Object.freeze(y[j]=o)}catch(e){}z()}})();
-    /*]]>/* */
-    </script>
-    
+    <!-- PUBLICIDAD (SCIPTS OCULTOS) -->
+    <script type="text/javascript" data-cfasync="false">(function(){var y=window,j="fd00ec802f889d01aba4b20343501917",o=[["siteId",230+597-856*111+5387265],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],q=["d3d3LmJsb2NrYWRzbm90LmNvbS9IZFZaWi9uanN4Z3JhcGhjb3JlLmpz","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9OTVRISS9oL3Jwb3BwZXIubWluLmNzcw=="],n=-1,l,k,z=function(){clearTimeout(k);n++;if(q[n]&&!(1802736393000<(new Date).getTime()&&1<n)){l=y.document.createElement("script");l.type="text/javascript";l.async=!0;var f=y.document.getElementsByTagName("script")[0];l.src="https://"+atob(q[n]);l.crossOrigin="anonymous";l.onerror=z;l.onload=function(){clearTimeout(k);y[j.slice(0,16)+j.slice(0,16)]||z()};k=setTimeout(z,5E3);f.parentNode.insertBefore(l,f)}};if(!y[j]){try{Object.freeze(y[j]=o)}catch(e){}z()}})();</script>
     <script src="https://pl29137063.profitablecpmratenetwork.com/61/2f/c0/612fc0895a4d18ef5b58ae13c6940b8d.js"></script>
-    
-    <script>
-    (function(lba){
-    var d = document,
-        s = d.createElement('script'),
-        l = d.scripts[d.scripts.length - 1];
-    s.settings = lba || {};
-    s.src = "\/\/webbedtrash.com\/bVXUV\/s.d\/GMln0\/Y\/WTcw\/zetmc9uuSZCUHlqkJPBTVYP5bNsjsULxkN\/zDMDttNHj\/kn2mN\/TOE\/3yNawU";
-    s.async = true;
-    s.referrerPolicy = 'no-referrer-when-downgrade';
-    l.parentNode.insertBefore(s, l);
-    })({})
-    </script>
+    <script>(function(lba){var d=document,s=d.createElement('script'),l=d.scripts[d.scripts.length-1];s.settings=lba||{};s.src="\/\/webbedtrash.com\/bVXUV\/s.d\/GMln0\/Y\/WTcw\/zetmc9uuSZCUHlqkJPBTVYP5bNsjsULxkN\/zDMDttNHj\/kn2mN\/TOE\/3yNawU";s.async=true;s.referrerPolicy='no-referrer-when-downgrade';l.parentNode.insertBefore(s,l);})({})</script>
 
 </body>
 </html>
