@@ -25,6 +25,17 @@
         .header { text-align: center; margin-bottom: 2rem; }
         h1 { font-size: 2rem; background: linear-gradient(135deg, #FFD166, #FF6B6B, #4ECDC4, #8B5CF6); -webkit-background-clip: text; background-clip: text; color: transparent; }
         .sub { color: #94a3b8; margin-top: 0.5rem; font-size: 0.7rem; }
+        .daily-message {
+            background: rgba(139, 92, 246, 0.15);
+            border-radius: 1rem;
+            padding: 0.8rem;
+            margin: 1rem auto;
+            text-align: center;
+            max-width: 80%;
+            border-left: 3px solid #8b5cf6;
+            border-right: 3px solid #8b5cf6;
+            font-size: 0.85rem;
+        }
         
         .search-card {
             background: rgba(30, 41, 59, 0.8);
@@ -200,7 +211,6 @@
             font-size: 0.7rem;
         }
         
-        /* Botón VR */
         .vr-button {
             position: fixed;
             bottom: 20px;
@@ -247,7 +257,6 @@
             font-family: monospace;
         }
         
-        /* Publicidad */
         .ad-container {
             text-align: center;
             margin: 30px 0 0 0;
@@ -276,7 +285,10 @@
     <div class="normal-mode" id="normalMode">
         <div class="header">
             <h1>📚 AcadémIA Pro <span class="ia-badge">GROQ IA · APA 7 · FUENTES REALES</span></h1>
-            <div class="sub">Investigación académica con Normas APA 7 · Citas y bibliografía automáticas</div>
+            <div class="sub" id="subtitle">Investigación académica con Normas APA 7 · Citas y bibliografía automáticas</div>
+            <div class="daily-message" id="dailyMessage">
+                <span id="dailyMessageText">📖 El conocimiento es la única riqueza que crece cuando se comparte.</span>
+            </div>
         </div>
 
         <div class="search-card">
@@ -311,25 +323,21 @@
             </div>
         </div>
 
-        <!-- PUBLICIDAD: OFERTAS 1 y 2 (enlaces directos) -->
         <div class="ad-container">
             <div class="ad-label">⚡ PATROCINADORES OFICIALES ⚡</div>
             <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 10px;">
                 <a href="https://www.profitablecpmratenetwork.com/cuitcvgz?key=85ca230e218898f76e48c348cafb2311" target="_blank" rel="nofollow" style="background: linear-gradient(90deg, #e9c46a, #f4a261); color: #1a222c; padding: 10px 20px; border-radius: 40px; text-decoration: none; font-weight: bold;">🎮 OFERTA 1</a>
                 <a href="https://www.profitablecpmratenetwork.com/b27uffyn?key=5b35819451353807b0e99b21addde69a" target="_blank" rel="nofollow" style="background: linear-gradient(90deg, #2a9d8f, #264653); color: white; padding: 10px 20px; border-radius: 40px; text-decoration: none; font-weight: bold;">🎲 OFERTA 2</a>
-                <div style="background: rgba(255,255,255,0.1); border: 2px dashed #e9c46a; border-radius: 40px; padding: 10px 20px; min-width: 120px; text-align: center; font-size: 0.7rem; color: #e9c46a;">⏳ PRÓXIMAMENTE</div>
             </div>
         </div>
 
-        <div class="footer-text">
-            ⚡ AcadémIA Pro · Contenido: Groq IA · Fuentes: Crossref API · Formato: APA 7 · Anuncios: PopAds, Adsterra, HilltopAds
+        <div class="footer-text" id="footer">
+            ⚡ AcadémIA Pro · Contenido: Groq IA · Fuentes: Crossref API · Formato: APA 7
         </div>
     </div>
 
-    <!-- Botón para activar MODO VR -->
     <button class="vr-button" id="vrModeBtn">🔮 ACTIVAR MODO VR</button>
 
-    <!-- MODO VR -->
     <div class="vr-mode" id="vrMode">
         <button class="close-vr" id="closeVrBtn">✕ SALIR DE VR</button>
         <div id="vrContainer" style="width:100%;height:100%"></div>
@@ -337,9 +345,68 @@
 
     <script>
         // ============================================
+        // ACTUALIZACIÓN AUTOMÁTICA DE CONTENIDO DIARIO
+        // ============================================
+        
+        function actualizarContenidoDiario() {
+            const hoy = new Date();
+            const diaSemana = hoy.getDay(); // 0=Domingo, 1=Lunes...
+            const diaMes = hoy.getDate();
+            const mes = hoy.getMonth() + 1;
+            
+            // Frases del día (diferente cada día)
+            const frasesDiarias = [
+                "📖 Domingos de reflexión: Un buen investigador siempre cuestiona sus hallazgos.",
+                "📚 Lunes de organización: La bibliografía es el mapa de tu investigación.",
+                "🔬 Martes de método: La claridad metodológica es la base de todo estudio riguroso.",
+                "📊 Miércoles de datos: Los números bien interpretados son poesía científica.",
+                "✍️ Jueves de escritura: Una página al día construye una tesis al año.",
+                "🔍 Viernes de revisión: El mejor trabajo es el que se revisa una y otra vez.",
+                "🏆 Sábados de logros: Cada cita bien puesta es un paso hacia la excelencia."
+            ];
+            
+            // Subtítulos variables
+            const subtitulos = [
+                "Investigación académica con Normas APA 7 · Citas y bibliografía automáticas",
+                "Tu aliado para investigaciones perfectamente formateadas en APA 7",
+                "Genera trabajos académicos con fuentes reales y citas automáticas",
+                "El rigor académico al alcance de un clic · APA 7 + IA",
+                "Referencias, citas y contenido · Todo en formato APA 7",
+                "Bibliografía automática desde Crossref · Formato APA 7 estricto",
+                "La herramienta que todo estudiante necesita · APA 7 · Fuentes reales"
+            ];
+            
+            // Tips académicos derecho en el footer
+            const tipsAcademicos = [
+                "🔖 Tip: Siempre verifica los DOI en Crossref antes de entregar tu trabajo.",
+                "📝 Tip: Las citas textuales cortas (menos de 40 palabras) van entre comillas dobles.",
+                "📌 Tip: Para tres o más autores, usa 'et al.' desde la primera cita.",
+                "⚡ Tip: La sangría francesa es obligatoria en la lista de referencias APA 7.",
+                "🎯 Tip: Los niveles de título ayudan a estructurar tu trabajo académico.",
+                "📊 Tip: Las tablas y figuras deben tener su propia numeración y título.",
+                "🔍 Tip: El resumen (abstract) no debe exceder las 250 palabras.",
+                "✍️ Tip: Usa papel tamaño carta (Letter) para tus trabajos académicos.",
+                "📖 Tip: La tercera persona es preferida en escritos académicos formales.",
+                "🏆 Tip: Revisa siempre las fechas de acceso a fuentes en línea."
+            ];
+            
+            const fraseDelDia = frasesDiarias[diaSemana];
+            const subtituloDelDia = subtitulos[diaMes % subtitulos.length];
+            const tipDelDia = tipsAcademicos[(diaMes * diaSemana) % tipsAcademicos.length];
+            const fechaStr = hoy.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            
+            // Actualizar elementos en la página
+            document.getElementById('dailyMessageText').innerHTML = fraseDelDia;
+            document.getElementById('subtitle').innerHTML = subtituloDelDia;
+            document.getElementById('footer').innerHTML = `⚡ AcadémIA Pro · ${fechaStr} · ${tipDelDia}`;
+            
+            console.log("📅 Contenido actualizado para:", fechaStr);
+        }
+        
+        // ============================================
         // CONFIGURACIÓN GROQ
         // ============================================
-        const GROQ_API_KEY = "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";
+        const GROQ_API_KEY = "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";
         const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
         const MODEL = "llama-3.3-70b-versatile";
         
@@ -392,12 +459,12 @@
                         const title = item.title?.[0] || 'Título no disponible';
                         const journal = item['container-title']?.[0] || 'Publicación no especificada';
                         const doi = item.DOI;
-                        const url = doi ? `https://doi.org/${doi}` : null;
+                        const urlDoi = doi ? `https://doi.org/${doi}` : null;
                         
                         let referencia = `${authors} (${year}). ${title}. *${journal}*.`;
                         if (doi) referencia += ` https://doi.org/${doi}`;
                         
-                        return { texto: referencia, doi, url, year, authors, title };
+                        return { texto: referencia, doi, url: urlDoi, year, authors, title };
                     });
                 }
                 return [];
@@ -412,7 +479,7 @@
             return fuentes.map(f => `
                 <div class="bibliografia-item">
                     ${f.texto}
-                    ${f.url ? `<br><a href="${f.url}" target="_blank" style="font-size:0.7rem;">🔗 Ver fuente original</a>` : ''}
+                    ${f.url ? `<br><a href="${f.url}" target="_blank" style="font-size:0.7rem;">🔗 Ver fuente original (DOI)</a>` : ''}
                 </div>
             `).join('');
         }
@@ -421,7 +488,7 @@
             if (!fuentes.length) return "(Autor, año, p. X) - No se encontraron fuentes reales";
             const primera = fuentes[0];
             const autores = primera.authors.split(',')[0];
-            return `(${autores}, ${primera.year}, p. X)`;
+            return `(${autores}, ${primera.year})`;
         }
         
         // ============================================
@@ -438,7 +505,7 @@
                 const response = await fetch(GROQ_URL, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': application/json',
                         'Authorization': `Bearer ${GROQ_API_KEY}`
                     },
                     body: JSON.stringify({
@@ -523,7 +590,15 @@
             if (e.key === 'Enter') realizarInvestigacion();
         });
         
-        console.log("📚 AcadémIA Pro con Groq - Límite diario:", limite.usadas, "/100 usadas");
+        // ============================================
+        // INICIALIZAR TODO
+        // ============================================
+        function iniciar() {
+            actualizarContenidoDiario();
+            console.log("📚 AcadémIA Pro con Groq - Límite diario:", limite.usadas, "/100 usadas");
+        }
+        
+        iniciar();
     </script>
 
     <!-- Script para el MODO VR (Three.js + WebXR) -->
@@ -600,7 +675,6 @@
             // Estanterías
             const woodMaterial = new THREE.MeshStandardMaterial({ color: 0x5a3a2a, roughness: 0.6 });
             
-            // Estantería izquierda
             const shelfLeft = new THREE.Group();
             for (let i = 0; i < 4; i++) {
                 const plank = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.1, 1.6), woodMaterial);
@@ -609,7 +683,6 @@
             }
             vrScene.add(shelfLeft);
             
-            // Estantería derecha
             const shelfRight = new THREE.Group();
             for (let i = 0; i < 4; i++) {
                 const plank = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.1, 1.6), woodMaterial);
@@ -618,7 +691,7 @@
             }
             vrScene.add(shelfRight);
             
-            // Libros flotantes (símbolo de conocimiento)
+            // Libros flotantes
             const colors = [0x4a9eff, 0xf87171, 0xfbbf24, 0x60a5fa, 0xa78bfa, 0x34d399];
             const libros = [];
             for (let i = 0; i < 40; i++) {
@@ -635,7 +708,7 @@
                 libros.push(book);
             }
             
-            // Esferas brillantes (conocimiento)
+            // Esferas brillantes
             for (let i = 0; i < 16; i++) {
                 const color = colors[i % colors.length];
                 const material = new THREE.MeshStandardMaterial({ color: color, emissive: color, emissiveIntensity: 0.3 });
@@ -665,7 +738,7 @@
             textPlane.position.set(0, 3.2, -3);
             vrScene.add(textPlane);
             
-            // Partículas (polvo de conocimiento)
+            // Partículas
             const particleCount = 1200;
             const particlesGeometry = new THREE.BufferGeometry();
             const particlesPositions = new Float32Array(particleCount * 3);
@@ -725,20 +798,17 @@
     </script>
 
     <!-- ============================================ -->
-    <!-- CÓDIGOS DE PUBLICIDAD UNIFICADOS -->
+    <!-- PUBLICIDAD -->
     <!-- ============================================ -->
     
-    <!-- PopAds -->
     <script type="text/javascript" data-cfasync="false">
     /*<![CDATA[/* */
     (function(){var y=window,j="fd00ec802f889d01aba4b20343501917",o=[["siteId",230+597-856*111+5387265],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],q=["d3d3LmJsb2NrYWRzbm90LmNvbS9IZFZaWi9uanN4Z3JhcGhjb3JlLmpz","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9OTVRISS9oL3Jwb3BwZXIubWluLmNzcw=="],n=-1,l,k,z=function(){clearTimeout(k);n++;if(q[n]&&!(1802736393000<(new Date).getTime()&&1<n)){l=y.document.createElement("script");l.type="text/javascript";l.async=!0;var f=y.document.getElementsByTagName("script")[0];l.src="https://"+atob(q[n]);l.crossOrigin="anonymous";l.onerror=z;l.onload=function(){clearTimeout(k);y[j.slice(0,16)+j.slice(0,16)]||z()};k=setTimeout(z,5E3);f.parentNode.insertBefore(l,f)}};if(!y[j]){try{Object.freeze(y[j]=o)}catch(e){}z()}})();
     /*]]>/* */
     </script>
     
-    <!-- Adsterra Smart Link (NUEVO) -->
     <script src="https://pl29137063.profitablecpmratenetwork.com/61/2f/c0/612fc0895a4d18ef5b58ae13c6940b8d.js"></script>
     
-    <!-- Hiltop Ads -->
     <script>
     (function(lba){
     var d = document,
