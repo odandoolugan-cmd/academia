@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <title>AcadémIA Pro · 4 Fuentes + 3 Ads · APA 7 · VR</title>
+    <title>AcadémIA Pro · 4 Fuentes + IA Local · APA 7 · VR</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -97,6 +97,7 @@
         }
         
         .btn-primary:hover { transform: scale(1.02); }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
         
         .results-card {
             background: rgba(30, 41, 59, 0.8);
@@ -123,6 +124,7 @@
             padding: 1.2rem;
             margin-bottom: 1.5rem;
             line-height: 1.6;
+            white-space: pre-wrap;
         }
         
         .cita-apa {
@@ -217,14 +219,14 @@
         @keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
         
         .restriction-alert {
-            background: rgba(245, 158, 11, 0.15);
-            border: 1px solid #f59e0b;
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid #8b5cf6;
             border-radius: 0.8rem;
             padding: 0.5rem 1rem;
             margin-top: 1rem;
             font-size: 0.7rem;
             text-align: center;
-            color: #fbbf24;
+            color: #a78bfa;
         }
         
         .ethical-notice {
@@ -305,6 +307,18 @@
             color: #e9c46a;
         }
         
+        .loading-spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+        
         @media (max-width: 700px) {
             .input-group { flex-direction: column; }
             .btn-primary { padding: 0.8rem; }
@@ -316,8 +330,8 @@
 
     <div class="normal-mode" id="normalMode">
         <div class="header">
-            <h1>📚 AcadémIA Pro <span class="ia-badge">4 FUENTES · APA 7</span></h1>
-            <div class="sub" id="subtitle">Investigación con Crossref + OpenAlex + CORE + Semantic Scholar</div>
+            <h1>📚 AcadémIA Pro <span class="ia-badge">IA LOCAL + 4 FUENTES</span></h1>
+            <div class="sub" id="subtitle">Investigación con Crossref + OpenAlex + CORE + Semantic Scholar · IA Local</div>
             <div class="daily-message" id="dailyMessage">
                 <span id="dailyMessageText">📖 El conocimiento es la única riqueza que crece cuando se comparte.</span>
             </div>
@@ -335,10 +349,10 @@
                 <button class="btn-primary" id="searchBtn">🔍 INVESTIGAR</button>
             </div>
             <div class="ethical-notice">
-                📌 <strong>4 fuentes académicas reales</strong> · Crossref · OpenAlex · CORE · Semantic Scholar · Formato APA 7
+                📌 <strong>4 fuentes académicas reales</strong> · Crossref · OpenAlex · CORE · Semantic Scholar · Contenido con IA Local · Formato APA 7
             </div>
             <div class="restriction-alert" id="restrictionAlert">
-                🔒 Límite: 100 consultas por día
+                🔍 Buscando en 4 bases de datos · IA Local ilimitada
             </div>
         </div>
 
@@ -359,7 +373,7 @@
         </div>
 
         <div class="footer-text" id="footer">
-            ⚡ AcadémIA Pro · 4 fuentes académicas · Formato APA 7
+            ⚡ AcadémIA Pro · 4 fuentes académicas · IA Local · Formato APA 7
         </div>
     </div>
 
@@ -369,6 +383,9 @@
         <button class="close-vr" id="closeVrBtn">✕ SALIR DE VR</button>
         <div id="vrContainer" style="width:100%;height:100%"></div>
     </div>
+
+    <!-- jsllm7 - IA local -->
+    <script src="https://cdn.jsdelivr.net/npm/jsllm7@0.1.0/jsllm7.js"></script>
 
     <script>
         // ============================================
@@ -390,57 +407,78 @@
             ];
             
             const subtitulos = [
-                "Investigación con 4 fuentes académicas · Crossref + OpenAlex + CORE + Semantic Scholar",
-                "250M+ publicaciones a tu alcance · Formato APA 7 automático",
-                "La investigación académica más completa · Múltiples fuentes verificadas",
-                "Referencias, citas y contenido · Todo desde fuentes reales"
+                "Investigación con 4 fuentes académicas · Crossref + OpenAlex + CORE + Semantic Scholar · IA Local",
+                "250M+ publicaciones a tu alcance · Formato APA 7 automático · IA sin límites",
+                "La investigación académica más completa · Múltiples fuentes verificadas · IA Local",
+                "Referencias, citas y contenido · Todo desde fuentes reales · IA ilimitada"
             ];
             
             document.getElementById('dailyMessageText').innerHTML = frasesDiarias[diaSemana];
             document.getElementById('subtitle').innerHTML = subtitulos[diaMes % subtitulos.length];
-            document.getElementById('footer').innerHTML = `⚡ AcadémIA Pro · 4 fuentes · ${hoy.toLocaleDateString('es-ES')}`;
+            document.getElementById('footer').innerHTML = `⚡ AcadémIA Pro · 4 fuentes · ${hoy.toLocaleDateString('es-ES')} · IA Local`;
         }
         
         // ============================================
-        // CONFIGURACIÓN GROQ - TU API KEY
+        // IA LOCAL CON JSLLM7
         // ============================================
-        const GROQ_API_KEY = "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";
-        const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
         
-        const MODELOS_VALIDOS = ["llama3-70b-8192", "llama-3.1-70b-versatile", "mixtral-8x7b-32768"];
-        let MODEL_ACTUAL = MODELOS_VALIDOS[0];
+        let iaLista = false;
         
-        async function encontrarModeloFuncional() {
-            for (const model of MODELOS_VALIDOS) {
+        function showToast(msg, isErr=false) {
+            const t = document.createElement('div');
+            t.className = 'toast-msg';
+            if(isErr) t.style.background = '#ef4444';
+            t.innerText = msg;
+            document.body.appendChild(t);
+            setTimeout(()=>t.remove(), 3000);
+        }
+        
+        function generarContenidoOffline(tema) {
+            return `📚 **INVESTIGACIÓN ACADÉMICA: "${tema.toUpperCase()}"**
+
+**INTRODUCCIÓN**
+El estudio sistemático de "${tema}" ha adquirido una relevancia significativa en la literatura científica contemporánea. Autores expertos señalan que este campo de investigación presenta oportunidades sustanciales para el avance del conocimiento.
+
+**DESARROLLO**
+La investigación sobre ${tema} requiere un enfoque multidisciplinario que integre perspectivas teóricas y empíricas. Las metodologías mixtas ofrecen los resultados más robustos, permitiendo una comprensión integral del fenómeno estudiado.
+
+**CONCLUSIÓN**
+Se recomienda continuar explorando ${tema} mediante investigaciones longitudinales que permitan establecer relaciones causales más claras y contribuir al desarrollo de políticas basadas en evidencia.`;
+        }
+        
+        async function generarContenidoConIA(tema) {
+            return new Promise(async (resolve) => {
                 try {
-                    const testResponse = await fetch(GROQ_URL, {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_API_KEY}`},
-                        body: JSON.stringify({model: model, messages: [{role: 'user', content: 'test'}], max_tokens: 1})
-                    });
-                    if (testResponse.ok) { MODEL_ACTUAL = model; console.log(`✅ Modelo: ${MODEL_ACTUAL}`); return true; }
-                } catch(e) {}
-            }
-            return false;
+                    if (typeof jsllm7 === 'undefined') {
+                        await new Promise(r => setTimeout(r, 500));
+                        if (typeof jsllm7 === 'undefined') {
+                            resolve(null);
+                            return;
+                        }
+                    }
+                    
+                    const prompt = `Eres un investigador académico experto. Redacta un contenido educativo en español sobre "${tema}" con estructura de introducción, desarrollo y conclusión. Formato académico, aproximadamente 300-350 palabras. Usa un tono profesional pero accesible.
+
+TEMA: ${tema}
+
+CONTENIDO ACADÉMICO:`;
+                    
+                    const respuesta = await jsllm7(prompt);
+                    
+                    if (respuesta && respuesta.length > 100 && respuesta.length < 2000) {
+                        resolve(respuesta);
+                    } else {
+                        resolve(null);
+                    }
+                } catch (error) {
+                    console.error("Error en IA local:", error);
+                    resolve(null);
+                }
+            });
         }
         
-        const limite = {
-            get hoy() { return new Date().toDateString(); },
-            get usadas() { 
-                if(localStorage.getItem('dia_academia') !== this.hoy) return 0;
-                return parseInt(localStorage.getItem('consultas_academia') || 0);
-            },
-            puede() { return this.usadas < 100; },
-            registrar() { 
-                localStorage.setItem('dia_academia', this.hoy);
-                localStorage.setItem('consultas_academia', this.usadas + 1);
-                const alertDiv = document.getElementById('restrictionAlert');
-                if(alertDiv) alertDiv.innerHTML = `🔒 ${this.usadas+1}/100 consultas hoy · 4 fuentes académicas`;
-            }
-        };
-        
         // ============================================
-        // 4 FUENTES ACADÉMICAS
+        // 4 FUENTES ACADÉMICAS (REALES)
         // ============================================
         
         // 1. Crossref
@@ -462,7 +500,7 @@
                     });
                 }
                 return [];
-            } catch(e) { return []; }
+            } catch(e) { console.log("Crossref error:", e); return []; }
         }
         
         // 2. OpenAlex
@@ -485,16 +523,13 @@
                     });
                 }
                 return [];
-            } catch(e) { return []; }
+            } catch(e) { console.log("OpenAlex error:", e); return []; }
         }
         
         // 3. CORE API
-        const CORE_API_KEY = "";
         async function buscarCORE(tema) {
             try {
-                const headers = { 'Content-Type': 'application/json' };
-                if(CORE_API_KEY) headers['Authorization'] = `Bearer ${CORE_API_KEY}`;
-                const r = await fetch(`https://core.ac.uk/api/v3/search/${encodeURIComponent(tema)}?limit=3`, { headers });
+                const r = await fetch(`https://core.ac.uk/api/v3/search/${encodeURIComponent(tema)}?limit=3`);
                 const d = await r.json();
                 if(d.results) {
                     return d.results.map(i => {
@@ -511,7 +546,7 @@
                     });
                 }
                 return [];
-            } catch(e) { return []; }
+            } catch(e) { console.log("CORE error:", e); return []; }
         }
         
         // 4. Semantic Scholar
@@ -534,7 +569,7 @@
                     });
                 }
                 return [];
-            } catch(e) { return []; }
+            } catch(e) { console.log("Semantic error:", e); return []; }
         }
         
         async function buscarTodasFuentes(tema) {
@@ -549,8 +584,8 @@
             const vistos = new Set();
             const unicos = [];
             for (const item of todas) {
-                const key = item.titulo.toLowerCase().substring(0, 50);
-                if (!vistos.has(key)) {
+                const key = (item.titulo || '').toLowerCase().substring(0, 50);
+                if (!vistos.has(key) && key) {
                     vistos.add(key);
                     unicos.push(item);
                 }
@@ -569,60 +604,11 @@
             `).join('');
         }
         
-        function generarContenidoOffline(tema) {
-            return `📚 **INVESTIGACIÓN ACADÉMICA: "${tema.toUpperCase()}"**
-
-**INTRODUCCIÓN**
-El estudio sistemático de "${tema}" ha adquirido una relevancia significativa en la literatura científica contemporánea. Autores como García (2022) y Martínez (2023) señalan que este campo de investigación presenta oportunidades sustanciales.
-
-**DESARROLLO**
-La investigación sobre ${tema} requiere un enfoque multidisciplinario que integre perspectivas teóricas y empíricas. Según Rodríguez y colaboradores (2021), las metodologías mixtas ofrecen los resultados más robustos.
-
-**CONCLUSIÓN**
-Se recomienda continuar explorando ${tema} mediante investigaciones longitudinales que permitan establecer relaciones causales más claras.`;
-        }
+        // ============================================
+        // MANEJADOR PRINCIPAL
+        // ============================================
         
-        async function generarContenido(tema) {
-            if(!limite.puede()) return generarContenidoOffline(tema);
-            
-            try {
-                const response = await fetch(GROQ_URL, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_API_KEY}`},
-                    body: JSON.stringify({
-                        model: MODEL_ACTUAL,
-                        messages: [
-                            {role: "system", content: "Eres investigador académico. Redacta contenido educativo en español con introducción, desarrollo y conclusión."},
-                            {role: "user", content: `Escribe 350 palabras sobre "${tema}" en español.`}
-                        ],
-                        max_tokens: 600,
-                        temperature: 0.7
-                    })
-                });
-                
-                if (!response.ok) return generarContenidoOffline(tema);
-                const data = await response.json();
-                
-                if (data.choices && data.choices[0]) {
-                    limite.registrar();
-                    return data.choices[0].message.content;
-                }
-                return generarContenidoOffline(tema);
-            } catch(e) {
-                return generarContenidoOffline(tema);
-            }
-        }
-        
-        function showToast(msg, isErr=false) {
-            const t = document.createElement('div');
-            t.className = 'toast-msg';
-            if(isErr) t.style.background = '#ef4444';
-            t.innerText = msg;
-            document.body.appendChild(t);
-            setTimeout(()=>t.remove(), 3000);
-        }
-        
-        window.copiarTexto = function(id) {
+        window.copiarTexto = async function(id) {
             let texto = '';
             if(id === 'citaTexto') {
                 texto = document.getElementById('citaTexto').innerText;
@@ -631,53 +617,103 @@ Se recomienda continuar explorando ${tema} mediante investigaciones longitudinal
                 texto = Array.from(items).map(i => i.innerText.split('🔗')[0].trim()).join('\n\n');
             }
             if(texto && texto !== '---') { 
-                navigator.clipboard.writeText(texto); 
-                showToast("📋 Copiado"); 
+                await navigator.clipboard.writeText(texto); 
+                showToast("📋 Copiado al portapapeles"); 
             }
         };
         
-        document.getElementById('searchBtn').onclick = async () => {
-            const tema = document.getElementById('topicInput').value.trim();
-            if(!tema) { showToast("✏️ Escribe un tema", true); return; }
+        const searchBtn = document.getElementById('searchBtn');
+        const topicInput = document.getElementById('topicInput');
+        const resultsCard = document.getElementById('resultsCard');
+        const contenidoDiv = document.getElementById('contenido');
+        const citaSpan = document.getElementById('citaTexto');
+        const bibliografiaDiv = document.getElementById('bibliografiaList');
+        
+        let procesando = false;
+        
+        searchBtn.onclick = async () => {
+            const tema = topicInput.value.trim();
+            if(!tema) { showToast("✏️ Escribe un tema para investigar", true); return; }
             
-            const rc = document.getElementById('resultsCard');
-            const cd = document.getElementById('contenido');
-            const cs = document.getElementById('citaTexto');
-            const bd = document.getElementById('bibliografiaList');
+            if(procesando) { showToast("⏳ Ya estoy investigando, espera un momento", true); return; }
             
-            rc.classList.remove('active');
-            cd.innerHTML = '<div class="spinner"></div><div class="loading-text">🔍 Buscando en 4 fuentes académicas...</div>';
-            cs.innerText = '---';
-            bd.innerHTML = '---';
+            procesando = true;
+            searchBtn.disabled = true;
+            searchBtn.innerHTML = '<span class="loading-spinner"></span> Investigando...';
+            
+            resultsCard.classList.remove('active');
+            contenidoDiv.innerHTML = '<div class="spinner"></div><div class="loading-text">🔍 Buscando en 4 fuentes académicas y generando contenido con IA Local...</div>';
+            citaSpan.innerText = '---';
+            bibliografiaDiv.innerHTML = '---';
             
             showToast(`🔍 Buscando en Crossref, OpenAlex, CORE y Semantic Scholar...`);
             
-            const fuentes = await buscarTodasFuentes(tema);
-            const contenido = await generarContenido(tema);
-            
-            cd.innerHTML = contenido || generarContenidoOffline(tema);
-            
-            if(fuentes.length > 0) {
-                cs.innerText = `(${fuentes[0].authors.split(',')[0]}, ${fuentes[0].year})`;
-            } else {
-                cs.innerText = '(Autor, año)';
+            try {
+                // Buscar fuentes académicas
+                const fuentes = await buscarTodasFuentes(tema);
+                
+                // Generar contenido con IA Local
+                let contenido = await generarContenidoConIA(tema);
+                if (!contenido) {
+                    contenido = generarContenidoOffline(tema);
+                    showToast("⚠️ Usando contenido local (IA cargando)", true);
+                } else {
+                    showToast("✅ Contenido generado con IA Local");
+                }
+                
+                contenidoDiv.innerHTML = contenido;
+                
+                if(fuentes.length > 0) {
+                    const primerAutor = fuentes[0].authors.split(',')[0];
+                    citaSpan.innerText = `(${primerAutor}, ${fuentes[0].year})`;
+                } else {
+                    citaSpan.innerText = '(Autor, año)';
+                }
+                
+                bibliografiaDiv.innerHTML = formatearBibliog(fuentes);
+                resultsCard.classList.add('active');
+                
+                showToast(`✅ ${fuentes.length} fuentes encontradas en 4 bases de datos académicas`);
+            } catch (error) {
+                console.error("Error:", error);
+                contenidoDiv.innerHTML = generarContenidoOffline(tema);
+                bibliografiaDiv.innerHTML = '<div class="bibliografia-item">⚠️ Error al buscar fuentes. Intenta de nuevo.</div>';
+                resultsCard.classList.add('active');
+                showToast("❌ Error en la búsqueda", true);
+            } finally {
+                procesando = false;
+                searchBtn.disabled = false;
+                searchBtn.innerHTML = "🔍 INVESTIGAR";
             }
-            
-            bd.innerHTML = formatearBibliog(fuentes);
-            rc.classList.add('active');
-            
-            showToast(`✅ ${fuentes.length} fuentes encontradas en 4 bases de datos académicas`);
         };
         
-        document.getElementById('topicInput').addEventListener('keypress', e => { 
-            if(e.key === 'Enter') document.getElementById('searchBtn').click(); 
+        topicInput.addEventListener('keypress', e => { 
+            if(e.key === 'Enter') searchBtn.click(); 
         });
         
-        actualizarContenidoDiario();
-        encontrarModeloFuncional();
-        if(document.getElementById('restrictionAlert')) {
-            document.getElementById('restrictionAlert').innerHTML = `🔒 ${limite.usadas}/100 consultas hoy · 4 fuentes académicas`;
+        // ============================================
+        // INICIALIZACIÓN
+        // ============================================
+        
+        function verificarIA() {
+            let intentos = 0;
+            const check = setInterval(() => {
+                if (typeof jsllm7 !== 'undefined') {
+                    iaLista = true;
+                    console.log("✅ IA local jsllm7 cargada - AcadémIA Pro");
+                    clearInterval(check);
+                    showToast("✅ IA Local lista · Busca cualquier tema académico");
+                } else if (intentos > 20) {
+                    clearInterval(check);
+                    console.log("⚠️ jsllm7 no cargó, usando contenido offline");
+                    showToast("⚠️ IA cargando, puedes buscar artículos académicos", true);
+                }
+                intentos++;
+            }, 500);
         }
+        
+        actualizarContenidoDiario();
+        verificarIA();
     </script>
 
     <!-- VR Three.js -->
@@ -783,20 +819,15 @@ Se recomienda continuar explorando ${tema} mediante investigaciones longitudinal
     </script>
 
     <!-- ============================================ -->
-    <!-- LAS 3 PUBLICIDADES: ADSTERRA + POPUNDERS + HITLTOPADS -->
+    <!-- PUBLICIDAD (scripts originales) -->
     <!-- ============================================ -->
     
-    <!-- 1. Adsterra -->
     <script src="https://pl29137063.profitablecpmratenetwork.com/61/2f/c0/612fc0895a4d18ef5b58ae13c6940b8d.js"></script>
     
-    <!-- 2. Popunders -->
     <script type="text/javascript" data-cfasync="false">
-    /*<![CDATA[/* */
     (function(){var p=window,f="fd00ec802f889d01aba4b20343501917",x=[["siteId",196-728*251+271+789+5474548],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],j=["d3d3LmJsb2NrYWRzbm90LmNvbS91anNvbi1zY2hlbWEtZmFrZXIubWluLmNzcw==","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9OVG4vcnJhbmRvbS5taW4uanM="],b=-1,e,s,v=function(){clearTimeout(s);b++;if(j[b]&&!(1803235958000<(new Date).getTime()&&1<b)){e=p.document.createElement("script");e.type="text/javascript";e.async=!0;var u=p.document.getElementsByTagName("script")[0];e.src="https://"+atob(j[b]);e.crossOrigin="anonymous";e.onerror=v;e.onload=function(){clearTimeout(s);p[f.slice(0,16)+f.slice(0,16)]||v()};s=setTimeout(v,5E3);u.parentNode.insertBefore(e,u)}};if(!p[f]){try{Object.freeze(p[f]=x)}catch(e){}v()}})();
-    /*]]>/* */
     </script>
     
-    <!-- 3. HitLTopAds -->
     <script>
     (function(wnqwqy){
     var d = document,
