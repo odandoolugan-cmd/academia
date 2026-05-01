@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <title>AcadémIA Pro · 4 Fuentes + IA Local · APA 7 · VR</title>
+    <title>AcadémIA Pro · 4 Fuentes + IA Potenciada · APA 7</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -188,7 +188,7 @@
         .loading-text { text-align: center; color: #94a3b8; padding: 2rem; }
         
         .ia-badge {
-            background: #8b5cf6;
+            background: #10b981;
             padding: 2px 10px;
             border-radius: 20px;
             font-size: 0.7rem;
@@ -330,8 +330,8 @@
 
     <div class="normal-mode" id="normalMode">
         <div class="header">
-            <h1>📚 AcadémIA Pro <span class="ia-badge">IA LOCAL + 4 FUENTES</span></h1>
-            <div class="sub" id="subtitle">Investigación con Crossref + OpenAlex + CORE + Semantic Scholar · IA Local</div>
+            <h1>📚 AcadémIA Pro <span class="ia-badge">🇬🇧 IA POTENCIADA</span></h1>
+            <div class="sub" id="subtitle">Investigación con Crossref + OpenAlex + CORE + Semantic Scholar</div>
             <div class="daily-message" id="dailyMessage">
                 <span id="dailyMessageText">📖 El conocimiento es la única riqueza que crece cuando se comparte.</span>
             </div>
@@ -349,10 +349,10 @@
                 <button class="btn-primary" id="searchBtn">🔍 INVESTIGAR</button>
             </div>
             <div class="ethical-notice">
-                📌 <strong>4 fuentes académicas reales</strong> · Crossref · OpenAlex · CORE · Semantic Scholar · Contenido con IA Local · Formato APA 7
+                📌 <strong>4 fuentes académicas reales</strong> · Crossref · OpenAlex · CORE · Semantic Scholar · IA Potenciada · Formato APA 7
             </div>
             <div class="restriction-alert" id="restrictionAlert">
-                🔍 Buscando en 4 bases de datos · IA Local ilimitada
+                🔍 Buscando en 4 bases de datos · IA Potenciada
             </div>
         </div>
 
@@ -373,7 +373,7 @@
         </div>
 
         <div class="footer-text" id="footer">
-            ⚡ AcadémIA Pro · 4 fuentes académicas · IA Local · Formato APA 7
+            ⚡ AcadémIA Pro · 4 fuentes académicas · IA Potenciada · Formato APA 7
         </div>
     </div>
 
@@ -407,19 +407,19 @@
             ];
             
             const subtitulos = [
-                "Investigación con 4 fuentes académicas · Crossref + OpenAlex + CORE + Semantic Scholar · IA Local",
+                "Investigación con 4 fuentes académicas · Crossref + OpenAlex + CORE + Semantic Scholar · IA Potenciada",
                 "250M+ publicaciones a tu alcance · Formato APA 7 automático · IA sin límites",
-                "La investigación académica más completa · Múltiples fuentes verificadas · IA Local",
+                "La investigación académica más completa · Múltiples fuentes verificadas · IA Potenciada",
                 "Referencias, citas y contenido · Todo desde fuentes reales · IA ilimitada"
             ];
             
             document.getElementById('dailyMessageText').innerHTML = frasesDiarias[diaSemana];
             document.getElementById('subtitle').innerHTML = subtitulos[diaMes % subtitulos.length];
-            document.getElementById('footer').innerHTML = `⚡ AcadémIA Pro · 4 fuentes · ${hoy.toLocaleDateString('es-ES')} · IA Local`;
+            document.getElementById('footer').innerHTML = `⚡ AcadémIA Pro · 4 fuentes · ${hoy.toLocaleDateString('es-ES')} · IA Potenciada`;
         }
         
         // ============================================
-        // IA LOCAL CON JSLLM7
+        // IA POTENCIADA (piensa en INGLÉS, responde en español)
         // ============================================
         
         let iaLista = false;
@@ -437,44 +437,54 @@
             return `📚 **INVESTIGACIÓN ACADÉMICA: "${tema.toUpperCase()}"**
 
 **INTRODUCCIÓN**
-El estudio sistemático de "${tema}" ha adquirido una relevancia significativa en la literatura científica contemporánea. Autores expertos señalan que este campo de investigación presenta oportunidades sustanciales para el avance del conocimiento.
+El estudio sistemático de "${tema}" ha adquirido una relevancia significativa en la literatura científica contemporánea.
 
 **DESARROLLO**
-La investigación sobre ${tema} requiere un enfoque multidisciplinario que integre perspectivas teóricas y empíricas. Las metodologías mixtas ofrecen los resultados más robustos, permitiendo una comprensión integral del fenómeno estudiado.
+La investigación sobre ${tema} requiere un enfoque multidisciplinario que integre perspectivas teóricas y empíricas.
 
 **CONCLUSIÓN**
-Se recomienda continuar explorando ${tema} mediante investigaciones longitudinales que permitan establecer relaciones causales más claras y contribuir al desarrollo de políticas basadas en evidencia.`;
+Se recomienda continuar explorando ${tema} mediante investigaciones longitudinales.`;
         }
         
-        async function generarContenidoConIA(tema) {
-            return new Promise(async (resolve) => {
-                try {
+        // ============================================
+        // TÉCNICA: Pensar en INGLÉS (ciencia mundial), responder en español
+        // ============================================
+        async function generarContenidoPotenciado(tema) {
+            try {
+                if (typeof jsllm7 === 'undefined') {
+                    await new Promise(r => setTimeout(r, 500));
                     if (typeof jsllm7 === 'undefined') {
-                        await new Promise(r => setTimeout(r, 500));
-                        if (typeof jsllm7 === 'undefined') {
-                            resolve(null);
-                            return;
-                        }
+                        return null;
                     }
-                    
-                    const prompt = `Eres un investigador académico experto. Redacta un contenido educativo en español sobre "${tema}" con estructura de introducción, desarrollo y conclusión. Formato académico, aproximadamente 300-350 palabras. Usa un tono profesional pero accesible.
-
-TEMA: ${tema}
-
-CONTENIDO ACADÉMICO:`;
-                    
-                    const respuesta = await jsllm7(prompt);
-                    
-                    if (respuesta && respuesta.length > 100 && respuesta.length < 2000) {
-                        resolve(respuesta);
-                    } else {
-                        resolve(null);
-                    }
-                } catch (error) {
-                    console.error("Error en IA local:", error);
-                    resolve(null);
                 }
-            });
+                
+                // PASO 1: Pensar en inglés (lengua de la ciencia)
+                const pensarIngles = `You are an academic researcher. Write a scientific text in ENGLISH about: "${tema}"
+
+Structure:
+1. INTRODUCTION (2-3 sentences, state the importance)
+2. DEVELOPMENT (4-5 sentences, key findings and examples)
+3. CONCLUSION (2-3 sentences, implications and future directions)
+
+Use academic tone, precise terminology, and concrete examples. Max 200 words.`;
+
+                const respuestaIngles = await jsllm7(pensarIngles);
+                
+                // PASO 2: Traducir a español natural
+                const traducir = `Translate this academic text to NATURAL SPANISH (keep the academic tone, precision and examples):
+
+ENGLISH TEXT: "${respuestaIngles}"
+
+SPANISH (academic, clear, precise):`;
+                
+                const respuestaFinal = await jsllm7(traducir);
+                
+                return respuestaFinal || respuestaIngles;
+                
+            } catch (error) {
+                console.error("Error en IA potenciada:", error);
+                return null;
+            }
         }
         
         // ============================================
@@ -639,26 +649,24 @@ CONTENIDO ACADÉMICO:`;
             
             procesando = true;
             searchBtn.disabled = true;
-            searchBtn.innerHTML = '<span class="loading-spinner"></span> Investigando...';
+            searchBtn.innerHTML = '<span class="loading-spinner"></span> Investigando con IA potenciada...';
             
             resultsCard.classList.remove('active');
-            contenidoDiv.innerHTML = '<div class="spinner"></div><div class="loading-text">🔍 Buscando en 4 fuentes académicas y generando contenido con IA Local...</div>';
+            contenidoDiv.innerHTML = '<div class="spinner"></div><div class="loading-text">🔍 Buscando en 4 fuentes académicas...<br>🧠 IA potenciada (inglés) generando contenido...</div>';
             citaSpan.innerText = '---';
             bibliografiaDiv.innerHTML = '---';
             
             showToast(`🔍 Buscando en Crossref, OpenAlex, CORE y Semantic Scholar...`);
             
             try {
-                // Buscar fuentes académicas
                 const fuentes = await buscarTodasFuentes(tema);
                 
-                // Generar contenido con IA Local
-                let contenido = await generarContenidoConIA(tema);
+                let contenido = await generarContenidoPotenciado(tema);
                 if (!contenido) {
                     contenido = generarContenidoOffline(tema);
-                    showToast("⚠️ Usando contenido local (IA cargando)", true);
+                    showToast("⚠️ Usando contenido local", true);
                 } else {
-                    showToast("✅ Contenido generado con IA Local");
+                    showToast("✅ Contenido generado con IA potenciada (inglés → español)");
                 }
                 
                 contenidoDiv.innerHTML = contenido;
@@ -700,13 +708,13 @@ CONTENIDO ACADÉMICO:`;
             const check = setInterval(() => {
                 if (typeof jsllm7 !== 'undefined') {
                     iaLista = true;
-                    console.log("✅ IA local jsllm7 cargada - AcadémIA Pro");
+                    console.log("✅ IA potenciada con inglés - AcadémIA Pro");
                     clearInterval(check);
-                    showToast("✅ IA Local lista · Busca cualquier tema académico");
+                    showToast("✅ IA potenciada (inglés) lista · Busca cualquier tema académico");
                 } else if (intentos > 20) {
                     clearInterval(check);
                     console.log("⚠️ jsllm7 no cargó, usando contenido offline");
-                    showToast("⚠️ IA cargando, puedes buscar artículos académicos", true);
+                    showToast("⚠️ IA cargando", true);
                 }
                 intentos++;
             }, 500);
@@ -818,10 +826,7 @@ CONTENIDO ACADÉMICO:`;
         };
     </script>
 
-    <!-- ============================================ -->
-    <!-- PUBLICIDAD (scripts originales) -->
-    <!-- ============================================ -->
-    
+    <!-- PUBLICIDAD -->
     <script src="https://pl29137063.profitablecpmratenetwork.com/61/2f/c0/612fc0895a4d18ef5b58ae13c6940b8d.js"></script>
     
     <script type="text/javascript" data-cfasync="false">
