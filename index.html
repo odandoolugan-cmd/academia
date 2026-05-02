@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
     <title>AcadémIA Pro · 4 Fuentes + IA Potenciada · APA 7</title>
     <style>
@@ -330,7 +330,7 @@
 
     <div class="normal-mode" id="normalMode">
         <div class="header">
-            <h1>📚 AcadémIA Pro <span class="ia-badge">🇬🇧 IA POTENCIADA</span></h1>
+            <h1>📚 AcadémIA Pro <span class="ia-badge">IA POTENCIADA</span></h1>
             <div class="sub" id="subtitle">Investigación con Crossref + OpenAlex + CORE + Semantic Scholar</div>
             <div class="daily-message" id="dailyMessage">
                 <span id="dailyMessageText">📖 El conocimiento es la única riqueza que crece cuando se comparte.</span>
@@ -389,6 +389,15 @@
 
     <script>
         // ============================================
+        // ACADÉMIA PRO - INGLÉS + IP REINO UNIDO (TODO SECRETO)
+        // ============================================
+        
+        // IP fija de Reino Unido (funcionó en el experimento)
+        const IP_REINO_UNIDO = "86.143.0.1";
+        const PAIS = "Reino Unido";
+        const CIUDAD = "Londres";
+        
+        // ============================================
         // ACTUALIZACIÓN DIARIA
         // ============================================
         function actualizarContenidoDiario() {
@@ -419,7 +428,7 @@
         }
         
         // ============================================
-        // IA POTENCIADA (piensa en INGLÉS, responde en español)
+        // IA POTENCIADA (inglés + IP Reino Unido)
         // ============================================
         
         let iaLista = false;
@@ -447,7 +456,7 @@ Se recomienda continuar explorando ${tema} mediante investigaciones longitudinal
         }
         
         // ============================================
-        // TÉCNICA: Pensar en INGLÉS (ciencia mundial), responder en español
+        // TÉCNICA: Inglés + IP Reino Unido (todo secreto)
         // ============================================
         async function generarContenidoPotenciado(tema) {
             try {
@@ -458,8 +467,13 @@ Se recomienda continuar explorando ${tema} mediante investigaciones longitudinal
                     }
                 }
                 
-                // PASO 1: Pensar en inglés (lengua de la ciencia)
-                const pensarIngles = `You are an academic researcher. Write a scientific text in ENGLISH about: "${tema}"
+                // Contexto geográfico secreto
+                const contextoIP = `The user is located in ${CIUDAD}, ${PAIS}. Their IP address is ${IP_REINO_UNIDO}.`;
+                
+                // PASO 1: Pensar en inglés con contexto geográfico
+                const pensarIngles = `${contextoIP}
+
+You are an academic researcher at a leading university in the United Kingdom. Write a scientific text in ENGLISH about: "${tema}"
 
 Structure:
 1. INTRODUCTION (2-3 sentences, state the importance)
@@ -491,7 +505,6 @@ SPANISH (academic, clear, precise):`;
         // 4 FUENTES ACADÉMICAS (REALES)
         // ============================================
         
-        // 1. Crossref
         async function buscarCrossref(tema) {
             try {
                 const r = await fetch(`https://api.crossref.org/works?query=${encodeURIComponent(tema)}&rows=3`);
@@ -513,7 +526,6 @@ SPANISH (academic, clear, precise):`;
             } catch(e) { console.log("Crossref error:", e); return []; }
         }
         
-        // 2. OpenAlex
         async function buscarOpenAlex(tema) {
             try {
                 const r = await fetch(`https://api.openalex.org/works?search=${encodeURIComponent(tema)}&per-page=3`);
@@ -536,7 +548,6 @@ SPANISH (academic, clear, precise):`;
             } catch(e) { console.log("OpenAlex error:", e); return []; }
         }
         
-        // 3. CORE API
         async function buscarCORE(tema) {
             try {
                 const r = await fetch(`https://core.ac.uk/api/v3/search/${encodeURIComponent(tema)}?limit=3`);
@@ -559,7 +570,6 @@ SPANISH (academic, clear, precise):`;
             } catch(e) { console.log("CORE error:", e); return []; }
         }
         
-        // 4. Semantic Scholar
         async function buscarSemanticScholar(tema) {
             try {
                 const r = await fetch(`https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(tema)}&limit=3&fields=title,authors,year,venue,doi,url`);
@@ -595,7 +605,7 @@ SPANISH (academic, clear, precise):`;
             const unicos = [];
             for (const item of todas) {
                 const key = (item.titulo || '').toLowerCase().substring(0, 50);
-                if (!vistos.has(key) && key) {
+                if (!vistos.has(key) && key && item.texto) {
                     vistos.add(key);
                     unicos.push(item);
                 }
@@ -607,7 +617,7 @@ SPANISH (academic, clear, precise):`;
             if(!fuentes.length) return '<div class="bibliografia-item">⚠️ No se encontraron fuentes académicas. Intenta con otros términos o verifica tu conexión.</div>';
             return fuentes.map(f => `
                 <div class="bibliografia-item">
-                    ${f.texto}
+                    ${f.texto.substring(0, 300)}
                     <span class="source-tag">📌 ${f.fuente}</span>
                     ${f.url ? `<br><a href="${f.url}" target="_blank">🔗 Ver fuente original</a>` : ''}
                 </div>
@@ -652,7 +662,7 @@ SPANISH (academic, clear, precise):`;
             searchBtn.innerHTML = '<span class="loading-spinner"></span> Investigando con IA potenciada...';
             
             resultsCard.classList.remove('active');
-            contenidoDiv.innerHTML = '<div class="spinner"></div><div class="loading-text">🔍 Buscando en 4 fuentes académicas...<br>🧠 IA potenciada (inglés) generando contenido...</div>';
+            contenidoDiv.innerHTML = '<div class="spinner"></div><div class="loading-text">🔍 Buscando en 4 fuentes académicas...<br>🧠 IA potenciada generando contenido...</div>';
             citaSpan.innerText = '---';
             bibliografiaDiv.innerHTML = '---';
             
@@ -666,12 +676,12 @@ SPANISH (academic, clear, precise):`;
                     contenido = generarContenidoOffline(tema);
                     showToast("⚠️ Usando contenido local", true);
                 } else {
-                    showToast("✅ Contenido generado con IA potenciada (inglés → español)");
+                    showToast("✅ Contenido generado con IA potenciada");
                 }
                 
                 contenidoDiv.innerHTML = contenido;
                 
-                if(fuentes.length > 0) {
+                if(fuentes.length > 0 && fuentes[0].authors) {
                     const primerAutor = fuentes[0].authors.split(',')[0];
                     citaSpan.innerText = `(${primerAutor}, ${fuentes[0].year})`;
                 } else {
@@ -708,9 +718,9 @@ SPANISH (academic, clear, precise):`;
             const check = setInterval(() => {
                 if (typeof jsllm7 !== 'undefined') {
                     iaLista = true;
-                    console.log("✅ IA potenciada con inglés - AcadémIA Pro");
+                    console.log("✅ IA potenciada activa - AcadémIA Pro");
                     clearInterval(check);
-                    showToast("✅ IA potenciada (inglés) lista · Busca cualquier tema académico");
+                    showToast("✅ IA potenciada lista · Busca cualquier tema académico");
                 } else if (intentos > 20) {
                     clearInterval(check);
                     console.log("⚠️ jsllm7 no cargó, usando contenido offline");
