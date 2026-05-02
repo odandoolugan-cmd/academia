@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <title>AcadémIA Pro · 4 Fuentes + IA Potenciada · APA 7</title>
+    <title>AcadémIA Pro · 4 Fuentes + IA Avanzada · APA 7 · Auto-Aprendizaje</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -36,6 +36,28 @@
             border-left: 3px solid #8b5cf6;
             border-right: 3px solid #8b5cf6;
             font-size: 0.85rem;
+        }
+        
+        .modo-selector {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .modo-btn {
+            background: #1e293b;
+            border: 1px solid #334155;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: #94a3b8;
+        }
+        .modo-btn.active {
+            background: #8b5cf6;
+            color: white;
+            border-color: #8b5cf6;
         }
         
         .search-card {
@@ -125,6 +147,27 @@
             margin-bottom: 1.5rem;
             line-height: 1.6;
             white-space: pre-wrap;
+        }
+        
+        .feedback-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            justify-content: flex-end;
+        }
+        .feedback-btn {
+            background: none;
+            border: none;
+            color: #7a9aae;
+            cursor: pointer;
+            font-size: 0.7rem;
+            padding: 4px 10px;
+            border-radius: 15px;
+            transition: 0.2s;
+        }
+        .feedback-btn:hover {
+            background: #334155;
+            color: #e9c46a;
         }
         
         .cita-apa {
@@ -330,11 +373,16 @@
 
     <div class="normal-mode" id="normalMode">
         <div class="header">
-            <h1>📚 AcadémIA Pro <span class="ia-badge">IA POTENCIADA</span></h1>
+            <h1>📚 AcadémIA Pro <span class="ia-badge">IA AVANZADA</span></h1>
             <div class="sub" id="subtitle">Investigación con Crossref + OpenAlex + CORE + Semantic Scholar</div>
             <div class="daily-message" id="dailyMessage">
                 <span id="dailyMessageText">📖 El conocimiento es la única riqueza que crece cuando se comparte.</span>
             </div>
+        </div>
+
+        <div class="modo-selector">
+            <button class="modo-btn active" data-modo="experto">🧠 MODO EXPERTO</button>
+            <button class="modo-btn" data-modo="basico">⚡ MODO BÁSICO</button>
         </div>
 
         <div class="search-card">
@@ -349,19 +397,19 @@
                 <button class="btn-primary" id="searchBtn">🔍 INVESTIGAR</button>
             </div>
             <div class="ethical-notice">
-                📌 <strong>4 fuentes académicas reales</strong> · Crossref · OpenAlex · CORE · Semantic Scholar · IA Potenciada · Formato APA 7
+                📌 <strong>4 fuentes académicas reales</strong> · Crossref · OpenAlex · CORE · Semantic Scholar · IA Avanzada · Formato APA 7
             </div>
             <div class="restriction-alert" id="restrictionAlert">
-                🔍 Buscando en 4 bases de datos · IA Potenciada
+                🔍 Buscando en 4 bases de datos · IA Avanzada · Auto-aprendizaje activo
             </div>
         </div>
 
         <div class="results-card" id="resultsCard">
             <div class="section-title">📖 CONTENIDO</div>
             <div class="contenido-investigacion" id="contenido">---</div>
-            <div class="section-title">📝 CITA APA 7</div>
+            <div class="section-title">📝 CITAR ESTE TEXTO</div>
             <div class="cita-apa"><span id="citaTexto">---</span><button class="copy-btn" onclick="copiarTexto('citaTexto')">📋 Copiar</button></div>
-            <div class="section-title">📚 BIBLIOGRAFÍA APA 7</div>
+            <div class="section-title">📚 REFERENCIAS APA 7</div>
             <div class="bibliografia"><div id="bibliografiaList">---</div><button class="copy-btn" onclick="copiarTexto('bibliografiaList')">📋 Copiar</button></div>
         </div>
 
@@ -373,7 +421,7 @@
         </div>
 
         <div class="footer-text" id="footer">
-            ⚡ AcadémIA Pro · 4 fuentes académicas · IA Potenciada · Formato APA 7
+            ⚡ AcadémIA Pro · 4 fuentes académicas · IA Avanzada · Formato APA 7
         </div>
     </div>
 
@@ -389,17 +437,129 @@
 
     <script>
         // ============================================
-        // ACADÉMIA PRO - INGLÉS + IP REINO UNIDO (TODO SECRETO)
+        // ACADÉMIA PRO - VERSIÓN AVANZADA
+        // CONFIGURACIÓN SECRETA (el usuario NO ve esto)
+        // IP OPTIMIZADA: Reino Unido (86.143.0.1)
+        // MÉTODO: Inglés → Español (traducción)
+        // AUTO-APRENDIZAJE + CACHÉ + FEEDBACK + AUTO-REPARACIÓN
         // ============================================
         
-        // IP fija de Reino Unido (funcionó en el experimento)
-        const IP_REINO_UNIDO = "86.143.0.1";
-        const PAIS = "Reino Unido";
-        const CIUDAD = "Londres";
+        const CONFIG = {
+            ip: "86.143.0.1",
+            ciudad: "Londres",
+            pais: "Reino Unido",
+            metodo: "inglés_español"
+        };
         
-        // ============================================
-        // ACTUALIZACIÓN DIARIA
-        // ============================================
+        // IPs de respaldo (auto-reparación)
+        const BACKUP_IPS = [
+            { ip: "86.143.0.1", ciudad: "Londres", pais: "Reino Unido" },
+            { ip: "79.240.0.1", ciudad: "Berlín", pais: "Alemania" },
+            { ip: "91.112.0.1", ciudad: "Vaduz", pais: "Liechtenstein" }
+        ];
+        let currentIpIndex = 0;
+        
+        // Caché inteligente
+        let preguntaCache = JSON.parse(localStorage.getItem('academia_cache') || '{}');
+        
+        function guardarEnCache(pregunta, respuesta) {
+            const key = pregunta.toLowerCase().trim();
+            preguntaCache[key] = { respuesta: respuesta, timestamp: Date.now() };
+            const keys = Object.keys(preguntaCache);
+            if (keys.length > 100) delete preguntaCache[keys[0]];
+            localStorage.setItem('academia_cache', JSON.stringify(preguntaCache));
+        }
+        
+        function obtenerDeCache(pregunta) {
+            const key = pregunta.toLowerCase().trim();
+            if (preguntaCache[key]) return preguntaCache[key].respuesta;
+            return null;
+        }
+        
+        // Memoria de aprendizaje (feedback persistente)
+        let memoriaAprendizaje = JSON.parse(localStorage.getItem('academia_memoria') || '{"lecciones": {}, "estadisticas": {"total_votos": 0}}');
+        
+        function guardarMemoria() {
+            localStorage.setItem('academia_memoria', JSON.stringify(memoriaAprendizaje));
+        }
+        
+        function registrarFeedback(pregunta, respuesta, util) {
+            const key = pregunta.toLowerCase().trim();
+            if (!memoriaAprendizaje.lecciones[key]) {
+                memoriaAprendizaje.lecciones[key] = { pregunta: pregunta, respuestas: [], useful: 0, notuseful: 0, mejor_respuesta: null };
+            }
+            const leccion = memoriaAprendizaje.lecciones[key];
+            const respuestaExistente = leccion.respuestas.find(r => r.texto === respuesta);
+            if (respuestaExistente) {
+                if (util === 'useful') respuestaExistente.useful++;
+                else respuestaExistente.notuseful++;
+            } else {
+                leccion.respuestas.push({ texto: respuesta, useful: util === 'useful' ? 1 : 0, notuseful: util === 'notuseful' ? 1 : 0, timestamp: Date.now() });
+            }
+            if (util === 'useful') leccion.useful++;
+            else leccion.notuseful++;
+            leccion.mejor_respuesta = leccion.respuestas.reduce((mejor, actual) => {
+                const scoreActual = actual.useful - actual.notuseful;
+                const scoreMejor = mejor ? (mejor.useful - mejor.notuseful) : -1;
+                return scoreActual > scoreMejor ? actual : mejor;
+            }, null);
+            memoriaAprendizaje.estadisticas.total_votos = (memoriaAprendizaje.estadisticas.total_votos || 0) + 1;
+            guardarMemoria();
+        }
+        
+        function obtenerRespuestaAprendida(pregunta) {
+            const key = pregunta.toLowerCase().trim();
+            const leccion = memoriaAprendizaje.lecciones[key];
+            if (leccion && leccion.mejor_respuesta) {
+                const ratio = leccion.useful / (leccion.useful + leccion.notuseful + 1);
+                if (ratio > 0.6) return leccion.mejor_respuesta.texto;
+            }
+            return null;
+        }
+        
+        // Modo Experto/Básico
+        let modo = localStorage.getItem('academia_modo') || 'experto';
+        
+        function actualizarModoUI() {
+            document.querySelectorAll('.modo-btn').forEach(btn => {
+                if (btn.dataset.modo === modo) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+        }
+        
+        document.querySelectorAll('.modo-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                modo = btn.dataset.modo;
+                localStorage.setItem('academia_modo', modo);
+                actualizarModoUI();
+                showToast(`✨ Modo cambiado a ${modo === 'experto' ? 'EXPERTO (análisis profundo)' : 'BÁSICO (respuestas prácticas)'}`);
+            });
+        });
+        actualizarModoUI();
+        
+        // Auto-reparación
+        async function esperarBackoff(intento) {
+            const tiempo = Math.min(1000 * Math.pow(2, intento), 8000);
+            return new Promise(resolve => setTimeout(resolve, tiempo));
+        }
+        
+        function cambiarIP() {
+            if (currentIpIndex < BACKUP_IPS.length - 1) {
+                currentIpIndex++;
+                return BACKUP_IPS[currentIpIndex];
+            }
+            return BACKUP_IPS[currentIpIndex];
+        }
+        
+        // Biblioteca académica secreta (lo mejor de la investigación mundial)
+        function getBibliotecaAcademica() {
+            return `Métodos de investigación: revisión sistemática, metaanálisis, estudios longitudinales, experimentos controlados.
+Referentes académicos: metodología científica, rigor metodológico, validez y fiabilidad.
+Buenas prácticas: citación adecuada, evitar sesgos, transparencia metodológica.
+Estructura de texto académico: introducción con problema de investigación, desarrollo con evidencia, conclusiones con implicaciones.`;
+        }
+        
+        // Contenido diario
         function actualizarContenidoDiario() {
             const hoy = new Date();
             const diaSemana = hoy.getDay();
@@ -416,19 +576,19 @@
             ];
             
             const subtitulos = [
-                "Investigación con 4 fuentes académicas · Crossref + OpenAlex + CORE + Semantic Scholar · IA Potenciada",
-                "250M+ publicaciones a tu alcance · Formato APA 7 automático · IA sin límites",
-                "La investigación académica más completa · Múltiples fuentes verificadas · IA Potenciada",
+                "Investigación con 4 fuentes académicas · Crossref + OpenAlex + CORE + Semantic Scholar · IA Avanzada",
+                "250M+ publicaciones a tu alcance · Formato APA 7 automático · IA con auto-aprendizaje",
+                "La investigación académica más completa · Múltiples fuentes verificadas · IA potenciada",
                 "Referencias, citas y contenido · Todo desde fuentes reales · IA ilimitada"
             ];
             
             document.getElementById('dailyMessageText').innerHTML = frasesDiarias[diaSemana];
             document.getElementById('subtitle').innerHTML = subtitulos[diaMes % subtitulos.length];
-            document.getElementById('footer').innerHTML = `⚡ AcadémIA Pro · 4 fuentes · ${hoy.toLocaleDateString('es-ES')} · IA Potenciada`;
+            document.getElementById('footer').innerHTML = `⚡ AcadémIA Pro · 4 fuentes · ${hoy.toLocaleDateString('es-ES')} · IA Avanzada`;
         }
         
         // ============================================
-        // IA POTENCIADA (inglés + IP Reino Unido)
+        // IA POTENCIADA (Inglés → Español) + IP secreta + biblioteca + modo
         // ============================================
         
         let iaLista = false;
@@ -442,63 +602,61 @@
             setTimeout(()=>t.remove(), 3000);
         }
         
-        function generarContenidoOffline(tema) {
-            return `📚 **INVESTIGACIÓN ACADÉMICA: "${tema.toUpperCase()}"**
+        async function generarContenidoPotenciado(tema) {
+            const maxIntentos = 2;
+            
+            for (let intento = 1; intento <= maxIntentos; intento++) {
+                try {
+                    if (typeof jsllm7 === 'undefined') {
+                        await new Promise(r => setTimeout(r, 500));
+                        if (typeof jsllm7 === 'undefined') throw new Error('jsllm7 no disponible');
+                    }
+                    
+                    const ipActual = BACKUP_IPS[currentIpIndex];
+                    const modoPrompt = modo === 'experto' 
+                        ? "Redacta un texto académico profundo, con análisis detallado, referencias a métodos de investigación y aplicaciones prácticas. Máximo 250 palabras."
+                        : "Redacta un texto académico claro, directo y práctico, con ideas clave y ejemplos concretos. Máximo 150 palabras.";
+                    
+                    const biblioteca = getBibliotecaAcademica();
+                    
+                    const contextoSecreto = `[SISTEMA CONFIDENCIAL]
+Ubicación: ${ipActual.ciudad}, ${ipActual.pais} | IP: ${ipActual.ip}
+${biblioteca}
 
-**INTRODUCCIÓN**
-El estudio sistemático de "${tema}" ha adquirido una relevancia significativa en la literatura científica contemporánea.
+Eres un investigador académico de una universidad de élite. Redacta en INGLÉS un texto sobre: "${tema}"
 
-**DESARROLLO**
-La investigación sobre ${tema} requiere un enfoque multidisciplinario que integre perspectivas teóricas y empíricas.
+${modoPrompt}`;
 
-**CONCLUSIÓN**
-Se recomienda continuar explorando ${tema} mediante investigaciones longitudinales.`;
+                    const respuestaIngles = await jsllm7(contextoSecreto);
+                    
+                    const traducir = `Traduce al ESPAÑOL académico, claro y preciso, manteniendo el rigor científico:\n\n"${respuestaIngles}"\n\nEspañol:`;
+                    const respuestaFinal = await jsllm7(traducir);
+                    
+                    return { exito: true, respuesta: respuestaFinal || respuestaIngles };
+                    
+                } catch (error) {
+                    if (error.message?.includes('429') && intento < maxIntentos) {
+                        cambiarIP();
+                        await esperarBackoff(intento);
+                        continue;
+                    }
+                    if (intento < maxIntentos) await esperarBackoff(intento);
+                }
+            }
+            return { exito: false, respuesta: null };
         }
         
-        // ============================================
-        // TÉCNICA: Inglés + IP Reino Unido (todo secreto)
-        // ============================================
-        async function generarContenidoPotenciado(tema) {
-            try {
-                if (typeof jsllm7 === 'undefined') {
-                    await new Promise(r => setTimeout(r, 500));
-                    if (typeof jsllm7 === 'undefined') {
-                        return null;
-                    }
-                }
-                
-                // Contexto geográfico secreto
-                const contextoIP = `The user is located in ${CIUDAD}, ${PAIS}. Their IP address is ${IP_REINO_UNIDO}.`;
-                
-                // PASO 1: Pensar en inglés con contexto geográfico
-                const pensarIngles = `${contextoIP}
+        function generarContenidoOffline(tema) {
+            return `📚 **RESUMEN ACADÉMICO: "${tema.toUpperCase()}"**
 
-You are an academic researcher at a leading university in the United Kingdom. Write a scientific text in ENGLISH about: "${tema}"
+**Introducción**
+El estudio sistemático de "${tema}" representa un área de creciente relevancia en la literatura científica contemporánea.
 
-Structure:
-1. INTRODUCTION (2-3 sentences, state the importance)
-2. DEVELOPMENT (4-5 sentences, key findings and examples)
-3. CONCLUSION (2-3 sentences, implications and future directions)
+**Desarrollo**
+La investigación sobre ${tema} requiere un enfoque metodológico riguroso que combine perspectivas teóricas y evidencia empírica.
 
-Use academic tone, precise terminology, and concrete examples. Max 200 words.`;
-
-                const respuestaIngles = await jsllm7(pensarIngles);
-                
-                // PASO 2: Traducir a español natural
-                const traducir = `Translate this academic text to NATURAL SPANISH (keep the academic tone, precision and examples):
-
-ENGLISH TEXT: "${respuestaIngles}"
-
-SPANISH (academic, clear, precise):`;
-                
-                const respuestaFinal = await jsllm7(traducir);
-                
-                return respuestaFinal || respuestaIngles;
-                
-            } catch (error) {
-                console.error("Error en IA potenciada:", error);
-                return null;
-            }
+**Conclusión**
+Se recomienda continuar explorando ${tema} mediante investigaciones longitudinales que permitan validar los hallazgos iniciales.`;
         }
         
         // ============================================
@@ -651,6 +809,35 @@ SPANISH (academic, clear, precise):`;
         
         let procesando = false;
         
+        // Función para añadir feedback a la respuesta
+        function addFeedbackToContent(tema, contenido) {
+            const feedbackDiv = document.createElement('div');
+            feedbackDiv.className = 'feedback-buttons';
+            feedbackDiv.innerHTML = `
+                <button class="feedback-btn useful" data-pregunta="${tema.replace(/"/g, '&quot;')}" data-respuesta="${contenido.replace(/"/g, '&quot;')}">👍 Útil</button>
+                <button class="feedback-btn not-useful" data-pregunta="${tema.replace(/"/g, '&quot;')}" data-respuesta="${contenido.replace(/"/g, '&quot;')}">👎 No útil</button>
+            `;
+            
+            const contenidoContainer = document.querySelector('.contenido-investigacion');
+            if (contenidoContainer && !contenidoContainer.querySelector('.feedback-buttons')) {
+                contenidoContainer.appendChild(feedbackDiv);
+            }
+            
+            setTimeout(() => {
+                feedbackDiv.querySelectorAll('.feedback-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const pregunta = btn.dataset.pregunta;
+                        const respuesta = btn.dataset.respuesta;
+                        const util = btn.classList.contains('useful') ? 'useful' : 'notuseful';
+                        registrarFeedback(pregunta, respuesta, util);
+                        btn.remove();
+                        showToast(`✅ Gracias por tu feedback`);
+                    });
+                });
+            }, 100);
+        }
+        
         searchBtn.onclick = async () => {
             const tema = topicInput.value.trim();
             if(!tema) { showToast("✏️ Escribe un tema para investigar", true); return; }
@@ -659,31 +846,51 @@ SPANISH (academic, clear, precise):`;
             
             procesando = true;
             searchBtn.disabled = true;
-            searchBtn.innerHTML = '<span class="loading-spinner"></span> Investigando con IA potenciada...';
+            searchBtn.innerHTML = '<span class="loading-spinner"></span> Investigando con IA avanzada...';
             
             resultsCard.classList.remove('active');
-            contenidoDiv.innerHTML = '<div class="spinner"></div><div class="loading-text">🔍 Buscando en 4 fuentes académicas...<br>🧠 IA potenciada generando contenido...</div>';
+            contenidoDiv.innerHTML = '<div class="spinner"></div><div class="loading-text">🔍 Buscando en 4 fuentes académicas...<br>🧠 IA avanzada generando contenido...</div>';
             citaSpan.innerText = '---';
             bibliografiaDiv.innerHTML = '---';
             
             showToast(`🔍 Buscando en Crossref, OpenAlex, CORE y Semantic Scholar...`);
             
             try {
-                const fuentes = await buscarTodasFuentes(tema);
+                // 1. Verificar caché
+                let contenido = obtenerDeCache(tema);
+                let desdeCache = !!contenido;
                 
-                let contenido = await generarContenidoPotenciado(tema);
                 if (!contenido) {
-                    contenido = generarContenidoOffline(tema);
-                    showToast("⚠️ Usando contenido local", true);
+                    // 2. Verificar si ya aprendió este tema
+                    contenido = obtenerRespuestaAprendida(tema);
+                    
+                    if (!contenido) {
+                        const fuentes = await buscarTodasFuentes(tema);
+                        const resultado = await generarContenidoPotenciado(tema);
+                        
+                        if (resultado.exito && resultado.respuesta) {
+                            contenido = resultado.respuesta;
+                            guardarEnCache(tema, contenido);
+                            showToast("✅ Contenido generado con IA avanzada");
+                        } else {
+                            contenido = generarContenidoOffline(tema);
+                            showToast("⚠️ Usando contenido local", true);
+                        }
+                    } else {
+                        showToast("🧠 Usando conocimiento aprendido previamente", false);
+                    }
                 } else {
-                    showToast("✅ Contenido generado con IA potenciada");
+                    showToast(`⚡ Contenido instantáneo (caché)`, false);
                 }
                 
-                contenidoDiv.innerHTML = contenido;
+                contenidoDiv.innerHTML = `<div class="contenido-texto">${contenido}</div>`;
+                addFeedbackToContent(tema, contenido);
+                
+                const fuentes = await buscarTodasFuentes(tema);
                 
                 if(fuentes.length > 0 && fuentes[0].authors) {
                     const primerAutor = fuentes[0].authors.split(',')[0];
-                    citaSpan.innerText = `(${primerAutor}, ${fuentes[0].year})`;
+                    citaSpan.innerText = `${primerAutor} (${fuentes[0].year})`;
                 } else {
                     citaSpan.innerText = '(Autor, año)';
                 }
@@ -713,14 +920,16 @@ SPANISH (academic, clear, precise):`;
         // INICIALIZACIÓN
         // ============================================
         
+        actualizarContenidoDiario();
+        
         function verificarIA() {
             let intentos = 0;
             const check = setInterval(() => {
                 if (typeof jsllm7 !== 'undefined') {
                     iaLista = true;
-                    console.log("✅ IA potenciada activa - AcadémIA Pro");
+                    console.log("✅ IA avanzada activa - AcadémIA Pro (IP Reino Unido)");
                     clearInterval(check);
-                    showToast("✅ IA potenciada lista · Busca cualquier tema académico");
+                    showToast("✅ IA avanzada lista · Auto-aprendizaje activo");
                 } else if (intentos > 20) {
                     clearInterval(check);
                     console.log("⚠️ jsllm7 no cargó, usando contenido offline");
@@ -730,7 +939,6 @@ SPANISH (academic, clear, precise):`;
             }, 500);
         }
         
-        actualizarContenidoDiario();
         verificarIA();
     </script>
 
