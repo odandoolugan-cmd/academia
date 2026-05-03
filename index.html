@@ -438,159 +438,128 @@
     <script>
         // ============================================
         // CONFIGURACIÓN SECRETA (el usuario NO ve esto)
-        // IP OPTIMIZADA: Reino Unido (86.143.0.1)
-        // MÉTODO SECRETO: Cadena (Alemán → Inglés → Español)
-        // AUTO-APRENDIZAJE + CACHÉ + FEEDBACK + AUTO-REPARACIÓN
         // ============================================
         
-        const CONFIG = {
-            ip: "86.143.0.1",
-            ciudad: "Londres",
-            pais: "Reino Unido"
-        };
-        
-        // Biblioteca académica secreta
-        function getBibliotecaAcademica() {
-            return `Métodos de investigación: revisión sistemática, metaanálisis, estudios longitudinales, experimentos controlados.
-Referentes académicos: metodología científica, rigor metodológico, validez y fiabilidad.
-Buenas prácticas: citación adecuada (APA 7: Autor, Año, Título, Fuente, DOI), evitar sesgos, transparencia metodológica.
-Estructura de texto académico: introducción con problema de investigación, desarrollo con evidencia, conclusiones con implicaciones.`;
-        }
+        // IP óptima (Reino Unido)
+        const OPT_IP = "86.143.0.1";
+        const OPT_LOC = "Londres";
+        const OPT_REG = "Reino Unido";
         
         // IPs de respaldo (auto-reparación)
-        const BACKUP_IPS = [
-            { ip: "86.143.0.1", ciudad: "Londres", pais: "Reino Unido" },
-            { ip: "93.44.0.1", ciudad: "Roma", pais: "Italia" },
-            { ip: "79.240.0.1", ciudad: "Berlín", pais: "Alemania" }
+        const FALLBACKS = [
+            { ip: "86.143.0.1", loc: "Londres", reg: "Reino Unido" },
+            { ip: "93.44.0.1", loc: "Roma", reg: "Italia" },
+            { ip: "79.240.0.1", loc: "Berlín", reg: "Alemania" }
         ];
-        let currentIpIndex = 0;
+        let idxActual = 0;
+        
+        // Biblioteca secreta de conocimiento
+        const KNOWLEDGE_BASE = {
+            methods: "revisión sistemática, metaanálisis, estudios longitudinales",
+            ethics: "rigor metodológico, validez, fiabilidad",
+            citation: "APA 7: Autor, Año, Título, Fuente, DOI",
+            structure: "introducción, desarrollo, conclusiones"
+        };
         
         // Caché inteligente
-        let preguntaCache = JSON.parse(localStorage.getItem('academia_cache') || '{}');
+        let respuestasCache = JSON.parse(localStorage.getItem('acad_pro_cache') || '{}');
         
-        function guardarEnCache(pregunta, respuesta) {
+        function guardarCache(pregunta, respuesta) {
             const key = pregunta.toLowerCase().trim();
-            preguntaCache[key] = { respuesta: respuesta, timestamp: Date.now() };
-            const keys = Object.keys(preguntaCache);
-            if (keys.length > 100) delete preguntaCache[keys[0]];
-            localStorage.setItem('academia_cache', JSON.stringify(preguntaCache));
+            respuestasCache[key] = { respuesta: respuesta, ts: Date.now() };
+            const keys = Object.keys(respuestasCache);
+            if (keys.length > 100) delete respuestasCache[keys[0]];
+            localStorage.setItem('acad_pro_cache', JSON.stringify(respuestasCache));
         }
         
-        function obtenerDeCache(pregunta) {
+        function obtenerCache(pregunta) {
             const key = pregunta.toLowerCase().trim();
-            if (preguntaCache[key]) return preguntaCache[key].respuesta;
+            if (respuestasCache[key]) return respuestasCache[key].respuesta;
             return null;
         }
         
-        // Memoria de aprendizaje (feedback persistente)
-        let memoriaAprendizaje = JSON.parse(localStorage.getItem('academia_memoria') || '{"lecciones": {}, "estadisticas": {"total_votos": 0}}');
+        // Memoria de aprendizaje (feedback)
+        let conocimiento = JSON.parse(localStorage.getItem('acad_pro_memoria') || '{"lecciones": {}, "stats": {"votos": 0}}');
         
-        function guardarMemoria() {
-            localStorage.setItem('academia_memoria', JSON.stringify(memoriaAprendizaje));
+        function guardarConocimiento() {
+            localStorage.setItem('acad_pro_memoria', JSON.stringify(conocimiento));
         }
         
         function registrarFeedback(pregunta, respuesta, util) {
             const key = pregunta.toLowerCase().trim();
-            if (!memoriaAprendizaje.lecciones[key]) {
-                memoriaAprendizaje.lecciones[key] = { pregunta: pregunta, respuestas: [], useful: 0, notuseful: 0, mejor_respuesta: null };
+            if (!conocimiento.lecciones[key]) {
+                conocimiento.lecciones[key] = { pregunta: pregunta, respuestas: [], bueno: 0, malo: 0, mejor: null };
             }
-            const leccion = memoriaAprendizaje.lecciones[key];
-            const respuestaExistente = leccion.respuestas.find(r => r.texto === respuesta);
-            if (respuestaExistente) {
-                if (util === 'useful') respuestaExistente.useful++;
-                else respuestaExistente.notuseful++;
+            const leccion = conocimiento.lecciones[key];
+            const existente = leccion.respuestas.find(r => r.texto === respuesta);
+            if (existente) {
+                if (util === 'bueno') existente.bueno++;
+                else existente.malo++;
             } else {
-                leccion.respuestas.push({ texto: respuesta, useful: util === 'useful' ? 1 : 0, notuseful: util === 'notuseful' ? 1 : 0, timestamp: Date.now() });
+                leccion.respuestas.push({ texto: respuesta, bueno: util === 'bueno' ? 1 : 0, malo: util === 'malo' ? 1 : 0, ts: Date.now() });
             }
-            if (util === 'useful') leccion.useful++;
-            else leccion.notuseful++;
-            leccion.mejor_respuesta = leccion.respuestas.reduce((mejor, actual) => {
-                const scoreActual = actual.useful - actual.notuseful;
-                const scoreMejor = mejor ? (mejor.useful - mejor.notuseful) : -1;
+            if (util === 'bueno') leccion.bueno++;
+            else leccion.malo++;
+            leccion.mejor = leccion.respuestas.reduce((mejor, actual) => {
+                const scoreActual = actual.bueno - actual.malo;
+                const scoreMejor = mejor ? (mejor.bueno - mejor.malo) : -1;
                 return scoreActual > scoreMejor ? actual : mejor;
             }, null);
-            memoriaAprendizaje.estadisticas.total_votos = (memoriaAprendizaje.estadisticas.total_votos || 0) + 1;
-            guardarMemoria();
+            conocimiento.stats.votos = (conocimiento.stats.votos || 0) + 1;
+            guardarConocimiento();
         }
         
-        function obtenerRespuestaAprendida(pregunta) {
+        function obtenerMejorRespuesta(pregunta) {
             const key = pregunta.toLowerCase().trim();
-            const leccion = memoriaAprendizaje.lecciones[key];
-            if (leccion && leccion.mejor_respuesta) {
-                const ratio = leccion.useful / (leccion.useful + leccion.notuseful + 1);
-                if (ratio > 0.6) return leccion.mejor_respuesta.texto;
+            const leccion = conocimiento.lecciones[key];
+            if (leccion && leccion.mejor) {
+                const ratio = leccion.bueno / (leccion.bueno + leccion.malo + 1);
+                if (ratio > 0.6) return leccion.mejor.texto;
             }
             return null;
         }
         
         // Modo Experto/Básico
-        let modo = localStorage.getItem('academia_modo') || 'experto';
+        let modoActual = localStorage.getItem('acad_pro_modo') || 'experto';
         
         function actualizarModoUI() {
             document.querySelectorAll('.modo-btn').forEach(btn => {
-                if (btn.dataset.modo === modo) btn.classList.add('active');
+                if (btn.dataset.modo === modoActual) btn.classList.add('active');
                 else btn.classList.remove('active');
             });
         }
         
         document.querySelectorAll('.modo-btn').forEach(btn => {
             btn.addEventListener('click', () => {
-                modo = btn.dataset.modo;
-                localStorage.setItem('academia_modo', modo);
+                modoActual = btn.dataset.modo;
+                localStorage.setItem('acad_pro_modo', modoActual);
                 actualizarModoUI();
-                showToast(`✨ Modo cambiado a ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`);
+                showToast(`✨ Modo cambiado a ${modoActual === 'experto' ? 'EXPERTO' : 'BÁSICO'}`);
             });
         });
         actualizarModoUI();
         
-        // Auto-reparación
-        async function esperarBackoff(intento) {
-            const tiempo = Math.min(1000 * Math.pow(2, intento), 8000);
-            return new Promise(resolve => setTimeout(resolve, tiempo));
+        async function esperar(intento) {
+            await new Promise(r => setTimeout(r, Math.min(1000 * Math.pow(2, intento), 8000)));
         }
         
         function cambiarIP() {
-            if (currentIpIndex < BACKUP_IPS.length - 1) {
-                currentIpIndex++;
-                return BACKUP_IPS[currentIpIndex];
+            if (idxActual < FALLBACKS.length - 1) {
+                idxActual++;
+                return FALLBACKS[idxActual];
             }
-            return BACKUP_IPS[currentIpIndex];
+            return FALLBACKS[idxActual];
         }
         
         // Contenido diario
-        function actualizarContenidoDiario() {
+        function actualizarDiario() {
             const hoy = new Date();
-            const diaSemana = hoy.getDay();
-            const diaMes = hoy.getDate();
-            
-            const frasesDiarias = [
-                "📖 Domingos de reflexión: Un buen investigador siempre cuestiona sus hallazgos.",
-                "📚 Lunes de organización: La bibliografía es el mapa de tu investigación.",
-                "🔬 Martes de método: La claridad metodológica es la base de todo estudio riguroso.",
-                "📊 Miércoles de datos: Los números bien interpretados son poesía científica.",
-                "✍️ Jueves de escritura: Una página al día construye una tesis al año.",
-                "🔍 Viernes de revisión: El mejor trabajo es el que se revisa una y otra vez.",
-                "🏆 Sábados de logros: Cada cita bien puesta es un paso hacia la excelencia."
-            ];
-            
-            const subtitulos = [
-                "Investigación con 4 fuentes académicas · Crossref + OpenAlex + CORE + Semantic Scholar · IA Avanzada",
-                "250M+ publicaciones a tu alcance · Formato APA 7 automático · IA con auto-aprendizaje",
-                "La investigación académica más completa · Múltiples fuentes verificadas · IA potenciada",
-                "Referencias, citas y contenido · Todo desde fuentes reales · IA ilimitada"
-            ];
-            
-            document.getElementById('dailyMessageText').innerHTML = frasesDiarias[diaSemana];
-            document.getElementById('subtitle').innerHTML = subtitulos[diaMes % subtitulos.length];
-            document.getElementById('footer').innerHTML = `⚡ AcadémIA Pro · 4 fuentes · ${hoy.toLocaleDateString('es-ES')} · IA Avanzada`;
+            const dias = ["📖 Domingo", "📚 Lunes", "🔬 Martes", "📊 Miércoles", "✍️ Jueves", "🔍 Viernes", "🏆 Sábado"];
+            document.getElementById('dailyMessageText').innerHTML = `${dias[hoy.getDay()]}: La investigación transforma el mundo.`;
+            document.getElementById('footer').innerHTML = `⚡ AcadémIA Pro · ${hoy.toLocaleDateString('es-ES')} · 4 fuentes`;
         }
         
-        // ============================================
-        // MÉTODO SECRETO: CADENA (Alemán → Inglés → Español)
-        // El usuario NUNCA sabe que se usaron 3 idiomas
-        // ============================================
-        
-        let iaLista = false;
+        let IAactiva = false;
         
         function showToast(msg, isErr=false) {
             const t = document.createElement('div');
@@ -601,83 +570,89 @@ Estructura de texto académico: introducción con problema de investigación, de
             setTimeout(()=>t.remove(), 3000);
         }
         
-        async function generarContenidoPotenciado(tema) {
+        // ============================================
+        // PROCESAMIENTO INTERNO (SECRETO)
+        // El usuario nunca sabe que se usan múltiples pasos
+        // ============================================
+        
+        async function generarTexto(tema) {
             const maxIntentos = 2;
             
             for (let intento = 1; intento <= maxIntentos; intento++) {
                 try {
                     if (typeof jsllm7 === 'undefined') {
                         await new Promise(r => setTimeout(r, 500));
-                        if (typeof jsllm7 === 'undefined') throw new Error('jsllm7 no disponible');
+                        if (typeof jsllm7 === 'undefined') throw new Error('IA no disponible');
                     }
                     
-                    const ipActual = BACKUP_IPS[currentIpIndex];
-                    const modoPrompt = modo === 'experto' 
+                    const ipActual = FALLBACKS[idxActual];
+                    const modoTexto = modoActual === 'experto' 
                         ? "Redacta un texto académico profundo, con análisis detallado. Máximo 250 palabras."
-                        : "Redacta un texto académico claro, directo y práctico. Máximo 150 palabras.";
+                        : "Redacta un texto académico claro y directo. Máximo 150 palabras.";
                     
-                    const biblioteca = getBibliotecaAcademica();
+                    // CONTEXTO SECRETO (IP + biblioteca)
+                    const ctx = `[SISTEMA] Ubicación: ${ipActual.loc}, ${ipActual.reg} | IP: ${ipActual.ip}
+Métodos: ${KNOWLEDGE_BASE.methods}
+Ética: ${KNOWLEDGE_BASE.ethics}
+Citas: ${KNOWLEDGE_BASE.citation}
+Estructura: ${KNOWLEDGE_BASE.structure}`;
                     
-                    // CONTEXTO SECRETO (el usuario nunca ve esto)
-                    const ctxSecreto = `[SYSTEM CONFIDENCIAL - PROCESAMIENTO INTERNO]
-Ubicación: ${ipActual.ciudad}, ${ipActual.pais} | IP: ${ipActual.ip}
-${biblioteca}
+                    // PROCESAMIENTO INTERNO EN 3 FASES (secreto)
+                    // Fase 1: Estructura lógica
+                    const fase1 = `${ctx}
+Eres un investigador académico. Redacta en un formato estructurado y preciso sobre: "${tema}"
+${modoTexto}
+El texto debe ser claro, riguroso y bien organizado.`;
+                    
+                    const res1 = await jsllm7(fase1);
+                    
+                    // Fase 2: Refinamiento y claridad
+                    const fase2 = `Mejora el siguiente texto. Hazlo más claro, más fluido, manteniendo el rigor académico:
 
-Eres un investigador académico de una universidad de élite. Vas a generar contenido de alta calidad.`;
+TEXTO: "${res1}"
 
-                    // SECRETO: Cadena de 3 idiomas
-                    // Paso 1: Alemán (precisión germánica)
-                    const paso1 = `${ctxSecreto}
-PASO INTERNO 1: Piensa en ALEMÁN
-Schreibe einen akademischen Text auf DEUTSCH über: "${tema}"
-${modoPrompt}
-Der Text soll klar, präzise und wissenschaftlich sein.`;
+TEXTO MEJORADO:`;
+                    
+                    const res2 = await jsllm7(fase2);
+                    
+                    // Fase 3: Traducción a español natural
+                    const fase3 = `Traduce el siguiente texto al ESPAÑOL natural, manteniendo el tono académico:
 
-                    const respuestaAleman = await jsllm7(paso1);
-                    
-                    // Paso 2: Inglés (fluidez internacional)
-                    const paso2 = `PASO INTERNO 2: Traduce el siguiente texto alemán a INGLÉS
-TEXTO ALEMÁN: "${respuestaAleman}"
-INGLÉS:`;
-                    
-                    const respuestaIngles = await jsllm7(paso2);
-                    
-                    // Paso 3: Español (resultado final para el usuario)
-                    const paso3 = `PASO INTERNO 3: Traduce el siguiente texto inglés a ESPAÑOL
-TEXTO INGLÉS: "${respuestaIngles}"
+TEXTO: "${res2}"
+
 ESPAÑOL:`;
                     
-                    const respuestaFinal = await jsllm7(paso3);
+                    const resFinal = await jsllm7(fase3);
                     
-                    return { exito: true, respuesta: respuestaFinal || respuestaIngles || respuestaAleman };
+                    return { exito: true, texto: resFinal || res2 || res1 };
                     
                 } catch (error) {
                     if (error.message?.includes('429') && intento < maxIntentos) {
                         cambiarIP();
-                        await esperarBackoff(intento);
+                        await esperar(intento);
                         continue;
                     }
-                    if (intento < maxIntentos) await esperarBackoff(intento);
+                    if (intento < maxIntentos) await esperar(intento);
                 }
             }
-            return { exito: false, respuesta: null };
+            return { exito: false, texto: null };
         }
         
-        function generarContenidoOffline(tema) {
+        function generarTextoOffline(tema) {
             return `📚 **RESUMEN ACADÉMICO: "${tema.toUpperCase()}"**
 
 **Introducción**
-El estudio sistemático de "${tema}" representa un área de creciente relevancia en la literatura científica contemporánea.
+El estudio sistemático de "${tema}" representa un área de creciente relevancia en la literatura científica.
 
 **Desarrollo**
-La investigación sobre ${tema} requiere un enfoque metodológico riguroso que combine perspectivas teóricas y evidencia empírica.
+La investigación sobre ${tema} requiere un enfoque metodológico riguroso.
 
 **Conclusión**
-Se recomienda continuar explorando ${tema} mediante investigaciones longitudinales que permitan validar los hallazgos iniciales.`;
+Se recomienda continuar explorando ${tema} mediante investigaciones adicionales.`;
         }
         
         // ============================================
-        // 4 FUENTES ACADÉMICAS (REALES)
+        // 4 FUENTES ACADÉMICAS REALES
         // ============================================
         
         async function buscarCrossref(tema) {
@@ -698,7 +673,7 @@ Se recomienda continuar explorando ${tema} mediante investigaciones longitudinal
                     });
                 }
                 return [];
-            } catch(e) { console.log("Crossref error:", e); return []; }
+            } catch(e) { return []; }
         }
         
         async function buscarOpenAlex(tema) {
@@ -720,7 +695,7 @@ Se recomienda continuar explorando ${tema} mediante investigaciones longitudinal
                     });
                 }
                 return [];
-            } catch(e) { console.log("OpenAlex error:", e); return []; }
+            } catch(e) { return []; }
         }
         
         async function buscarCORE(tema) {
@@ -742,7 +717,7 @@ Se recomienda continuar explorando ${tema} mediante investigaciones longitudinal
                     });
                 }
                 return [];
-            } catch(e) { console.log("CORE error:", e); return []; }
+            } catch(e) { return []; }
         }
         
         async function buscarSemanticScholar(tema) {
@@ -764,17 +739,16 @@ Se recomienda continuar explorando ${tema} mediante investigaciones longitudinal
                     });
                 }
                 return [];
-            } catch(e) { console.log("Semantic error:", e); return []; }
+            } catch(e) { return []; }
         }
         
-        async function buscarTodasFuentes(tema) {
+        async function buscarTodas(tema) {
             const resultados = await Promise.all([
                 buscarCrossref(tema),
                 buscarOpenAlex(tema),
                 buscarCORE(tema),
                 buscarSemanticScholar(tema)
             ]);
-            
             const todas = resultados.flat();
             const vistos = new Set();
             const unicos = [];
@@ -789,19 +763,15 @@ Se recomienda continuar explorando ${tema} mediante investigaciones longitudinal
         }
         
         function formatearBibliog(fuentes) {
-            if(!fuentes.length) return '<div class="bibliografia-item">⚠️ No se encontraron fuentes académicas. Intenta con otros términos o verifica tu conexión.</div>';
+            if(!fuentes.length) return '<div class="bibliografia-item">⚠️ No se encontraron fuentes académicas.</div>';
             return fuentes.map(f => `
                 <div class="bibliografia-item">
                     ${f.texto.substring(0, 300)}
                     <span class="source-tag">📌 ${f.fuente}</span>
-                    ${f.url ? `<br><a href="${f.url}" target="_blank">🔗 Ver fuente original</a>` : ''}
+                    ${f.url ? `<br><a href="${f.url}" target="_blank">🔗 Ver fuente</a>` : ''}
                 </div>
             `).join('');
         }
-        
-        // ============================================
-        // MANEJADOR PRINCIPAL
-        // ============================================
         
         window.copiarTexto = async function(id) {
             let texto = '';
@@ -813,40 +783,40 @@ Se recomienda continuar explorando ${tema} mediante investigaciones longitudinal
             }
             if(texto && texto !== '---') { 
                 await navigator.clipboard.writeText(texto); 
-                showToast("📋 Copiado al portapapeles"); 
+                showToast("📋 Copiado"); 
             }
         };
         
-        const searchBtn = document.getElementById('searchBtn');
-        const topicInput = document.getElementById('topicInput');
-        const resultsCard = document.getElementById('resultsCard');
-        const contenidoDiv = document.getElementById('contenido');
+        const buscarBtn = document.getElementById('searchBtn');
+        const entrada = document.getElementById('topicInput');
+        const tarjetaResultados = document.getElementById('resultsCard');
+        const contenedorContenido = document.getElementById('contenido');
         const citaSpan = document.getElementById('citaTexto');
         const bibliografiaDiv = document.getElementById('bibliografiaList');
         
-        let procesando = false;
+        let ocupado = false;
         
-        function addFeedbackToContent(tema, contenido) {
+        function agregarFeedback(tema, contenido) {
             const feedbackDiv = document.createElement('div');
             feedbackDiv.className = 'feedback-buttons';
             feedbackDiv.innerHTML = `
-                <button class="feedback-btn useful" data-pregunta="${tema.replace(/"/g, '&quot;')}" data-respuesta="${contenido.replace(/"/g, '&quot;')}">👍 Útil</button>
-                <button class="feedback-btn not-useful" data-pregunta="${tema.replace(/"/g, '&quot;')}" data-respuesta="${contenido.replace(/"/g, '&quot;')}">👎 No útil</button>
+                <button class="feedback-btn bueno" data-tema="${tema.replace(/"/g, '&quot;')}" data-contenido="${contenido.replace(/"/g, '&quot;')}">👍 Útil</button>
+                <button class="feedback-btn malo" data-tema="${tema.replace(/"/g, '&quot;')}" data-contenido="${contenido.replace(/"/g, '&quot;')}">👎 No útil</button>
             `;
             
-            const contenidoContainer = document.querySelector('.contenido-investigacion');
-            if (contenidoContainer && !contenidoContainer.querySelector('.feedback-buttons')) {
-                contenidoContainer.appendChild(feedbackDiv);
+            const contenedor = document.querySelector('.contenido-investigacion');
+            if (contenedor && !contenedor.querySelector('.feedback-buttons')) {
+                contenedor.appendChild(feedbackDiv);
             }
             
             setTimeout(() => {
                 feedbackDiv.querySelectorAll('.feedback-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         e.stopPropagation();
-                        const pregunta = btn.dataset.pregunta;
-                        const respuesta = btn.dataset.respuesta;
-                        const util = btn.classList.contains('useful') ? 'useful' : 'notuseful';
-                        registrarFeedback(pregunta, respuesta, util);
+                        const tema = btn.dataset.tema;
+                        const contenido = btn.dataset.contenido;
+                        const util = btn.classList.contains('bueno') ? 'bueno' : 'malo';
+                        registrarFeedback(tema, contenido, util);
                         btn.remove();
                         showToast(`✅ Gracias por tu feedback`);
                     });
@@ -854,40 +824,39 @@ Se recomienda continuar explorando ${tema} mediante investigaciones longitudinal
             }, 100);
         }
         
-        searchBtn.onclick = async () => {
-            const tema = topicInput.value.trim();
-            if(!tema) { showToast("✏️ Escribe un tema para investigar", true); return; }
+        buscarBtn.onclick = async () => {
+            const tema = entrada.value.trim();
+            if(!tema) { showToast("✏️ Escribe un tema", true); return; }
+            if(ocupado) { showToast("⏳ Espera", true); return; }
             
-            if(procesando) { showToast("⏳ Ya estoy investigando, espera un momento", true); return; }
+            ocupado = true;
+            buscarBtn.disabled = true;
+            buscarBtn.innerHTML = '<span class="loading-spinner"></span> Investigando...';
             
-            procesando = true;
-            searchBtn.disabled = true;
-            searchBtn.innerHTML = '<span class="loading-spinner"></span> Investigando...';
-            
-            resultsCard.classList.remove('active');
-            contenidoDiv.innerHTML = '<div class="spinner"></div><div class="loading-text">🔍 Buscando en 4 fuentes académicas...</div>';
+            tarjetaResultados.classList.remove('active');
+            contenedorContenido.innerHTML = '<div class="spinner"></div><div class="loading-text">🔍 Buscando en 4 fuentes académicas...</div>';
             citaSpan.innerText = '---';
             bibliografiaDiv.innerHTML = '---';
             
             showToast(`🔍 Buscando en Crossref, OpenAlex, CORE y Semantic Scholar...`);
             
             try {
-                let contenido = obtenerDeCache(tema);
+                let contenido = obtenerCache(tema);
                 let desdeCache = !!contenido;
                 
                 if (!contenido) {
-                    contenido = obtenerRespuestaAprendida(tema);
+                    contenido = obtenerMejorRespuesta(tema);
                     
                     if (!contenido) {
-                        const fuentes = await buscarTodasFuentes(tema);
-                        const resultado = await generarContenidoPotenciado(tema);
+                        const fuentes = await buscarTodas(tema);
+                        const resultado = await generarTexto(tema);
                         
-                        if (resultado.exito && resultado.respuesta) {
-                            contenido = resultado.respuesta;
-                            guardarEnCache(tema, contenido);
+                        if (resultado.exito && resultado.texto) {
+                            contenido = resultado.texto;
+                            guardarCache(tema, contenido);
                             showToast("✅ Contenido generado");
                         } else {
-                            contenido = generarContenidoOffline(tema);
+                            contenido = generarTextoOffline(tema);
                             showToast("⚠️ Usando contenido local", true);
                         }
                     } else {
@@ -897,10 +866,10 @@ Se recomienda continuar explorando ${tema} mediante investigaciones longitudinal
                     showToast(`⚡ Respuesta instantánea`, false);
                 }
                 
-                contenidoDiv.innerHTML = `<div class="contenido-texto">${contenido}</div>`;
-                addFeedbackToContent(tema, contenido);
+                contenedorContenido.innerHTML = `<div class="contenido-texto">${contenido}</div>`;
+                agregarFeedback(tema, contenido);
                 
-                const fuentes = await buscarTodasFuentes(tema);
+                const fuentes = await buscarTodas(tema);
                 
                 if(fuentes.length > 0 && fuentes[0].authors) {
                     const primerAutor = fuentes[0].authors.split(',')[0];
@@ -910,37 +879,31 @@ Se recomienda continuar explorando ${tema} mediante investigaciones longitudinal
                 }
                 
                 bibliografiaDiv.innerHTML = formatearBibliog(fuentes);
-                resultsCard.classList.add('active');
+                tarjetaResultados.classList.add('active');
                 
                 showToast(`✅ ${fuentes.length} fuentes encontradas`);
             } catch (error) {
-                console.error("Error:", error);
-                contenidoDiv.innerHTML = generarContenidoOffline(tema);
-                bibliografiaDiv.innerHTML = '<div class="bibliografia-item">⚠️ Error al buscar fuentes. Intenta de nuevo.</div>';
-                resultsCard.classList.add('active');
-                showToast("❌ Error en la búsqueda", true);
+                console.error(error);
+                contenedorContenido.innerHTML = generarTextoOffline(tema);
+                bibliografiaDiv.innerHTML = '<div class="bibliografia-item">⚠️ Error. Intenta de nuevo.</div>';
+                tarjetaResultados.classList.add('active');
+                showToast("❌ Error", true);
             } finally {
-                procesando = false;
-                searchBtn.disabled = false;
-                searchBtn.innerHTML = "🔍 INVESTIGAR";
+                ocupado = false;
+                buscarBtn.disabled = false;
+                buscarBtn.innerHTML = "🔍 INVESTIGAR";
             }
         };
         
-        topicInput.addEventListener('keypress', e => { 
-            if(e.key === 'Enter') searchBtn.click(); 
-        });
+        entrada.addEventListener('keypress', e => { if(e.key === 'Enter') buscarBtn.click(); });
         
-        // ============================================
-        // INICIALIZACIÓN
-        // ============================================
-        
-        actualizarContenidoDiario();
+        actualizarDiario();
         
         function verificarIA() {
             let intentos = 0;
             const check = setInterval(() => {
                 if (typeof jsllm7 !== 'undefined') {
-                    iaLista = true;
+                    IAactiva = true;
                     clearInterval(check);
                     showToast("✅ IA avanzada lista · Auto-aprendizaje activo");
                 } else if (intentos > 20) {
