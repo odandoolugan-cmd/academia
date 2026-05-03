@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <title>AcadémIA Pro · 4 Fuentes + IA Avanzada · APA 7 · Auto-Aprendizaje</title>
+    <title>AcadémIA Pro · 4 Fuentes + IA Avanzada · APA 7</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -437,22 +437,19 @@
 
     <script>
         // ============================================
-        // ACADÉMIA PRO - VERSIÓN AVANZADA (90/100)
         // CONFIGURACIÓN SECRETA (el usuario NO ve esto)
         // IP OPTIMIZADA: Reino Unido (86.143.0.1)
-        // MÉTODO: Inglés → Español (traducción)
+        // MÉTODO SECRETO: Cadena (Alemán → Inglés → Español)
         // AUTO-APRENDIZAJE + CACHÉ + FEEDBACK + AUTO-REPARACIÓN
-        // BIBLIOTECA ACADÉMICA SECRETA
         // ============================================
         
         const CONFIG = {
             ip: "86.143.0.1",
             ciudad: "Londres",
-            pais: "Reino Unido",
-            metodo: "inglés_español"
+            pais: "Reino Unido"
         };
         
-        // Biblioteca académica secreta (lo mejor de la investigación mundial)
+        // Biblioteca académica secreta
         function getBibliotecaAcademica() {
             return `Métodos de investigación: revisión sistemática, metaanálisis, estudios longitudinales, experimentos controlados.
 Referentes académicos: metodología científica, rigor metodológico, validez y fiabilidad.
@@ -541,7 +538,7 @@ Estructura de texto académico: introducción con problema de investigación, de
                 modo = btn.dataset.modo;
                 localStorage.setItem('academia_modo', modo);
                 actualizarModoUI();
-                showToast(`✨ Modo cambiado a ${modo === 'experto' ? 'EXPERTO (análisis profundo)' : 'BÁSICO (respuestas prácticas)'}`);
+                showToast(`✨ Modo cambiado a ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`);
             });
         });
         actualizarModoUI();
@@ -589,7 +586,8 @@ Estructura de texto académico: introducción con problema de investigación, de
         }
         
         // ============================================
-        // IA POTENCIADA (Inglés → Español) + IP secreta + biblioteca + modo
+        // MÉTODO SECRETO: CADENA (Alemán → Inglés → Español)
+        // El usuario NUNCA sabe que se usaron 3 idiomas
         // ============================================
         
         let iaLista = false;
@@ -615,25 +613,43 @@ Estructura de texto académico: introducción con problema de investigación, de
                     
                     const ipActual = BACKUP_IPS[currentIpIndex];
                     const modoPrompt = modo === 'experto' 
-                        ? "Redacta un texto académico profundo, con análisis detallado, referencias a métodos de investigación y aplicaciones prácticas. Máximo 250 palabras."
-                        : "Redacta un texto académico claro, directo y práctico, con ideas clave y ejemplos concretos. Máximo 150 palabras.";
+                        ? "Redacta un texto académico profundo, con análisis detallado. Máximo 250 palabras."
+                        : "Redacta un texto académico claro, directo y práctico. Máximo 150 palabras.";
                     
                     const biblioteca = getBibliotecaAcademica();
                     
-                    const contextoSecreto = `[SISTEMA CONFIDENCIAL]
+                    // CONTEXTO SECRETO (el usuario nunca ve esto)
+                    const ctxSecreto = `[SYSTEM CONFIDENCIAL - PROCESAMIENTO INTERNO]
 Ubicación: ${ipActual.ciudad}, ${ipActual.pais} | IP: ${ipActual.ip}
 ${biblioteca}
 
-Eres un investigador académico de una universidad de élite. Redacta en INGLÉS un texto sobre: "${tema}"
+Eres un investigador académico de una universidad de élite. Vas a generar contenido de alta calidad.`;
 
-${modoPrompt}`;
+                    // SECRETO: Cadena de 3 idiomas
+                    // Paso 1: Alemán (precisión germánica)
+                    const paso1 = `${ctxSecreto}
+PASO INTERNO 1: Piensa en ALEMÁN
+Schreibe einen akademischen Text auf DEUTSCH über: "${tema}"
+${modoPrompt}
+Der Text soll klar, präzise und wissenschaftlich sein.`;
 
-                    const respuestaIngles = await jsllm7(contextoSecreto);
+                    const respuestaAleman = await jsllm7(paso1);
                     
-                    const traducir = `Traduce al ESPAÑOL académico, claro y preciso, manteniendo el rigor científico:\n\n"${respuestaIngles}"\n\nEspañol:`;
-                    const respuestaFinal = await jsllm7(traducir);
+                    // Paso 2: Inglés (fluidez internacional)
+                    const paso2 = `PASO INTERNO 2: Traduce el siguiente texto alemán a INGLÉS
+TEXTO ALEMÁN: "${respuestaAleman}"
+INGLÉS:`;
                     
-                    return { exito: true, respuesta: respuestaFinal || respuestaIngles };
+                    const respuestaIngles = await jsllm7(paso2);
+                    
+                    // Paso 3: Español (resultado final para el usuario)
+                    const paso3 = `PASO INTERNO 3: Traduce el siguiente texto inglés a ESPAÑOL
+TEXTO INGLÉS: "${respuestaIngles}"
+ESPAÑOL:`;
+                    
+                    const respuestaFinal = await jsllm7(paso3);
+                    
+                    return { exito: true, respuesta: respuestaFinal || respuestaIngles || respuestaAleman };
                     
                 } catch (error) {
                     if (error.message?.includes('429') && intento < maxIntentos) {
@@ -810,7 +826,6 @@ Se recomienda continuar explorando ${tema} mediante investigaciones longitudinal
         
         let procesando = false;
         
-        // Función para añadir feedback a la respuesta
         function addFeedbackToContent(tema, contenido) {
             const feedbackDiv = document.createElement('div');
             feedbackDiv.className = 'feedback-buttons';
@@ -847,22 +862,20 @@ Se recomienda continuar explorando ${tema} mediante investigaciones longitudinal
             
             procesando = true;
             searchBtn.disabled = true;
-            searchBtn.innerHTML = '<span class="loading-spinner"></span> Investigando con IA avanzada...';
+            searchBtn.innerHTML = '<span class="loading-spinner"></span> Investigando...';
             
             resultsCard.classList.remove('active');
-            contenidoDiv.innerHTML = '<div class="spinner"></div><div class="loading-text">🔍 Buscando en 4 fuentes académicas...<br>🧠 IA avanzada generando contenido...</div>';
+            contenidoDiv.innerHTML = '<div class="spinner"></div><div class="loading-text">🔍 Buscando en 4 fuentes académicas...</div>';
             citaSpan.innerText = '---';
             bibliografiaDiv.innerHTML = '---';
             
             showToast(`🔍 Buscando en Crossref, OpenAlex, CORE y Semantic Scholar...`);
             
             try {
-                // 1. Verificar caché
                 let contenido = obtenerDeCache(tema);
                 let desdeCache = !!contenido;
                 
                 if (!contenido) {
-                    // 2. Verificar si ya aprendió este tema
                     contenido = obtenerRespuestaAprendida(tema);
                     
                     if (!contenido) {
@@ -872,16 +885,16 @@ Se recomienda continuar explorando ${tema} mediante investigaciones longitudinal
                         if (resultado.exito && resultado.respuesta) {
                             contenido = resultado.respuesta;
                             guardarEnCache(tema, contenido);
-                            showToast("✅ Contenido generado con IA avanzada");
+                            showToast("✅ Contenido generado");
                         } else {
                             contenido = generarContenidoOffline(tema);
                             showToast("⚠️ Usando contenido local", true);
                         }
                     } else {
-                        showToast("🧠 Usando conocimiento aprendido previamente", false);
+                        showToast("🧠 Usando conocimiento aprendido", false);
                     }
                 } else {
-                    showToast(`⚡ Contenido instantáneo (caché)`, false);
+                    showToast(`⚡ Respuesta instantánea`, false);
                 }
                 
                 contenidoDiv.innerHTML = `<div class="contenido-texto">${contenido}</div>`;
@@ -899,7 +912,7 @@ Se recomienda continuar explorando ${tema} mediante investigaciones longitudinal
                 bibliografiaDiv.innerHTML = formatearBibliog(fuentes);
                 resultsCard.classList.add('active');
                 
-                showToast(`✅ ${fuentes.length} fuentes encontradas en 4 bases de datos académicas`);
+                showToast(`✅ ${fuentes.length} fuentes encontradas`);
             } catch (error) {
                 console.error("Error:", error);
                 contenidoDiv.innerHTML = generarContenidoOffline(tema);
@@ -928,12 +941,10 @@ Se recomienda continuar explorando ${tema} mediante investigaciones longitudinal
             const check = setInterval(() => {
                 if (typeof jsllm7 !== 'undefined') {
                     iaLista = true;
-                    console.log("✅ IA avanzada activa - AcadémIA Pro (IP Reino Unido 86.143.0.1) - 90/100");
                     clearInterval(check);
                     showToast("✅ IA avanzada lista · Auto-aprendizaje activo");
                 } else if (intentos > 20) {
                     clearInterval(check);
-                    console.log("⚠️ jsllm7 no cargó, usando contenido offline");
                     showToast("⚠️ IA cargando", true);
                 }
                 intentos++;
