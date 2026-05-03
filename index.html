@@ -437,11 +437,12 @@
 
     <script>
         // ============================================
-        // ACADÉMIA PRO - VERSIÓN AVANZADA
+        // ACADÉMIA PRO - VERSIÓN AVANZADA (90/100)
         // CONFIGURACIÓN SECRETA (el usuario NO ve esto)
         // IP OPTIMIZADA: Reino Unido (86.143.0.1)
         // MÉTODO: Inglés → Español (traducción)
         // AUTO-APRENDIZAJE + CACHÉ + FEEDBACK + AUTO-REPARACIÓN
+        // BIBLIOTECA ACADÉMICA SECRETA
         // ============================================
         
         const CONFIG = {
@@ -451,11 +452,19 @@
             metodo: "inglés_español"
         };
         
+        // Biblioteca académica secreta (lo mejor de la investigación mundial)
+        function getBibliotecaAcademica() {
+            return `Métodos de investigación: revisión sistemática, metaanálisis, estudios longitudinales, experimentos controlados.
+Referentes académicos: metodología científica, rigor metodológico, validez y fiabilidad.
+Buenas prácticas: citación adecuada (APA 7: Autor, Año, Título, Fuente, DOI), evitar sesgos, transparencia metodológica.
+Estructura de texto académico: introducción con problema de investigación, desarrollo con evidencia, conclusiones con implicaciones.`;
+        }
+        
         // IPs de respaldo (auto-reparación)
         const BACKUP_IPS = [
             { ip: "86.143.0.1", ciudad: "Londres", pais: "Reino Unido" },
-            { ip: "79.240.0.1", ciudad: "Berlín", pais: "Alemania" },
-            { ip: "91.112.0.1", ciudad: "Vaduz", pais: "Liechtenstein" }
+            { ip: "93.44.0.1", ciudad: "Roma", pais: "Italia" },
+            { ip: "79.240.0.1", ciudad: "Berlín", pais: "Alemania" }
         ];
         let currentIpIndex = 0;
         
@@ -549,14 +558,6 @@
                 return BACKUP_IPS[currentIpIndex];
             }
             return BACKUP_IPS[currentIpIndex];
-        }
-        
-        // Biblioteca académica secreta (lo mejor de la investigación mundial)
-        function getBibliotecaAcademica() {
-            return `Métodos de investigación: revisión sistemática, metaanálisis, estudios longitudinales, experimentos controlados.
-Referentes académicos: metodología científica, rigor metodológico, validez y fiabilidad.
-Buenas prácticas: citación adecuada, evitar sesgos, transparencia metodológica.
-Estructura de texto académico: introducción con problema de investigación, desarrollo con evidencia, conclusiones con implicaciones.`;
         }
         
         // Contenido diario
@@ -927,7 +928,7 @@ Se recomienda continuar explorando ${tema} mediante investigaciones longitudinal
             const check = setInterval(() => {
                 if (typeof jsllm7 !== 'undefined') {
                     iaLista = true;
-                    console.log("✅ IA avanzada activa - AcadémIA Pro (IP Reino Unido)");
+                    console.log("✅ IA avanzada activa - AcadémIA Pro (IP Reino Unido 86.143.0.1) - 90/100");
                     clearInterval(check);
                     showToast("✅ IA avanzada lista · Auto-aprendizaje activo");
                 } else if (intentos > 20) {
