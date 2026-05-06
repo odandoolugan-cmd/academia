@@ -32,12 +32,12 @@
         .results-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 1.5rem; padding: 1.5rem; border: 1px solid rgba(139, 92, 246, 0.3); display: none; }
         .results-card.active { display: block; }
         .section-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 1rem; border-left: 4px solid #8b5cf6; padding-left: 1rem; }
-        .contenido-investigacion { background: rgba(15, 23, 42, 0.6); border-radius: 1rem; padding: 1.2rem; margin-bottom: 1.5rem; line-height: 1.6; white-space: pre-wrap; }
+        .contenido-investigacion { background: rgba(15, 23, 42, 0.6); border-radius: 1rem; padding: 1.2rem; margin-bottom: 1.5rem; line-height: 1.6; white-space: pre-wrap; max-height: 400px; overflow-y: auto; }
         .feedback-buttons { display: flex; gap: 10px; margin-top: 10px; justify-content: flex-end; }
         .feedback-btn { background: none; border: none; color: #7a9aae; cursor: pointer; font-size: 0.7rem; padding: 4px 10px; border-radius: 15px; transition: 0.2s; }
         .feedback-btn:hover { background: #334155; color: #e9c46a; }
         .cita-apa { background: rgba(139, 92, 246, 0.15); border-left: 4px solid #8b5cf6; padding: 1rem; border-radius: 0.8rem; margin-bottom: 1.5rem; font-family: monospace; font-size: 0.85rem; }
-        .bibliografia { background: rgba(15, 23, 42, 0.6); border-radius: 1rem; padding: 1.2rem; }
+        .bibliografia { background: rgba(15, 23, 42, 0.6); border-radius: 1rem; padding: 1.2rem; max-height: 300px; overflow-y: auto; }
         .bibliografia-item { padding: 0.8rem 0 0.8rem 2rem; border-bottom: 1px solid #334155; font-size: 0.8rem; text-indent: -2rem; margin-left: 2rem; }
         .bibliografia-item:last-child { border-bottom: none; }
         .bibliografia-item a { color: #60a5fa; text-decoration: none; }
@@ -62,6 +62,7 @@
         .sponsors-link a { background: rgba(255,255,255,0.08); padding: 4px 12px; border-radius: 20px; text-decoration: none; font-size: 0.65rem; color: #94a3b8; border: 1px solid rgba(255,255,255,0.1); }
         .sponsors-link a:hover { background: rgba(255,255,255,0.15); color: #e9c46a; }
         .loading-spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite; margin-right: 6px; vertical-align: middle; }
+        .status-message { background: #1e293b; border-radius: 1rem; padding: 0.5rem 1rem; margin: 0.5rem 0; font-size: 0.7rem; text-align: center; color: #10b981; }
         @media (max-width: 700px) { .input-group { flex-direction: column; } .btn-primary { padding: 0.8rem; } .bibliografia-item { margin-left: 1rem; text-indent: -1rem; } }
     </style>
 </head>
@@ -92,6 +93,7 @@
             </div>
             <div class="ethical-notice">📌 <strong>4 fuentes académicas reales</strong> · Crossref · OpenAlex · CORE · Semantic Scholar · IA Avanzada · Formato APA 7</div>
             <div class="restriction-alert" id="restrictionAlert">🔍 Buscando en 4 bases de datos · IA Avanzada · Auto-aprendizaje activo</div>
+            <div id="statusMessage" class="status-message" style="display:none;">⏳ Procesando...</div>
         </div>
 
         <div class="results-card" id="resultsCard">
@@ -114,59 +116,79 @@
 
     <script>
         // ============================================
-        // ACADÉMIA PRO - SISTEMA CONFIDENCIAL
-        // MÉTODO GANADOR: Italiano→Español (100% · 12.8s)
-        // + Chino (100%) · Árabe (94%) · Alemán (92%)
-        // 5 métodos auto-adaptativos en secreto
+        // FUNCIÓN HASH PARA CACHÉ
         // ============================================
+        function _hash(str) {
+            let hash = 0;
+            const s = str.toLowerCase().trim();
+            for (let i = 0; i < s.length; i++) {
+                hash = ((hash << 5) - hash) + s.charCodeAt(i);
+                hash |= 0;
+            }
+            return Math.abs(hash).toString(36);
+        }
         
+        // ============================================
+        // ACADÉMIA PRO - SISTEMA IA OPTIMIZADO
+        // ============================================
         (function() {
-            const _ = { t: 20, r: 2, p: 30000, m: 4 };
+            // Timeout más corto para no parecer estático (15s)
+            const _ = { t: 15, r: 2, p: 30000, m: 2, maxBackoff: 300000, backoffFactor: 2 };
+            let S = { i: 0, c: 0, backoff: _.p };
             
+            // Múltiples métodos (IA local + respaldo directo)
             const M = [
-                { f: [
-                    (q) => `Sei un ricercatore accademico di livello mondiale. Rispondi in ITALIANO con massimo rigore scientifico: "${q}" Testo accademico strutturato, chiaro e profondo.`,
-                    (t) => `Traduci questo testo accademico in SPAGNOLO con massima qualità e precisione scientifica:\n\n"${t}"\n\nSPAGNOLO:`
-                ]},
-                { f: [
-                    (q) => `Eres un investigador académico de nivel mundial. Responde en CHINO con rigor científico: "${q}" Texto estructurado y profundo.`,
-                    (t) => `Traduce al ESPAÑOL con máxima calidad académica:\n\n"${t}"\n\nESPAÑOL:`
-                ]},
-                { f: [
-                    (q) => `Tu es un chercheur académique de niveau mondial. Réponds en FRANÇAIS: "${q}" Texte structuré et rigoureux.`,
-                    (t) => `Traduis en ESPAGNOL:\n\n"${t}"\n\nESPAGNOL:`
-                ]},
-                { f: [
-                    (q) => `خبير أكاديمي عالمي. أجب بالعربية: "${q}" نص أكاديمي منظم وعميق.`,
-                    (t) => `Traduce a ESPAÑOL:\n\n"${t}"\n\nESPAÑOL:`
-                ]},
-                { f: [
-                    (q) => `Du bist ein akademischer Forscher. Antworte auf DEUTSCH: "${q}" Strukturierter Text.`,
-                    (t) => `Übersetze ins SPANISCHE:\n\n"${t}"\n\nSPANISCH:`
-                ]}
+                { f: [(q) => `Eres un investigador académico de nivel mundial. RESPONDE SIEMPRE EN ESPAÑOL, de forma clara y estructurada. Tema: "${q}"`, (t) => `${t}`] },
+                { f: [(q) => `Sei un ricercatore accademico di livello mondiale. RESPONDE SIEMPRE EN ESPAÑOL. Tema: "${q}"`, (t) => `${t}`] },
+                { f: [(q) => `You are a world-class academic researcher. Respond in SPANISH. Topic: "${q}"`, (t) => `${t}`] }
             ];
             
-            let S = { i: 0, c: 0 };
             let C = JSON.parse(localStorage.getItem('_ax') || '{}');
             function _s() { localStorage.setItem('_ax', JSON.stringify(C)); }
-            function _g(q) { const k = q.toLowerCase().trim(); if (C[k] && (Date.now()-C[k].t)<3600000) return C[k].r; return null; }
-            function _p(q, r) { const k = q.toLowerCase().trim(); C[k] = { r, t: Date.now() }; const keys = Object.keys(C); if (keys.length > 200) { keys.sort((a,b) => C[a].t-C[b].t); for (let i=0;i<30;i++) delete C[keys[i]]; } _s(); }
+            
+            function _g(q) { const k = _hash(q); if (C[k] && (Date.now()-C[k].t)<3600000) return C[k].r; return null; }
+            function _p(q, r) { const k = _hash(q); C[k] = { r, t: Date.now() }; const keys = Object.keys(C); if (keys.length > 200) { keys.sort((a,b) => C[a].t-C[b].t); for (let i=0;i<30;i++) delete C[keys[i]]; } _s(); }
             
             async function _l(p) {
                 return new Promise(async (resolve, reject) => {
-                    const t = setTimeout(() => reject(new Error('T')), _.t * 1000);
-                    try { const r = await jsllm7(p); clearTimeout(t); resolve(r); } catch (e) { clearTimeout(t); reject(e); }
+                    const t = setTimeout(() => reject(new Error('Timeout')), _.t * 1000);
+                    try { 
+                        const r = await jsllm7(p); 
+                        clearTimeout(t); 
+                        resolve(r); 
+                    } catch (e) { 
+                        clearTimeout(t); 
+                        reject(e); 
+                    }
                 });
             }
             
-            async function _e(m, q) { let t = null; for (let i = 0; i < m.f.length; i++) t = await _l(i === 0 ? m.f[i](q) : m.f[i](t)); return t; }
+            async function _e(m, q) { 
+                let t = null; 
+                for (let i = 0; i < m.f.length; i++) { 
+                    t = await _l(i === 0 ? m.f[i](q) : m.f[i](t)); 
+                } 
+                return t; 
+            }
             
             window._x = async function(q) {
                 const start = S.i;
                 for (let i = 0; i < M.length; i++) {
                     const idx = (start + i) % M.length;
-                    try { const r = await _e(M[idx], q); S.i = idx; S.c = 0; return { r, e: true }; }
-                    catch (e) { S.c++; if (S.c >= _.m) { await new Promise(r => setTimeout(r, _.p)); S.c = 0; } if (i < M.length - 1) await new Promise(r => setTimeout(r, 2000)); }
+                    try { 
+                        const r = await _e(M[idx], q); 
+                        S.i = idx; S.c = 0; S.backoff = _.p; 
+                        return { r, e: true }; 
+                    }
+                    catch (e) { 
+                        S.c++; 
+                        if (S.c >= _.m) { 
+                            await new Promise(r => setTimeout(r, S.backoff)); 
+                            S.c = 0; 
+                            S.backoff = Math.min(S.backoff * _.backoffFactor, _.maxBackoff); 
+                        } 
+                        if (i < M.length - 1) await new Promise(r => setTimeout(r, 1000)); 
+                    }
                 }
                 return { r: null, e: false };
             };
@@ -176,12 +198,42 @@
         })();
         
         // ============================================
-        // CONFIGURACIÓN
+        // FALLBACK ACADÉMICO (RESPUESTA RÁPIDA)
+        // ============================================
+        const _R_ACAD = {
+            reglas: [
+                { palabras: ['inteligencia artificial', 'ia', 'machine learning'], 
+                  respuesta: '📚 **Inteligencia Artificial en la Academia**\n\nLa IA está transformando la investigación académica mediante:\n1️⃣ Análisis de grandes volúmenes de datos\n2️⃣ Procesamiento de lenguaje natural\n3️⃣ Modelos predictivos\n4️⃣ Automatización de tareas\n5️⃣ Descubrimiento de patrones', prioridad: 10 },
+                { palabras: ['educación', 'enseñanza', 'aprendizaje', 'pedagogía'], 
+                  respuesta: '🎓 **Innovación Educativa**\n\nTendencias actuales:\n1️⃣ Aprendizaje personalizado con IA\n2️⃣ Gamificación\n3️⃣ Metodologías activas (ABP)\n4️⃣ Evaluación formativa\n5️⃣ Competencias digitales docentes', prioridad: 9 },
+                { palabras: ['cambio climático', 'calentamiento global', 'sostenibilidad', 'medio ambiente'], 
+                  respuesta: '🌍 **Cambio Climático**\n\nAspectos clave:\n1️⃣ Mitigación: reducción de emisiones\n2️⃣ Adaptación: resiliencia comunitaria\n3️⃣ Transición energética\n4️⃣ Economía circular\n5️⃣ Políticas climáticas internacionales', prioridad: 9 },
+                { palabras: ['investigación', 'método', 'metodología', 'tesis'], 
+                  respuesta: '🔬 **Métodos de Investigación**\n\nPasos fundamentales:\n1️⃣ Planteamiento del problema\n2️⃣ Marco teórico\n3️⃣ Diseño metodológico\n4️⃣ Recolección y análisis\n5️⃣ Discusión y conclusiones\n6️⃣ Publicación indexada', prioridad: 8 }
+            ],
+            ejecutar: function(pregunta) {
+                const q = pregunta.toLowerCase();
+                let mejor = null;
+                for (let regla of this.reglas) {
+                    for (let pal of regla.palabras) {
+                        if (q.includes(pal)) {
+                            if (!mejor || regla.prioridad > mejor.prioridad) mejor = regla;
+                            break;
+                        }
+                    }
+                }
+                return mejor ? mejor.respuesta : '📖 **Consulta académica recibida**\n\nPuedo ayudarte con:\n- Inteligencia Artificial en investigación\n- Métodos y tendencias educativas\n- Cambio climático y sostenibilidad\n- Metodologías de investigación\n\n🔍 *Especifica el área para una respuesta más detallada.*';
+            }
+        };
+        
+        // ============================================
+        // CONFIGURACIÓN Y UI
         // ============================================
         let modoActual = localStorage.getItem('acad_pro_modo') || 'experto';
         let conocimiento = JSON.parse(localStorage.getItem('acad_pro_memoria') || '{"lecciones": {}, "stats": {"votos": 0}}');
         
         function guardarConocimiento() { localStorage.setItem('acad_pro_memoria', JSON.stringify(conocimiento)); }
+        
         function registrarFeedback(pregunta, respuesta, util) {
             const key = pregunta.toLowerCase().trim();
             if (!conocimiento.lecciones[key]) conocimiento.lecciones[key] = { respuestas: [], bueno: 0, malo: 0, mejor: null };
@@ -199,9 +251,14 @@
         document.querySelectorAll('.modo-btn').forEach(b => { b.addEventListener('click', () => { modoActual = b.dataset.modo; localStorage.setItem('acad_pro_modo', modoActual); actualizarModoUI(); showToast(`✨ Modo ${modoActual === 'experto' ? 'EXPERTO' : 'BÁSICO'}`); }); });
         actualizarModoUI();
         
-        function showToast(msg, isErr) { const t = document.createElement('div'); t.className = 'toast-msg'; if(isErr) t.style.background = '#ef4444'; t.innerText = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3000); }
-        
-        function generarTextoOffline(tema) { return `📚 **RESUMEN ACADÉMICO: "${tema.toUpperCase()}"**\n\n**Introducción**\nEl estudio de "${tema}" representa un área de creciente relevancia.\n\n**Desarrollo**\nLa investigación requiere un enfoque metodológico riguroso.\n\n**Conclusión**\nSe recomienda continuar explorando ${tema}.`; }
+        function showToast(msg, isErr) { 
+            const t = document.createElement('div'); 
+            t.className = 'toast-msg'; 
+            if(isErr) t.style.background = '#ef4444'; 
+            t.innerText = msg; 
+            document.body.appendChild(t); 
+            setTimeout(() => t.remove(), 3000); 
+        }
         
         // 4 fuentes académicas
         async function buscarCrossref(tema) {
@@ -242,6 +299,7 @@
         const contenedorContenido = document.getElementById('contenido');
         const citaSpan = document.getElementById('citaTexto');
         const bibliografiaDiv = document.getElementById('bibliografiaList');
+        const statusMsgDiv = document.getElementById('statusMessage');
         let ocupado = false;
         
         function agregarFeedback(tema, contenido) {
@@ -256,37 +314,57 @@
         buscarBtn.onclick = async () => {
             const tema = entrada.value.trim();
             if(!tema) { showToast("✏️ Escribe un tema", true); return; }
-            if(ocupado) { showToast("⏳ Espera", true); return; }
+            if(ocupado) { showToast("⏳ Espera a que termine la búsqueda actual", true); return; }
             
             ocupado = true; buscarBtn.disabled = true;
             buscarBtn.innerHTML = '<span class="loading-spinner"></span> Investigando...';
+            statusMsgDiv.style.display = 'block';
+            statusMsgDiv.innerHTML = '🔍 Conectando con IA y 4 fuentes académicas...';
             tarjetaResultados.classList.remove('active');
             contenedorContenido.innerHTML = '<div class="spinner"></div><div class="loading-text">🔍 Buscando en 4 fuentes académicas...</div>';
             citaSpan.innerText = '---'; bibliografiaDiv.innerHTML = '---';
             
             try {
+                // 1. Intentar obtener de caché
                 let contenido = window._g ? window._g(tema) : null;
+                if(contenido) statusMsgDiv.innerHTML = '📦 Respuesta desde caché...';
                 
+                // 2. Si no hay caché, llamar a IA
                 if (!contenido && window._x) {
+                    statusMsgDiv.innerHTML = '🧠 Generando contenido con IA... (máx 15s)';
                     const result = await window._x(tema);
-                    if (result.e) { contenido = result.r; if (window._p) window._p(tema, contenido); }
+                    if (result.e && result.r) { 
+                        contenido = result.r; 
+                        if (window._p) window._p(tema, contenido);
+                        statusMsgDiv.innerHTML = '✅ IA generó respuesta';
+                    }
                 }
                 
-                if (!contenido) contenido = generarTextoOffline(tema);
+                // 3. Fallback rápido si IA no responde
+                if (!contenido || contenido.length < 30) {
+                    statusMsgDiv.innerHTML = '📚 Usando base de conocimiento local...';
+                    contenido = _R_ACAD.ejecutar(tema);
+                }
                 
                 contenedorContenido.innerHTML = `<div class="contenido-texto">${contenido}</div>`;
                 agregarFeedback(tema, contenido);
                 
+                // 4. Buscar fuentes académicas (paralelo)
+                statusMsgDiv.innerHTML = '📖 Buscando referencias en 4 bases de datos...';
                 const fuentes = await buscarTodas(tema);
+                
                 if(fuentes.length > 0 && fuentes[0].authors) citaSpan.innerText = `${fuentes[0].authors.split(',')[0]} (${fuentes[0].year})`;
                 else citaSpan.innerText = '(Autor, año)';
                 bibliografiaDiv.innerHTML = formatearBibliog(fuentes);
                 tarjetaResultados.classList.add('active');
-                showToast(`✅ ${fuentes.length} fuentes`);
+                statusMsgDiv.style.display = 'none';
+                showToast(`✅ ${fuentes.length} fuentes encontradas`);
             } catch (error) {
-                contenedorContenido.innerHTML = generarTextoOffline(tema);
+                console.error('Error:', error);
+                contenedorContenido.innerHTML = _R_ACAD.ejecutar(tema);
                 tarjetaResultados.classList.add('active');
-                showToast("❌ Error", true);
+                statusMsgDiv.style.display = 'none';
+                showToast("❌ Error en la búsqueda", true);
             } finally {
                 ocupado = false; buscarBtn.disabled = false;
                 buscarBtn.innerHTML = "🔍 INVESTIGAR";
@@ -299,7 +377,16 @@
         actualizarDiario();
         
         let intentos = 0;
-        const check = setInterval(() => { if (typeof jsllm7 !== 'undefined') { clearInterval(check); showToast("✅ IA avanzada lista"); } else if (intentos > 30) clearInterval(check); intentos++; }, 500);
+        const check = setInterval(() => { 
+            if (typeof jsllm7 !== 'undefined') { 
+                clearInterval(check); 
+                showToast("✅ IA avanzada lista"); 
+            } else if (intentos > 30) { 
+                clearInterval(check); 
+                showToast("⚠️ IA local no disponible, usando modo offline", true);
+            } 
+            intentos++; 
+        }, 500);
     </script>
 
     <script type="importmap">{ "imports": { "three": "https://unpkg.com/three@0.128.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/" } }</script>
