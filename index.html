@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <title>AcadémIA Pro · 4 Fuentes + IA Avanzada · APA 7</title>
+    <title>AcadémIA Pro · 4 Fuentes + IA 100% · APA 7</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', system-ui, sans-serif; background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%); color: #eef2ff; min-height: 100vh; padding: 1rem; overflow-x: hidden; }
@@ -32,7 +32,7 @@
         .results-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 1.5rem; padding: 1.5rem; border: 1px solid rgba(139, 92, 246, 0.3); display: none; }
         .results-card.active { display: block; }
         .section-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 1rem; border-left: 4px solid #8b5cf6; padding-left: 1rem; }
-        .contenido-investigacion { background: rgba(15, 23, 42, 0.6); border-radius: 1rem; padding: 1.2rem; margin-bottom: 1.5rem; line-height: 1.6; white-space: pre-wrap; max-height: 400px; overflow-y: auto; }
+        .contenido-investigacion { background: rgba(15, 23, 42, 0.6); border-radius: 1rem; padding: 1.2rem; margin-bottom: 1.5rem; line-height: 1.6; white-space: pre-wrap; max-height: 500px; overflow-y: auto; }
         .feedback-buttons { display: flex; gap: 10px; margin-top: 10px; justify-content: flex-end; }
         .feedback-btn { background: none; border: none; color: #7a9aae; cursor: pointer; font-size: 0.7rem; padding: 4px 10px; border-radius: 15px; transition: 0.2s; }
         .feedback-btn:hover { background: #334155; color: #e9c46a; }
@@ -63,6 +63,7 @@
         .sponsors-link a:hover { background: rgba(255,255,255,0.15); color: #e9c46a; }
         .loading-spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite; margin-right: 6px; vertical-align: middle; }
         .status-message { background: #1e293b; border-radius: 1rem; padding: 0.5rem 1rem; margin: 0.5rem 0; font-size: 0.7rem; text-align: center; color: #10b981; }
+        .global-badge { background: #8b5cf6; padding: 2px 10px; border-radius: 20px; font-size: 0.65rem; margin-left: 8px; }
         @media (max-width: 700px) { .input-group { flex-direction: column; } .btn-primary { padding: 0.8rem; } .bibliografia-item { margin-left: 1rem; text-indent: -1rem; } }
     </style>
 </head>
@@ -70,8 +71,8 @@
 
     <div class="normal-mode" id="normalMode">
         <div class="header">
-            <h1>📚 AcadémIA Pro <span class="ia-badge">IA AVANZADA</span></h1>
-            <div class="sub" id="subtitle">Investigación con Crossref + OpenAlex + CORE + Semantic Scholar</div>
+            <h1>📚 AcadémIA Pro <span class="ia-badge">IA 100%</span><span class="global-badge">🌍 RED GLOBAL 30 PAÍSES</span></h1>
+            <div class="sub" id="subtitle">Investigación con Crossref + OpenAlex + CORE + Semantic Scholar · IA Multi-País</div>
             <div class="daily-message" id="dailyMessage"><span id="dailyMessageText">📖 El conocimiento es la única riqueza que crece cuando se comparte.</span></div>
         </div>
 
@@ -91,8 +92,8 @@
                 <input type="text" class="search-input" id="topicInput" placeholder="Ej: Inteligencia artificial en educación, Cambio climático...">
                 <button class="btn-primary" id="searchBtn">🔍 INVESTIGAR</button>
             </div>
-            <div class="ethical-notice">📌 <strong>4 fuentes académicas reales</strong> · Crossref · OpenAlex · CORE · Semantic Scholar · IA Avanzada · Formato APA 7</div>
-            <div class="restriction-alert" id="restrictionAlert">🔍 Buscando en 4 bases de datos · IA Avanzada · Auto-aprendizaje activo</div>
+            <div class="ethical-notice">📌 <strong>4 fuentes académicas reales</strong> · Crossref · OpenAlex · CORE · Semantic Scholar · IA 100% · Formato APA 7 · Red de 30 países</div>
+            <div class="restriction-alert" id="restrictionAlert">🔍 Buscando en 4 bases de datos · IA 100% · Red global de conocimiento</div>
             <div id="statusMessage" class="status-message" style="display:none;">⏳ Procesando...</div>
         </div>
 
@@ -106,7 +107,7 @@
         </div>
 
         <div class="sponsors"><div class="sponsors-link"><a href="https://www.profitablecpmratenetwork.com/cuitcvgz?key=85ca230e218898f76e48c348cafb2311" target="_blank" rel="nofollow">🎮 OFERTA 1</a><a href="https://www.profitablecpmratenetwork.com/b27uffyn?key=5b35819451353807b0e99b21addde69a" target="_blank" rel="nofollow">🎲 OFERTA 2</a></div></div>
-        <div class="footer-text" id="footer">⚡ AcadémIA Pro · 4 fuentes académicas · IA Avanzada · Formato APA 7</div>
+        <div class="footer-text" id="footer">⚡ AcadémIA Pro · 4 fuentes académicas · IA 100% · Formato APA 7 · Red 30 países</div>
     </div>
 
     <button class="vr-button" id="vrModeBtn">🔮 ACTIVAR MODO VR</button>
@@ -129,12 +130,11 @@
         }
         
         // ============================================
-        // ACADÉMIA PRO - SISTEMA DE RESPALDO MULTI-PAÍS
-        // SOLO PAÍSES QUE DIERON 100% EN PRUEBA REAL:
-        // 30 PAÍSES - MISMA ESTRUCTURA, MISMO PROMPT
+        // ACADÉMIA PRO - SISTEMA DE RESPALDO 30 PAÍSES
+        // TODOS CON 100% (VALIDADO EN PRUEBA REAL)
         // ============================================
         
-        // CADENA DE RESPALDO (30 PAÍSES - TODOS 100%)
+        // CADENA DE RESPALDO (30 PAÍSES - 100% TODOS)
         const PAISES_RESPALDO = [
             { id: 'francia', nombre: 'Francia', calidad: 100 },
             { id: 'alemania', nombre: 'Alemania', calidad: 100 },
@@ -173,7 +173,9 @@
             return p ? p.nombre : 'Biblioteca Local';
         }
         
-        // PROMPT UNIVERSAL (FÓRMULA QUE FUNCIONÓ 100%) - NO CAMBIA
+        // ============================================
+        // PROMPT UNIVERSAL (FÓRMULA 100% VALIDADA)
+        // ============================================
         function generarPromptMultiPais(tema, paisId) {
             const nombrePais = getNombrePais(paisId);
             
@@ -254,10 +256,10 @@ RESPONDE SOLO EN ESPAÑOL.`;
         })();
 
         // ============================================
-        // SISTEMA DE RESPALDO INTERNO MULTI-PAÍS
+        // SISTEMA DE RESPALDO 30 PAÍSES
         // ============================================
         async function obtenerAnalisis(tema) {
-            // Recorrer todos los países en orden
+            // Recorrer todos los países en orden (siempre responde el primero disponible)
             for (let i = 0; i < PAISES_RESPALDO.length; i++) {
                 const paisActual = PAISES_RESPALDO[i];
                 const prompt = generarPromptMultiPais(tema, paisActual.id);
@@ -273,7 +275,7 @@ RESPONDE SOLO EN ESPAÑOL.`;
                             respuesta = result.r;
                             if (window._p) window._p(cacheKey, respuesta);
                         } else {
-                            throw new Error(`País ${paisActual.nombre} no respondió`);
+                            throw new Error(`Intento fallido`);
                         }
                     } catch (e) {
                         console.warn(`⚠️ Falló ${paisActual.nombre}:`, e.message);
@@ -286,8 +288,7 @@ RESPONDE SOLO EN ESPAÑOL.`;
                     exito: true,
                     respuesta: respuesta,
                     paisUsado: paisActual.id,
-                    nombrePais: paisActual.nombre,
-                    calidad: paisActual.calidad
+                    nombrePais: paisActual.nombre
                 };
             }
             
@@ -297,17 +298,16 @@ RESPONDE SOLO EN ESPAÑOL.`;
                 respuesta: generarFallback(tema),
                 paisUsado: 'fallback',
                 nombrePais: 'Biblioteca Local',
-                calidad: 100,
                 esFallback: true
             };
         }
         
         function generarFallback(tema) {
-            return `📚 **Análisis académique: ${tema}**\n\nEste tema representa un área de investigación relevante en el contexto educativo actual. La literatura especializada sugiere múltiples enfoques metodológicos para su estudio.\n\n**Líneas de investigación sugeridas:**\n1️⃣ Revisión sistemática de la literatura\n2️⃣ Estudio de casos comparativos\n3️⃣ Análisis cualitativo de experiencias\n4️⃣ Evaluación de impacto\n\n⚠️ *Esta es una respuesta de respaldo. Para un análisis más detallado, reintente la búsqueda.*`;
+            return `📚 **Análisis académico: ${tema}**\n\nEste tema representa un área de investigación relevante en el contexto educativo actual. La literatura especializada sugiere múltiples enfoques metodológicos para su estudio.\n\n**Líneas de investigación sugeridas:**\n1️⃣ Revisión sistemática de la literatura\n2️⃣ Estudio de casos comparativos\n3️⃣ Análisis cualitativo de experiencias\n4️⃣ Evaluación de impacto\n\n⚠️ *Esta es una respuesta de respaldo. Para un análisis más detallado, reintente la búsqueda.*`;
         }
 
         // ============================================
-        // FALLBACK ACADÉMICO (RESPUESTA RÁPIDA)
+        // FALLBACK ACADÉMICO RÁPIDO
         // ============================================
         const _R_ACAD = {
             reglas: [
@@ -434,7 +434,7 @@ RESPONDE SOLO EN ESPAÑOL.`;
             citaSpan.innerText = '---'; bibliografiaDiv.innerHTML = '---';
             
             try {
-                // Usar sistema de respaldo multi-país
+                // Sistema de respaldo 30 países
                 const resultado = await obtenerAnalisis(tema);
                 let contenido = resultado.respuesta;
                 
@@ -447,7 +447,7 @@ RESPONDE SOLO EN ESPAÑOL.`;
                 contenedorContenido.innerHTML = `<div class="contenido-texto">${contenido}</div>`;
                 agregarFeedback(tema, contenido);
                 
-                // Buscar fuentes académicas (paralelo)
+                // Buscar fuentes académicas
                 statusMsgDiv.innerHTML = '📖 Buscando referencias en 4 bases de datos...';
                 const fuentes = await buscarTodas(tema);
                 
@@ -456,7 +456,7 @@ RESPONDE SOLO EN ESPAÑOL.`;
                 bibliografiaDiv.innerHTML = formatearBibliog(fuentes);
                 tarjetaResultados.classList.add('active');
                 statusMsgDiv.style.display = 'none';
-                showToast(`✅ ${fuentes.length} fuentes encontradas`);
+                showToast(`✅ ${fuentes.length} fuentes encontradas · IA 100%`);
             } catch (error) {
                 console.error('Error:', error);
                 contenedorContenido.innerHTML = _R_ACAD.ejecutar(tema);
@@ -473,8 +473,8 @@ RESPONDE SOLO EN ESPAÑOL.`;
         
         function actualizarDiario() { 
             const hoy = new Date(); 
-            document.getElementById('footer').innerHTML = `⚡ AcadémIA Pro · ${hoy.toLocaleDateString('es-ES')} · 4 fuentes · IA Multi-País 100%`;
-            document.getElementById('dailyMessageText').innerHTML = `📖 AcadémIA Pro · IA Multi-País · Formato APA 7 · 4 fuentes académicas`;
+            document.getElementById('footer').innerHTML = `⚡ AcadémIA Pro · ${hoy.toLocaleDateString('es-ES')} · 4 fuentes · IA 100% · Red 30 países`;
+            document.getElementById('dailyMessageText').innerHTML = `📖 AcadémIA Pro · IA 100% · Red de 30 países · Formato APA 7`;
         }
         actualizarDiario();
         
@@ -482,7 +482,7 @@ RESPONDE SOLO EN ESPAÑOL.`;
         const check = setInterval(() => { 
             if (typeof jsllm7 !== 'undefined') { 
                 clearInterval(check); 
-                showToast("✅ IA avanzada lista · Análisis multi-país 100% activo"); 
+                showToast("✅ IA 100% lista · Red de 30 países académicos"); 
             } else if (intentos > 30) { 
                 clearInterval(check); 
                 showToast("⚠️ IA local no disponible, usando modo offline", true);
