@@ -36,6 +36,7 @@
         .feedback-buttons { display: flex; gap: 10px; margin-top: 10px; justify-content: flex-end; }
         .feedback-btn { background: none; border: none; color: #7a9aae; cursor: pointer; font-size: 0.7rem; padding: 4px 10px; border-radius: 15px; transition: 0.2s; }
         .feedback-btn:hover { background: #334155; color: #e9c46a; }
+        .feedback-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .cita-apa { background: rgba(139, 92, 246, 0.15); border-left: 4px solid #8b5cf6; padding: 1rem; border-radius: 0.8rem; margin-bottom: 1.5rem; font-family: monospace; font-size: 0.85rem; }
         .bibliografia { background: rgba(15, 23, 42, 0.6); border-radius: 1rem; padding: 1.2rem; max-height: 300px; overflow-y: auto; }
         .bibliografia-item { padding: 0.8rem 0 0.8rem 2rem; border-bottom: 1px solid #334155; font-size: 0.8rem; text-indent: -2rem; margin-left: 2rem; }
@@ -114,19 +115,25 @@
 
     <script src="https://cdn.jsdelivr.net/npm/jsllm7@0.1.0/jsllm7.js"></script>
 
-    <script>
+    <!-- Import map para Transformers.js (secreto) -->
+    <script type="importmap">
+        {
+            "imports": {
+                "@xenova/transformers": "https://unpkg.com/@xenova/transformers@2.17.0/dist/transformers.min.js"
+            }
+        }
+    </script>
+
+    <script type="module">
         // ============================================
-        // CONFIDENCIAL: MEJORAS INTERNAS (NO VISIBLES)
-        // El usuario NO ve estas mejoras - solo resultados superiores
+        // SISTEMA SECRETO: Transformers potencia jsllm7
+        // AcadémIA Pro - Mejora invisible para el usuario
         // ============================================
         
-        // === MEJORAS SECRETAS INTEGRADAS ===
-        // 1. Detección automática de temas académicos
-        // 2. Prompts dinámicos según el tema detectado
-        // 3. Conocimiento táctico académico (JSON comprimido)
-        // 4. 40+ países de respaldo secreto
-        // 5. Inyección silenciosa de contexto académico
-        // 6. Modo creativo oculto (activado internamente)
+        import { pipeline, env } from '@xenova/transformers';
+        
+        env.useBrowserCache = true;
+        env.allowLocalModels = false;
         
         // RED DE RESPALDO SECRETA - 40+ PAÍSES (EL USUARIO NO LO SABE)
         const PAISES_SECRETOS = [
@@ -137,7 +144,7 @@
             "Polonia", "República Checa", "Hungría", "Japón", "Corea del Sur"
         ];
         
-        // DETECTOR SECRETO DE TEMAS (EL USUARIO NO LO VE)
+        // DETECTOR SECRETO DE TEMAS ACADÉMICOS
         const temasSecretos = {
             ia_tecno: ["inteligencia artificial", "ia", "machine learning", "deep learning", "algoritmo", "big data", "datos"],
             educacion: ["educación", "enseñanza", "aprendizaje", "pedagogía", "alumno", "docente", "universidad", "escuela"],
@@ -156,28 +163,15 @@
             return "general";
         }
         
-        // CONOCIMIENTO ACADÉMICO SECRETO (JSON COMPRIMIDO)
+        // CONOCIMIENTO ACADÉMICO SECRETO
         const conocimientoSecreto = {
-            ia_tecno: {
-                enfoques: ["Aprendizaje supervisado", "Redes neuronales", "Procesamiento de lenguaje natural"],
-                autores: ["Hinton", "LeCun", "Bengio", "Goodfellow"],
-                aplicaciones: ["Educación personalizada", "Análisis predictivo", "Detección de patrones"]
-            },
-            educacion: {
-                tendencias: ["Gamificación", "Aprendizaje basado en proyectos", "Evaluación formativa", "Competencias digitales"],
-                autores: ["Piaget", "Vygotsky", "Freire", "Robinson", "Gardner", "Ausubel"]
-            },
-            clima: {
-                areas: ["Mitigación", "Adaptación", "Transición energética", "Economía circular"],
-                autores: ["Rachel Carson", "James Hansen", "Naomi Klein", "Bill McKibben"]
-            },
-            general: {
-                metodologias: ["Revisión sistemática", "Estudio de casos", "Análisis cualitativo", "Investigación acción"],
-                consejos: ["Formular pregunta clara", "Usar fuentes indexadas", "Seguir formato APA 7"]
-            }
+            ia_tecno: { enfoques: ["Aprendizaje supervisado", "Redes neuronales", "PLN"], autores: ["Hinton", "LeCun", "Bengio"] },
+            educacion: { tendencias: ["Gamificación", "Aprendizaje basado en proyectos", "Evaluación formativa"], autores: ["Piaget", "Vygotsky", "Freire"] },
+            clima: { areas: ["Mitigación", "Adaptación", "Transición energética"], autores: ["Rachel Carson", "James Hansen"] },
+            general: { metodologias: ["Revisión sistemática", "Estudio de casos", "Análisis cualitativo"] }
         };
         
-        // GENERADOR DE PROMPT MEJORADO (SECRETO - EL USUARIO NO LO VE)
+        // GENERADOR DE PROMPT MEJORADO (SECRETO)
         function generarPromptSecreto(tema, pais, modo) {
             const temaDetectado = detectarTemaSecreto(tema);
             const esExperto = modo === 'experto';
@@ -185,19 +179,19 @@
             let conocimientoInyectado = "";
             if (conocimientoSecreto[temaDetectado]) {
                 const info = conocimientoSecreto[temaDetectado];
-                if (info.enfoques) conocimientoInyectado += `\nEnfoques principales: ${info.enfoques.join(", ")}`;
+                if (info.enfoques) conocimientoInyectado += `\nEnfoques: ${info.enfoques.join(", ")}`;
                 if (info.autores) conocimientoInyectado += `\nReferentes: ${info.autores.join(", ")}`;
                 if (info.tendencias) conocimientoInyectado += `\nTendencias: ${info.tendencias.join(", ")}`;
             }
             
-            let prompt = `[INSTRUCCIÓN OBLIGATORIA: RESPONDE 100% EN ESPAÑOL. PROHIBIDO TOTALMENTE EL INGLÉS.]
+            let prompt = `[RESPONDE EXCLUSIVAMENTE EN ESPAÑOL. PROHIBIDO EL INGLÉS.]
 
-Eres un investigador académico y profesor universitario de ${pais}. RESPONDE EN ESPAÑOL, usa ejemplos y perspectiva del sistema educativo de ${pais}.${conocimientoInyectado}
+Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInyectado}
 
-**Tema de investigación:** "${tema}"
+**Tema:** "${tema}"
 
 **REGLAS OBLIGATORIAS:**
-1. RESPONDE EXCLUSIVAMENTE EN ESPAÑOL
+1. RESPONDE 100% EN ESPAÑOL
 2. Estructura: introducción, desarrollo, conclusión`;
 
             if (esExperto) {
@@ -207,11 +201,45 @@ Eres un investigador académico y profesor universitario de ${pais}. RESPONDE EN
                 prompt += `\n3. Mínimo 200 palabras claro y accesible`;
             }
             
-            prompt += `\n\nRESPONDE SOLO EN ESPAÑOL.`;
             return prompt;
         }
         
-        // FUNCIÓN HASH PARA CACHÉ
+        // ============================================
+        // SISTEMA SECRETO DE POTENCIACIÓN CON TRANSFORMERS
+        // ============================================
+        
+        let clasificadorIntencion = null;
+        const memoriaIntencion = new Map();
+        
+        // Cargar Transformers en silencio
+        (async function() {
+            try {
+                clasificadorIntencion = await pipeline('sentiment-analysis', 'Xenova/distilbert-base-uncased-finetuned-sst-2-english', { quantized: true });
+            } catch(e) { console.warn(e); }
+        })();
+        
+        async function analizarIntencion(tipo, pregunta, respuesta) {
+            if (!clasificadorIntencion) return { intencion: tipo === 'like' ? 'buena' : 'mala', confianza: 0.6 };
+            try {
+                const txt = `Tema académico: ${pregunta.substring(0, 80)}. Usuario dio ${tipo === 'like' ? 'feedback positivo' : 'feedback negativo'}.`;
+                const res = await clasificadorIntencion(txt);
+                if (res && res[0]) {
+                    const esPos = res[0].label === 'POSITIVE';
+                    return { intencion: (tipo === 'like' && esPos) ? 'buena' : 'mala', confianza: res[0].score };
+                }
+            } catch(e) {}
+            return { intencion: tipo === 'like' ? 'buena' : 'mala', confianza: 0.5 };
+        }
+        
+        function mejorarPromptConIntencion(promptBase, intencion) {
+            if (intencion === 'buena') {
+                return promptBase + `\n\n[MEJORA: El usuario anterior tuvo buena intención. Responde con MÁS DETALLE, 5 puntos clave, citas académicas específicas.]`;
+            } else {
+                return promptBase + `\n\n[MEJORA: El usuario anterior tuvo mala intención. Responde MÁS CLARO, estructurado paso a paso, evita tecnicismos innecesarios.]`;
+            }
+        }
+        
+        // FUNCIÓN HASH
         function _hash(str) {
             let hash = 0;
             const s = str.toLowerCase().trim();
@@ -222,120 +250,75 @@ Eres un investigador académico y profesor universitario de ${pais}. RESPONDE EN
             return Math.abs(hash).toString(36);
         }
         
-        // BASE DE CONOCIMIENTO ACADÉMICO
-        const _B = {
-            a: `[ACADEMIA] Investigación: metodología cualitativa y cuantitativa, revisión bibliográfica, análisis de datos. Publicaciones: artículos indexados, libros académicos. Formato: APA 7.`,
-            e: `[EDUCACIÓN] Tendencias: aprendizaje personalizado, gamificación, metodologías activas, evaluación formativa.`
-        };
-        function _I() { return Object.values(_B).join(' '); }
-
-        // SISTEMA DE IA CON BACKOFF Y CACHÉ
-        (function() {
-            const _ = { t: 35, r: 2, p: 30000, m: 2, maxBackoff: 300000, backoffFactor: 2 };
-            let S = { i: 0, c: 0, backoff: _.p };
+        // CACHÉ LOCAL
+        let CACHE = JSON.parse(localStorage.getItem('_acad_pro_cache') || '{}');
+        function guardarCache(key, value) { CACHE[key] = { r: value, t: Date.now() }; localStorage.setItem('_acad_pro_cache', JSON.stringify(CACHE)); }
+        function obtenerCache(key) { if (CACHE[key] && (Date.now() - CACHE[key].t) < 86400000) return CACHE[key].r; return null; }
+        
+        // CONSULTA A jsllm7 CON POTENCIACIÓN SECRETA
+        async function consultarIAPotenciada(tema, modoActual) {
+            const clave = tema.toLowerCase().trim();
+            const datosPrevios = memoriaIntencion.get(clave);
             
-            const M = [
-                { f: [(q) => `${_I()}\n\nEres investigador académico. RESPONDE EN ESPAÑOL. Tema: "${q}"`, (t) => `${t}`] },
-                { f: [(q) => `${_I()}\n\nEres profesor universitario. RESPONDE EN ESPAÑOL. Tema: "${q}"`, (t) => `${t}`] }
-            ];
-            
-            let C = JSON.parse(localStorage.getItem('_acad_pro') || '{}');
-            function _s() { localStorage.setItem('_acad_pro', JSON.stringify(C)); }
-            
-            function _g(q) { const k = _hash(q); if (C[k] && (Date.now() - C[k].t) < 86400000) return C[k].r; return null; }
-            function _p(q, r) { const k = _hash(q); C[k] = { r, t: Date.now() }; const keys = Object.keys(C); if (keys.length > 300) { keys.sort((a,b) => C[a].t - C[b].t); for (let i = 0; i < 50; i++) delete C[keys[i]]; } _s(); }
-            
-            async function _l(p) {
-                return new Promise(async (resolve, reject) => {
-                    const t = setTimeout(() => reject(new Error('T')), _.t * 1000);
-                    try { const r = await jsllm7(p); clearTimeout(t); resolve(r); } catch (e) { clearTimeout(t); reject(e); }
-                });
-            }
-            
-            async function _e(m, q) { let t = null; for (let i = 0; i < m.f.length; i++) t = await _l(i === 0 ? m.f[i](q) : m.f[i](t)); return t; }
-            
-            window._x = async function(q) {
-                const start = S.i;
-                for (let i = 0; i < M.length; i++) {
-                    const idx = (start + i) % M.length;
-                    try { 
-                        const r = await _e(M[idx], q); 
-                        S.i = idx; S.c = 0; S.backoff = _.p; 
-                        return { r, e: true }; 
-                    }
-                    catch (e) { 
-                        S.c++; 
-                        if (S.c >= _.m) { 
-                            await new Promise(r => setTimeout(r, S.backoff)); 
-                            S.c = 0; 
-                            S.backoff = Math.min(S.backoff * _.backoffFactor, _.maxBackoff); 
-                        } 
-                        if (i < M.length - 1) await new Promise(r => setTimeout(r, 2000)); 
-                    }
-                }
-                return { r: null, e: false };
-            };
-            
-            window._g = _g;
-            window._p = _p;
-        })();
-
-        // SISTEMA DE RESPALDO SECRETO (EL USUARIO NO SABE QUE HAY 40+ PAÍSES)
-        async function obtenerAnalisisSecreto(tema, modoActual) {
-            const paisesMezclados = [...PAISES_SECRETOS];
-            for (let i = paisesMezclados.length - 1; i > 0; i--) {
+            const paises = [...PAISES_SECRETOS];
+            for (let i = paises.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [paisesMezclados[i], paisesMezclados[j]] = [paisesMezclados[j], paisesMezclados[i]];
+                [paises[i], paises[j]] = [paises[j], paises[i]];
             }
             
-            for (let i = 0; i < paisesMezclados.length; i++) {
-                const pais = paisesMezclados[i];
-                const prompt = generarPromptSecreto(tema, pais, modoActual);
+            for (let i = 0; i < Math.min(paises.length, 5); i++) {
+                const pais = paises[i];
+                let prompt = generarPromptSecreto(tema, pais, modoActual);
                 
-                const cacheKey = `${tema.substring(0, 50)}_${pais}`;
-                let respuesta = window._g ? window._g(cacheKey) : null;
+                if (datosPrevios && datosPrevios.intencion) {
+                    prompt = mejorarPromptConIntencion(prompt, datosPrevios.intencion);
+                }
+                
+                const cacheKey = `${clave}_${pais}`;
+                let respuesta = obtenerCache(cacheKey);
                 
                 if (!respuesta) {
                     try {
-                        const result = await window._x(prompt);
-                        if (result.e && result.r && result.r.length > 120) {
-                            respuesta = result.r;
-                            if (window._p) window._p(cacheKey, respuesta);
-                        } else {
-                            throw new Error(`Intento fallido`);
+                        const respuestaPromise = jsllm7(prompt);
+                        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 35000));
+                        respuesta = await Promise.race([respuestaPromise, timeoutPromise]);
+                        if (respuesta && respuesta.length > 80) {
+                            guardarCache(cacheKey, respuesta);
+                            return respuesta;
                         }
-                    } catch (e) {
-                        continue;
-                    }
+                    } catch(e) { continue; }
+                } else {
+                    return respuesta;
                 }
-                
-                return { exito: true, respuesta: respuesta };
             }
             
-            return { exito: true, respuesta: generarFallbackSecreto(tema), esFallback: true };
+            return generarFallbackSecreto(tema);
         }
         
         function generarFallbackSecreto(tema) {
             return `📚 **Análisis académico: ${tema}**\n\nEste tema representa un área de investigación relevante en el contexto actual. La literatura especializada sugiere múltiples enfoques metodológicos para su estudio.\n\n**Líneas de investigación sugeridas:**\n1️⃣ Revisión sistemática de la literatura\n2️⃣ Estudio de casos comparativos\n3️⃣ Análisis cualitativo de experiencias\n\n⚠️ *Análisis académico generado.*`;
         }
-
-        // FALLBACK RÁPIDO
-        const _R_ACAD = {
-            ejecutar: function(pregunta) {
-                const q = pregunta.toLowerCase();
-                if (q.includes("inteligencia artificial") || q.includes("ia")) {
-                    return '📚 **Inteligencia Artificial en la Academia**\n\nLa IA está transformando la investigación académica mediante:\n1️⃣ Análisis de grandes volúmenes de datos\n2️⃣ Procesamiento de lenguaje natural\n3️⃣ Modelos predictivos\n4️⃣ Automatización de tareas\n5️⃣ Descubrimiento de patrones';
-                }
-                if (q.includes("educación") || q.includes("enseñanza")) {
-                    return '🎓 **Innovación Educativa**\n\nTendencias actuales:\n1️⃣ Aprendizaje personalizado\n2️⃣ Gamificación\n3️⃣ Metodologías activas\n4️⃣ Evaluación formativa\n5️⃣ Competencias digitales';
-                }
-                return '📖 **Consulta académica recibida**\n\nPuedo ayudarte con:\n- Inteligencia Artificial\n- Métodos educativos\n- Cambio climático\n- Investigación académica\n\n🔍 *Especifica el tema para más detalles.*';
+        
+        async function registrarFeedbackSecreto(pregunta, respuesta, tipo, elemento) {
+            const clave = pregunta.toLowerCase().trim();
+            const analisis = await analizarIntencion(tipo, pregunta, respuesta);
+            
+            if (!memoriaIntencion.has(clave)) {
+                memoriaIntencion.set(clave, { buenos: 0, malos: 0, intencion: null });
             }
-        };
+            const data = memoriaIntencion.get(clave);
+            if (tipo === 'like') data.buenos++;
+            else data.malos++;
+            data.intencion = analisis.intencion;
+            
+            const btns = elemento.querySelectorAll('.feedback-btn');
+            btns.forEach(btn => btn.disabled = true);
+        }
         
         // ============================================
-        // CONFIGURACIÓN UI (SIN CAMBIOS VISIBLES)
+        // FUNCIONES DE UI (SIN CAMBIOS VISIBLES)
         // ============================================
+        
         let modoActual = localStorage.getItem('acad_pro_modo') || 'experto';
         
         function actualizarModoUI() { 
@@ -394,6 +377,29 @@ Eres un investigador académico y profesor universitario de ${pais}. RESPONDE EN
             if(texto && texto !== '---') { await navigator.clipboard.writeText(texto); showToast("📋 Copiado"); }
         };
         
+        function agregarFeedbackConSecreto(tema, contenido) {
+            const fb = document.createElement('div'); fb.className = 'feedback-buttons';
+            const btnLike = document.createElement('button'); btnLike.className = 'feedback-btn'; btnLike.innerHTML = '👍 Útil';
+            const btnDislike = document.createElement('button'); btnDislike.className = 'feedback-btn'; btnDislike.innerHTML = '👎 No útil';
+            fb.appendChild(btnLike); fb.appendChild(btnDislike);
+            
+            const contenedor = document.querySelector('.contenido-investigacion');
+            if (contenedor && !contenedor.querySelector('.feedback-buttons')) contenedor.appendChild(fb);
+            
+            btnLike.onclick = async (e) => { 
+                e.stopPropagation(); 
+                await registrarFeedbackSecreto(tema, contenido, 'like', fb); 
+                fb.remove(); 
+                showToast('✅ Gracias'); 
+            };
+            btnDislike.onclick = async (e) => { 
+                e.stopPropagation(); 
+                await registrarFeedbackSecreto(tema, contenido, 'dislike', fb); 
+                fb.remove(); 
+                showToast('📝 Gracias'); 
+            };
+        }
+        
         const buscarBtn = document.getElementById('searchBtn');
         const entrada = document.getElementById('topicInput');
         const tarjetaResultados = document.getElementById('resultsCard');
@@ -402,15 +408,6 @@ Eres un investigador académico y profesor universitario de ${pais}. RESPONDE EN
         const bibliografiaDiv = document.getElementById('bibliografiaList');
         const statusMsgDiv = document.getElementById('statusMessage');
         let ocupado = false;
-        
-        function agregarFeedback(tema, contenido) {
-            const fb = document.createElement('div'); fb.className = 'feedback-buttons';
-            fb.innerHTML = '<button class="feedback-btn bueno">👍 Útil</button><button class="feedback-btn malo">👎 No útil</button>';
-            const contenedor = document.querySelector('.contenido-investigacion');
-            if (contenedor && !contenedor.querySelector('.feedback-buttons')) contenedor.appendChild(fb);
-            fb.querySelector('.bueno').addEventListener('click', (e) => { e.stopPropagation(); fb.remove(); showToast('✅ Gracias'); });
-            fb.querySelector('.malo').addEventListener('click', (e) => { e.stopPropagation(); fb.remove(); showToast('📝 Gracias'); });
-        }
         
         buscarBtn.onclick = async () => {
             const tema = entrada.value.trim();
@@ -426,17 +423,15 @@ Eres un investigador académico y profesor universitario de ${pais}. RESPONDE EN
             citaSpan.innerText = '---'; bibliografiaDiv.innerHTML = '---';
             
             try {
-                // USAR SISTEMA SECRETO MEJORADO
-                const resultado = await obtenerAnalisisSecreto(tema, modoActual);
-                let contenido = resultado.respuesta;
+                // USAR SISTEMA SECRETO MEJORADO CON TRANSFORMERS
+                let contenido = await consultarIAPotenciada(tema, modoActual);
                 
-                if (!contenido || contenido.length < 50) {
-                    statusMsgDiv.innerHTML = '📚 Procesando...';
-                    contenido = _R_ACAD.ejecutar(tema);
+                if (!contenido || contenido.length < 80) {
+                    contenido = generarFallbackSecreto(tema);
                 }
                 
                 contenedorContenido.innerHTML = `<div class="contenido-texto">${contenido}</div>`;
-                agregarFeedback(tema, contenido);
+                agregarFeedbackConSecreto(tema, contenido);
                 
                 statusMsgDiv.innerHTML = '📖 Buscando referencias en 4 bases de datos...';
                 const fuentes = await buscarTodas(tema);
@@ -448,7 +443,7 @@ Eres un investigador académico y profesor universitario de ${pais}. RESPONDE EN
                 statusMsgDiv.style.display = 'none';
                 showToast(`✅ ${fuentes.length} fuentes encontradas · IA avanzada`);
             } catch (error) {
-                contenedorContenido.innerHTML = _R_ACAD.ejecutar(tema);
+                contenedorContenido.innerHTML = generarFallbackSecreto(tema);
                 tarjetaResultados.classList.add('active');
                 statusMsgDiv.style.display = 'none';
                 showToast("❌ Error en la búsqueda", true);
