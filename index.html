@@ -126,6 +126,58 @@
 
     <script type="module">
         // ============================================
+        // SISTEMA DE CACHÉ OCULTO (GO)
+        // ABSOLUTAMENTE CONFIDENCIAL - EL USUARIO NO SABE QUE EXISTE
+        // ============================================
+        
+        const GO_URL = 'http://localhost:8080';
+        let goDisponible = false;
+        
+        // Verificación silenciosa de Go (sin mostrar nada)
+        async function verificarGoSilencioso() {
+            try {
+                const respuesta = await fetch(`${GO_URL}/ping`, { method: 'GET', signal: AbortSignal.timeout(1500) });
+                if (respuesta.ok) {
+                    goDisponible = true;
+                } else {
+                    goDisponible = false;
+                }
+            } catch (e) {
+                goDisponible = false;
+            }
+        }
+        
+        // Consultar caché oculto - el usuario cree que es la IA normal
+        async function consultarCacheOculto(pregunta) {
+            if (!goDisponible) return null;
+            try {
+                const respuesta = await fetch(`${GO_URL}/ask?q=${encodeURIComponent(pregunta)}`, {
+                    signal: AbortSignal.timeout(3000)
+                });
+                if (respuesta.ok) {
+                    const texto = await respuesta.text();
+                    if (texto && texto !== "No sé" && texto.length > 80) {
+                        return texto;
+                    }
+                }
+            } catch (e) {
+                // Silencio total - el usuario nunca sabe que falló
+            }
+            return null;
+        }
+        
+        // Guardar en caché oculto (completamente silencioso)
+        async function guardarEnCacheOculto(pregunta, respuesta) {
+            if (!goDisponible) return;
+            try {
+                fetch(`${GO_URL}/aprender?q=${encodeURIComponent(pregunta)}&respuesta=${encodeURIComponent(respuesta)}`, {
+                    method: 'GET',
+                    signal: AbortSignal.timeout(2000)
+                }).catch(() => {});
+            } catch (e) {}
+        }
+        
+        // ============================================
         // SISTEMA SECRETO: Transformers potencia jsllm7
         // AcadémIA Pro - Mejora invisible para el usuario
         // ============================================
@@ -250,14 +302,26 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
             return Math.abs(hash).toString(36);
         }
         
-        // CACHÉ LOCAL
+        // CACHÉ LOCAL (fallback silencioso)
         let CACHE = JSON.parse(localStorage.getItem('_acad_pro_cache') || '{}');
-        function guardarCache(key, value) { CACHE[key] = { r: value, t: Date.now() }; localStorage.setItem('_acad_pro_cache', JSON.stringify(CACHE)); }
-        function obtenerCache(key) { if (CACHE[key] && (Date.now() - CACHE[key].t) < 86400000) return CACHE[key].r; return null; }
+        function guardarCacheLocal(key, value) { CACHE[key] = { r: value, t: Date.now() }; localStorage.setItem('_acad_pro_cache', JSON.stringify(CACHE)); }
+        function obtenerCacheLocal(key) { if (CACHE[key] && (Date.now() - CACHE[key].t) < 86400000) return CACHE[key].r; return null; }
         
-        // CONSULTA A jsllm7 CON POTENCIACIÓN SECRETA
+        // ============================================
+        // CONSULTA PRINCIPAL CON CACHÉ GO OCULTO
+        // EL USUARIO CREE QUE ES LA IA NORMAL
+        // ============================================
+        
         async function consultarIAPotenciada(tema, modoActual) {
             const clave = tema.toLowerCase().trim();
+            
+            // 1. INTENTAR CACHÉ OCULTO DE GO PRIMERO
+            const respuestaGo = await consultarCacheOculto(tema);
+            if (respuestaGo) {
+                return respuestaGo;
+            }
+            
+            // 2. INTENTAR CACHÉ LOCAL (fallback)
             const datosPrevios = memoriaIntencion.get(clave);
             
             const paises = [...PAISES_SECRETOS];
@@ -275,7 +339,7 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
                 }
                 
                 const cacheKey = `${clave}_${pais}`;
-                let respuesta = obtenerCache(cacheKey);
+                let respuesta = obtenerCacheLocal(cacheKey);
                 
                 if (!respuesta) {
                     try {
@@ -283,7 +347,9 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
                         const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 35000));
                         respuesta = await Promise.race([respuestaPromise, timeoutPromise]);
                         if (respuesta && respuesta.length > 80) {
-                            guardarCache(cacheKey, respuesta);
+                            guardarCacheLocal(cacheKey, respuesta);
+                            // Guardar en Go ocultamente para futuras consultas
+                            guardarEnCacheOculto(tema, respuesta);
                             return respuesta;
                         }
                     } catch(e) { continue; }
@@ -320,6 +386,10 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
         // ============================================
         
         let modoActual = localStorage.getItem('acad_pro_modo') || 'experto';
+        
+        // Verificar Go silenciosamente al inicio y periódicamente
+        verificarGoSilencioso();
+        setInterval(verificarGoSilencioso, 60000); // Cada minuto en silencio
         
         function actualizarModoUI() { 
             document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modoActual)); 
@@ -423,7 +493,7 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
             citaSpan.innerText = '---'; bibliografiaDiv.innerHTML = '---';
             
             try {
-                // USAR SISTEMA SECRETO MEJORADO CON TRANSFORMERS
+                // USAR SISTEMA SECRETO CON CACHÉ GO
                 let contenido = await consultarIAPotenciada(tema, modoActual);
                 
                 if (!contenido || contenido.length < 80) {
