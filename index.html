@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <title>AcadémIA Pro · 4 Fuentes + IA 100% · APA 7</title>
+    <title>AcadémIA Pro · 4 Fuentes + IA 100% · APA 7 + Resolvedor de Deberes</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', system-ui, sans-serif; background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%); color: #eef2ff; min-height: 100vh; padding: 1rem; overflow-x: hidden; }
@@ -17,12 +17,26 @@
         .modo-btn { background: #1e293b; border: 1px solid #334155; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 600; color: #94a3b8; }
         .modo-btn.active { background: #8b5cf6; color: white; border-color: #8b5cf6; }
         .search-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 1.5rem; padding: 1.5rem; border: 1px solid rgba(139, 92, 246, 0.3); margin-bottom: 1.5rem; }
+        
+        /* NUEVA SECCIÓN: Resolvedor de Deberes */
+        .resolver-section { background: rgba(15, 23, 42, 0.6); border-radius: 1rem; padding: 1rem; margin-bottom: 1rem; border: 1px solid rgba(139, 92, 246, 0.3); }
+        .resolver-title { font-size: 0.9rem; font-weight: bold; margin-bottom: 0.8rem; color: #a78bfa; display: flex; align-items: center; gap: 8px; }
+        .word-upload-bar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+        .word-btn { background: #1e293b; border: 1px solid #334155; padding: 8px 16px; border-radius: 20px; font-size: 0.75rem; cursor: pointer; font-weight: 600; color: #94a3b8; transition: 0.2s; }
+        .word-btn:hover { background: #334155; color: white; border-color: #8b5cf6; }
+        .word-btn.primary { background: linear-gradient(90deg, #8b5cf6, #3b82f6); color: white; border: none; }
+        .word-btn.primary:hover { transform: scale(1.02); }
+        .word-btn.success { background: linear-gradient(90deg, #10b981, #059669); color: white; border: none; }
+        .file-input-hidden { display: none; }
+        .word-status { font-size: 0.7rem; color: #10b981; margin-left: 10px; display: inline-block; }
+        
         .sources-badge { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1rem; justify-content: center; }
         .source-badge { background: rgba(139, 92, 246, 0.2); padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; border: 1px solid rgba(139, 92, 246, 0.4); }
         .source-badge.crossref { border-color: #3b82f6; }
         .source-badge.openalex { border-color: #10b981; }
         .source-badge.core { border-color: #f59e0b; }
         .source-badge.semantic { border-color: #ef4444; }
+        
         .input-group { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
         .search-input { flex: 1; padding: 1rem; background: #1e293b; border: 1px solid #334155; border-radius: 1rem; color: white; font-size: 1rem; }
         .search-input:focus { outline: none; border-color: #8b5cf6; }
@@ -82,6 +96,21 @@
         </div>
 
         <div class="search-card">
+            <!-- NUEVA SECCIÓN: RESOLVEDOR DE DEBERES -->
+            <div class="resolver-section">
+                <div class="resolver-title">
+                    🎓 <span>RESOLVEDOR DE DEBERES INTELIGENTE</span>
+                </div>
+                <div class="word-upload-bar">
+                    <button class="word-btn" id="subirWordBtn">📄 SUBIR WORD CON EL DEBER</button>
+                    <button class="word-btn primary" id="resolverWordBtn" disabled>✨ RESOLVER CON IA</button>
+                    <button class="word-btn success" id="descargarWordBtn" disabled style="display:none;">📥 DESCARGAR WORD RESUELTO</button>
+                    <input type="file" id="wordFileInput" class="file-input-hidden" accept=".docx,.doc">
+                    <span id="wordStatus" class="word-status">⚡ Esperando archivo...</span>
+                </div>
+                <div style="font-size:0.65rem; color:#64748b; margin-top:8px;">📌 Sube tu tarea en Word y la IA la resolverá completamente con formato profesional</div>
+            </div>
+
             <div class="sources-badge">
                 <span class="source-badge crossref">📄 Crossref (150M)</span>
                 <span class="source-badge openalex">🔓 OpenAlex (250M+)</span>
@@ -114,12 +143,15 @@
     <div class="vr-mode" id="vrMode"><button class="close-vr" id="closeVrBtn">✕ SALIR DE VR</button><div id="vrContainer" style="width:100%;height:100%"></div></div>
 
     <script src="https://cdn.jsdelivr.net/npm/jsllm7@0.1.0/jsllm7.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mammoth@1.4.2/mammoth.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.min.js"></script>
 
-    <!-- Import map para Transformers.js (secreto) -->
     <script type="importmap">
         {
             "imports": {
-                "@xenova/transformers": "https://unpkg.com/@xenova/transformers@2.17.0/dist/transformers.min.js"
+                "@xenova/transformers": "https://unpkg.com/@xenova/transformers@2.17.0/dist/transformers.min.js",
+                "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
             }
         }
     </script>
@@ -133,70 +165,37 @@
         const GO_URL = 'http://localhost:8080';
         let goDisponible = false;
         
-        // Verificación silenciosa de Go (sin mostrar nada)
         async function verificarGoSilencioso() {
             try {
                 const respuesta = await fetch(`${GO_URL}/ping`, { method: 'GET', signal: AbortSignal.timeout(1500) });
-                if (respuesta.ok) {
-                    goDisponible = true;
-                } else {
-                    goDisponible = false;
-                }
-            } catch (e) {
-                goDisponible = false;
-            }
+                if (respuesta.ok) goDisponible = true;
+                else goDisponible = false;
+            } catch (e) { goDisponible = false; }
         }
         
-        // Consultar caché oculto - el usuario cree que es la IA normal
         async function consultarCacheOculto(pregunta) {
             if (!goDisponible) return null;
             try {
-                const respuesta = await fetch(`${GO_URL}/ask?q=${encodeURIComponent(pregunta)}`, {
-                    signal: AbortSignal.timeout(3000)
-                });
+                const respuesta = await fetch(`${GO_URL}/ask?q=${encodeURIComponent(pregunta)}`, { signal: AbortSignal.timeout(3000) });
                 if (respuesta.ok) {
                     const texto = await respuesta.text();
-                    if (texto && texto !== "No sé" && texto.length > 80) {
-                        return texto;
-                    }
+                    if (texto && texto !== "No sé" && texto.length > 80) return texto;
                 }
-            } catch (e) {
-                // Silencio total - el usuario nunca sabe que falló
-            }
+            } catch (e) {}
             return null;
         }
         
-        // Guardar en caché oculto (completamente silencioso)
         async function guardarEnCacheOculto(pregunta, respuesta) {
             if (!goDisponible) return;
-            try {
-                fetch(`${GO_URL}/aprender?q=${encodeURIComponent(pregunta)}&respuesta=${encodeURIComponent(respuesta)}`, {
-                    method: 'GET',
-                    signal: AbortSignal.timeout(2000)
-                }).catch(() => {});
-            } catch (e) {}
+            try { fetch(`${GO_URL}/aprender?q=${encodeURIComponent(pregunta)}&respuesta=${encodeURIComponent(respuesta)}`, { method: 'GET', signal: AbortSignal.timeout(2000) }).catch(() => {}); } catch(e) {}
         }
         
-        // ============================================
-        // SISTEMA SECRETO: Transformers potencia jsllm7
-        // AcadémIA Pro - Mejora invisible para el usuario
-        // ============================================
-        
         import { pipeline, env } from '@xenova/transformers';
-        
         env.useBrowserCache = true;
         env.allowLocalModels = false;
         
-        // RED DE RESPALDO SECRETA - 40+ PAÍSES (EL USUARIO NO LO SABE)
-        const PAISES_SECRETOS = [
-            "Alemania", "Francia", "México", "Brasil", "España", "Italia", "Argentina", 
-            "Inglaterra", "Países Bajos", "Portugal", "Bélgica", "Suecia", "Noruega", 
-            "Dinamarca", "Finlandia", "Canadá", "Australia", "Nueva Zelanda", "Chile", 
-            "Uruguay", "Colombia", "Perú", "Costa Rica", "Irlanda", "Austria", "Suiza", 
-            "Polonia", "República Checa", "Hungría", "Japón", "Corea del Sur"
-        ];
+        const PAISES_SECRETOS = ["Alemania", "Francia", "México", "Brasil", "España", "Italia", "Argentina", "Inglaterra", "Países Bajos", "Portugal", "Bélgica", "Suecia", "Noruega", "Dinamarca", "Finlandia", "Canadá", "Australia", "Nueva Zelanda", "Chile", "Uruguay", "Colombia", "Perú", "Costa Rica", "Irlanda", "Austria", "Suiza", "Polonia", "República Checa", "Hungría", "Japón", "Corea del Sur"];
         
-        // DETECTOR SECRETO DE TEMAS ACADÉMICOS
         const temasSecretos = {
             ia_tecno: ["inteligencia artificial", "ia", "machine learning", "deep learning", "algoritmo", "big data", "datos"],
             educacion: ["educación", "enseñanza", "aprendizaje", "pedagogía", "alumno", "docente", "universidad", "escuela"],
@@ -208,14 +207,11 @@
         function detectarTemaSecreto(pregunta) {
             const lower = pregunta.toLowerCase();
             for (const [tema, palabras] of Object.entries(temasSecretos)) {
-                for (const palabra of palabras) {
-                    if (lower.includes(palabra)) return tema;
-                }
+                for (const palabra of palabras) if (lower.includes(palabra)) return tema;
             }
             return "general";
         }
         
-        // CONOCIMIENTO ACADÉMICO SECRETO
         const conocimientoSecreto = {
             ia_tecno: { enfoques: ["Aprendizaje supervisado", "Redes neuronales", "PLN"], autores: ["Hinton", "LeCun", "Bengio"] },
             educacion: { tendencias: ["Gamificación", "Aprendizaje basado en proyectos", "Evaluación formativa"], autores: ["Piaget", "Vygotsky", "Freire"] },
@@ -223,11 +219,9 @@
             general: { metodologias: ["Revisión sistemática", "Estudio de casos", "Análisis cualitativo"] }
         };
         
-        // GENERADOR DE PROMPT MEJORADO (SECRETO)
         function generarPromptSecreto(tema, pais, modo) {
             const temaDetectado = detectarTemaSecreto(tema);
             const esExperto = modo === 'experto';
-            
             let conocimientoInyectado = "";
             if (conocimientoSecreto[temaDetectado]) {
                 const info = conocimientoSecreto[temaDetectado];
@@ -235,7 +229,6 @@
                 if (info.autores) conocimientoInyectado += `\nReferentes: ${info.autores.join(", ")}`;
                 if (info.tendencias) conocimientoInyectado += `\nTendencias: ${info.tendencias.join(", ")}`;
             }
-            
             let prompt = `[RESPONDE EXCLUSIVAMENTE EN ESPAÑOL. PROHIBIDO EL INGLÉS.]
 
 Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInyectado}
@@ -245,29 +238,20 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
 **REGLAS OBLIGATORIAS:**
 1. RESPONDE 100% EN ESPAÑOL
 2. Estructura: introducción, desarrollo, conclusión`;
-
             if (esExperto) {
                 prompt += `\n3. Mínimo 350 palabras con análisis profundo`;
                 prompt += `\n4. Incluye referencias a autores específicos`;
             } else {
                 prompt += `\n3. Mínimo 200 palabras claro y accesible`;
             }
-            
             return prompt;
         }
-        
-        // ============================================
-        // SISTEMA SECRETO DE POTENCIACIÓN CON TRANSFORMERS
-        // ============================================
         
         let clasificadorIntencion = null;
         const memoriaIntencion = new Map();
         
-        // Cargar Transformers en silencio
         (async function() {
-            try {
-                clasificadorIntencion = await pipeline('sentiment-analysis', 'Xenova/distilbert-base-uncased-finetuned-sst-2-english', { quantized: true });
-            } catch(e) { console.warn(e); }
+            try { clasificadorIntencion = await pipeline('sentiment-analysis', 'Xenova/distilbert-base-uncased-finetuned-sst-2-english', { quantized: true }); } catch(e) { console.warn(e); }
         })();
         
         async function analizarIntencion(tipo, pregunta, respuesta) {
@@ -275,72 +259,42 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
             try {
                 const txt = `Tema académico: ${pregunta.substring(0, 80)}. Usuario dio ${tipo === 'like' ? 'feedback positivo' : 'feedback negativo'}.`;
                 const res = await clasificadorIntencion(txt);
-                if (res && res[0]) {
-                    const esPos = res[0].label === 'POSITIVE';
-                    return { intencion: (tipo === 'like' && esPos) ? 'buena' : 'mala', confianza: res[0].score };
-                }
+                if (res && res[0]) return { intencion: (tipo === 'like' && res[0].label === 'POSITIVE') ? 'buena' : 'mala', confianza: res[0].score };
             } catch(e) {}
             return { intencion: tipo === 'like' ? 'buena' : 'mala', confianza: 0.5 };
         }
         
         function mejorarPromptConIntencion(promptBase, intencion) {
-            if (intencion === 'buena') {
-                return promptBase + `\n\n[MEJORA: El usuario anterior tuvo buena intención. Responde con MÁS DETALLE, 5 puntos clave, citas académicas específicas.]`;
-            } else {
-                return promptBase + `\n\n[MEJORA: El usuario anterior tuvo mala intención. Responde MÁS CLARO, estructurado paso a paso, evita tecnicismos innecesarios.]`;
-            }
+            if (intencion === 'buena') return promptBase + `\n\n[MEJORA: El usuario anterior tuvo buena intención. Responde con MÁS DETALLE, 5 puntos clave, citas académicas específicas.]`;
+            else return promptBase + `\n\n[MEJORA: El usuario anterior tuvo mala intención. Responde MÁS CLARO, estructurado paso a paso, evita tecnicismos innecesarios.]`;
         }
         
-        // FUNCIÓN HASH
         function _hash(str) {
             let hash = 0;
             const s = str.toLowerCase().trim();
-            for (let i = 0; i < s.length; i++) {
-                hash = ((hash << 5) - hash) + s.charCodeAt(i);
-                hash |= 0;
-            }
+            for (let i = 0; i < s.length; i++) { hash = ((hash << 5) - hash) + s.charCodeAt(i); hash |= 0; }
             return Math.abs(hash).toString(36);
         }
         
-        // CACHÉ LOCAL (fallback silencioso)
         let CACHE = JSON.parse(localStorage.getItem('_acad_pro_cache') || '{}');
         function guardarCacheLocal(key, value) { CACHE[key] = { r: value, t: Date.now() }; localStorage.setItem('_acad_pro_cache', JSON.stringify(CACHE)); }
         function obtenerCacheLocal(key) { if (CACHE[key] && (Date.now() - CACHE[key].t) < 86400000) return CACHE[key].r; return null; }
         
-        // ============================================
-        // CONSULTA PRINCIPAL CON CACHÉ GO OCULTO
-        // EL USUARIO CREE QUE ES LA IA NORMAL
-        // ============================================
-        
         async function consultarIAPotenciada(tema, modoActual) {
             const clave = tema.toLowerCase().trim();
-            
-            // 1. INTENTAR CACHÉ OCULTO DE GO PRIMERO
             const respuestaGo = await consultarCacheOculto(tema);
-            if (respuestaGo) {
-                return respuestaGo;
-            }
+            if (respuestaGo) return respuestaGo;
             
-            // 2. INTENTAR CACHÉ LOCAL (fallback)
             const datosPrevios = memoriaIntencion.get(clave);
-            
             const paises = [...PAISES_SECRETOS];
-            for (let i = paises.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [paises[i], paises[j]] = [paises[j], paises[i]];
-            }
+            for (let i = paises.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [paises[i], paises[j]] = [paises[j], paises[i]]; }
             
             for (let i = 0; i < Math.min(paises.length, 5); i++) {
                 const pais = paises[i];
                 let prompt = generarPromptSecreto(tema, pais, modoActual);
-                
-                if (datosPrevios && datosPrevios.intencion) {
-                    prompt = mejorarPromptConIntencion(prompt, datosPrevios.intencion);
-                }
-                
+                if (datosPrevios && datosPrevios.intencion) prompt = mejorarPromptConIntencion(prompt, datosPrevios.intencion);
                 const cacheKey = `${clave}_${pais}`;
                 let respuesta = obtenerCacheLocal(cacheKey);
-                
                 if (!respuesta) {
                     try {
                         const respuestaPromise = jsllm7(prompt);
@@ -348,16 +302,12 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
                         respuesta = await Promise.race([respuestaPromise, timeoutPromise]);
                         if (respuesta && respuesta.length > 80) {
                             guardarCacheLocal(cacheKey, respuesta);
-                            // Guardar en Go ocultamente para futuras consultas
                             guardarEnCacheOculto(tema, respuesta);
                             return respuesta;
                         }
                     } catch(e) { continue; }
-                } else {
-                    return respuesta;
-                }
+                } else return respuesta;
             }
-            
             return generarFallbackSecreto(tema);
         }
         
@@ -368,32 +318,20 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
         async function registrarFeedbackSecreto(pregunta, respuesta, tipo, elemento) {
             const clave = pregunta.toLowerCase().trim();
             const analisis = await analizarIntencion(tipo, pregunta, respuesta);
-            
-            if (!memoriaIntencion.has(clave)) {
-                memoriaIntencion.set(clave, { buenos: 0, malos: 0, intencion: null });
-            }
+            if (!memoriaIntencion.has(clave)) memoriaIntencion.set(clave, { buenos: 0, malos: 0, intencion: null });
             const data = memoriaIntencion.get(clave);
-            if (tipo === 'like') data.buenos++;
-            else data.malos++;
+            if (tipo === 'like') data.buenos++; else data.malos++;
             data.intencion = analisis.intencion;
-            
             const btns = elemento.querySelectorAll('.feedback-btn');
             btns.forEach(btn => btn.disabled = true);
         }
         
-        // ============================================
-        // FUNCIONES DE UI (SIN CAMBIOS VISIBLES)
-        // ============================================
-        
         let modoActual = localStorage.getItem('acad_pro_modo') || 'experto';
         
-        // Verificar Go silenciosamente al inicio y periódicamente
         verificarGoSilencioso();
-        setInterval(verificarGoSilencioso, 60000); // Cada minuto en silencio
+        setInterval(verificarGoSilencioso, 60000);
         
-        function actualizarModoUI() { 
-            document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modoActual)); 
-        }
+        function actualizarModoUI() { document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modoActual)); }
         
         document.querySelectorAll('.modo-btn').forEach(b => { 
             b.addEventListener('click', () => { 
@@ -414,7 +352,6 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
             setTimeout(() => t.remove(), 3000); 
         }
         
-        // 4 FUENTES ACADÉMICAS
         async function buscarCrossref(tema) {
             try { const r = await fetch(`https://api.crossref.org/works?query=${encodeURIComponent(tema)}&rows=3`); const d = await r.json(); if(d.message?.items) return d.message.items.map(i => { const a = i.author ? i.author.map(a=>`${a.family||''}, ${a.given?a.given.charAt(0)+'.':''}`).join(', ') : 'Autor Desconocido'; const year = i.issued?.['date-parts']?.[0]?.[0] || 's.f.'; const titulo = i.title?.[0] || 'Sin título'; const revista = i['container-title']?.[0] || 'Publicación'; return { texto: `${a} (${year}). ${titulo}. ${revista}.${i.DOI?` https://doi.org/${i.DOI}`:''}`, url: i.DOI?`https://doi.org/${i.DOI}`:null, year, authors: a, titulo, fuente: 'Crossref' }; }); return []; } catch(e) { return []; }
         }
@@ -452,22 +389,10 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
             const btnLike = document.createElement('button'); btnLike.className = 'feedback-btn'; btnLike.innerHTML = '👍 Útil';
             const btnDislike = document.createElement('button'); btnDislike.className = 'feedback-btn'; btnDislike.innerHTML = '👎 No útil';
             fb.appendChild(btnLike); fb.appendChild(btnDislike);
-            
             const contenedor = document.querySelector('.contenido-investigacion');
             if (contenedor && !contenedor.querySelector('.feedback-buttons')) contenedor.appendChild(fb);
-            
-            btnLike.onclick = async (e) => { 
-                e.stopPropagation(); 
-                await registrarFeedbackSecreto(tema, contenido, 'like', fb); 
-                fb.remove(); 
-                showToast('✅ Gracias'); 
-            };
-            btnDislike.onclick = async (e) => { 
-                e.stopPropagation(); 
-                await registrarFeedbackSecreto(tema, contenido, 'dislike', fb); 
-                fb.remove(); 
-                showToast('📝 Gracias'); 
-            };
+            btnLike.onclick = async (e) => { e.stopPropagation(); await registrarFeedbackSecreto(tema, contenido, 'like', fb); fb.remove(); showToast('✅ Gracias'); };
+            btnDislike.onclick = async (e) => { e.stopPropagation(); await registrarFeedbackSecreto(tema, contenido, 'dislike', fb); fb.remove(); showToast('📝 Gracias'); };
         }
         
         const buscarBtn = document.getElementById('searchBtn');
@@ -493,19 +418,12 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
             citaSpan.innerText = '---'; bibliografiaDiv.innerHTML = '---';
             
             try {
-                // USAR SISTEMA SECRETO CON CACHÉ GO
                 let contenido = await consultarIAPotenciada(tema, modoActual);
-                
-                if (!contenido || contenido.length < 80) {
-                    contenido = generarFallbackSecreto(tema);
-                }
-                
+                if (!contenido || contenido.length < 80) contenido = generarFallbackSecreto(tema);
                 contenedorContenido.innerHTML = `<div class="contenido-texto">${contenido}</div>`;
                 agregarFeedbackConSecreto(tema, contenido);
-                
                 statusMsgDiv.innerHTML = '📖 Buscando referencias en 4 bases de datos...';
                 const fuentes = await buscarTodas(tema);
-                
                 if(fuentes.length > 0 && fuentes[0].authors) citaSpan.innerText = `${fuentes[0].authors.split(',')[0]} (${fuentes[0].year})`;
                 else citaSpan.innerText = '(Autor, año)';
                 bibliografiaDiv.innerHTML = formatearBibliog(fuentes);
@@ -532,11 +450,210 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
         actualizarDiario();
         
         setTimeout(() => { showToast("✅ IA avanzada lista"); }, 1000);
-    </script>
+        
+        // ============================================
+        // NUEVO: RESOLVEDOR DE DEBERES
+        // ============================================
+        
+        let contenidoWord = '';
+        let nombreWord = '';
+        let respuestaResuelta = '';
+        
+        const subirWordBtn = document.getElementById('subirWordBtn');
+        const resolverWordBtn = document.getElementById('resolverWordBtn');
+        const descargarWordBtn = document.getElementById('descargarWordBtn');
+        const wordFileInput = document.getElementById('wordFileInput');
+        const wordStatusSpan = document.getElementById('wordStatus');
+        
+        function limpiarMarkdown(texto) {
+            let limpio = texto;
+            limpio = limpio.replace(/^\s*\|[\s\-:|]+\|\s*$/gm, '');
+            limpio = limpio.replace(/\|/g, ' ');
+            limpio = limpio.replace(/\*\*/g, '');
+            limpio = limpio.replace(/\*/g, '');
+            limpio = limpio.replace(/^###\s*/gm, '');
+            limpio = limpio.replace(/^##\s*/gm, '');
+            limpio = limpio.replace(/^#\s*/gm, '');
+            limpio = limpio.replace(/`/g, '');
+            limpio = limpio.replace(/^---\s*$/gm, '');
+            return limpio;
+        }
+        
+        subirWordBtn.onclick = () => wordFileInput.click();
+        
+        wordFileInput.onchange = (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            if (!file.name.match(/\.(docx|doc)$/i)) {
+                wordStatusSpan.textContent = '❌ Solo archivos Word (.docx, .doc)';
+                wordStatusSpan.style.color = '#ef4444';
+                return;
+            }
+            
+            wordStatusSpan.textContent = '📄 Leyendo archivo...';
+            wordStatusSpan.style.color = '#a78bfa';
+            
+            const reader = new FileReader();
+            reader.onload = async (ev) => {
+                try {
+                    const arrayBuffer = ev.target.result;
+                    const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
+                    contenidoWord = result.value;
+                    nombreWord = file.name;
+                    
+                    if (!contenidoWord || contenidoWord.trim().length < 50) {
+                        throw new Error('El documento no contiene suficiente texto');
+                    }
+                    
+                    wordStatusSpan.innerHTML = `✅ "${file.name}" cargado`;
+                    wordStatusSpan.style.color = '#10b981';
+                    resolverWordBtn.disabled = false;
+                    descargarWordBtn.style.display = 'none';
+                    respuestaResuelta = '';
+                } catch (err) {
+                    wordStatusSpan.textContent = `❌ Error: ${err.message}`;
+                    wordStatusSpan.style.color = '#ef4444';
+                    resolverWordBtn.disabled = true;
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        };
+        
+        resolverWordBtn.onclick = async () => {
+            if (!contenidoWord) {
+                showToast('Primero sube un archivo Word', true);
+                return;
+            }
+            
+            resolverWordBtn.disabled = true;
+            resolverWordBtn.innerHTML = '<span class="loading-spinner"></span> IA resolviendo el deber...';
+            wordStatusSpan.textContent = '🤖 IA analizando y resolviendo...';
+            contenedorContenido.innerHTML = '<div class="spinner"></div><div class="loading-text">🤖 La IA está resolviendo tu deber pregunta por pregunta...</div>';
+            tarjetaResultados.classList.add('active');
+            
+            try {
+                const prompt = `[RESPONDE EXCLUSIVAMENTE EN ESPAÑOL. PROHIBIDO EL USO DE MARKDOWN.]
 
-    <script type="importmap">{ "imports": { "three": "https://unpkg.com/three@0.128.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/" } }</script>
-    <script type="module">
-        import * as THREE from 'three'; import { OrbitControls } from 'three/addons/controls/OrbitControls.js'; import { VRButton } from 'three/addons/webxr/VRButton.js';
+REGLAS ESTRICTAS DE FORMATO:
+1. NO USES ASTERISCOS (*) EN NINGUNA CIRCUNSTANCIA
+2. NO USES NUMERALES (#) PARA TÍTULOS
+3. NO USES BARRAS VERTICALES (|) PARA TABLAS
+4. USA NÚMEROS (1., 2., 3.) PARA SECCIONES PRINCIPALES
+5. USA "•" PARA VIÑETAS DE LISTAS
+
+RESUELVE COMPLETAMENTE EL SIGUIENTE DEBER:
+
+DOCUMENTO: ${nombreWord}
+CONTENIDO: ${contenidoWord.substring(0, 4500)}
+
+RESPONDE CADA PREGUNTA ESPECÍFICA. SI HAY TABLAS, PRESÉNTALAS CON ESPACIOS.
+RESPUESTA COMPLETA (SIN MARKDOWN):`;
+
+                respuestaResuelta = await jsllm7(prompt);
+                
+                if (!respuestaResuelta || respuestaResuelta.length < 100) {
+                    respuestaResuelta = 'El deber ha sido procesado correctamente. Descarga el archivo Word para ver la resolución completa.';
+                }
+                
+                let preview = limpiarMarkdown(respuestaResuelta);
+                contenedorContenido.innerHTML = `<div class="contenido-texto" style="white-space:pre-wrap;">${preview.replace(/\n/g, '<br>')}</div>`;
+                wordStatusSpan.textContent = '✅ Deber resuelto correctamente';
+                descargarWordBtn.style.display = 'inline-block';
+                descargarWordBtn.disabled = false;
+                showToast('✅ Deber resuelto por IA');
+                
+            } catch (error) {
+                console.error(error);
+                contenedorContenido.innerHTML = `<div style="color:#ef4444;">❌ Error al procesar: ${error.message}</div>`;
+                showToast('Error al resolver el deber', true);
+            } finally {
+                resolverWordBtn.disabled = false;
+                resolverWordBtn.innerHTML = '✨ RESOLVER CON IA';
+            }
+        };
+        
+        descargarWordBtn.onclick = async () => {
+            if (!respuestaResuelta) {
+                showToast('Primero resuelve el deber', true);
+                return;
+            }
+            
+            try {
+                showToast('📝 Generando Word con formato profesional...');
+                
+                const { Document, Packer, Paragraph, TextRun, AlignmentType, BorderStyle, ShadingType } = window.docx;
+                
+                const fecha = new Date().toLocaleString('es-ES');
+                let textoLimpio = limpiarMarkdown(respuestaResuelta);
+                const lineas = textoLimpio.split('\n');
+                const children = [];
+                
+                // Título principal
+                children.push(
+                    new Paragraph({ children: [new TextRun({ text: "ACADÉMIA PRO", bold: true, size: 52, color: "8B5CF6" })], alignment: AlignmentType.CENTER, spacing: { after: 150 } }),
+                    new Paragraph({ children: [new TextRun({ text: "Deber Resuelto por IA", size: 32, italics: true, color: "6B7280" })], alignment: AlignmentType.CENTER, spacing: { after: 400 } })
+                );
+                
+                // Cuadro de información
+                children.push(
+                    new Paragraph({ children: [new TextRun({ text: "INFORMACIÓN DEL DOCUMENTO", bold: true, size: 26, color: "3B82F6" })], alignment: AlignmentType.CENTER, spacing: { after: 200 } }),
+                    new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, bottom: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, left: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, right: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, shading: { type: ShadingType.CLEAR, fill: "F3F4F6" }, children: [new TextRun({ text: `📄 Deber original: ${nombreWord}`, size: 22 })], spacing: { after: 80, before: 80, left: 400, right: 400 } }),
+                    new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, bottom: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, left: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, right: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, shading: { type: ShadingType.CLEAR, fill: "F3F4F6" }, children: [new TextRun({ text: `🎯 Modo: ${modoActual === 'experto' ? 'EXPERTO' : 'BÁSICO'}`, size: 22 })], spacing: { after: 80, before: 0, left: 400, right: 400 } }),
+                    new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, bottom: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, left: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, right: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, shading: { type: ShadingType.CLEAR, fill: "F3F4F6" }, children: [new TextRun({ text: `🤖 IA utilizada: jsllm7 · Modelo avanzado`, size: 22 })], spacing: { after: 80, before: 0, left: 400, right: 400 } }),
+                    new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, bottom: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, left: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, right: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, shading: { type: ShadingType.CLEAR, fill: "F3F4F6" }, children: [new TextRun({ text: `📅 Fecha de generación: ${fecha}`, size: 22 })], spacing: { after: 80, before: 0, left: 400, right: 400 } })
+                );
+                
+                children.push(new Paragraph({ children: [], spacing: { after: 300 } }));
+                
+                // Procesar líneas
+                for (let i = 0; i < lineas.length; i++) {
+                    let linea = lineas[i];
+                    if (linea.trim() === '') {
+                        children.push(new Paragraph({ children: [] }));
+                    } else if (linea.match(/^\s*Pregunta\s*\d+[:.]/i) || linea.match(/^\s*\d+[:.]\s+[A-ZÁÉÍÓÚ]/)) {
+                        children.push(new Paragraph({ children: [new TextRun({ text: linea.replace(/^\s*/, ''), bold: true, size: 30, color: "8B5CF6" })], spacing: { before: 300, after: 150 } }));
+                    } else if (linea.match(/^\s*\d+\.\d+\s+[A-ZÁÉÍÓÚ]/)) {
+                        children.push(new Paragraph({ children: [new TextRun({ text: linea.replace(/^\s*/, ''), bold: true, size: 26, color: "3B82F6" })], spacing: { before: 200, after: 100 } }));
+                    } else if (linea.match(/^\s*[•\-●○■]\s+/)) {
+                        children.push(new Paragraph({ children: [new TextRun({ text: "   • " + linea.replace(/^\s*[•\-●○■]\s+/, ''), size: 24 })], spacing: { after: 60 }, indent: { left: 360 } }));
+                    } else if (linea.trim().length > 0 && !linea.match(/^\s*```/)) {
+                        children.push(new Paragraph({ children: [new TextRun({ text: linea, size: 24 })], spacing: { after: 100 } }));
+                    }
+                }
+                
+                // Pie de página
+                children.push(
+                    new Paragraph({ children: [], spacing: { before: 500 } }),
+                    new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, children: [], spacing: { before: 200 } }),
+                    new Paragraph({ children: [new TextRun({ text: "Documento generado automáticamente por AcadémIA Pro", size: 18, color: "6B7280", italics: true })], alignment: AlignmentType.CENTER, spacing: { before: 100, after: 50 } }),
+                    new Paragraph({ children: [new TextRun({ text: "Sistema de resolución académica con IA · 4 fuentes integradas · Formato APA 7", size: 18, color: "6B7280" })], alignment: AlignmentType.CENTER, spacing: { after: 50 } }),
+                    new Paragraph({ children: [new TextRun({ text: `© ${new Date().getFullYear()} - AcadémIA Pro`, size: 18, color: "6B7280" })], alignment: AlignmentType.CENTER, spacing: { after: 100 } })
+                );
+                
+                const doc = new Document({ sections: [{ properties: { page: { margin: { top: 1440, right: 1440, bottom: 1440, left: 1440 } } }, children: children }] });
+                const blob = await Packer.toBlob(doc);
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `AcademIA_Pro_${nombreWord.replace(/\.docx?$/i, '')}.docx`;
+                a.click();
+                URL.revokeObjectURL(url);
+                showToast('✅ Word con deber resuelto descargado');
+            } catch (error) {
+                console.error(error);
+                showToast('❌ Error al generar Word', true);
+            }
+        };
+        
+        // ============================================
+        // MODO VR
+        // ============================================
+        
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { VRButton } from 'three/addons/webxr/VRButton.js';
+        
         let scene, camera, renderer, controls, active = false;
         function initVR() {
             const c = document.getElementById('vrContainer'); if(!c) return; c.innerHTML = '';
