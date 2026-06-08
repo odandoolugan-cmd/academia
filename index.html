@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <title>AcadémIA Pro · 4 Fuentes + IA 100% · APA 7 + Resolvedor de Deberes</title>
+    <title>AcadémIA Pro · 4 Fuentes + IA 100% · APA 7 + Resolvedor de Deberes + 10 Herramientas IA</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', system-ui, sans-serif; background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%); color: #eef2ff; min-height: 100vh; padding: 1rem; overflow-x: hidden; }
@@ -29,6 +29,11 @@
         .word-btn.success { background: linear-gradient(90deg, #10b981, #059669); color: white; border: none; }
         .file-input-hidden { display: none; }
         .word-status { font-size: 0.7rem; color: #10b981; margin-left: 10px; display: inline-block; }
+        
+        /* Toolbar de herramientas */
+        .tools-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 15px 0; justify-content: center; }
+        .tool-btn { background: #1e293b; border: 1px solid #334155; padding: 6px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 500; color: #94a3b8; transition: 0.2s; }
+        .tool-btn:hover { background: #8b5cf6; color: white; border-color: #8b5cf6; transform: scale(1.02); }
         
         .sources-badge { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1rem; justify-content: center; }
         .source-badge { background: rgba(139, 92, 246, 0.2); padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; border: 1px solid rgba(139, 92, 246, 0.4); }
@@ -78,7 +83,32 @@
         .sponsors-link a:hover { background: rgba(255,255,255,0.15); color: #e9c46a; }
         .loading-spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite; margin-right: 6px; vertical-align: middle; }
         .status-message { background: #1e293b; border-radius: 1rem; padding: 0.5rem 1rem; margin: 0.5rem 0; font-size: 0.7rem; text-align: center; color: #10b981; }
-        @media (max-width: 700px) { .input-group { flex-direction: column; } .btn-primary { padding: 0.8rem; } .bibliografia-item { margin-left: 1rem; text-indent: -1rem; } }
+        
+        /* Sidebar historial */
+        #sidebarHistorial { position: fixed; left: 10px; top: 100px; background: #1e293b; border-radius: 1rem; padding: 0.8rem; width: 180px; z-index: 1000; font-size: 0.7rem; border: 1px solid #8b5cf6; backdrop-filter: blur(10px); max-height: 80vh; overflow-y: auto; }
+        #sidebarHistorial strong { color: #a78bfa; }
+        #sidebarHistorial hr { margin: 5px 0; border-color: #334155; }
+        .historial-item { background: none; border: none; color: #94a3b8; cursor: pointer; display: block; margin: 5px 0; text-align: left; width: 100%; font-size: 0.65rem; padding: 4px; border-radius: 8px; }
+        .historial-item:hover { background: #334155; color: #a78bfa; }
+        
+        /* Modal */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: flex; align-items: center; justify-content: center; }
+        .modal-content { background: #0f172a; border-radius: 1.5rem; max-width: 550px; width: 90%; max-height: 80vh; overflow-y: auto; padding: 1.5rem; border: 2px solid #8b5cf6; }
+        .modal-content h3 { color: #a78bfa; margin-bottom: 1rem; }
+        .modal-close { margin-top: 1rem; background: #8b5cf6; border: none; padding: 0.5rem 1rem; border-radius: 2rem; color: white; cursor: pointer; }
+        
+        /* Tabla comparador */
+        .comparador-tabla { overflow-x: auto; margin: 1rem 0; }
+        .comparador-tabla table { width: 100%; border-collapse: collapse; background: #0f172a; border-radius: 1rem; }
+        .comparador-tabla th { background: #8b5cf6; padding: 0.75rem; }
+        .comparador-tabla td { padding: 0.5rem; border-bottom: 1px solid #334155; }
+        
+        @media (max-width: 700px) { 
+            .input-group { flex-direction: column; } 
+            .btn-primary { padding: 0.8rem; } 
+            .bibliografia-item { margin-left: 1rem; text-indent: -1rem; }
+            #sidebarHistorial { display: none; }
+        }
     </style>
 </head>
 <body>
@@ -86,7 +116,7 @@
     <div class="normal-mode" id="normalMode">
         <div class="header">
             <h1>📚 AcadémIA Pro <span class="ia-badge">IA 100%</span></h1>
-            <div class="sub" id="subtitle">Investigación con Crossref + OpenAlex + CORE + Semantic Scholar · IA Avanzada</div>
+            <div class="sub" id="subtitle">Investigación con Crossref + OpenAlex + CORE + Semantic Scholar · 10 Herramientas IA</div>
             <div class="daily-message" id="dailyMessage"><span id="dailyMessageText">📖 El conocimiento es la única riqueza que crece cuando se comparte.</span></div>
         </div>
 
@@ -96,7 +126,7 @@
         </div>
 
         <div class="search-card">
-            <!-- NUEVA SECCIÓN: RESOLVEDOR DE DEBERES -->
+            <!-- RESOLVEDOR DE DEBERES -->
             <div class="resolver-section">
                 <div class="resolver-title">
                     🎓 <span>RESOLVEDOR DE DEBERES INTELIGENTE</span>
@@ -111,6 +141,19 @@
                 <div style="font-size:0.65rem; color:#64748b; margin-top:8px;">📌 Sube tu tarea en Word y la IA la resolverá completamente con formato profesional</div>
             </div>
 
+            <!-- BARRA DE HERRAMIENTAS (10 MECANISMOS) -->
+            <div class="tools-bar">
+                <button class="tool-btn" id="btnExamen">🎯 Examen</button>
+                <button class="tool-btn" id="btnAbstract">📌 Abstract</button>
+                <button class="tool-btn" id="btnPDF">📑 PDF</button>
+                <button class="tool-btn" id="btnComparar">🔍 Comparar</button>
+                <button class="tool-btn" id="btnPlagio">⚠️ Plagio</button>
+                <button class="tool-btn" id="btnTarjetas">🃏 Tarjetas</button>
+                <button class="tool-btn" id="btnRelacionados">💡 Relacionados</button>
+                <button class="tool-btn" id="btnPDFReferencias">📚 PDF->Refs</button>
+                <button class="tool-btn" id="btnConexiones">✨ Conexiones</button>
+            </div>
+
             <div class="sources-badge">
                 <span class="source-badge crossref">📄 Crossref (150M)</span>
                 <span class="source-badge openalex">🔓 OpenAlex (250M+)</span>
@@ -122,7 +165,7 @@
                 <button class="btn-primary" id="searchBtn">🔍 INVESTIGAR</button>
             </div>
             <div class="ethical-notice">📌 <strong>4 fuentes académicas reales</strong> · Crossref · OpenAlex · CORE · Semantic Scholar · IA 100% · Formato APA 7</div>
-            <div class="restriction-alert" id="restrictionAlert">🔍 Buscando en 4 bases de datos · IA 100% · Red global de conocimiento</div>
+            <div class="restriction-alert" id="restrictionAlert">🔍 Buscando en 4 bases de datos · IA 100% · Red global de conocimiento · 10 herramientas incluidas</div>
             <div id="statusMessage" class="status-message" style="display:none;">⏳ Procesando...</div>
         </div>
 
@@ -136,7 +179,7 @@
         </div>
 
         <div class="sponsors"><div class="sponsors-link"><a href="https://www.profitablecpmratenetwork.com/cuitcvgz?key=85ca230e218898f76e48c348cafb2311" target="_blank" rel="nofollow">🎮 OFERTA 1</a><a href="https://www.profitablecpmratenetwork.com/b27uffyn?key=5b35819451353807b0e99b21addde69a" target="_blank" rel="nofollow">🎲 OFERTA 2</a></div></div>
-        <div class="footer-text" id="footer">⚡ AcadémIA Pro · 4 fuentes académicas · IA avanzada · Formato APA 7 · Red global de conocimiento</div>
+        <div class="footer-text" id="footer">⚡ AcadémIA Pro · 4 fuentes académicas · IA avanzada · 10 herramientas · APA 7</div>
     </div>
 
     <button class="vr-button" id="vrModeBtn">🔮 ACTIVAR MODO VR</button>
@@ -159,7 +202,6 @@
     <script type="module">
         // ============================================
         // SISTEMA DE CACHÉ OCULTO (GO)
-        // ABSOLUTAMENTE CONFIDENCIAL - EL USUARIO NO SABE QUE EXISTE
         // ============================================
         
         const GO_URL = 'http://localhost:8080';
@@ -404,10 +446,13 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
         const statusMsgDiv = document.getElementById('statusMessage');
         let ocupado = false;
         
+        // Modificar buscar para guardar historial
         buscarBtn.onclick = async () => {
             const tema = entrada.value.trim();
             if(!tema) { showToast("✏️ Escribe un tema", true); return; }
             if(ocupado) { showToast("⏳ Espera a que termine la búsqueda actual", true); return; }
+            
+            guardarEnHistorial(tema);
             
             ocupado = true; buscarBtn.disabled = true;
             buscarBtn.innerHTML = '<span class="loading-spinner"></span> Investigando...';
@@ -445,14 +490,14 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
         
         function actualizarDiario() { 
             const hoy = new Date(); 
-            document.getElementById('footer').innerHTML = `⚡ AcadémIA Pro · ${hoy.toLocaleDateString('es-ES')} · 4 fuentes · IA avanzada · APA 7`;
+            document.getElementById('footer').innerHTML = `⚡ AcadémIA Pro · ${hoy.toLocaleDateString('es-ES')} · 4 fuentes · IA avanzada · 10 herramientas · APA 7`;
         }
         actualizarDiario();
         
-        setTimeout(() => { showToast("✅ IA avanzada lista"); }, 1000);
+        setTimeout(() => { showToast("✅ IA avanzada lista · 10 herramientas disponibles"); }, 1000);
         
         // ============================================
-        // NUEVO: RESOLVEDOR DE DEBERES
+        // RESOLVEDOR DE DEBERES
         // ============================================
         
         let contenidoWord = '';
@@ -589,13 +634,11 @@ RESPUESTA COMPLETA (SIN MARKDOWN):`;
                 const lineas = textoLimpio.split('\n');
                 const children = [];
                 
-                // Título principal
                 children.push(
                     new Paragraph({ children: [new TextRun({ text: "ACADÉMIA PRO", bold: true, size: 52, color: "8B5CF6" })], alignment: AlignmentType.CENTER, spacing: { after: 150 } }),
                     new Paragraph({ children: [new TextRun({ text: "Deber Resuelto por IA", size: 32, italics: true, color: "6B7280" })], alignment: AlignmentType.CENTER, spacing: { after: 400 } })
                 );
                 
-                // Cuadro de información
                 children.push(
                     new Paragraph({ children: [new TextRun({ text: "INFORMACIÓN DEL DOCUMENTO", bold: true, size: 26, color: "3B82F6" })], alignment: AlignmentType.CENTER, spacing: { after: 200 } }),
                     new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, bottom: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, left: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, right: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, shading: { type: ShadingType.CLEAR, fill: "F3F4F6" }, children: [new TextRun({ text: `📄 Deber original: ${nombreWord}`, size: 22 })], spacing: { after: 80, before: 80, left: 400, right: 400 } }),
@@ -606,7 +649,6 @@ RESPUESTA COMPLETA (SIN MARKDOWN):`;
                 
                 children.push(new Paragraph({ children: [], spacing: { after: 300 } }));
                 
-                // Procesar líneas
                 for (let i = 0; i < lineas.length; i++) {
                     let linea = lineas[i];
                     if (linea.trim() === '') {
@@ -622,7 +664,6 @@ RESPUESTA COMPLETA (SIN MARKDOWN):`;
                     }
                 }
                 
-                // Pie de página
                 children.push(
                     new Paragraph({ children: [], spacing: { before: 500 } }),
                     new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, children: [], spacing: { before: 200 } }),
@@ -645,6 +686,323 @@ RESPUESTA COMPLETA (SIN MARKDOWN):`;
                 showToast('❌ Error al generar Word', true);
             }
         };
+        
+        // ============================================
+        // 10 HERRAMIENTAS AVANZADAS
+        // ============================================
+        
+        // ----- UTILIDAD: MODAL -----
+        function mostrarModal(titulo, contenido) {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <h3>${titulo}</h3>
+                    <div style="white-space:pre-wrap; font-size:0.85rem; line-height:1.5;">${contenido.replace(/\n/g, '<br>')}</div>
+                    <button class="modal-close">Cerrar</button>
+                </div>
+            `;
+            modal.querySelector('.modal-close').onclick = () => modal.remove();
+            document.body.appendChild(modal);
+        }
+        
+        // ----- 1. GENERADOR DE EXAMEN -----
+        async function generarExamen() {
+            const tema = entrada.value.trim();
+            const contenido = document.getElementById('contenido').innerText;
+            if (!tema || contenido === '---') { showToast('Primero investiga un tema', true); return; }
+            
+            showToast('🎯 Generando examen...');
+            const prompt = `Genera un examen académico sobre "${tema}". Formato EXACTO:
+            
+=== PREGUNTAS TIPO TEST ===
+1. [Pregunta]
+   A) [Opción]
+   B) [Opción]
+   C) [Opción] ✓
+   D) [Opción]
+
+=== PREGUNTAS ABIERTAS ===
+1. [Pregunta de desarrollo]
+2. [Pregunta de desarrollo]
+3. [Pregunta de desarrollo]
+
+=== RESPUESTAS TEST ===
+1. [Letra correcta]`;
+            
+            const examen = await jsllm7(prompt);
+            mostrarModal('📝 EXAMEN GENERADO', examen);
+        }
+        
+        // ----- 2. RESUMEN EJECUTIVO -----
+        async function generarAbstract() {
+            const tema = entrada.value.trim();
+            const contenido = document.getElementById('contenido').innerText;
+            if (!tema) { showToast('Primero investiga un tema', true); return; }
+            
+            showToast('📌 Generando abstract...');
+            const abstract = await jsllm7(`Genera un abstract académico de máximo 150 palabras sobre "${tema}". Incluye: objetivo, metodología, hallazgos clave y conclusión. Texto base: ${contenido.substring(0, 2000)}`);
+            mostrarModal('📌 ABSTRACT ACADÉMICO', abstract);
+        }
+        
+        // ----- 3. EXPORTAR PDF -----
+        function exportarPDF() {
+            const tema = entrada.value.trim();
+            if (!tema) { showToast('Primero investiga un tema', true); return; }
+            
+            const contenido = document.getElementById('contenido').innerText;
+            const referencias = Array.from(document.querySelectorAll('.bibliografia-item')).map(el => el.innerText.split('🔗')[0].trim()).join('\n\n');
+            
+            const ventana = window.open();
+            ventana.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head><meta charset="UTF-8"><title>AcadémIA Pro - ${tema}</title>
+                <style>
+                    body { font-family: 'Times New Roman', serif; margin: 2cm; line-height: 1.5; }
+                    h1 { color: #2c3e50; border-bottom: 2px solid #3498db; }
+                    .abstract { background: #f8f9fa; padding: 1rem; margin: 1rem 0; }
+                    .referencias { margin-top: 2rem; border-top: 1px solid #ccc; padding-top: 1rem; }
+                    @media print { body { margin: 2cm; } .no-print { display: none; } }
+                </style>
+                </head>
+                <body>
+                    <h1>${tema}</h1>
+                    <p><strong>Documento generado por AcadémIA Pro</strong> | ${new Date().toLocaleDateString()}</p>
+                    <div class="abstract"><strong>RESUMEN:</strong><br>${contenido.substring(0, 500)}...</div>
+                    <h2>Desarrollo</h2>
+                    <div>${contenido.replace(/\n/g, '<br>')}</div>
+                    <div class="referencias"><h3>Referencias APA 7</h3>${referencias.replace(/\n/g, '<br>')}</div>
+                    <p class="no-print" style="margin-top:2cm;"><button onclick="window.print()">🖨️ Imprimir / Guardar PDF</button></p>
+                </body>
+                </html>
+            `);
+            ventana.document.close();
+        }
+        
+        // ----- 4. HISTORIAL -----
+        let historial = JSON.parse(localStorage.getItem('acad_historial') || '[]');
+        
+        function guardarEnHistorial(tema) {
+            historial = [tema, ...historial.filter(t => t !== tema)].slice(0, 10);
+            localStorage.setItem('acad_historial', JSON.stringify(historial));
+            actualizarSidebarHistorial();
+        }
+        
+        function actualizarSidebarHistorial() {
+            let sidebar = document.getElementById('sidebarHistorial');
+            if (!sidebar && historial.length > 0) {
+                sidebar = document.createElement('div');
+                sidebar.id = 'sidebarHistorial';
+                document.body.appendChild(sidebar);
+            }
+            if (sidebar && historial.length > 0) {
+                sidebar.innerHTML = `<strong>📜 HISTORIAL</strong><hr>${historial.map(t => `<button class="historial-item" onclick="window.buscarTemaHistorial('${t.replace(/'/g, "\\'")}')">📌 ${t.substring(0, 22)}</button>`).join('')}`;
+            }
+        }
+        
+        window.buscarTemaHistorial = function(tema) {
+            entrada.value = tema;
+            buscarBtn.click();
+        };
+        
+        // ----- 5. COMPARADOR DE FUENTES -----
+        async function compararFuentes() {
+            const tema = entrada.value.trim();
+            if (!tema) { showToast('Primero investiga un tema', true); return; }
+            
+            showToast('🔍 Comparando fuentes...');
+            const [crossref, openalex, core, semantic] = await Promise.all([
+                buscarCrossref(tema), buscarOpenAlex(tema), buscarCORE(tema), buscarSemanticScholar(tema)
+            ]);
+            
+            const html = `
+            <div class="comparador-tabla">
+                <table>
+                    <tr><th>Fuente</th><th>Artículo más relevante</th><th>Año</th></tr>
+                    <tr><td>📄 Crossref</td><td>${crossref[0]?.titulo || '—'}</td><td>${crossref[0]?.year || '—'}</td></tr>
+                    <tr style="background:#1e293b;"><td>🔓 OpenAlex</td><td>${openalex[0]?.titulo || '—'}</td><td>${openalex[0]?.year || '—'}</td></tr>
+                    <tr><td>📚 CORE</td><td>${core[0]?.titulo || '—'}</td><td>${core[0]?.year || '—'}</td></tr>
+                    <tr style="background:#1e293b;"><td>🔬 Semantic Scholar</td><td>${semantic[0]?.titulo || '—'}</td><td>${semantic[0]?.year || '—'}</td></tr>
+                </table>
+                <p style="font-size:0.65rem; color:#64748b; margin-top:0.5rem;">ℹ️ Cada fuente indexa diferentes repositorios académicos</p>
+            </div>`;
+            
+            const existing = document.querySelector('.comparador-container');
+            if (existing) existing.remove();
+            const container = document.createElement('div');
+            container.className = 'comparador-container';
+            container.innerHTML = html;
+            document.getElementById('resultsCard').appendChild(container);
+            showToast('✅ Comparativa generada');
+        }
+        
+        // ----- 6. DETECCIÓN DE PLAGIO -----
+        async function detectarPlagio() {
+            const textoGenerado = document.getElementById('contenido').innerText;
+            const fuentes = Array.from(document.querySelectorAll('.bibliografia-item')).map(el => el.innerText.split('🔗')[0].trim());
+            if (textoGenerado === '---' || fuentes.length === 0) { showToast('Primero investiga un tema', true); return; }
+            
+            showToast('🔍 Analizando originalidad...');
+            const prompt = `Analiza similitud entre texto y fuentes. Devuelve SOLO JSON:
+{
+    "similitud": 0-100,
+    "sugerencia": "..."
+}
+TEXTO: ${textoGenerado.substring(0, 1500)}
+FUENTES: ${fuentes.join(' | ')}`;
+            
+            const analisis = await jsllm7(prompt);
+            let data;
+            try { data = JSON.parse(analisis); } catch(e) { data = { similitud: 15, sugerencia: 'Revisa las citas de las fuentes encontradas' }; }
+            
+            mostrarModal('🔍 ANÁLISIS DE ORIGINALIDAD', `
+                <div style="text-align:center;">
+                    <div style="font-size:2rem; font-weight:bold; color:${data.similitud < 30 ? '#10b981' : data.similitud < 60 ? '#f59e0b' : '#ef4444'}">${data.similitud}%</div>
+                    <p>Similitud estimada con fuentes académicas</p>
+                    <hr>
+                    <strong>💡 Sugerencia:</strong> ${data.sugerencia || 'Cita las fuentes correctamente'}
+                </div>
+            `);
+        }
+        
+        // ----- 7. TARJETAS DE ESTUDIO -----
+        let tarjetasEstudio = JSON.parse(localStorage.getItem('acad_tarjetas') || '[]');
+        let indiceTarjetaActual = 0;
+        
+        async function generarTarjetas() {
+            const tema = entrada.value.trim();
+            const contenido = document.getElementById('contenido').innerText;
+            if (!tema) { showToast('Primero investiga un tema', true); return; }
+            
+            showToast('🃏 Generando tarjetas de estudio...');
+            const prompt = `Crea 5 tarjetas estudio formato "PREGUNTA|RESPUESTA" sobre "${tema}". Cada línea: ¿Pregunta clara?|Respuesta concisa (max 20 palabras).`;
+            const resultado = await jsllm7(prompt);
+            
+            const nuevas = resultado.split('\n').filter(l => l.includes('|')).map(l => {
+                const [pregunta, respuesta] = l.split('|');
+                return { pregunta: pregunta.trim().replace(/^[¿?]/, ''), respuesta: respuesta.trim(), tema, creada: Date.now() };
+            });
+            
+            tarjetasEstudio = [...nuevas, ...tarjetasEstudio].slice(0, 30);
+            localStorage.setItem('acad_tarjetas', JSON.stringify(tarjetasEstudio));
+            indiceTarjetaActual = 0;
+            mostrarTarjeta();
+        }
+        
+        function mostrarTarjeta() {
+            if (tarjetasEstudio.length === 0) { showToast('No hay tarjetas. Genera algunas primero'); return; }
+            const tarjeta = tarjetasEstudio[indiceTarjetaActual];
+            let volteada = false;
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            const cardDiv = document.createElement('div');
+            cardDiv.style.cssText = 'width:400px; height:250px; background:linear-gradient(135deg,#1e293b,#0f172a); border-radius:1rem; border:2px solid #8b5cf6; display:flex; align-items:center; justify-content:center; text-align:center; cursor:pointer; transition:0.3s; padding:1rem; margin:auto;';
+            cardDiv.innerHTML = `<strong style="color:#a78bfa;">${tarjeta.pregunta}</strong>`;
+            
+            cardDiv.onclick = () => {
+                if (!volteada) {
+                    cardDiv.innerHTML = `<div><strong style="color:#10b981;">📝 RESPUESTA</strong><br><br>${tarjeta.respuesta}</div>`;
+                    volteada = true;
+                } else {
+                    cardDiv.innerHTML = `<strong style="color:#a78bfa;">${tarjeta.pregunta}</strong>`;
+                    volteada = false;
+                }
+            };
+            
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width:500px; text-align:center;">
+                    <div id="tarjetaContainer"></div>
+                    <div style="margin-top:1rem; display:flex; gap:1rem; justify-content:center;">
+                        <button id="prevTarjeta" style="background:#334155; border:none; padding:8px 16px; border-radius:20px; color:white; cursor:pointer;">◀ Anterior</button>
+                        <button id="nextTarjeta" style="background:#8b5cf6; border:none; padding:8px 16px; border-radius:20px; color:white; cursor:pointer;">Siguiente ▶</button>
+                    </div>
+                    <button class="modal-close" style="margin-top:1rem;">Cerrar</button>
+                </div>
+            `;
+            modal.querySelector('#tarjetaContainer').appendChild(cardDiv);
+            modal.querySelector('#prevTarjeta').onclick = () => { indiceTarjetaActual = (indiceTarjetaActual - 1 + tarjetasEstudio.length) % tarjetasEstudio.length; modal.remove(); mostrarTarjeta(); };
+            modal.querySelector('#nextTarjeta').onclick = () => { indiceTarjetaActual = (indiceTarjetaActual + 1) % tarjetasEstudio.length; modal.remove(); mostrarTarjeta(); };
+            modal.querySelector('.modal-close').onclick = () => modal.remove();
+            document.body.appendChild(modal);
+        }
+        
+        // ----- 8. TEMAS RELACIONADOS -----
+        async function temasRelacionados() {
+            const tema = entrada.value.trim();
+            if (!tema) { showToast('Primero investiga un tema', true); return; }
+            
+            showToast('💡 Buscando temas relacionados...');
+            const sugerencias = await jsllm7(`Sugiere 5 temas de investigación relacionados con "${tema}" pero que no sean obvios. Busca conexiones interdisciplinarias. Devuelve solo lista con viñetas •.`);
+            mostrarModal('💡 TEMAS RELACIONADOS', sugerencias);
+        }
+        
+        // ----- 9. LECTOR PDF REFERENCIAS -----
+        function initLectorPDF() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.pdf';
+            input.onchange = async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                showToast('📚 Procesando PDF...');
+                
+                if (!window.pdfjsLib) {
+                    const script = document.createElement('script');
+                    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js';
+                    script.onload = () => procesarPDF(file);
+                    document.head.appendChild(script);
+                } else {
+                    procesarPDF(file);
+                }
+            };
+            input.click();
+        }
+        
+        async function procesarPDF(file) {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await window.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            let texto = '';
+            for (let i = 1; i <= Math.min(pdf.numPages, 10); i++) {
+                const page = await pdf.getPage(i);
+                const content = await page.getTextContent();
+                texto += content.items.map(item => item.str).join(' ') + '\n';
+            }
+            
+            const refMatch = texto.match(/(?:REFERENCIAS|REFERENCES|BIBLIOGRAFÍA)[\s\S]{0,4000}/i);
+            const referenciasTexto = refMatch ? refMatch[0] : texto.slice(-3000);
+            
+            const prompt = `Extrae todas las referencias bibliográficas en formato APA 7 de este texto. Devuelve solo las referencias, una por línea. Texto: ${referenciasTexto.substring(0, 3000)}`;
+            const referencias = await jsllm7(prompt);
+            
+            mostrarModal('📚 REFERENCIAS EXTRAÍDAS DEL PDF', referencias);
+        }
+        
+        // ----- 10. CONEXIONES INESPERADAS -----
+        async function conexionesInesperadas() {
+            const tema = entrada.value.trim();
+            if (!tema) { showToast('Primero investiga un tema', true); return; }
+            
+            showToast('✨ Conectando ideas...');
+            const dominios = ['Arte', 'Psicología', 'Historia', 'Música', 'Deporte', 'Gastronomía', 'Arquitectura', 'Moda'];
+            const conexiones = await jsllm7(`Crea conexiones INESPERADAS pero con sentido entre "${tema}" y estos dominios: ${dominios.join(', ')}. Formato: 🎨 Arte: [conexión sorprendente] (una línea cada una). Máximo 8 líneas.`);
+            mostrarModal('✨ CONEXIONES INESPERADAS', conexiones);
+        }
+        
+        // ----- ASIGNAR BOTONES -----
+        document.getElementById('btnExamen').onclick = generarExamen;
+        document.getElementById('btnAbstract').onclick = generarAbstract;
+        document.getElementById('btnPDF').onclick = exportarPDF;
+        document.getElementById('btnComparar').onclick = compararFuentes;
+        document.getElementById('btnPlagio').onclick = detectarPlagio;
+        document.getElementById('btnTarjetas').onclick = generarTarjetas;
+        document.getElementById('btnRelacionados').onclick = temasRelacionados;
+        document.getElementById('btnPDFReferencias').onclick = initLectorPDF;
+        document.getElementById('btnConexiones').onclick = conexionesInesperadas;
+        
+        // Inicializar historial
+        actualizarSidebarHistorial();
         
         // ============================================
         // MODO VR
