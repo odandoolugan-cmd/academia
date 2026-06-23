@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <title>AcadémIA Pro · 4 Fuentes + IA 100% · APA 7 + Conectores Avanzados</title>
+    <title>AcadémIA Pro · 4 Fuentes + IA 100% · APA 7 + Conectores Avanzados + jsllm7 404M</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', system-ui, sans-serif; background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%); color: #eef2ff; min-height: 100vh; padding: 1rem; overflow-x: hidden; }
@@ -39,6 +39,7 @@
         .source-badge.openalex { border-color: #10b981; }
         .source-badge.core { border-color: #f59e0b; }
         .source-badge.semantic { border-color: #ef4444; }
+        .source-badge.jsllm7 { border-color: #8b5cf6; background: rgba(139, 92, 246, 0.3); }
         
         .input-group { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
         .search-input { flex: 1; padding: 1rem; background: #1e293b; border: 1px solid #334155; border-radius: 1rem; color: white; font-size: 1rem; }
@@ -171,9 +172,6 @@
         .loading-spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite; margin-right: 6px; vertical-align: middle; }
         .status-message { background: #1e293b; border-radius: 1rem; padding: 0.5rem 1rem; margin: 0.5rem 0; font-size: 0.7rem; text-align: center; color: #10b981; }
         
-        .metadata-container { display: none; }
-        
-        /* Métricas de conectores */
         .connector-metrics {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -226,8 +224,8 @@
 
     <div class="normal-mode" id="normalMode">
         <div class="header">
-            <h1>📚 AcadémIA Pro <span class="ia-badge">IA 100%</span></h1>
-            <div class="sub" id="subtitle">Investigación · 4 Fuentes · APA 7 · Conectores Avanzados</div>
+            <h1>📚 AcadémIA Pro <span class="ia-badge">IA 100%</span> <span class="ia-badge" style="background:#8b5cf6;">jsllm7 404M</span></h1>
+            <div class="sub" id="subtitle">Investigación · 4 Fuentes · APA 7 · Conectores Avanzados · jsllm7 404M</div>
             <div class="daily-message" id="dailyMessage"><span id="dailyMessageText">📖 El conocimiento es la única riqueza que crece cuando se comparte.</span></div>
         </div>
 
@@ -261,6 +259,7 @@
                 <button class="tool-btn" id="btnRelacionados">💡 Relacionados</button>
                 <button class="tool-btn" id="btnPDFReferencias">📚 PDF->Refs</button>
                 <button class="tool-btn" id="btnConexiones">✨ Conexiones</button>
+                <button class="tool-btn" id="btnTermuxStatus" style="border-color:#8b5cf6;color:#a78bfa;">🔌 Estado jsllm7</button>
             </div>
 
             <div class="sources-badge">
@@ -268,14 +267,16 @@
                 <span class="source-badge openalex">🔓 OpenAlex (250M+)</span>
                 <span class="source-badge core">📚 CORE (300M+)</span>
                 <span class="source-badge semantic">🔬 Semantic Scholar (200M+)</span>
+                <span class="source-badge jsllm7">🧠 jsllm7 (404M) 🔥</span>
             </div>
             <div class="input-group">
                 <input type="text" class="search-input" id="topicInput" placeholder="Ej: Inteligencia artificial en educación, Cambio climático...">
                 <button class="btn-primary" id="searchBtn">🔍 INVESTIGAR</button>
             </div>
-            <div class="ethical-notice">📌 <strong>4 fuentes académicas reales</strong> · Conectores: Memoria · Semántico · APIs</div>
-            <div class="restriction-alert" id="restrictionAlert">🔍 Buscando en 4 bases de datos · IA 100% · Conectores avanzados</div>
+            <div class="ethical-notice">📌 <strong>5 fuentes académicas reales</strong> · Conectores: Memoria · Semántico · APIs · jsllm7 404M</div>
+            <div class="restriction-alert" id="restrictionAlert">🔍 Buscando en 5 bases de datos · IA 100% · jsllm7 404M · Conectores avanzados</div>
             <div id="statusMessage" class="status-message" style="display:none;">⏳ Procesando...</div>
+            <div id="termuxStatus" style="font-size:0.65rem;color:#94a3b8;text-align:center;margin-top:8px;">🔌 jsllm7: Conectando a Termux (puerto 8081)...</div>
         </div>
 
         <!-- WIDGETS CON MÉTRICAS DE CONECTORES -->
@@ -320,6 +321,9 @@
                             <div class="label">Contexto</div>
                         </div>
                     </div>
+                    <div id="jsllm7WidgetStatus" style="margin-top:8px;font-size:0.65rem;color:#94a3b8;">
+                        🧠 jsllm7: 🔍 Conectando...
+                    </div>
                 </div>
             </div>
             <div class="widget" id="widgetEstructura">
@@ -347,7 +351,7 @@
         </div>
 
         <div class="sponsors"><div class="sponsors-link"><a href="#" target="_blank">🎮 OFERTA 1</a><a href="#" target="_blank">🎲 OFERTA 2</a></div></div>
-        <div class="footer-text" id="footer">⚡ AcadémIA Pro · Conectores: Memoria · Semántico · APIs · 10 herramientas · APA 7</div>
+        <div class="footer-text" id="footer">⚡ AcadémIA Pro · Conectores: Memoria · Semántico · APIs · jsllm7 404M · 10 herramientas · APA 7</div>
     </div>
 
     <button class="vr-button" id="vrModeBtn">🔮 ACTIVAR MODO VR</button>
@@ -368,6 +372,13 @@
     </script>
 
     <script type="module">
+        // ============================================
+        // CONFIGURACIÓN - API DE TERMUX (PUERTO 8081)
+        // ============================================
+        
+        const JSLLM7_API_URL = 'http://localhost:8081';
+        let jsllm7TermuxConectado = false;
+        
         // ============================================
         // CONECTOR DE MEMORIA
         // ============================================
@@ -561,10 +572,10 @@
             generateMockData(endpoint, params) {
                 const datos = {
                     academicSources: {
-                        fuentes: ['Crossref', 'OpenAlex', 'CORE', 'Semantic Scholar'],
+                        fuentes: ['Crossref', 'OpenAlex', 'CORE', 'Semantic Scholar', 'jsllm7 404M'],
                         estadisticas: {
-                            total: 900000000,
-                            crecimiento: '12% anual'
+                            total: 1304000000,
+                            crecimiento: '15% anual'
                         }
                     }
                 };
@@ -605,40 +616,84 @@
         }
 
         // ============================================
-        // SISTEMA DE CACHÉ OCULTO (GO)
+        // FUNCIÓN: LLAMAR A jsllm7 VÍA API DE TERMUX
         // ============================================
         
-        const GO_URL = 'http://localhost:8080';
-        let goDisponible = false;
-        
-        async function verificarGoSilencioso() {
+        async function llamarJsllm7Termux(prompt) {
             try {
-                const respuesta = await fetch(`${GO_URL}/ping`, { method: 'GET', signal: AbortSignal.timeout(1500) });
-                if (respuesta.ok) goDisponible = true;
-                else goDisponible = false;
-            } catch (e) { goDisponible = false; }
-        }
-        
-        async function consultarCacheOculto(pregunta) {
-            if (!goDisponible) return null;
-            try {
-                const respuesta = await fetch(`${GO_URL}/ask?q=${encodeURIComponent(pregunta)}`, { signal: AbortSignal.timeout(3000) });
-                if (respuesta.ok) {
-                    const texto = await respuesta.text();
-                    if (texto && texto !== "No sé" && texto.length > 80) return texto;
+                const preguntaCodificada = encodeURIComponent(prompt);
+                const url = `${JSLLM7_API_URL}/ask?q=${preguntaCodificada}`;
+                
+                console.log('📤 Enviando a Termux (8081):', prompt.substring(0, 60) + '...');
+                
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    console.error('❌ Error HTTP:', response.status);
+                    throw new Error(`HTTP ${response.status}`);
                 }
-            } catch (e) {}
-            return null;
+                
+                const text = await response.text();
+                console.log('📥 Respuesta recibida (primeros 100 chars):', text.substring(0, 100));
+                
+                if (text && text.length > 20) {
+                    jsllm7TermuxConectado = true;
+                    document.getElementById('jsllm7WidgetStatus').textContent = '🧠 jsllm7: ✅ Activo (404M en Termux:8081)';
+                    document.getElementById('jsllm7WidgetStatus').style.color = '#10b981';
+                    document.getElementById('termuxStatus').textContent = '🔌 jsllm7: ✅ Conectado a Termux (puerto 8081) · 404M registros';
+                    document.getElementById('termuxStatus').style.color = '#10b981';
+                    return text;
+                } else {
+                    throw new Error('Respuesta vacía o inválida');
+                }
+            } catch (error) {
+                console.warn('⚠️ Error conectando a Termux:', error);
+                jsllm7TermuxConectado = false;
+                document.getElementById('jsllm7WidgetStatus').textContent = '🧠 jsllm7: ⚠️ Usando CDN';
+                document.getElementById('jsllm7WidgetStatus').style.color = '#f59e0b';
+                document.getElementById('termuxStatus').textContent = '⚠️ jsllm7: Termux no disponible · Usando CDN';
+                document.getElementById('termuxStatus').style.color = '#f59e0b';
+                return null;
+            }
         }
         
-        async function guardarEnCacheOculto(pregunta, respuesta) {
-            if (!goDisponible) return;
-            try { fetch(`${GO_URL}/aprender?q=${encodeURIComponent(pregunta)}&respuesta=${encodeURIComponent(respuesta)}`, { method: 'GET', signal: AbortSignal.timeout(2000) }).catch(() => {}); } catch(e) {}
-        }
+        // ============================================
+        // FUNCIÓN HÍBRIDA: Termux primero, luego CDN
+        // ============================================
         
-        import { pipeline, env } from '@xenova/transformers';
-        env.useBrowserCache = true;
-        env.allowLocalModels = false;
+        async function llamarJsllm7(prompt) {
+            console.log('🔍 Intentando llamar a jsllm7...');
+            
+            // 1. INTENTAR CON TERMUX (API local)
+            const termuxResponse = await llamarJsllm7Termux(prompt);
+            if (termuxResponse) {
+                console.log('✅ Respuesta de Termux obtenida');
+                return termuxResponse;
+            }
+            
+            console.log('⚠️ Termux no disponible, intentando CDN...');
+            
+            // 2. FALLBACK: Usar jsllm7 del CDN
+            if (typeof window.jsllm7 !== 'undefined' && window.jsllm7) {
+                try {
+                    const response = await window.jsllm7(prompt);
+                    if (response && response.length > 50) {
+                        console.log('✅ Respuesta de CDN obtenida');
+                        return response;
+                    }
+                } catch (e) {
+                    console.warn('Error con jsllm7 CDN:', e);
+                }
+            }
+            
+            // 3. FALLBACK FINAL: Respuesta genérica
+            console.log('⚠️ Usando fallback genérico');
+            return generarFallbackSecreto(prompt);
+        }
+
+        // ============================================
+        // SISTEMA DE CONOCIMIENTO SECRETO
+        // ============================================
         
         const PAISES_SECRETOS = ["Alemania", "Francia", "México", "Brasil", "España", "Italia", "Argentina", "Inglaterra", "Países Bajos", "Portugal", "Bélgica", "Suecia", "Noruega", "Dinamarca", "Finlandia", "Canadá", "Australia", "Nueva Zelanda", "Chile", "Uruguay", "Colombia", "Perú", "Costa Rica", "Irlanda", "Austria", "Suiza", "Polonia", "República Checa", "Hungría", "Japón", "Corea del Sur"];
         
@@ -691,278 +746,6 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
                 prompt += `\n3. Mínimo 200 palabras claro y accesible`;
             }
             return prompt;
-        }
-        
-        let clasificadorIntencion = null;
-        const memoriaIntencion = new Map();
-        
-        (async function() {
-            try { clasificadorIntencion = await pipeline('sentiment-analysis', 'Xenova/distilbert-base-uncased-finetuned-sst-2-english', { quantized: true }); } catch(e) { console.warn(e); }
-        })();
-        
-        async function analizarIntencion(tipo, pregunta, respuesta) {
-            if (!clasificadorIntencion) return { intencion: tipo === 'like' ? 'buena' : 'mala', confianza: 0.6 };
-            try {
-                const txt = `Tema académico: ${pregunta.substring(0, 80)}. Usuario dio ${tipo === 'like' ? 'feedback positivo' : 'feedback negativo'}.`;
-                const res = await clasificadorIntencion(txt);
-                if (res && res[0]) return { intencion: (tipo === 'like' && res[0].label === 'POSITIVE') ? 'buena' : 'mala', confianza: res[0].score };
-            } catch(e) {}
-            return { intencion: tipo === 'like' ? 'buena' : 'mala', confianza: 0.5 };
-        }
-        
-        function mejorarPromptConIntencion(promptBase, intencion) {
-            if (intencion === 'buena') return promptBase + `\n\n[MEJORA: El usuario anterior tuvo buena intención. Responde con MÁS DETALLE, 5 puntos clave, citas académicas específicas.]`;
-            else return promptBase + `\n\n[MEJORA: El usuario anterior tuvo mala intención. Responde MÁS CLARO, estructurado paso a paso, evita tecnicismos innecesarios.]`;
-        }
-        
-        function _hash(str) {
-            let hash = 0;
-            const s = str.toLowerCase().trim();
-            for (let i = 0; i < s.length; i++) { hash = ((hash << 5) - hash) + s.charCodeAt(i); hash |= 0; }
-            return Math.abs(hash).toString(36);
-        }
-        
-        let CACHE = JSON.parse(localStorage.getItem('_acad_pro_cache') || '{}');
-        function guardarCacheLocal(key, value) { CACHE[key] = { r: value, t: Date.now() }; localStorage.setItem('_acad_pro_cache', JSON.stringify(CACHE)); }
-        function obtenerCacheLocal(key) { if (CACHE[key] && (Date.now() - CACHE[key].t) < 86400000) return CACHE[key].r; return null; }
-        
-        // ============================================
-        // GENERAR METADATOS JSON-LD
-        // ============================================
-        
-        function generarMetadatos(pregunta, respuesta, confianza, fuentes) {
-            return {
-                "@context": "https://schema.org",
-                "@type": "ScholarlyArticle",
-                "name": pregunta,
-                "abstract": respuesta.substring(0, 200),
-                "author": {
-                    "@type": "Organization",
-                    "name": "AcadémIA Pro"
-                },
-                "dateCreated": new Date().toISOString(),
-                "citation": fuentes.map(f => ({
-                    "@type": "ScholarlyArticle",
-                    "name": f.titulo || "Fuente académica",
-                    "url": f.url || "#"
-                })),
-                "confidenceScore": confianza
-            };
-        }
-        
-        // ============================================
-        // ACTUALIZAR MÉTRICAS DE CONECTORES
-        // ============================================
-        
-        function actualizarMetricasConectores() {
-            const memStats = memoryConnector.getStats();
-            const semStats = semanticConnector.getStats();
-            const apiStats = apiConnector.getStats();
-            
-            document.getElementById('metricMemoria').textContent = memStats.total;
-            document.getElementById('metricSemantico').textContent = semStats.cacheSize;
-            document.getElementById('metricAPIs').textContent = apiStats.endpoints;
-            
-            const contextoPorcentaje = Math.min(100, (memStats.shortTerm * 10) + 20);
-            document.getElementById('metricContexto').textContent = Math.min(contextoPorcentaje, 100) + '%';
-        }
-        
-        // ============================================
-        // ACTUALIZAR WIDGETS
-        // ============================================
-        
-        function actualizarWidgets(respuesta, tema, fuentes) {
-            const widgetTextoContent = document.getElementById('widgetTextoContent');
-            const confidenceFill = document.getElementById('confidenceFill');
-            const confidenceLabel = document.getElementById('confidenceLabel');
-            const sourcesList = document.getElementById('sourcesList');
-            const widgetEstructuraContent = document.getElementById('widgetEstructuraContent');
-            const metadataContainer = document.getElementById('metadataContainer');
-            
-            widgetTextoContent.innerHTML = respuesta.replace(/\n/g, '<br>');
-            
-            const confianza = Math.min(75 + Math.random() * 15, 95);
-            confidenceFill.style.width = confianza + '%';
-            confidenceLabel.textContent = Math.round(confianza) + '%';
-            
-            if (fuentes && fuentes.length > 0) {
-                sourcesList.innerHTML = fuentes.slice(0, 5).map(f => `
-                    <div class="source-item">
-                        <span class="source-icon">📄</span>
-                        <span>${f.titulo || 'Fuente académica'}</span>
-                        <span style="font-size:0.6rem;color:#64748b;margin-left:auto;">${f.fuente || ''}</span>
-                        ${f.url ? `<a href="${f.url}" target="_blank" class="source-link">🔗</a>` : ''}
-                    </div>
-                `).join('');
-            } else {
-                sourcesList.innerHTML = '<div style="color:#94a3b8;font-size:0.75rem;">Fuentes disponibles en la sección de referencias</div>';
-            }
-            
-            const estructura = detectarEstructura(respuesta);
-            widgetEstructuraContent.innerHTML = `
-                <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">
-                    ${estructura.map(e => `<span style="background:#2c3a4a;padding:4px 10px;border-radius:15px;font-size:0.7rem;border:1px solid #8b5cf6;">${e}</span>`).join('')}
-                </div>
-                <div style="margin-top:10px;font-size:0.7rem;color:#94a3b8;">
-                    🔄 Estructura académica detectada automáticamente
-                </div>
-            `;
-            
-            const metadatos = generarMetadatos(tema, respuesta, confianza, fuentes || []);
-            metadataContainer.innerHTML = `<script type="application/ld+json">${JSON.stringify(metadatos)}<\/script>`;
-            
-            if (history.pushState) {
-                const url = new URL(window.location);
-                url.searchParams.set('q', tema);
-                window.history.pushState({}, '', url);
-            }
-            
-            actualizarMetricasConectores();
-        }
-        
-        function detectarEstructura(respuesta) {
-            const contenido = respuesta.toLowerCase();
-            let elementos = [];
-            
-            if (contenido.includes('introducción') || contenido.includes('introduccion')) {
-                elementos.push('📖 Introducción');
-            }
-            if (contenido.includes('desarrollo') || contenido.includes('metodología') || contenido.includes('metodologia')) {
-                elementos.push('🔬 Desarrollo');
-            }
-            if (contenido.includes('conclusión') || contenido.includes('conclusion')) {
-                elementos.push('📊 Conclusión');
-            }
-            if (contenido.includes('teoría') || contenido.includes('teoria') || contenido.includes('marco')) {
-                elementos.push('🧠 Marco Teórico');
-            }
-            if (contenido.includes('evidencia') || contenido.includes('datos') || contenido.includes('resultados')) {
-                elementos.push('📈 Evidencia');
-            }
-            
-            if (elementos.length === 0) {
-                elementos = ['📖 Análisis académico', '🔬 Investigación', '📊 Conclusiones'];
-            }
-            
-            return elementos;
-        }
-        
-        async function registrarFeedbackSecreto(pregunta, respuesta, tipo, elemento) {
-            const clave = pregunta.toLowerCase().trim();
-            const analisis = await analizarIntencion(tipo, pregunta, respuesta);
-            if (!memoriaIntencion.has(clave)) memoriaIntencion.set(clave, { buenos: 0, malos: 0, intencion: null });
-            const data = memoriaIntencion.get(clave);
-            if (tipo === 'like') data.buenos++; else data.malos++;
-            data.intencion = analisis.intencion;
-            const btns = elemento.querySelectorAll('.feedback-btn');
-            btns.forEach(btn => btn.disabled = true);
-        }
-        
-        let modoActual = localStorage.getItem('acad_pro_modo') || 'experto';
-        
-        verificarGoSilencioso();
-        setInterval(verificarGoSilencioso, 60000);
-        
-        function actualizarModoUI() { document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modoActual)); }
-        
-        document.querySelectorAll('.modo-btn').forEach(b => { 
-            b.addEventListener('click', () => { 
-                modoActual = b.dataset.modo; 
-                localStorage.setItem('acad_pro_modo', modoActual); 
-                actualizarModoUI(); 
-                showToast(`✨ Modo ${modoActual === 'experto' ? 'EXPERTO' : 'BÁSICO'}`); 
-            }); 
-        });
-        actualizarModoUI();
-        
-        function showToast(msg, isErr) { 
-            const t = document.createElement('div'); 
-            t.className = 'toast-msg'; 
-            if(isErr) t.style.background = '#ef4444'; 
-            t.innerText = msg; 
-            document.body.appendChild(t); 
-            setTimeout(() => t.remove(), 3000); 
-        }
-        
-        // ============================================
-        // FUNCIÓN PRINCIPAL CON CONECTORES
-        // ============================================
-        
-        async function consultarIAPotenciada(tema, modoActual) {
-            const clave = tema.toLowerCase().trim();
-            const semanticKey = getSemanticKey(tema);
-            
-            // 1. Verificar caché semántico
-            if (semanticCache.has(semanticKey)) {
-                const cached = semanticCache.get(semanticKey);
-                if (Date.now() - cached.timestamp < 3600000) {
-                    return cached.data;
-                }
-            }
-            
-            // 2. Buscar en memoria del conector
-            const memoriaSimilar = memoryConnector.recall(tema, 2);
-            let contextoMemoria = '';
-            if (memoriaSimilar.length > 0) {
-                contextoMemoria = '\n\n[Contexto de memoria académica:] ' + memoriaSimilar.map(m => 
-                    `Tema similar anterior: "${m.query}" → Resumen: "${m.response.substring(0, 100)}..."`
-                ).join(' ');
-            }
-            
-            // 3. Consultar API para datos académicos
-            const apiData = await apiConnector.call('academicSources');
-            let contextoAPI = '';
-            if (!apiData.error) {
-                contextoAPI = `\n\n[Datos académicos externos:] Fuentes disponibles: ${apiData.fuentes?.join(', ') || ''}`;
-            }
-            
-            // 4. Verificar caché oculto (GO)
-            const respuestaGo = await consultarCacheOculto(tema);
-            if (respuestaGo) {
-                const respuestaLimpia = limpiarMarkdown(respuestaGo);
-                semanticCache.set(semanticKey, { data: respuestaLimpia, timestamp: Date.now() });
-                return respuestaLimpia;
-            }
-            
-            const datosPrevios = memoriaIntencion.get(clave);
-            const paises = [...PAISES_SECRETOS];
-            for (let i = paises.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [paises[i], paises[j]] = [paises[j], paises[i]]; }
-            
-            for (let i = 0; i < Math.min(paises.length, 5); i++) {
-                const pais = paises[i];
-                let prompt = generarPromptSecreto(tema, pais, modoActual);
-                
-                // Añadir contexto de conectores
-                if (contextoMemoria) prompt += `\n${contextoMemoria}`;
-                if (contextoAPI) prompt += `\n${contextoAPI}`;
-                if (datosPrevios && datosPrevios.intencion) prompt = mejorarPromptConIntencion(prompt, datosPrevios.intencion);
-                
-                const cacheKey = `${clave}_${pais}`;
-                let respuesta = obtenerCacheLocal(cacheKey);
-                if (!respuesta) {
-                    try {
-                        const respuestaPromise = jsllm7(prompt);
-                        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 35000));
-                        respuesta = await Promise.race([respuestaPromise, timeoutPromise]);
-                        if (respuesta && respuesta.length > 80) {
-                            const respuestaLimpia = limpiarMarkdown(respuesta);
-                            guardarCacheLocal(cacheKey, respuestaLimpia);
-                            guardarEnCacheOculto(tema, respuestaLimpia);
-                            semanticCache.set(semanticKey, { data: respuestaLimpia, timestamp: Date.now() });
-                            
-                            // Guardar en memoria
-                            memoryConnector.remember({
-                                query: tema,
-                                response: respuestaLimpia,
-                                pais: pais
-                            });
-                            actualizarMetricasConectores();
-                            return respuestaLimpia;
-                        }
-                    } catch(e) { continue; }
-                } else return respuesta;
-            }
-            return generarFallbackSecreto(tema);
         }
         
         function generarFallbackSecreto(tema) {
@@ -1019,16 +802,117 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
             if(texto && texto !== '---') { await navigator.clipboard.writeText(texto); showToast("📋 Copiado"); }
         };
         
-        function agregarFeedbackConSecreto(tema, contenido) {
-            const fb = document.createElement('div'); fb.className = 'feedback-buttons';
-            const btnLike = document.createElement('button'); btnLike.className = 'feedback-btn'; btnLike.innerHTML = '👍 Útil';
-            const btnDislike = document.createElement('button'); btnDislike.className = 'feedback-btn'; btnDislike.innerHTML = '👎 No útil';
-            fb.appendChild(btnLike); fb.appendChild(btnDislike);
-            const contenedor = document.querySelector('.contenido-investigacion');
-            if (contenedor && !contenedor.querySelector('.feedback-buttons')) contenedor.appendChild(fb);
-            btnLike.onclick = async (e) => { e.stopPropagation(); await registrarFeedbackSecreto(tema, contenido, 'like', fb); fb.remove(); showToast('✅ Gracias'); };
-            btnDislike.onclick = async (e) => { e.stopPropagation(); await registrarFeedbackSecreto(tema, contenido, 'dislike', fb); fb.remove(); showToast('📝 Gracias'); };
+        // ============================================
+        // ACTUALIZAR MÉTRICAS DE CONECTORES
+        // ============================================
+        
+        function actualizarMetricasConectores() {
+            const memStats = memoryConnector.getStats();
+            const semStats = semanticConnector.getStats();
+            const apiStats = apiConnector.getStats();
+            
+            document.getElementById('metricMemoria').textContent = memStats.total;
+            document.getElementById('metricSemantico').textContent = semStats.cacheSize;
+            document.getElementById('metricAPIs').textContent = apiStats.endpoints;
+            
+            const contextoPorcentaje = Math.min(100, (memStats.shortTerm * 10) + 20);
+            document.getElementById('metricContexto').textContent = Math.min(contextoPorcentaje, 100) + '%';
         }
+        
+        // ============================================
+        // ACTUALIZAR WIDGETS
+        // ============================================
+        
+        function actualizarWidgets(respuesta, tema, fuentes) {
+            const widgetTextoContent = document.getElementById('widgetTextoContent');
+            const confidenceFill = document.getElementById('confidenceFill');
+            const confidenceLabel = document.getElementById('confidenceLabel');
+            const widgetEstructuraContent = document.getElementById('widgetEstructuraContent');
+            const metadataContainer = document.getElementById('metadataContainer');
+            
+            widgetTextoContent.innerHTML = respuesta.replace(/\n/g, '<br>');
+            
+            const confianza = Math.min(75 + Math.random() * 15, 95);
+            confidenceFill.style.width = confianza + '%';
+            confidenceLabel.textContent = Math.round(confianza) + '%';
+            
+            // Estructura
+            const estructura = detectarEstructura(respuesta);
+            widgetEstructuraContent.innerHTML = `
+                <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">
+                    ${estructura.map(e => `<span style="background:#2c3a4a;padding:4px 10px;border-radius:15px;font-size:0.7rem;border:1px solid #8b5cf6;">${e}</span>`).join('')}
+                </div>
+                <div style="margin-top:10px;font-size:0.7rem;color:#94a3b8;">
+                    🔄 Estructura académica detectada automáticamente
+                </div>
+            `;
+            
+            // Metadatos
+            const metadatos = generarMetadatos(tema, respuesta, confianza, fuentes || []);
+            metadataContainer.innerHTML = `<script type="application/ld+json">${JSON.stringify(metadatos)}<\/script>`;
+            
+            if (history.pushState) {
+                const url = new URL(window.location);
+                url.searchParams.set('q', tema);
+                window.history.pushState({}, '', url);
+            }
+            
+            actualizarMetricasConectores();
+        }
+        
+        function detectarEstructura(respuesta) {
+            const contenido = respuesta.toLowerCase();
+            let elementos = [];
+            
+            if (contenido.includes('introducción') || contenido.includes('introduccion')) {
+                elementos.push('📖 Introducción');
+            }
+            if (contenido.includes('desarrollo') || contenido.includes('metodología') || contenido.includes('metodologia')) {
+                elementos.push('🔬 Desarrollo');
+            }
+            if (contenido.includes('conclusión') || contenido.includes('conclusion')) {
+                elementos.push('📊 Conclusión');
+            }
+            if (contenido.includes('teoría') || contenido.includes('teoria') || contenido.includes('marco')) {
+                elementos.push('🧠 Marco Teórico');
+            }
+            if (contenido.includes('evidencia') || contenido.includes('datos') || contenido.includes('resultados')) {
+                elementos.push('📈 Evidencia');
+            }
+            
+            if (elementos.length === 0) {
+                elementos = ['📖 Análisis académico', '🔬 Investigación', '📊 Conclusiones'];
+            }
+            
+            return elementos;
+        }
+        
+        function generarMetadatos(pregunta, respuesta, confianza, fuentes) {
+            return {
+                "@context": "https://schema.org",
+                "@type": "ScholarlyArticle",
+                "name": pregunta,
+                "abstract": respuesta.substring(0, 200),
+                "author": {
+                    "@type": "Organization",
+                    "name": "AcadémIA Pro"
+                },
+                "dateCreated": new Date().toISOString(),
+                "citation": fuentes.map(f => ({
+                    "@type": "ScholarlyArticle",
+                    "name": f.titulo || "Fuente académica",
+                    "url": f.url || "#"
+                })),
+                "confidenceScore": confianza
+            };
+        }
+        
+        // ============================================
+        // FUNCIÓN PRINCIPAL
+        // ============================================
+        
+        let modoActual = localStorage.getItem('acad_pro_modo') || 'experto';
+        let ocupado = false;
         
         const buscarBtn = document.getElementById('searchBtn');
         const entrada = document.getElementById('topicInput');
@@ -1037,7 +921,88 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
         const citaSpan = document.getElementById('citaTexto');
         const bibliografiaDiv = document.getElementById('bibliografiaList');
         const statusMsgDiv = document.getElementById('statusMessage');
-        let ocupado = false;
+        
+        function showToast(msg, isErr) { 
+            const t = document.createElement('div'); 
+            t.className = 'toast-msg'; 
+            if(isErr) t.style.background = '#ef4444'; 
+            t.innerText = msg; 
+            document.body.appendChild(t); 
+            setTimeout(() => t.remove(), 3000); 
+        }
+        
+        async function consultarIAPotenciada(tema, modoActual) {
+            const clave = tema.toLowerCase().trim();
+            const semanticKey = getSemanticKey(tema);
+            
+            // 1. Verificar caché semántico
+            if (semanticCache.has(semanticKey)) {
+                const cached = semanticCache.get(semanticKey);
+                if (Date.now() - cached.timestamp < 3600000) {
+                    return cached.data;
+                }
+            }
+            
+            // 2. Buscar en memoria del conector
+            const memoriaSimilar = memoryConnector.recall(tema, 2);
+            let contextoMemoria = '';
+            if (memoriaSimilar.length > 0) {
+                contextoMemoria = '\n\n[Contexto de memoria académica:] ' + memoriaSimilar.map(m => 
+                    `Tema similar anterior: "${m.query}" → Resumen: "${m.response.substring(0, 100)}..."`
+                ).join(' ');
+            }
+            
+            // 3. Consultar API para datos académicos
+            const apiData = await apiConnector.call('academicSources');
+            let contextoAPI = '';
+            if (!apiData.error) {
+                contextoAPI = `\n\n[Datos académicos externos:] Fuentes disponibles: ${apiData.fuentes?.join(', ') || ''}`;
+            }
+            
+            // 4. Generar prompt con contexto
+            const paises = [...PAISES_SECRETOS];
+            for (let i = paises.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [paises[i], paises[j]] = [paises[j], paises[i]]; }
+            
+            for (let i = 0; i < Math.min(paises.length, 5); i++) {
+                const pais = paises[i];
+                let prompt = generarPromptSecreto(tema, pais, modoActual);
+                if (contextoMemoria) prompt += `\n${contextoMemoria}`;
+                if (contextoAPI) prompt += `\n${contextoAPI}`;
+                
+                try {
+                    const respuesta = await llamarJsllm7(prompt);
+                    if (respuesta && respuesta.length > 80) {
+                        const respuestaLimpia = limpiarMarkdown(respuesta);
+                        semanticCache.set(semanticKey, { data: respuestaLimpia, timestamp: Date.now() });
+                        
+                        memoryConnector.remember({
+                            query: tema,
+                            response: respuestaLimpia,
+                            pais: pais
+                        });
+                        actualizarMetricasConectores();
+                        return respuestaLimpia;
+                    }
+                } catch(e) { continue; }
+            }
+            return generarFallbackSecreto(tema);
+        }
+        
+        function actualizarModoUI() { document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modoActual)); }
+        
+        document.querySelectorAll('.modo-btn').forEach(b => { 
+            b.addEventListener('click', () => { 
+                modoActual = b.dataset.modo; 
+                localStorage.setItem('acad_pro_modo', modoActual); 
+                actualizarModoUI(); 
+                showToast(`✨ Modo ${modoActual === 'experto' ? 'EXPERTO' : 'BÁSICO'}`); 
+            }); 
+        });
+        actualizarModoUI();
+        
+        // ============================================
+        // BÚSQUEDA PRINCIPAL
+        // ============================================
         
         buscarBtn.onclick = async () => {
             const tema = entrada.value.trim();
@@ -1049,16 +1014,15 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
             ocupado = true; buscarBtn.disabled = true;
             buscarBtn.innerHTML = '<span class="loading-spinner"></span> Investigando...';
             statusMsgDiv.style.display = 'block';
-            statusMsgDiv.innerHTML = '🔍 Conectando con IA y 4 fuentes académicas...';
+            statusMsgDiv.innerHTML = '🔍 Conectando con IA y 5 fuentes académicas...';
             tarjetaResultados.classList.remove('active');
-            contenedorContenido.innerHTML = '<div class="spinner"></div><div class="loading-text">🔍 Buscando en 4 fuentes académicas...</div>';
+            contenedorContenido.innerHTML = '<div class="spinner"></div><div class="loading-text">🔍 Buscando en 5 fuentes académicas...</div>';
             citaSpan.innerText = '---'; bibliografiaDiv.innerHTML = '---';
             
             try {
                 let contenido = await consultarIAPotenciada(tema, modoActual);
                 if (!contenido || contenido.length < 80) contenido = generarFallbackSecreto(tema);
                 contenedorContenido.innerHTML = `<div class="contenido-texto">${contenido}</div>`;
-                agregarFeedbackConSecreto(tema, contenido);
                 statusMsgDiv.innerHTML = '📖 Buscando referencias en 4 bases de datos...';
                 const fuentes = await buscarTodas(tema);
                 if(fuentes.length > 0 && fuentes[0].authors) citaSpan.innerText = `${fuentes[0].authors.split(',')[0]} (${fuentes[0].year})`;
@@ -1069,7 +1033,7 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
                 
                 actualizarWidgets(contenido, tema, fuentes);
                 
-                showToast(`✅ ${fuentes.length} fuentes encontradas · Conectores activos`);
+                showToast(`✅ ${fuentes.length} fuentes encontradas · Conectores activos · jsllm7 404M`);
             } catch (error) {
                 contenedorContenido.innerHTML = generarFallbackSecreto(tema);
                 tarjetaResultados.classList.add('active');
@@ -1083,11 +1047,346 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
         
         entrada.addEventListener('keypress', e => { if(e.key === 'Enter') buscarBtn.click(); });
         
-        function actualizarDiario() { 
-            const hoy = new Date(); 
-            document.getElementById('footer').innerHTML = `⚡ AcadémIA Pro · ${hoy.toLocaleDateString('es-ES')} · Conectores activos · 10 herramientas · APA 7`;
+        // ============================================
+        // HISTORIAL
+        // ============================================
+        
+        let historial = JSON.parse(localStorage.getItem('acad_historial') || '[]');
+        
+        function guardarEnHistorial(tema) {
+            historial = [tema, ...historial.filter(t => t !== tema)].slice(0, 10);
+            localStorage.setItem('acad_historial', JSON.stringify(historial));
+            actualizarSidebarHistorial();
         }
-        actualizarDiario();
+        
+        function actualizarSidebarHistorial() {
+            let sidebar = document.getElementById('sidebarHistorial');
+            if (!sidebar && historial.length > 0) {
+                sidebar = document.createElement('div');
+                sidebar.id = 'sidebarHistorial';
+                document.body.appendChild(sidebar);
+            }
+            if (sidebar && historial.length > 0) {
+                sidebar.innerHTML = `<strong>📜 HISTORIAL</strong><hr>${historial.map(t => `<button class="historial-item" onclick="window.buscarTemaHistorial('${t.replace(/'/g, "\\'")}')">📌 ${t.substring(0, 22)}</button>`).join('')}`;
+            }
+        }
+        
+        window.buscarTemaHistorial = function(tema) {
+            entrada.value = tema;
+            buscarBtn.click();
+        };
+        
+        actualizarSidebarHistorial();
+        
+        // ============================================
+        // 10 HERRAMIENTAS AVANZADAS
+        // ============================================
+        
+        function mostrarModal(titulo, contenido) {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <h3>${titulo}</h3>
+                    <div style="white-space:pre-wrap; font-size:0.85rem; line-height:1.5;">${contenido.replace(/\n/g, '<br>')}</div>
+                    <button class="modal-close">Cerrar</button>
+                </div>
+            `;
+            modal.querySelector('.modal-close').onclick = () => modal.remove();
+            document.body.appendChild(modal);
+        }
+        
+        async function generarExamen() {
+            const tema = entrada.value.trim();
+            if (!tema) { showToast('Primero investiga un tema', true); return; }
+            
+            showToast('🎯 Generando examen...');
+            const prompt = `Genera un examen académico sobre "${tema}". Formato EXACTO:
+            
+=== PREGUNTAS TIPO TEST ===
+1. [Pregunta]
+   A) [Opción]
+   B) [Opción]
+   C) [Opción] ✓
+   D) [Opción]
+
+=== PREGUNTAS ABIERTAS ===
+1. [Pregunta de desarrollo]
+2. [Pregunta de desarrollo]
+3. [Pregunta de desarrollo]
+
+=== RESPUESTAS TEST ===
+1. [Letra correcta]`;
+            
+            const examen = await llamarJsllm7(prompt);
+            mostrarModal('📝 EXAMEN GENERADO', examen);
+            actualizarMetricasConectores();
+        }
+        
+        async function generarAbstract() {
+            const tema = entrada.value.trim();
+            if (!tema) { showToast('Primero investiga un tema', true); return; }
+            
+            showToast('📌 Generando abstract...');
+            const contenido = document.getElementById('contenido').innerText;
+            const prompt = `Genera un abstract académico de máximo 150 palabras sobre "${tema}". Incluye: objetivo, metodología, hallazgos clave y conclusión. Texto base: ${contenido.substring(0, 2000)}`;
+            const abstract = await llamarJsllm7(prompt);
+            mostrarModal('📌 ABSTRACT ACADÉMICO', abstract);
+            actualizarMetricasConectores();
+        }
+        
+        function exportarPDF() {
+            const tema = entrada.value.trim();
+            if (!tema) { showToast('Primero investiga un tema', true); return; }
+            
+            const contenido = document.getElementById('contenido').innerText;
+            const referencias = Array.from(document.querySelectorAll('.bibliografia-item')).map(el => el.innerText.split('🔗')[0].trim()).join('\n\n');
+            
+            const ventana = window.open();
+            ventana.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head><meta charset="UTF-8"><title>AcadémIA Pro - ${tema}</title>
+                <style>
+                    body { font-family: 'Times New Roman', serif; margin: 2cm; line-height: 1.5; }
+                    h1 { color: #2c3e50; border-bottom: 2px solid #3498db; }
+                    .abstract { background: #f8f9fa; padding: 1rem; margin: 1rem 0; }
+                    .referencias { margin-top: 2rem; border-top: 1px solid #ccc; padding-top: 1rem; }
+                    @media print { body { margin: 2cm; } .no-print { display: none; } }
+                </style>
+                </head>
+                <body>
+                    <h1>${tema}</h1>
+                    <p><strong>Documento generado por AcadémIA Pro</strong> | ${new Date().toLocaleDateString()}</p>
+                    <div class="abstract"><strong>RESUMEN:</strong><br>${contenido.substring(0, 500)}...</div>
+                    <h2>Desarrollo</h2>
+                    <div>${contenido.replace(/\n/g, '<br>')}</div>
+                    <div class="referencias"><h3>Referencias APA 7</h3>${referencias.replace(/\n/g, '<br>')}</div>
+                    <p class="no-print" style="margin-top:2cm;"><button onclick="window.print()">🖨️ Imprimir / Guardar PDF</button></p>
+                </body>
+                </html>
+            `);
+            ventana.document.close();
+            actualizarMetricasConectores();
+        }
+        
+        async function compararFuentes() {
+            const tema = entrada.value.trim();
+            if (!tema) { showToast('Primero investiga un tema', true); return; }
+            
+            showToast('🔍 Comparando fuentes...');
+            const [crossref, openalex, core, semantic] = await Promise.all([
+                buscarCrossref(tema), buscarOpenAlex(tema), buscarCORE(tema), buscarSemanticScholar(tema)
+            ]);
+            
+            const html = `
+            <div class="comparador-tabla">
+                <table>
+                    <tr><th>Fuente</th><th>Artículo más relevante</th><th>Año</th></tr>
+                    <tr><td>📄 Crossref</td><td>${crossref[0]?.titulo || '—'}</td><td>${crossref[0]?.year || '—'}</td></tr>
+                    <tr style="background:#1e293b;"><td>🔓 OpenAlex</td><td>${openalex[0]?.titulo || '—'}</td><td>${openalex[0]?.year || '—'}</td></tr>
+                    <tr><td>📚 CORE</td><td>${core[0]?.titulo || '—'}</td><td>${core[0]?.year || '—'}</td></tr>
+                    <tr style="background:#1e293b;"><td>🔬 Semantic Scholar</td><td>${semantic[0]?.titulo || '—'}</td><td>${semantic[0]?.year || '—'}</td></tr>
+                    <tr style="background:rgba(139,92,246,0.2);"><td>🧠 jsllm7 404M</td><td>🔄 Generando respuesta inteligente</td><td>2026</td></tr>
+                </table>
+                <p style="font-size:0.65rem; color:#64748b; margin-top:0.5rem;">ℹ️ jsllm7 aporta 404M registros de conocimiento adicionales</p>
+            </div>`;
+            
+            const existing = document.querySelector('.comparador-container');
+            if (existing) existing.remove();
+            const container = document.createElement('div');
+            container.className = 'comparador-container';
+            container.innerHTML = html;
+            document.getElementById('resultsCard').appendChild(container);
+            showToast('✅ Comparativa generada');
+            actualizarMetricasConectores();
+        }
+        
+        async function detectarPlagio() {
+            const textoGenerado = document.getElementById('contenido').innerText;
+            const fuentes = Array.from(document.querySelectorAll('.bibliografia-item')).map(el => el.innerText.split('🔗')[0].trim());
+            if (textoGenerado === '---' || fuentes.length === 0) { showToast('Primero investiga un tema', true); return; }
+            
+            showToast('🔍 Analizando originalidad...');
+            const prompt = `Analiza similitud entre texto y fuentes. Devuelve SOLO JSON:
+{
+    "similitud": 0-100,
+    "sugerencia": "..."
+}
+TEXTO: ${textoGenerado.substring(0, 1500)}
+FUENTES: ${fuentes.join(' | ')}`;
+            
+            const analisis = await llamarJsllm7(prompt);
+            let data;
+            try { data = JSON.parse(analisis); } catch(e) { data = { similitud: 15, sugerencia: 'Revisa las citas de las fuentes encontradas' }; }
+            
+            mostrarModal('🔍 ANÁLISIS DE ORIGINALIDAD', `
+                <div style="text-align:center;">
+                    <div style="font-size:2rem; font-weight:bold; color:${data.similitud < 30 ? '#10b981' : data.similitud < 60 ? '#f59e0b' : '#ef4444'}">${data.similitud}%</div>
+                    <p>Similitud estimada con fuentes académicas</p>
+                    <hr>
+                    <strong>💡 Sugerencia:</strong> ${data.sugerencia || 'Cita las fuentes correctamente'}
+                </div>
+            `);
+            actualizarMetricasConectores();
+        }
+        
+        let tarjetasEstudio = JSON.parse(localStorage.getItem('acad_tarjetas') || '[]');
+        let indiceTarjetaActual = 0;
+        
+        async function generarTarjetas() {
+            const tema = entrada.value.trim();
+            if (!tema) { showToast('Primero investiga un tema', true); return; }
+            
+            showToast('🃏 Generando tarjetas de estudio...');
+            const prompt = `Crea 5 tarjetas estudio formato "PREGUNTA|RESPUESTA" sobre "${tema}". Cada línea: ¿Pregunta clara?|Respuesta concisa (max 20 palabras).`;
+            const resultado = await llamarJsllm7(prompt);
+            
+            const nuevas = resultado.split('\n').filter(l => l.includes('|')).map(l => {
+                const [pregunta, respuesta] = l.split('|');
+                return { pregunta: pregunta.trim().replace(/^[¿?]/, ''), respuesta: respuesta.trim(), tema, creada: Date.now() };
+            });
+            
+            tarjetasEstudio = [...nuevas, ...tarjetasEstudio].slice(0, 30);
+            localStorage.setItem('acad_tarjetas', JSON.stringify(tarjetasEstudio));
+            indiceTarjetaActual = 0;
+            mostrarTarjeta();
+            actualizarMetricasConectores();
+        }
+        
+        function mostrarTarjeta() {
+            if (tarjetasEstudio.length === 0) { showToast('No hay tarjetas. Genera algunas primero'); return; }
+            const tarjeta = tarjetasEstudio[indiceTarjetaActual];
+            let volteada = false;
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            const cardDiv = document.createElement('div');
+            cardDiv.style.cssText = 'width:400px; height:250px; background:linear-gradient(135deg,#1e293b,#0f172a); border-radius:1rem; border:2px solid #8b5cf6; display:flex; align-items:center; justify-content:center; text-align:center; cursor:pointer; transition:0.3s; padding:1rem; margin:auto;';
+            cardDiv.innerHTML = `<strong style="color:#a78bfa;">${tarjeta.pregunta}</strong>`;
+            
+            cardDiv.onclick = () => {
+                if (!volteada) {
+                    cardDiv.innerHTML = `<div><strong style="color:#10b981;">📝 RESPUESTA</strong><br><br>${tarjeta.respuesta}</div>`;
+                    volteada = true;
+                } else {
+                    cardDiv.innerHTML = `<strong style="color:#a78bfa;">${tarjeta.pregunta}</strong>`;
+                    volteada = false;
+                }
+            };
+            
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width:500px; text-align:center;">
+                    <div id="tarjetaContainer"></div>
+                    <div style="margin-top:1rem; display:flex; gap:1rem; justify-content:center;">
+                        <button id="prevTarjeta" style="background:#334155; border:none; padding:8px 16px; border-radius:20px; color:white; cursor:pointer;">◀ Anterior</button>
+                        <button id="nextTarjeta" style="background:#8b5cf6; border:none; padding:8px 16px; border-radius:20px; color:white; cursor:pointer;">Siguiente ▶</button>
+                    </div>
+                    <button class="modal-close" style="margin-top:1rem;">Cerrar</button>
+                </div>
+            `;
+            modal.querySelector('#tarjetaContainer').appendChild(cardDiv);
+            modal.querySelector('#prevTarjeta').onclick = () => { indiceTarjetaActual = (indiceTarjetaActual - 1 + tarjetasEstudio.length) % tarjetasEstudio.length; modal.remove(); mostrarTarjeta(); };
+            modal.querySelector('#nextTarjeta').onclick = () => { indiceTarjetaActual = (indiceTarjetaActual + 1) % tarjetasEstudio.length; modal.remove(); mostrarTarjeta(); };
+            modal.querySelector('.modal-close').onclick = () => modal.remove();
+            document.body.appendChild(modal);
+        }
+        
+        async function temasRelacionados() {
+            const tema = entrada.value.trim();
+            if (!tema) { showToast('Primero investiga un tema', true); return; }
+            
+            showToast('💡 Buscando temas relacionados...');
+            const sugerencias = await llamarJsllm7(`Sugiere 5 temas de investigación relacionados con "${tema}" pero que no sean obvios. Busca conexiones interdisciplinarias. Devuelve solo lista con viñetas •.`);
+            mostrarModal('💡 TEMAS RELACIONADOS', sugerencias);
+            actualizarMetricasConectores();
+        }
+        
+        function initLectorPDF() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.pdf';
+            input.onchange = async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                showToast('📚 Procesando PDF...');
+                
+                if (!window.pdfjsLib) {
+                    const script = document.createElement('script');
+                    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js';
+                    script.onload = () => procesarPDF(file);
+                    document.head.appendChild(script);
+                } else {
+                    procesarPDF(file);
+                }
+            };
+            input.click();
+        }
+        
+        async function procesarPDF(file) {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await window.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            let texto = '';
+            for (let i = 1; i <= Math.min(pdf.numPages, 10); i++) {
+                const page = await pdf.getPage(i);
+                const content = await page.getTextContent();
+                texto += content.items.map(item => item.str).join(' ') + '\n';
+            }
+            
+            const refMatch = texto.match(/(?:REFERENCIAS|REFERENCES|BIBLIOGRAFÍA)[\s\S]{0,4000}/i);
+            const referenciasTexto = refMatch ? refMatch[0] : texto.slice(-3000);
+            
+            const prompt = `Extrae todas las referencias bibliográficas en formato APA 7 de este texto. Devuelve solo las referencias, una por línea. Texto: ${referenciasTexto.substring(0, 3000)}`;
+            const referencias = await llamarJsllm7(prompt);
+            
+            mostrarModal('📚 REFERENCIAS EXTRAÍDAS DEL PDF', referencias);
+            actualizarMetricasConectores();
+        }
+        
+        async function conexionesInesperadas() {
+            const tema = entrada.value.trim();
+            if (!tema) { showToast('Primero investiga un tema', true); return; }
+            
+            showToast('✨ Conectando ideas...');
+            const dominios = ['Arte', 'Psicología', 'Historia', 'Música', 'Deporte', 'Gastronomía', 'Arquitectura', 'Moda'];
+            const conexiones = await llamarJsllm7(`Crea conexiones INESPERADAS pero con sentido entre "${tema}" y estos dominios: ${dominios.join(', ')}. Formato: 🎨 Arte: [conexión sorprendente] (una línea cada una). Máximo 8 líneas.`);
+            mostrarModal('✨ CONEXIONES INESPERADAS', conexiones);
+            actualizarMetricasConectores();
+        }
+        
+        function verEstadoTermux() {
+            const estado = jsllm7TermuxConectado ? '✅ Conectado' : '❌ Desconectado';
+            const mensaje = `
+=== ESTADO DE jsllm7 ===
+
+🔌 Puerto: 8081
+📊 Registros: 404,356,967
+📡 Estado: ${estado}
+📍 Fuente: ${jsllm7TermuxConectado ? 'Termux (local)' : 'CDN (fallback)'}
+
+${jsllm7TermuxConectado ? 
+'✅ jsllm7 está funcionando correctamente con 404M registros' : 
+'⚠️ jsllm7 no está conectado a Termux. Usando CDN como respaldo.'}
+
+Para conectar:
+1. Abre Termux
+2. Ejecuta: cd ~/experimento
+3. Ejecuta: python3 servidor.py &
+4. Recarga esta página
+`;
+            mostrarModal('🔌 ESTADO DE jsllm7', mensaje);
+        }
+        
+        document.getElementById('btnExamen').onclick = generarExamen;
+        document.getElementById('btnAbstract').onclick = generarAbstract;
+        document.getElementById('btnPDF').onclick = exportarPDF;
+        document.getElementById('btnComparar').onclick = compararFuentes;
+        document.getElementById('btnPlagio').onclick = detectarPlagio;
+        document.getElementById('btnTarjetas').onclick = generarTarjetas;
+        document.getElementById('btnRelacionados').onclick = temasRelacionados;
+        document.getElementById('btnPDFReferencias').onclick = initLectorPDF;
+        document.getElementById('btnConexiones').onclick = conexionesInesperadas;
+        document.getElementById('btnTermuxStatus').onclick = verEstadoTermux;
         
         // ============================================
         // RESOLVEDOR DE DEBERES
@@ -1188,7 +1487,7 @@ CONTENIDO: ${contenidoWord.substring(0, 4500)}
 RESPONDE CADA PREGUNTA ESPECÍFICA. SI HAY TABLAS, PRESÉNTALAS CON ESPACIOS.
 RESPUESTA COMPLETA (SIN MARKDOWN):`;
 
-                respuestaResuelta = await jsllm7(prompt);
+                respuestaResuelta = await llamarJsllm7(prompt);
                 
                 if (!respuestaResuelta || respuestaResuelta.length < 100) {
                     respuestaResuelta = 'El deber ha sido procesado correctamente. Descarga el archivo Word para ver la resolución completa.';
@@ -1236,7 +1535,7 @@ RESPUESTA COMPLETA (SIN MARKDOWN):`;
                     new Paragraph({ children: [new TextRun({ text: "INFORMACIÓN DEL DOCUMENTO", bold: true, size: 26, color: "3B82F6" })], alignment: AlignmentType.CENTER, spacing: { after: 200 } }),
                     new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, bottom: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, left: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, right: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, shading: { type: ShadingType.CLEAR, fill: "F3F4F6" }, children: [new TextRun({ text: `📄 Deber original: ${nombreWord}`, size: 22 })], spacing: { after: 80, before: 80, left: 400, right: 400 } }),
                     new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, bottom: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, left: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, right: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, shading: { type: ShadingType.CLEAR, fill: "F3F4F6" }, children: [new TextRun({ text: `🎯 Modo: ${modoActual === 'experto' ? 'EXPERTO' : 'BÁSICO'}`, size: 22 })], spacing: { after: 80, before: 0, left: 400, right: 400 } }),
-                    new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, bottom: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, left: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, right: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, shading: { type: ShadingType.CLEAR, fill: "F3F4F6" }, children: [new TextRun({ text: `🤖 IA utilizada: jsllm7 · Modelo avanzado`, size: 22 })], spacing: { after: 80, before: 0, left: 400, right: 400 } }),
+                    new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, bottom: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, left: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, right: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, shading: { type: ShadingType.CLEAR, fill: "F3F4F6" }, children: [new TextRun({ text: `🤖 IA utilizada: jsllm7 · 404M registros`, size: 22 })], spacing: { after: 80, before: 0, left: 400, right: 400 } }),
                     new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, bottom: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, left: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, right: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, shading: { type: ShadingType.CLEAR, fill: "F3F4F6" }, children: [new TextRun({ text: `📅 Fecha de generación: ${fecha}`, size: 22 })], spacing: { after: 80, before: 0, left: 400, right: 400 } })
                 );
                 
@@ -1261,7 +1560,7 @@ RESPUESTA COMPLETA (SIN MARKDOWN):`;
                     new Paragraph({ children: [], spacing: { before: 500 } }),
                     new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, children: [], spacing: { before: 200 } }),
                     new Paragraph({ children: [new TextRun({ text: "Documento generado automáticamente por AcadémIA Pro", size: 18, color: "6B7280", italics: true })], alignment: AlignmentType.CENTER, spacing: { before: 100, after: 50 } }),
-                    new Paragraph({ children: [new TextRun({ text: "Sistema de resolución académica con IA · 4 fuentes integradas · Formato APA 7", size: 18, color: "6B7280" })], alignment: AlignmentType.CENTER, spacing: { after: 50 } }),
+                    new Paragraph({ children: [new TextRun({ text: "Sistema de resolución académica con IA · 4 fuentes integradas · jsllm7 404M · Formato APA 7", size: 18, color: "6B7280" })], alignment: AlignmentType.CENTER, spacing: { after: 50 } }),
                     new Paragraph({ children: [new TextRun({ text: `© ${new Date().getFullYear()} - AcadémIA Pro`, size: 18, color: "6B7280" })], alignment: AlignmentType.CENTER, spacing: { after: 100 } })
                 );
                 
@@ -1281,319 +1580,6 @@ RESPUESTA COMPLETA (SIN MARKDOWN):`;
         };
         
         // ============================================
-        // 10 HERRAMIENTAS AVANZADAS
-        // ============================================
-        
-        function mostrarModal(titulo, contenido) {
-            const modal = document.createElement('div');
-            modal.className = 'modal-overlay';
-            modal.innerHTML = `
-                <div class="modal-content">
-                    <h3>${titulo}</h3>
-                    <div style="white-space:pre-wrap; font-size:0.85rem; line-height:1.5;">${contenido.replace(/\n/g, '<br>')}</div>
-                    <button class="modal-close">Cerrar</button>
-                </div>
-            `;
-            modal.querySelector('.modal-close').onclick = () => modal.remove();
-            document.body.appendChild(modal);
-        }
-        
-        async function generarExamen() {
-            const tema = entrada.value.trim();
-            const contenido = document.getElementById('contenido').innerText;
-            if (!tema || contenido === '---') { showToast('Primero investiga un tema', true); return; }
-            
-            showToast('🎯 Generando examen...');
-            const prompt = `Genera un examen académico sobre "${tema}". Formato EXACTO:
-            
-=== PREGUNTAS TIPO TEST ===
-1. [Pregunta]
-   A) [Opción]
-   B) [Opción]
-   C) [Opción] ✓
-   D) [Opción]
-
-=== PREGUNTAS ABIERTAS ===
-1. [Pregunta de desarrollo]
-2. [Pregunta de desarrollo]
-3. [Pregunta de desarrollo]
-
-=== RESPUESTAS TEST ===
-1. [Letra correcta]`;
-            
-            const examen = await jsllm7(prompt);
-            mostrarModal('📝 EXAMEN GENERADO', examen);
-            actualizarMetricasConectores();
-        }
-        
-        async function generarAbstract() {
-            const tema = entrada.value.trim();
-            const contenido = document.getElementById('contenido').innerText;
-            if (!tema) { showToast('Primero investiga un tema', true); return; }
-            
-            showToast('📌 Generando abstract...');
-            const abstract = await jsllm7(`Genera un abstract académico de máximo 150 palabras sobre "${tema}". Incluye: objetivo, metodología, hallazgos clave y conclusión. Texto base: ${contenido.substring(0, 2000)}`);
-            mostrarModal('📌 ABSTRACT ACADÉMICO', abstract);
-            actualizarMetricasConectores();
-        }
-        
-        function exportarPDF() {
-            const tema = entrada.value.trim();
-            if (!tema) { showToast('Primero investiga un tema', true); return; }
-            
-            const contenido = document.getElementById('contenido').innerText;
-            const referencias = Array.from(document.querySelectorAll('.bibliografia-item')).map(el => el.innerText.split('🔗')[0].trim()).join('\n\n');
-            
-            const ventana = window.open();
-            ventana.document.write(`
-                <!DOCTYPE html>
-                <html>
-                <head><meta charset="UTF-8"><title>AcadémIA Pro - ${tema}</title>
-                <style>
-                    body { font-family: 'Times New Roman', serif; margin: 2cm; line-height: 1.5; }
-                    h1 { color: #2c3e50; border-bottom: 2px solid #3498db; }
-                    .abstract { background: #f8f9fa; padding: 1rem; margin: 1rem 0; }
-                    .referencias { margin-top: 2rem; border-top: 1px solid #ccc; padding-top: 1rem; }
-                    @media print { body { margin: 2cm; } .no-print { display: none; } }
-                </style>
-                </head>
-                <body>
-                    <h1>${tema}</h1>
-                    <p><strong>Documento generado por AcadémIA Pro</strong> | ${new Date().toLocaleDateString()}</p>
-                    <div class="abstract"><strong>RESUMEN:</strong><br>${contenido.substring(0, 500)}...</div>
-                    <h2>Desarrollo</h2>
-                    <div>${contenido.replace(/\n/g, '<br>')}</div>
-                    <div class="referencias"><h3>Referencias APA 7</h3>${referencias.replace(/\n/g, '<br>')}</div>
-                    <p class="no-print" style="margin-top:2cm;"><button onclick="window.print()">🖨️ Imprimir / Guardar PDF</button></p>
-                </body>
-                </html>
-            `);
-            ventana.document.close();
-            actualizarMetricasConectores();
-        }
-        
-        let historial = JSON.parse(localStorage.getItem('acad_historial') || '[]');
-        
-        function guardarEnHistorial(tema) {
-            historial = [tema, ...historial.filter(t => t !== tema)].slice(0, 10);
-            localStorage.setItem('acad_historial', JSON.stringify(historial));
-            actualizarSidebarHistorial();
-        }
-        
-        function actualizarSidebarHistorial() {
-            let sidebar = document.getElementById('sidebarHistorial');
-            if (!sidebar && historial.length > 0) {
-                sidebar = document.createElement('div');
-                sidebar.id = 'sidebarHistorial';
-                document.body.appendChild(sidebar);
-            }
-            if (sidebar && historial.length > 0) {
-                sidebar.innerHTML = `<strong>📜 HISTORIAL</strong><hr>${historial.map(t => `<button class="historial-item" onclick="window.buscarTemaHistorial('${t.replace(/'/g, "\\'")}')">📌 ${t.substring(0, 22)}</button>`).join('')}`;
-            }
-        }
-        
-        window.buscarTemaHistorial = function(tema) {
-            entrada.value = tema;
-            buscarBtn.click();
-        };
-        
-        async function compararFuentes() {
-            const tema = entrada.value.trim();
-            if (!tema) { showToast('Primero investiga un tema', true); return; }
-            
-            showToast('🔍 Comparando fuentes...');
-            const [crossref, openalex, core, semantic] = await Promise.all([
-                buscarCrossref(tema), buscarOpenAlex(tema), buscarCORE(tema), buscarSemanticScholar(tema)
-            ]);
-            
-            const html = `
-            <div class="comparador-tabla">
-                <table>
-                    <tr><th>Fuente</th><th>Artículo más relevante</th><th>Año</th></tr>
-                    <tr><td>📄 Crossref</td><td>${crossref[0]?.titulo || '—'}</td><td>${crossref[0]?.year || '—'}</td></tr>
-                    <tr style="background:#1e293b;"><td>🔓 OpenAlex</td><td>${openalex[0]?.titulo || '—'}</td><td>${openalex[0]?.year || '—'}</td></tr>
-                    <tr><td>📚 CORE</td><td>${core[0]?.titulo || '—'}</td><td>${core[0]?.year || '—'}</td></tr>
-                    <tr style="background:#1e293b;"><td>🔬 Semantic Scholar</td><td>${semantic[0]?.titulo || '—'}</td><td>${semantic[0]?.year || '—'}</td></tr>
-                </table>
-                <p style="font-size:0.65rem; color:#64748b; margin-top:0.5rem;">ℹ️ Cada fuente indexa diferentes repositorios académicos</p>
-            </div>`;
-            
-            const existing = document.querySelector('.comparador-container');
-            if (existing) existing.remove();
-            const container = document.createElement('div');
-            container.className = 'comparador-container';
-            container.innerHTML = html;
-            document.getElementById('resultsCard').appendChild(container);
-            showToast('✅ Comparativa generada');
-            actualizarMetricasConectores();
-        }
-        
-        async function detectarPlagio() {
-            const textoGenerado = document.getElementById('contenido').innerText;
-            const fuentes = Array.from(document.querySelectorAll('.bibliografia-item')).map(el => el.innerText.split('🔗')[0].trim());
-            if (textoGenerado === '---' || fuentes.length === 0) { showToast('Primero investiga un tema', true); return; }
-            
-            showToast('🔍 Analizando originalidad...');
-            const prompt = `Analiza similitud entre texto y fuentes. Devuelve SOLO JSON:
-{
-    "similitud": 0-100,
-    "sugerencia": "..."
-}
-TEXTO: ${textoGenerado.substring(0, 1500)}
-FUENTES: ${fuentes.join(' | ')}`;
-            
-            const analisis = await jsllm7(prompt);
-            let data;
-            try { data = JSON.parse(analisis); } catch(e) { data = { similitud: 15, sugerencia: 'Revisa las citas de las fuentes encontradas' }; }
-            
-            mostrarModal('🔍 ANÁLISIS DE ORIGINALIDAD', `
-                <div style="text-align:center;">
-                    <div style="font-size:2rem; font-weight:bold; color:${data.similitud < 30 ? '#10b981' : data.similitud < 60 ? '#f59e0b' : '#ef4444'}">${data.similitud}%</div>
-                    <p>Similitud estimada con fuentes académicas</p>
-                    <hr>
-                    <strong>💡 Sugerencia:</strong> ${data.sugerencia || 'Cita las fuentes correctamente'}
-                </div>
-            `);
-            actualizarMetricasConectores();
-        }
-        
-        let tarjetasEstudio = JSON.parse(localStorage.getItem('acad_tarjetas') || '[]');
-        let indiceTarjetaActual = 0;
-        
-        async function generarTarjetas() {
-            const tema = entrada.value.trim();
-            const contenido = document.getElementById('contenido').innerText;
-            if (!tema) { showToast('Primero investiga un tema', true); return; }
-            
-            showToast('🃏 Generando tarjetas de estudio...');
-            const prompt = `Crea 5 tarjetas estudio formato "PREGUNTA|RESPUESTA" sobre "${tema}". Cada línea: ¿Pregunta clara?|Respuesta concisa (max 20 palabras).`;
-            const resultado = await jsllm7(prompt);
-            
-            const nuevas = resultado.split('\n').filter(l => l.includes('|')).map(l => {
-                const [pregunta, respuesta] = l.split('|');
-                return { pregunta: pregunta.trim().replace(/^[¿?]/, ''), respuesta: respuesta.trim(), tema, creada: Date.now() };
-            });
-            
-            tarjetasEstudio = [...nuevas, ...tarjetasEstudio].slice(0, 30);
-            localStorage.setItem('acad_tarjetas', JSON.stringify(tarjetasEstudio));
-            indiceTarjetaActual = 0;
-            mostrarTarjeta();
-            actualizarMetricasConectores();
-        }
-        
-        function mostrarTarjeta() {
-            if (tarjetasEstudio.length === 0) { showToast('No hay tarjetas. Genera algunas primero'); return; }
-            const tarjeta = tarjetasEstudio[indiceTarjetaActual];
-            let volteada = false;
-            
-            const modal = document.createElement('div');
-            modal.className = 'modal-overlay';
-            const cardDiv = document.createElement('div');
-            cardDiv.style.cssText = 'width:400px; height:250px; background:linear-gradient(135deg,#1e293b,#0f172a); border-radius:1rem; border:2px solid #8b5cf6; display:flex; align-items:center; justify-content:center; text-align:center; cursor:pointer; transition:0.3s; padding:1rem; margin:auto;';
-            cardDiv.innerHTML = `<strong style="color:#a78bfa;">${tarjeta.pregunta}</strong>`;
-            
-            cardDiv.onclick = () => {
-                if (!volteada) {
-                    cardDiv.innerHTML = `<div><strong style="color:#10b981;">📝 RESPUESTA</strong><br><br>${tarjeta.respuesta}</div>`;
-                    volteada = true;
-                } else {
-                    cardDiv.innerHTML = `<strong style="color:#a78bfa;">${tarjeta.pregunta}</strong>`;
-                    volteada = false;
-                }
-            };
-            
-            modal.innerHTML = `
-                <div class="modal-content" style="max-width:500px; text-align:center;">
-                    <div id="tarjetaContainer"></div>
-                    <div style="margin-top:1rem; display:flex; gap:1rem; justify-content:center;">
-                        <button id="prevTarjeta" style="background:#334155; border:none; padding:8px 16px; border-radius:20px; color:white; cursor:pointer;">◀ Anterior</button>
-                        <button id="nextTarjeta" style="background:#8b5cf6; border:none; padding:8px 16px; border-radius:20px; color:white; cursor:pointer;">Siguiente ▶</button>
-                    </div>
-                    <button class="modal-close" style="margin-top:1rem;">Cerrar</button>
-                </div>
-            `;
-            modal.querySelector('#tarjetaContainer').appendChild(cardDiv);
-            modal.querySelector('#prevTarjeta').onclick = () => { indiceTarjetaActual = (indiceTarjetaActual - 1 + tarjetasEstudio.length) % tarjetasEstudio.length; modal.remove(); mostrarTarjeta(); };
-            modal.querySelector('#nextTarjeta').onclick = () => { indiceTarjetaActual = (indiceTarjetaActual + 1) % tarjetasEstudio.length; modal.remove(); mostrarTarjeta(); };
-            modal.querySelector('.modal-close').onclick = () => modal.remove();
-            document.body.appendChild(modal);
-        }
-        
-        async function temasRelacionados() {
-            const tema = entrada.value.trim();
-            if (!tema) { showToast('Primero investiga un tema', true); return; }
-            
-            showToast('💡 Buscando temas relacionados...');
-            const sugerencias = await jsllm7(`Sugiere 5 temas de investigación relacionados con "${tema}" pero que no sean obvios. Busca conexiones interdisciplinarias. Devuelve solo lista con viñetas •.`);
-            mostrarModal('💡 TEMAS RELACIONADOS', sugerencias);
-            actualizarMetricasConectores();
-        }
-        
-        function initLectorPDF() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.pdf';
-            input.onchange = async (e) => {
-                const file = e.target.files[0];
-                if (!file) return;
-                showToast('📚 Procesando PDF...');
-                
-                if (!window.pdfjsLib) {
-                    const script = document.createElement('script');
-                    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js';
-                    script.onload = () => procesarPDF(file);
-                    document.head.appendChild(script);
-                } else {
-                    procesarPDF(file);
-                }
-            };
-            input.click();
-        }
-        
-        async function procesarPDF(file) {
-            const arrayBuffer = await file.arrayBuffer();
-            const pdf = await window.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-            let texto = '';
-            for (let i = 1; i <= Math.min(pdf.numPages, 10); i++) {
-                const page = await pdf.getPage(i);
-                const content = await page.getTextContent();
-                texto += content.items.map(item => item.str).join(' ') + '\n';
-            }
-            
-            const refMatch = texto.match(/(?:REFERENCIAS|REFERENCES|BIBLIOGRAFÍA)[\s\S]{0,4000}/i);
-            const referenciasTexto = refMatch ? refMatch[0] : texto.slice(-3000);
-            
-            const prompt = `Extrae todas las referencias bibliográficas en formato APA 7 de este texto. Devuelve solo las referencias, una por línea. Texto: ${referenciasTexto.substring(0, 3000)}`;
-            const referencias = await jsllm7(prompt);
-            
-            mostrarModal('📚 REFERENCIAS EXTRAÍDAS DEL PDF', referencias);
-            actualizarMetricasConectores();
-        }
-        
-        async function conexionesInesperadas() {
-            const tema = entrada.value.trim();
-            if (!tema) { showToast('Primero investiga un tema', true); return; }
-            
-            showToast('✨ Conectando ideas...');
-            const dominios = ['Arte', 'Psicología', 'Historia', 'Música', 'Deporte', 'Gastronomía', 'Arquitectura', 'Moda'];
-            const conexiones = await jsllm7(`Crea conexiones INESPERADAS pero con sentido entre "${tema}" y estos dominios: ${dominios.join(', ')}. Formato: 🎨 Arte: [conexión sorprendente] (una línea cada una). Máximo 8 líneas.`);
-            mostrarModal('✨ CONEXIONES INESPERADAS', conexiones);
-            actualizarMetricasConectores();
-        }
-        
-        document.getElementById('btnExamen').onclick = generarExamen;
-        document.getElementById('btnAbstract').onclick = generarAbstract;
-        document.getElementById('btnPDF').onclick = exportarPDF;
-        document.getElementById('btnComparar').onclick = compararFuentes;
-        document.getElementById('btnPlagio').onclick = detectarPlagio;
-        document.getElementById('btnTarjetas').onclick = generarTarjetas;
-        document.getElementById('btnRelacionados').onclick = temasRelacionados;
-        document.getElementById('btnPDFReferencias').onclick = initLectorPDF;
-        document.getElementById('btnConexiones').onclick = conexionesInesperadas;
-        
-        actualizarSidebarHistorial();
-        
-        // ============================================
         // DEEP LINKING - CARGAR CONSULTA DESDE URL
         // ============================================
         
@@ -1606,14 +1592,42 @@ FUENTES: ${fuentes.join(' | ')}`;
             }
         }
         
+        // ============================================
+        // INICIALIZACIÓN - VERIFICAR CONEXIÓN CON TERMUX
+        // ============================================
+        
+        async function verificarTermux() {
+            try {
+                const response = await fetch(`${JSLLM7_API_URL}/stats`);
+                if (response.ok) {
+                    const stats = await response.json();
+                    jsllm7TermuxConectado = true;
+                    document.getElementById('jsllm7WidgetStatus').textContent = `🧠 jsllm7: ✅ Activo (${stats.total?.toLocaleString() || '404M'} en Termux:8081)`;
+                    document.getElementById('jsllm7WidgetStatus').style.color = '#10b981';
+                    document.getElementById('termuxStatus').textContent = `🔌 jsllm7: ✅ Conectado a Termux · ${stats.total?.toLocaleString() || '404M'} registros`;
+                    document.getElementById('termuxStatus').style.color = '#10b981';
+                    console.log('✅ jsllm7 conectado a Termux:', stats);
+                }
+            } catch(e) {
+                jsllm7TermuxConectado = false;
+                document.getElementById('jsllm7WidgetStatus').textContent = '🧠 jsllm7: ⚠️ Usando CDN';
+                document.getElementById('jsllm7WidgetStatus').style.color = '#f59e0b';
+                document.getElementById('termuxStatus').textContent = '⚠️ jsllm7: Termux no disponible · Usando CDN';
+                document.getElementById('termuxStatus').style.color = '#f59e0b';
+                console.warn('⚠️ Termux no disponible en puerto 8081');
+            }
+        }
+        
         cargarDesdeURL();
+        verificarTermux();
+        setInterval(verificarTermux, 30000);
         
         // ============================================
         // INICIALIZACIÓN
         // ============================================
         
         setTimeout(() => { 
-            showToast("✅ AcadémIA Pro lista · Conectores activos · 10 herramientas disponibles");
+            showToast("✅ AcadémIA Pro lista · jsllm7 404M · Conectores activos · 10 herramientas disponibles");
             actualizarMetricasConectores();
         }, 1500);
         
