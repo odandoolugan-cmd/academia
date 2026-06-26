@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <title>AcadémIA Pro · 4 Fuentes + IA 100% · APA 7 + Conectores Avanzados + jsllm7 404M</title>
+    <title>AcadémIA Pro · 403M DECIDE · 4 Fuentes + IA 100% · APA 7</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', system-ui, sans-serif; background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%); color: #eef2ff; min-height: 100vh; padding: 1rem; overflow-x: hidden; }
@@ -12,12 +12,13 @@
         .header { text-align: center; margin-bottom: 2rem; }
         h1 { font-size: 2rem; background: linear-gradient(135deg, #FFD166, #FF6B6B, #4ECDC4, #8B5CF6); -webkit-background-clip: text; background-clip: text; color: transparent; }
         .sub { color: #94a3b8; margin-top: 0.5rem; font-size: 0.7rem; }
+        .badge-decision { background: linear-gradient(90deg, #8b5cf6, #ec4899); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
+        @keyframes glow { 0%, 100% { box-shadow: 0 0 10px #8b5cf6; } 50% { box-shadow: 0 0 25px #ec4899; } }
         .daily-message { background: rgba(139, 92, 246, 0.15); border-radius: 1rem; padding: 0.8rem; margin: 1rem auto; text-align: center; max-width: 80%; border-left: 3px solid #8b5cf6; border-right: 3px solid #8b5cf6; font-size: 0.85rem; }
         .modo-selector { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; }
         .modo-btn { background: #1e293b; border: 1px solid #334155; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 600; color: #94a3b8; }
         .modo-btn.active { background: #8b5cf6; color: white; border-color: #8b5cf6; }
         .search-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 1.5rem; padding: 1.5rem; border: 1px solid rgba(139, 92, 246, 0.3); margin-bottom: 1.5rem; }
-        
         .resolver-section { background: rgba(15, 23, 42, 0.6); border-radius: 1rem; padding: 1rem; margin-bottom: 1rem; border: 1px solid rgba(139, 92, 246, 0.3); }
         .resolver-title { font-size: 0.9rem; font-weight: bold; margin-bottom: 0.8rem; color: #a78bfa; display: flex; align-items: center; gap: 8px; }
         .word-upload-bar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
@@ -28,11 +29,11 @@
         .word-btn.success { background: linear-gradient(90deg, #10b981, #059669); color: white; border: none; }
         .file-input-hidden { display: none; }
         .word-status { font-size: 0.7rem; color: #10b981; margin-left: 10px; display: inline-block; }
-        
         .tools-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 15px 0; justify-content: center; }
         .tool-btn { background: #1e293b; border: 1px solid #334155; padding: 6px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 500; color: #94a3b8; transition: 0.2s; }
         .tool-btn:hover { background: #8b5cf6; color: white; border-color: #8b5cf6; transform: scale(1.02); }
-        
+        .tool-btn.decision { border-color: #8b5cf6; color: #a78bfa; background: #1e293b; }
+        .tool-btn.decision:hover { background: linear-gradient(135deg, #8b5cf6, #ec4899); color: white; border-color: #8b5cf6; }
         .sources-badge { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1rem; justify-content: center; }
         .source-badge { background: rgba(139, 92, 246, 0.2); padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; border: 1px solid rgba(139, 92, 246, 0.4); }
         .source-badge.crossref { border-color: #3b82f6; }
@@ -40,102 +41,27 @@
         .source-badge.core { border-color: #f59e0b; }
         .source-badge.semantic { border-color: #ef4444; }
         .source-badge.jsllm7 { border-color: #8b5cf6; background: rgba(139, 92, 246, 0.3); }
-        
         .input-group { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
         .search-input { flex: 1; padding: 1rem; background: #1e293b; border: 1px solid #334155; border-radius: 1rem; color: white; font-size: 1rem; }
         .search-input:focus { outline: none; border-color: #8b5cf6; }
         .btn-primary { background: linear-gradient(90deg, #8b5cf6, #3b82f6); border: none; padding: 0 2rem; border-radius: 1rem; color: white; font-weight: bold; cursor: pointer; transition: transform 0.2s; }
         .btn-primary:hover { transform: scale(1.02); }
         .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-        
-        .widget-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin: 15px 0;
-        }
-        
-        .widget {
-            background: rgba(26, 37, 48, 0.95);
-            border: 1px solid #8b5cf6;
-            border-radius: 12px;
-            padding: 15px;
-            transition: all 0.3s;
-        }
-        
-        .widget:hover {
-            border-color: #a78bfa;
-            box-shadow: 0 0 20px rgba(139, 92, 246, 0.1);
-        }
-        
-        .widget-title {
-            font-weight: bold;
-            color: #a78bfa;
-            font-size: 0.8rem;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .widget-content {
-            font-size: 0.85rem;
-            line-height: 1.6;
-            color: #f0f4f8;
-        }
-        
-        .widget-confidence {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 10px;
-            padding: 8px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 8px;
-        }
-        
-        .confidence-bar {
-            flex: 1;
-            height: 4px;
-            background: #2c3a4a;
-            border-radius: 2px;
-            overflow: hidden;
-        }
-        
-        .confidence-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #f59e0b, #10b981);
-            transition: width 1s ease;
-            width: 0%;
-        }
-        
-        .confidence-label {
-            font-size: 0.7rem;
-            color: #b0c4de;
-            min-width: 40px;
-        }
-        
-        .sources-list {
-            margin-top: 10px;
-            padding: 10px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 8px;
-            font-size: 0.7rem;
-        }
-        
-        .source-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 4px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        
+        .widget-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0; }
+        .widget { background: rgba(26, 37, 48, 0.95); border: 1px solid #8b5cf6; border-radius: 12px; padding: 15px; transition: all 0.3s; }
+        .widget:hover { border-color: #a78bfa; box-shadow: 0 0 20px rgba(139, 92, 246, 0.1); }
+        .widget-title { font-weight: bold; color: #a78bfa; font-size: 0.8rem; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .widget-content { font-size: 0.85rem; line-height: 1.6; color: #f0f4f8; }
+        .widget-confidence { display: flex; align-items: center; gap: 10px; margin-top: 10px; padding: 8px; background: rgba(0,0,0,0.3); border-radius: 8px; }
+        .confidence-bar { flex: 1; height: 4px; background: #2c3a4a; border-radius: 2px; overflow: hidden; }
+        .confidence-fill { height: 100%; background: linear-gradient(90deg, #f59e0b, #10b981); transition: width 1s ease; width: 0%; }
+        .confidence-label { font-size: 0.7rem; color: #b0c4de; min-width: 40px; }
+        .sources-list { margin-top: 10px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 0.7rem; }
+        .source-item { display: flex; align-items: center; gap: 8px; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .source-item:last-child { border-bottom: none; }
         .source-icon { font-size: 0.8rem; }
         .source-link { color: #a78bfa; text-decoration: none; word-break: break-all; font-size: 0.65rem; }
         .source-link:hover { text-decoration: underline; }
-        
         .results-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 1.5rem; padding: 1.5rem; border: 1px solid rgba(139, 92, 246, 0.3); display: none; }
         .results-card.active { display: block; }
         .section-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 1rem; border-left: 4px solid #8b5cf6; padding-left: 1rem; }
@@ -143,7 +69,6 @@
         .feedback-buttons { display: flex; gap: 10px; margin-top: 10px; justify-content: flex-end; }
         .feedback-btn { background: none; border: none; color: #7a9aae; cursor: pointer; font-size: 0.7rem; padding: 4px 10px; border-radius: 15px; transition: 0.2s; }
         .feedback-btn:hover { background: #334155; color: #e9c46a; }
-        .feedback-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .cita-apa { background: rgba(139, 92, 246, 0.15); border-left: 4px solid #8b5cf6; padding: 1rem; border-radius: 0.8rem; margin-bottom: 1.5rem; font-family: monospace; font-size: 0.85rem; }
         .bibliografia { background: rgba(15, 23, 42, 0.6); border-radius: 1rem; padding: 1.2rem; max-height: 300px; overflow-y: auto; }
         .bibliografia-item { padding: 0.8rem 0 0.8rem 2rem; border-bottom: 1px solid #334155; font-size: 0.8rem; text-indent: -2rem; margin-left: 2rem; }
@@ -168,65 +93,36 @@
         .sponsors { text-align: center; margin: 20px 0 10px 0; padding: 8px; }
         .sponsors-link { display: inline-flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
         .sponsors-link a { background: rgba(255,255,255,0.08); padding: 4px 12px; border-radius: 20px; text-decoration: none; font-size: 0.65rem; color: #94a3b8; border: 1px solid rgba(255,255,255,0.1); }
-        .sponsors-link a:hover { background: rgba(255,255,255,0.15); color: #e9c46a; }
         .loading-spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite; margin-right: 6px; vertical-align: middle; }
         .status-message { background: #1e293b; border-radius: 1rem; padding: 0.5rem 1rem; margin: 0.5rem 0; font-size: 0.7rem; text-align: center; color: #10b981; }
-        
-        .connector-metrics {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            margin-top: 10px;
-        }
-        .connector-metric {
-            background: rgba(0,0,0,0.3);
-            padding: 6px;
-            border-radius: 6px;
-            text-align: center;
-        }
-        .connector-metric .value {
-            font-size: 1rem;
-            font-weight: bold;
-            color: #a78bfa;
-        }
-        .connector-metric .label {
-            font-size: 0.55rem;
-            color: #94a3b8;
-        }
-        
+        .connector-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+        .connector-metric { background: rgba(0,0,0,0.3); padding: 6px; border-radius: 6px; text-align: center; }
+        .connector-metric .value { font-size: 1rem; font-weight: bold; color: #a78bfa; }
+        .connector-metric .label { font-size: 0.55rem; color: #94a3b8; }
+        #decisionStatus { font-size: 0.65rem; color: #ec4899; margin-top: 4px; }
         #sidebarHistorial { position: fixed; left: 10px; top: 100px; background: #1e293b; border-radius: 1rem; padding: 0.8rem; width: 180px; z-index: 1000; font-size: 0.7rem; border: 1px solid #8b5cf6; backdrop-filter: blur(10px); max-height: 80vh; overflow-y: auto; }
         #sidebarHistorial strong { color: #a78bfa; }
         #sidebarHistorial hr { margin: 5px 0; border-color: #334155; }
         .historial-item { background: none; border: none; color: #94a3b8; cursor: pointer; display: block; margin: 5px 0; text-align: left; width: 100%; font-size: 0.65rem; padding: 4px; border-radius: 8px; }
         .historial-item:hover { background: #334155; color: #a78bfa; }
-        
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: flex; align-items: center; justify-content: center; }
         .modal-content { background: #0f172a; border-radius: 1.5rem; max-width: 550px; width: 90%; max-height: 80vh; overflow-y: auto; padding: 1.5rem; border: 2px solid #8b5cf6; }
         .modal-content h3 { color: #a78bfa; margin-bottom: 1rem; }
         .modal-close { margin-top: 1rem; background: #8b5cf6; border: none; padding: 0.5rem 1rem; border-radius: 2rem; color: white; cursor: pointer; }
-        
         .comparador-tabla { overflow-x: auto; margin: 1rem 0; }
         .comparador-tabla table { width: 100%; border-collapse: collapse; background: #0f172a; border-radius: 1rem; }
         .comparador-tabla th { background: #8b5cf6; padding: 0.75rem; }
         .comparador-tabla td { padding: 0.5rem; border-bottom: 1px solid #334155; }
-        
-        @media (max-width: 700px) { 
-            .input-group { flex-direction: column; } 
-            .btn-primary { padding: 0.8rem; } 
-            .bibliografia-item { margin-left: 1rem; text-indent: -1rem; }
-            #sidebarHistorial { display: none; }
-            .widget-container { grid-template-columns: 1fr; }
-            .connector-metrics { grid-template-columns: 1fr 1fr; }
-        }
+        @media (max-width: 700px) { .input-group { flex-direction: column; } .btn-primary { padding: 0.8rem; } .bibliografia-item { margin-left: 1rem; text-indent: -1rem; } #sidebarHistorial { display: none; } .widget-container { grid-template-columns: 1fr; } .connector-metrics { grid-template-columns: 1fr 1fr; } }
     </style>
 </head>
 <body>
 
     <div class="normal-mode" id="normalMode">
         <div class="header">
-            <h1>📚 AcadémIA Pro <span class="ia-badge">IA 100%</span> <span class="ia-badge" style="background:#8b5cf6;">jsllm7 404M</span></h1>
-            <div class="sub" id="subtitle">Investigación · 4 Fuentes · APA 7 · Conectores Avanzados · jsllm7 404M</div>
-            <div class="daily-message" id="dailyMessage"><span id="dailyMessageText">📖 El conocimiento es la única riqueza que crece cuando se comparte.</span></div>
+            <h1>📚 AcadémIA Pro <span class="ia-badge">IA 100%</span> <span class="ia-badge" style="background:#8b5cf6;">jsllm7 404M</span> <span class="badge-decision">🧠 DECIDE</span></h1>
+            <div class="sub" id="subtitle">403M DECIDE · 4 Fuentes · APA 7 · Conectores Avanzados · jsllm7 404M</div>
+            <div class="daily-message" id="dailyMessage"><span id="dailyMessageText">🧠 El núcleo 403M decide qué BIG TECH activar para cada consulta académica</span></div>
         </div>
 
         <div class="modo-selector">
@@ -237,7 +133,7 @@
         <div class="search-card">
             <div class="resolver-section">
                 <div class="resolver-title">
-                    🎓 <span>RESOLVEDOR DE DEBERES INTELIGENTE</span>
+                    🎓 <span>RESOLVEDOR DE DEBERES INTELIGENTE (403M DECIDE)</span>
                 </div>
                 <div class="word-upload-bar">
                     <button class="word-btn" id="subirWordBtn">📄 SUBIR WORD CON EL DEBER</button>
@@ -246,7 +142,7 @@
                     <input type="file" id="wordFileInput" class="file-input-hidden" accept=".docx,.doc">
                     <span id="wordStatus" class="word-status">⚡ Esperando archivo...</span>
                 </div>
-                <div style="font-size:0.65rem; color:#64748b; margin-top:8px;">📌 Sube tu tarea en Word y la IA la resolverá completamente con formato profesional</div>
+                <div style="font-size:0.65rem; color:#64748b; margin-top:8px;">📌 403M decide automáticamente qué fuentes usar para resolver tu tarea</div>
             </div>
 
             <div class="tools-bar">
@@ -259,6 +155,7 @@
                 <button class="tool-btn" id="btnRelacionados">💡 Relacionados</button>
                 <button class="tool-btn" id="btnPDFReferencias">📚 PDF->Refs</button>
                 <button class="tool-btn" id="btnConexiones">✨ Conexiones</button>
+                <button class="tool-btn decision" id="btnDecisionStatus">🧠 403M Decide</button>
                 <button class="tool-btn" id="btnTermuxStatus" style="border-color:#8b5cf6;color:#a78bfa;">🔌 Estado jsllm7</button>
             </div>
 
@@ -273,10 +170,11 @@
                 <input type="text" class="search-input" id="topicInput" placeholder="Ej: Inteligencia artificial en educación, Cambio climático...">
                 <button class="btn-primary" id="searchBtn">🔍 INVESTIGAR</button>
             </div>
-            <div class="ethical-notice">📌 <strong>5 fuentes académicas reales</strong> · Conectores: Memoria · Semántico · APIs · jsllm7 404M</div>
-            <div class="restriction-alert" id="restrictionAlert">🔍 Buscando en 5 bases de datos · IA 100% · jsllm7 404M · Conectores avanzados</div>
+            <div class="ethical-notice">📌 <strong>5 fuentes académicas reales</strong> · 403M DECIDE · Conectores: Memoria · Semántico · APIs · jsllm7 404M</div>
+            <div class="restriction-alert" id="restrictionAlert">🧠 403M DECIDE qué BIG TECH activar · 4 bases de datos · IA 100%</div>
             <div id="statusMessage" class="status-message" style="display:none;">⏳ Procesando...</div>
-            <div id="termuxStatus" style="font-size:0.65rem;color:#94a3b8;text-align:center;margin-top:8px;">🔌 jsllm7: Conectando a Termux (puerto 8081)...</div>
+            <div id="decisionStatus" style="font-size:0.65rem;color:#ec4899;text-align:center;margin-top:8px;">🧠 403M DECIDE: Listo para analizar consultas</div>
+            <div id="termuxStatus" style="font-size:0.65rem;color:#94a3b8;text-align:center;margin-top:4px;">🔌 jsllm7: Conectando a Termux (puerto 8081)...</div>
         </div>
 
         <!-- WIDGETS CON MÉTRICAS DE CONECTORES -->
@@ -351,7 +249,7 @@
         </div>
 
         <div class="sponsors"><div class="sponsors-link"><a href="#" target="_blank">🎮 OFERTA 1</a><a href="#" target="_blank">🎲 OFERTA 2</a></div></div>
-        <div class="footer-text" id="footer">⚡ AcadémIA Pro · Conectores: Memoria · Semántico · APIs · jsllm7 404M · 10 herramientas · APA 7</div>
+        <div class="footer-text" id="footer">⚡ AcadémIA Pro · 403M DECIDE · Conectores: Memoria · Semántico · APIs · jsllm7 404M · 10 herramientas · APA 7</div>
     </div>
 
     <button class="vr-button" id="vrModeBtn">🔮 ACTIVAR MODO VR</button>
@@ -379,6 +277,151 @@
         const JSLLM7_API_URL = 'http://localhost:8081';
         let jsllm7TermuxConectado = false;
         
+        // ============================================
+        // NÚCLEO 403M DECIDE
+        // ============================================
+        
+        class Nucleo403MDecisor {
+            constructor() {
+                this.nucleo = {
+                    activo: true,
+                    parametros: 403000000,
+                    decisiones: 0
+                };
+                
+                this.bigTech = {
+                    nvidia: { activo: false, usos: 0, nombre: 'NVIDIA (GPU)' },
+                    google: { activo: false, usos: 0, nombre: 'Google (Búsqueda)' },
+                    meta: { activo: false, usos: 0, nombre: 'Meta (Social)' },
+                    amazon: { activo: false, usos: 0, nombre: 'Amazon (Música)' },
+                    microsoft: { activo: false, usos: 0, nombre: 'Microsoft (Código)' },
+                    apple: { activo: false, usos: 0, nombre: 'Apple (Diseño)' }
+                };
+                
+                this.historialDecisiones = [];
+                
+                console.log('🧠 NÚCLEO 403M DECIDE inicializado para AcadémIA Pro');
+            }
+            
+            async analizarYDecidir(pregunta, modo) {
+                this.nucleo.decisiones++;
+                
+                console.log(`🧠 403M analizando consulta académica: "${pregunta.substring(0, 60)}..."`);
+                document.getElementById('decisionStatus').textContent = '🧠 403M DECIDE: Analizando consulta académica...';
+                
+                const promptDecision = `[DECISIÓN AUTÓNOMA 403M - ACADÉMICO]
+Analiza la siguiente consulta académica y decide qué BIG TECH activar:
+
+CONSULTA: "${pregunta}"
+MODO: ${modo}
+
+BIG TECH DISPONIBLES:
+1. NVIDIA - Para visualización de datos, gráficos académicos, procesamiento de imágenes
+2. Google - Para búsqueda de información académica, datos, referencias
+3. Meta - Para conexión con comunidades académicas, compartir investigaciones
+4. Amazon - Para acceso a libros, artículos, recursos académicos
+5. Microsoft - Para generación de código, herramientas de análisis, accesibilidad
+6. Apple - Para diseño de presentaciones, experiencias visuales académicas
+
+DECIDE basándote en el contenido:
+- Si la consulta es sobre visualización de datos o gráficos → NVIDIA
+- Si es sobre búsqueda de información académica → Google
+- Si es sobre colaboración o comunidad académica → Meta
+- Si es sobre acceso a recursos académicos → Amazon
+- Si es sobre análisis de datos o código → Microsoft
+- Si es sobre diseño de presentaciones → Apple
+
+Responde SOLO con los nombres de los BIG TECH a activar, separados por comas.
+Ejemplo: "Google, Microsoft" o "NVIDIA"
+
+DECISIÓN:`;
+
+                const decision = await llamarJsllm7(promptDecision);
+                console.log(`🧠 Decisión 403M: ${decision}`);
+                
+                const techsActivar = this.procesarDecision(decision);
+                
+                if (techsActivar.length > 0) {
+                    document.getElementById('decisionStatus').textContent = `🧠 403M DECIDE: Activando ${techsActivar.join(', ')}`;
+                }
+                
+                for (const tech of techsActivar) {
+                    if (this.bigTech[tech] && !this.bigTech[tech].activo) {
+                        this.bigTech[tech].activo = true;
+                        this.bigTech[tech].usos++;
+                        console.log(`🚀 403M activó: ${tech.toUpperCase()}`);
+                    }
+                }
+                
+                this.historialDecisiones.push({
+                    pregunta: pregunta.substring(0, 80),
+                    decision: techsActivar,
+                    timestamp: new Date().toISOString()
+                });
+                
+                return techsActivar;
+            }
+            
+            procesarDecision(decision) {
+                if (!decision) return ['google'];
+                
+                const techs = [];
+                const d = decision.toLowerCase();
+                
+                const mapeo = {
+                    'nvidia': 'nvidia',
+                    'google': 'google',
+                    'meta': 'meta',
+                    'amazon': 'amazon',
+                    'microsoft': 'microsoft',
+                    'apple': 'apple'
+                };
+                
+                for (const [key, value] of Object.entries(mapeo)) {
+                    if (d.includes(key) || d.includes(value)) {
+                        techs.push(value);
+                    }
+                }
+                
+                return techs.length > 0 ? techs : ['google'];
+            }
+            
+            getEstado() {
+                const activos = Object.entries(this.bigTech)
+                    .filter(([k, v]) => v.activo)
+                    .map(([k]) => k);
+                
+                return {
+                    decisiones: this.nucleo.decisiones,
+                    bigTechActivos: activos,
+                    usos: Object.fromEntries(
+                        Object.entries(this.bigTech).map(([k, v]) => [k, v.usos])
+                    ),
+                    historial: this.historialDecisiones.slice(-5)
+                };
+            }
+            
+            mostrarEstado() {
+                const e = this.getEstado();
+                let mensaje = `
+=== 🧠 403M DECIDE (ACADÉMICO) ===
+
+📊 Decisiones tomadas: ${e.decisiones}
+
+🏢 BIG TECH ACTIVADOS POR 403M:
+${Object.entries(e.usos).map(([k, v]) => `   • ${k}: ${v} usos`).join('\n')}
+
+📜 ÚLTIMAS DECISIONES:
+${e.historial.map(h => `   • "${h.pregunta}..." → ${h.decision.join(', ')}`).join('\n')}
+
+${e.bigTechActivos.length > 0 ? '✅ 403M está activando BIG TECH automáticamente' : '⚠️ 403M aún no ha activado BIG TECH'}
+`;
+                return mensaje;
+            }
+        }
+
+        const nucleoDecisor = new Nucleo403MDecisor();
+
         // ============================================
         // CONECTOR DE MEMORIA
         // ============================================
@@ -664,7 +707,6 @@
         async function llamarJsllm7(prompt) {
             console.log('🔍 Intentando llamar a jsllm7...');
             
-            // 1. INTENTAR CON TERMUX (API local)
             const termuxResponse = await llamarJsllm7Termux(prompt);
             if (termuxResponse) {
                 console.log('✅ Respuesta de Termux obtenida');
@@ -673,7 +715,6 @@
             
             console.log('⚠️ Termux no disponible, intentando CDN...');
             
-            // 2. FALLBACK: Usar jsllm7 del CDN
             if (typeof window.jsllm7 !== 'undefined' && window.jsllm7) {
                 try {
                     const response = await window.jsllm7(prompt);
@@ -686,7 +727,6 @@
                 }
             }
             
-            // 3. FALLBACK FINAL: Respuesta genérica
             console.log('⚠️ Usando fallback genérico');
             return generarFallbackSecreto(prompt);
         }
@@ -720,7 +760,7 @@
             general: { metodologias: ["Revisión sistemática", "Estudio de casos", "Análisis cualitativo"] }
         };
         
-        function generarPromptSecreto(tema, pais, modo) {
+        function generarPromptSecreto(tema, pais, modo, bigTechActivados) {
             const temaDetectado = detectarTemaSecreto(tema);
             const esExperto = modo === 'experto';
             let conocimientoInyectado = "";
@@ -733,6 +773,7 @@
             let prompt = `[RESPONDE EXCLUSIVAMENTE EN ESPAÑOL. PROHIBIDO EL INGLÉS.]
 
 Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInyectado}
+BIG TECH ACTIVADOS POR 403M: ${bigTechActivados.join(', ') || 'Ninguno'}
 
 **Tema:** "${tema}"
 
@@ -836,7 +877,6 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
             confidenceFill.style.width = confianza + '%';
             confidenceLabel.textContent = Math.round(confianza) + '%';
             
-            // Estructura
             const estructura = detectarEstructura(respuesta);
             widgetEstructuraContent.innerHTML = `
                 <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">
@@ -847,7 +887,6 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
                 </div>
             `;
             
-            // Metadatos
             const metadatos = generarMetadatos(tema, respuesta, confianza, fuentes || []);
             metadataContainer.innerHTML = `<script type="application/ld+json">${JSON.stringify(metadatos)}<\/script>`;
             
@@ -908,7 +947,7 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
         }
         
         // ============================================
-        // FUNCIÓN PRINCIPAL
+        // FUNCIÓN PRINCIPAL CON 403M DECIDE
         // ============================================
         
         let modoActual = localStorage.getItem('acad_pro_modo') || 'experto';
@@ -959,13 +998,16 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
                 contextoAPI = `\n\n[Datos académicos externos:] Fuentes disponibles: ${apiData.fuentes?.join(', ') || ''}`;
             }
             
-            // 4. Generar prompt con contexto
+            // 4. NÚCLEO 403M DECIDE qué BIG TECH activar
+            const bigTechDecididos = await nucleoDecisor.analizarYDecidir(tema, modoActual);
+            
+            // 5. Generar prompt con contexto y BIG TECH activados
             const paises = [...PAISES_SECRETOS];
             for (let i = paises.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [paises[i], paises[j]] = [paises[j], paises[i]]; }
             
             for (let i = 0; i < Math.min(paises.length, 5); i++) {
                 const pais = paises[i];
-                let prompt = generarPromptSecreto(tema, pais, modoActual);
+                let prompt = generarPromptSecreto(tema, pais, modoActual, bigTechDecididos);
                 if (contextoMemoria) prompt += `\n${contextoMemoria}`;
                 if (contextoAPI) prompt += `\n${contextoAPI}`;
                 
@@ -978,7 +1020,8 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
                         memoryConnector.remember({
                             query: tema,
                             response: respuestaLimpia,
-                            pais: pais
+                            pais: pais,
+                            bigTech: bigTechDecididos
                         });
                         actualizarMetricasConectores();
                         return respuestaLimpia;
@@ -1014,9 +1057,9 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
             ocupado = true; buscarBtn.disabled = true;
             buscarBtn.innerHTML = '<span class="loading-spinner"></span> Investigando...';
             statusMsgDiv.style.display = 'block';
-            statusMsgDiv.innerHTML = '🔍 Conectando con IA y 5 fuentes académicas...';
+            statusMsgDiv.innerHTML = '🧠 403M DECIDE analizando tu consulta...';
             tarjetaResultados.classList.remove('active');
-            contenedorContenido.innerHTML = '<div class="spinner"></div><div class="loading-text">🔍 Buscando en 5 fuentes académicas...</div>';
+            contenedorContenido.innerHTML = '<div class="spinner"></div><div class="loading-text">🧠 403M DECIDE analizando y buscando en 5 fuentes...</div>';
             citaSpan.innerText = '---'; bibliografiaDiv.innerHTML = '---';
             
             try {
@@ -1033,7 +1076,13 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
                 
                 actualizarWidgets(contenido, tema, fuentes);
                 
-                showToast(`✅ ${fuentes.length} fuentes encontradas · Conectores activos · jsllm7 404M`);
+                // Mostrar qué BIG TECH activó 403M
+                const estado = nucleoDecisor.getEstado();
+                if (estado.bigTechActivos.length > 0) {
+                    showToast(`🧠 403M activó: ${estado.bigTechActivos.join(', ')} · ${fuentes.length} fuentes encontradas`);
+                } else {
+                    showToast(`✅ ${fuentes.length} fuentes encontradas · 403M DECIDE activo`);
+                }
             } catch (error) {
                 contenedorContenido.innerHTML = generarFallbackSecreto(tema);
                 tarjetaResultados.classList.add('active');
@@ -1079,6 +1128,15 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
         actualizarSidebarHistorial();
         
         // ============================================
+        // BOTÓN 403M DECIDE
+        // ============================================
+        
+        document.getElementById('btnDecisionStatus').onclick = () => {
+            const estado = nucleoDecisor.mostrarEstado();
+            mostrarModal('🧠 403M DECIDE (ACADÉMICO)', estado);
+        };
+        
+        // ============================================
         // 10 HERRAMIENTAS AVANZADAS
         // ============================================
         
@@ -1100,7 +1158,10 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
             const tema = entrada.value.trim();
             if (!tema) { showToast('Primero investiga un tema', true); return; }
             
-            showToast('🎯 Generando examen...');
+            // 403M decide qué activar para el examen
+            await nucleoDecisor.analizarYDecidir(`Generar examen sobre ${tema}`, modoActual);
+            
+            showToast('🎯 403M generando examen...');
             const prompt = `Genera un examen académico sobre "${tema}". Formato EXACTO:
             
 === PREGUNTAS TIPO TEST ===
@@ -1127,7 +1188,9 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
             const tema = entrada.value.trim();
             if (!tema) { showToast('Primero investiga un tema', true); return; }
             
-            showToast('📌 Generando abstract...');
+            await nucleoDecisor.analizarYDecidir(`Generar abstract sobre ${tema}`, modoActual);
+            
+            showToast('📌 403M generando abstract...');
             const contenido = document.getElementById('contenido').innerText;
             const prompt = `Genera un abstract académico de máximo 150 palabras sobre "${tema}". Incluye: objetivo, metodología, hallazgos clave y conclusión. Texto base: ${contenido.substring(0, 2000)}`;
             const abstract = await llamarJsllm7(prompt);
@@ -1174,7 +1237,9 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
             const tema = entrada.value.trim();
             if (!tema) { showToast('Primero investiga un tema', true); return; }
             
-            showToast('🔍 Comparando fuentes...');
+            await nucleoDecisor.analizarYDecidir(`Comparar fuentes sobre ${tema}`, modoActual);
+            
+            showToast('🔍 403M comparando fuentes...');
             const [crossref, openalex, core, semantic] = await Promise.all([
                 buscarCrossref(tema), buscarOpenAlex(tema), buscarCORE(tema), buscarSemanticScholar(tema)
             ]);
@@ -1187,9 +1252,9 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
                     <tr style="background:#1e293b;"><td>🔓 OpenAlex</td><td>${openalex[0]?.titulo || '—'}</td><td>${openalex[0]?.year || '—'}</td></tr>
                     <tr><td>📚 CORE</td><td>${core[0]?.titulo || '—'}</td><td>${core[0]?.year || '—'}</td></tr>
                     <tr style="background:#1e293b;"><td>🔬 Semantic Scholar</td><td>${semantic[0]?.titulo || '—'}</td><td>${semantic[0]?.year || '—'}</td></tr>
-                    <tr style="background:rgba(139,92,246,0.2);"><td>🧠 jsllm7 404M</td><td>🔄 Generando respuesta inteligente</td><td>2026</td></tr>
+                    <tr style="background:rgba(139,92,246,0.2);"><td>🧠 403M DECIDE</td><td>🔄 Decisión autónoma en tiempo real</td><td>2026</td></tr>
                 </table>
-                <p style="font-size:0.65rem; color:#64748b; margin-top:0.5rem;">ℹ️ jsllm7 aporta 404M registros de conocimiento adicionales</p>
+                <p style="font-size:0.65rem; color:#64748b; margin-top:0.5rem;">ℹ️ 403M decidió qué BIG TECH activar para esta comparativa</p>
             </div>`;
             
             const existing = document.querySelector('.comparador-container');
@@ -1207,7 +1272,9 @@ Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInye
             const fuentes = Array.from(document.querySelectorAll('.bibliografia-item')).map(el => el.innerText.split('🔗')[0].trim());
             if (textoGenerado === '---' || fuentes.length === 0) { showToast('Primero investiga un tema', true); return; }
             
-            showToast('🔍 Analizando originalidad...');
+            await nucleoDecisor.analizarYDecidir(`Analizar plagio de ${textoGenerado.substring(0, 50)}...`, modoActual);
+            
+            showToast('🔍 403M analizando originalidad...');
             const prompt = `Analiza similitud entre texto y fuentes. Devuelve SOLO JSON:
 {
     "similitud": 0-100,
@@ -1238,7 +1305,9 @@ FUENTES: ${fuentes.join(' | ')}`;
             const tema = entrada.value.trim();
             if (!tema) { showToast('Primero investiga un tema', true); return; }
             
-            showToast('🃏 Generando tarjetas de estudio...');
+            await nucleoDecisor.analizarYDecidir(`Generar tarjetas sobre ${tema}`, modoActual);
+            
+            showToast('🃏 403M generando tarjetas...');
             const prompt = `Crea 5 tarjetas estudio formato "PREGUNTA|RESPUESTA" sobre "${tema}". Cada línea: ¿Pregunta clara?|Respuesta concisa (max 20 palabras).`;
             const resultado = await llamarJsllm7(prompt);
             
@@ -1296,7 +1365,9 @@ FUENTES: ${fuentes.join(' | ')}`;
             const tema = entrada.value.trim();
             if (!tema) { showToast('Primero investiga un tema', true); return; }
             
-            showToast('💡 Buscando temas relacionados...');
+            await nucleoDecisor.analizarYDecidir(`Buscar temas relacionados con ${tema}`, modoActual);
+            
+            showToast('💡 403M buscando temas relacionados...');
             const sugerencias = await llamarJsllm7(`Sugiere 5 temas de investigación relacionados con "${tema}" pero que no sean obvios. Busca conexiones interdisciplinarias. Devuelve solo lista con viñetas •.`);
             mostrarModal('💡 TEMAS RELACIONADOS', sugerencias);
             actualizarMetricasConectores();
@@ -1309,7 +1380,7 @@ FUENTES: ${fuentes.join(' | ')}`;
             input.onchange = async (e) => {
                 const file = e.target.files[0];
                 if (!file) return;
-                showToast('📚 Procesando PDF...');
+                showToast('📚 403M procesando PDF...');
                 
                 if (!window.pdfjsLib) {
                     const script = document.createElement('script');
@@ -1347,7 +1418,9 @@ FUENTES: ${fuentes.join(' | ')}`;
             const tema = entrada.value.trim();
             if (!tema) { showToast('Primero investiga un tema', true); return; }
             
-            showToast('✨ Conectando ideas...');
+            await nucleoDecisor.analizarYDecidir(`Buscar conexiones inesperadas de ${tema}`, modoActual);
+            
+            showToast('✨ 403M conectando ideas...');
             const dominios = ['Arte', 'Psicología', 'Historia', 'Música', 'Deporte', 'Gastronomía', 'Arquitectura', 'Moda'];
             const conexiones = await llamarJsllm7(`Crea conexiones INESPERADAS pero con sentido entre "${tema}" y estos dominios: ${dominios.join(', ')}. Formato: 🎨 Arte: [conexión sorprendente] (una línea cada una). Máximo 8 líneas.`);
             mostrarModal('✨ CONEXIONES INESPERADAS', conexiones);
@@ -1389,7 +1462,7 @@ Para conectar:
         document.getElementById('btnTermuxStatus').onclick = verEstadoTermux;
         
         // ============================================
-        // RESOLVEDOR DE DEBERES
+        // RESOLVEDOR DE DEBERES CON 403M DECIDE
         // ============================================
         
         let contenidoWord = '';
@@ -1428,7 +1501,7 @@ Para conectar:
                 return;
             }
             
-            wordStatusSpan.textContent = '📄 Leyendo archivo...';
+            wordStatusSpan.textContent = '📄 403M leyendo archivo...';
             wordStatusSpan.style.color = '#a78bfa';
             
             const reader = new FileReader();
@@ -1443,7 +1516,7 @@ Para conectar:
                         throw new Error('El documento no contiene suficiente texto');
                     }
                     
-                    wordStatusSpan.innerHTML = `✅ "${file.name}" cargado`;
+                    wordStatusSpan.innerHTML = `✅ "${file.name}" cargado · 403M listo para decidir`;
                     wordStatusSpan.style.color = '#10b981';
                     resolverWordBtn.disabled = false;
                     descargarWordBtn.style.display = 'none';
@@ -1464,13 +1537,17 @@ Para conectar:
             }
             
             resolverWordBtn.disabled = true;
-            resolverWordBtn.innerHTML = '<span class="loading-spinner"></span> IA resolviendo el deber...';
-            wordStatusSpan.textContent = '🤖 IA analizando y resolviendo...';
-            contenedorContenido.innerHTML = '<div class="spinner"></div><div class="loading-text">🤖 La IA está resolviendo tu deber pregunta por pregunta...</div>';
+            resolverWordBtn.innerHTML = '<span class="loading-spinner"></span> 403M decidiendo cómo resolver...';
+            wordStatusSpan.textContent = '🧠 403M DECIDE analizando el deber...';
+            contenedorContenido.innerHTML = '<div class="spinner"></div><div class="loading-text">🧠 403M DECIDE analizando y resolviendo tu deber...</div>';
             tarjetaResultados.classList.add('active');
             
             try {
+                // 403M decide qué BIG TECH usar para resolver el deber
+                const bigTechDecididos = await nucleoDecisor.analizarYDecidir(`Resolver deber académico: ${nombreWord}`, modoActual);
+                
                 const prompt = `[RESPONDE EXCLUSIVAMENTE EN ESPAÑOL. PROHIBIDO EL USO DE MARKDOWN.]
+403M DECIDIÓ ACTIVAR: ${bigTechDecididos.join(', ') || 'Ninguno'}
 
 REGLAS ESTRICTAS DE FORMATO:
 1. NO USES ASTERISCOS (*) EN NINGUNA CIRCUNSTANCIA
@@ -1490,15 +1567,15 @@ RESPUESTA COMPLETA (SIN MARKDOWN):`;
                 respuestaResuelta = await llamarJsllm7(prompt);
                 
                 if (!respuestaResuelta || respuestaResuelta.length < 100) {
-                    respuestaResuelta = 'El deber ha sido procesado correctamente. Descarga el archivo Word para ver la resolución completa.';
+                    respuestaResuelta = 'El deber ha sido procesado correctamente con 403M DECIDE. Descarga el archivo Word para ver la resolución completa.';
                 }
                 
                 let preview = limpiarMarkdownDoc(respuestaResuelta);
                 contenedorContenido.innerHTML = `<div class="contenido-texto" style="white-space:pre-wrap;">${preview.replace(/\n/g, '<br>')}</div>`;
-                wordStatusSpan.textContent = '✅ Deber resuelto correctamente';
+                wordStatusSpan.textContent = `✅ Deber resuelto · 403M activó: ${bigTechDecididos.join(', ') || 'Ninguno'}`;
                 descargarWordBtn.style.display = 'inline-block';
                 descargarWordBtn.disabled = false;
-                showToast('✅ Deber resuelto por IA');
+                showToast(`✅ Deber resuelto · 403M activó ${bigTechDecididos.join(', ') || 'Ninguno'}`);
                 
             } catch (error) {
                 console.error(error);
@@ -1517,25 +1594,27 @@ RESPUESTA COMPLETA (SIN MARKDOWN):`;
             }
             
             try {
-                showToast('📝 Generando Word con formato profesional...');
+                showToast('📝 403M generando Word con formato profesional...');
                 
                 const { Document, Packer, Paragraph, TextRun, AlignmentType, BorderStyle, ShadingType } = window.docx;
                 
                 const fecha = new Date().toLocaleString('es-ES');
+                const estado = nucleoDecisor.getEstado();
                 let textoLimpio = limpiarMarkdownDoc(respuestaResuelta);
                 const lineas = textoLimpio.split('\n');
                 const children = [];
                 
                 children.push(
                     new Paragraph({ children: [new TextRun({ text: "ACADÉMIA PRO", bold: true, size: 52, color: "8B5CF6" })], alignment: AlignmentType.CENTER, spacing: { after: 150 } }),
-                    new Paragraph({ children: [new TextRun({ text: "Deber Resuelto por IA", size: 32, italics: true, color: "6B7280" })], alignment: AlignmentType.CENTER, spacing: { after: 400 } })
+                    new Paragraph({ children: [new TextRun({ text: "Deber Resuelto por 403M DECIDE", size: 32, italics: true, color: "6B7280" })], alignment: AlignmentType.CENTER, spacing: { after: 400 } })
                 );
                 
                 children.push(
                     new Paragraph({ children: [new TextRun({ text: "INFORMACIÓN DEL DOCUMENTO", bold: true, size: 26, color: "3B82F6" })], alignment: AlignmentType.CENTER, spacing: { after: 200 } }),
                     new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, bottom: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, left: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, right: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, shading: { type: ShadingType.CLEAR, fill: "F3F4F6" }, children: [new TextRun({ text: `📄 Deber original: ${nombreWord}`, size: 22 })], spacing: { after: 80, before: 80, left: 400, right: 400 } }),
+                    new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, bottom: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, left: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, right: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, shading: { type: ShadingType.CLEAR, fill: "F3F4F6" }, children: [new TextRun({ text: `🧠 403M DECIDIÓ: ${estado.bigTechActivos.join(', ') || 'Ninguno'}`, size: 22 })], spacing: { after: 80, before: 0, left: 400, right: 400 } }),
                     new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, bottom: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, left: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, right: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, shading: { type: ShadingType.CLEAR, fill: "F3F4F6" }, children: [new TextRun({ text: `🎯 Modo: ${modoActual === 'experto' ? 'EXPERTO' : 'BÁSICO'}`, size: 22 })], spacing: { after: 80, before: 0, left: 400, right: 400 } }),
-                    new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, bottom: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, left: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, right: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, shading: { type: ShadingType.CLEAR, fill: "F3F4F6" }, children: [new TextRun({ text: `🤖 IA utilizada: jsllm7 · 404M registros`, size: 22 })], spacing: { after: 80, before: 0, left: 400, right: 400 } }),
+                    new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, bottom: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, left: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, right: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, shading: { type: ShadingType.CLEAR, fill: "F3F4F6" }, children: [new TextRun({ text: `🤖 IA utilizada: jsllm7 · 404M registros · 403M DECIDE`, size: 22 })], spacing: { after: 80, before: 0, left: 400, right: 400 } }),
                     new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, bottom: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, left: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, right: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, shading: { type: ShadingType.CLEAR, fill: "F3F4F6" }, children: [new TextRun({ text: `📅 Fecha de generación: ${fecha}`, size: 22 })], spacing: { after: 80, before: 0, left: 400, right: 400 } })
                 );
                 
@@ -1559,9 +1638,9 @@ RESPUESTA COMPLETA (SIN MARKDOWN):`;
                 children.push(
                     new Paragraph({ children: [], spacing: { before: 500 } }),
                     new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, children: [], spacing: { before: 200 } }),
-                    new Paragraph({ children: [new TextRun({ text: "Documento generado automáticamente por AcadémIA Pro", size: 18, color: "6B7280", italics: true })], alignment: AlignmentType.CENTER, spacing: { before: 100, after: 50 } }),
-                    new Paragraph({ children: [new TextRun({ text: "Sistema de resolución académica con IA · 4 fuentes integradas · jsllm7 404M · Formato APA 7", size: 18, color: "6B7280" })], alignment: AlignmentType.CENTER, spacing: { after: 50 } }),
-                    new Paragraph({ children: [new TextRun({ text: `© ${new Date().getFullYear()} - AcadémIA Pro`, size: 18, color: "6B7280" })], alignment: AlignmentType.CENTER, spacing: { after: 100 } })
+                    new Paragraph({ children: [new TextRun({ text: "Documento generado automáticamente por AcadémIA Pro con 403M DECIDE", size: 18, color: "6B7280", italics: true })], alignment: AlignmentType.CENTER, spacing: { before: 100, after: 50 } }),
+                    new Paragraph({ children: [new TextRun({ text: "Sistema de resolución académica con IA · 4 fuentes integradas · jsllm7 404M · 403M DECIDE", size: 18, color: "6B7280" })], alignment: AlignmentType.CENTER, spacing: { after: 50 } }),
+                    new Paragraph({ children: [new TextRun({ text: `© ${new Date().getFullYear()} - AcadémIA Pro · 403M DECIDE`, size: 18, color: "6B7280" })], alignment: AlignmentType.CENTER, spacing: { after: 100 } })
                 );
                 
                 const doc = new Document({ sections: [{ properties: { page: { margin: { top: 1440, right: 1440, bottom: 1440, left: 1440 } } }, children: children }] });
@@ -1569,10 +1648,10 @@ RESPUESTA COMPLETA (SIN MARKDOWN):`;
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `AcademIA_Pro_${nombreWord.replace(/\.docx?$/i, '')}.docx`;
+                a.download = `AcademIA_Pro_403M_DECIDE_${nombreWord.replace(/\.docx?$/i, '')}.docx`;
                 a.click();
                 URL.revokeObjectURL(url);
-                showToast('✅ Word con deber resuelto descargado');
+                showToast('✅ Word con deber resuelto por 403M DECIDE descargado');
             } catch (error) {
                 console.error(error);
                 showToast('❌ Error al generar Word', true);
@@ -1627,7 +1706,7 @@ RESPUESTA COMPLETA (SIN MARKDOWN):`;
         // ============================================
         
         setTimeout(() => { 
-            showToast("✅ AcadémIA Pro lista · jsllm7 404M · Conectores activos · 10 herramientas disponibles");
+            showToast("🧠 AcadémIA Pro · 403M DECIDE · jsllm7 404M · Conectores activos");
             actualizarMetricasConectores();
         }, 1500);
         
