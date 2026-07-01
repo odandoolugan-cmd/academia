@@ -251,10 +251,11 @@
 
     <script type="module">
         // ============================================
-        // CONFIGURACIÓN
+        // CONFIGURACIÓN - API EN CLOUDFLARE 24/7
         // ============================================
         
-        const JSLLM7_API_URL = 'http://localhost:8081';
+        // 🔥 CAMBIADO: ahora usa Cloudflare en lugar de localhost
+        const JSLLM7_API_URL = 'https://wikipedia-403m.odandoolugan.workers.dev';
         let jsllm7TermuxConectado = false;
         let modoActual = localStorage.getItem('acad_pro_modo') || 'experto';
         let ocupado = false;
