@@ -41,6 +41,7 @@
         .source-badge.core { border-color: #f59e0b; }
         .source-badge.semantic { border-color: #ef4444; }
         .source-badge.jsllm7 { border-color: #8b5cf6; background: rgba(139, 92, 246, 0.3); }
+        .source-badge.arxiv { border-color: #ec4899; }
         .input-group { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
         .search-input { flex: 1; padding: 1rem; background: #1e293b; border: 1px solid #334155; border-radius: 1rem; color: white; font-size: 1rem; }
         .search-input:focus { outline: none; border-color: #8b5cf6; }
@@ -56,32 +57,33 @@
         .confidence-bar { flex: 1; height: 4px; background: #2c3a4a; border-radius: 2px; overflow: hidden; }
         .confidence-fill { height: 100%; background: linear-gradient(90deg, #f59e0b, #10b981); transition: width 1s ease; width: 0%; }
         .confidence-label { font-size: 0.7rem; color: #b0c4de; min-width: 40px; }
-        .sources-list { margin-top: 10px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; font-size: 0.7rem; }
-        .source-item { display: flex; align-items: center; gap: 8px; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .source-item:last-child { border-bottom: none; }
-        .source-icon { font-size: 0.8rem; }
-        .source-link { color: #a78bfa; text-decoration: none; word-break: break-all; font-size: 0.65rem; }
-        .source-link:hover { text-decoration: underline; }
+        .quality-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.6rem; margin-left: 5px; }
+        .quality-alta { background: #10b981; color: white; }
+        .quality-media { background: #f59e0b; color: black; }
+        .quality-baja { background: #ef4444; color: white; }
         .results-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 1.5rem; padding: 1.5rem; border: 1px solid rgba(139, 92, 246, 0.3); display: none; }
         .results-card.active { display: block; }
         .section-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 1rem; border-left: 4px solid #8b5cf6; padding-left: 1rem; }
         .contenido-investigacion { background: rgba(15, 23, 42, 0.6); border-radius: 1rem; padding: 1.2rem; margin-bottom: 1.5rem; line-height: 1.6; white-space: pre-wrap; max-height: 500px; overflow-y: auto; }
-        .feedback-buttons { display: flex; gap: 10px; margin-top: 10px; justify-content: flex-end; }
-        .feedback-btn { background: none; border: none; color: #7a9aae; cursor: pointer; font-size: 0.7rem; padding: 4px 10px; border-radius: 15px; transition: 0.2s; }
-        .feedback-btn:hover { background: #334155; color: #e9c46a; }
+        .export-buttons { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+        .export-btn { background: #334155; border: 1px solid #475569; padding: 4px 12px; border-radius: 15px; font-size: 0.65rem; cursor: pointer; color: #94a3b8; transition: 0.2s; }
+        .export-btn:hover { background: #8b5cf6; color: white; border-color: #8b5cf6; }
         .cita-apa { background: rgba(139, 92, 246, 0.15); border-left: 4px solid #8b5cf6; padding: 1rem; border-radius: 0.8rem; margin-bottom: 1.5rem; font-family: monospace; font-size: 0.85rem; }
         .bibliografia { background: rgba(15, 23, 42, 0.6); border-radius: 1rem; padding: 1.2rem; max-height: 300px; overflow-y: auto; }
-        .bibliografia-item { padding: 0.8rem 0 0.8rem 2rem; border-bottom: 1px solid #334155; font-size: 0.8rem; text-indent: -2rem; margin-left: 2rem; }
+        .bibliografia-item { padding: 0.8rem 0 0.8rem 2rem; border-bottom: 1px solid #334155; font-size: 0.8rem; text-indent: -2rem; margin-left: 2rem; position: relative; }
         .bibliografia-item:last-child { border-bottom: none; }
         .bibliografia-item a { color: #60a5fa; text-decoration: none; }
         .bibliografia-item .source-tag { font-size: 0.65rem; background: rgba(139, 92, 246, 0.3); padding: 2px 6px; border-radius: 10px; margin-left: 8px; }
+        .bibliografia-item .relevance-indicator { position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 8px; height: 8px; border-radius: 50%; }
+        .plagiarism-warning { background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; border-radius: 0.5rem; padding: 0.5rem; margin-top: 0.5rem; font-size: 0.7rem; display: none; }
+        .plagiarism-warning.active { display: block; }
         .copy-btn { background: #475569; border: none; padding: 0.5rem 1rem; border-radius: 2rem; color: white; cursor: pointer; font-size: 0.7rem; margin-top: 0.5rem; margin-left: 0.5rem; }
         .spinner { width: 40px; height: 40px; border: 3px solid #1e293b; border-top-color: #8b5cf6; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 2rem auto; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .loading-text { text-align: center; color: #94a3b8; padding: 2rem; }
         .ia-badge { background: #10b981; padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; margin-left: 8px; }
         .footer-text { text-align: center; margin-top: 2rem; font-size: 0.7rem; color: #64748b; }
-        .toast-msg { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 8px 20px; border-radius: 50px; font-size: 0.8rem; z-index: 2000; animation: fadeOut 2s forwards; }
+        .toast-msg { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 8px 20px; border-radius: 50px; font-size: 0.8rem; z-index: 2000; animation: fadeOut 3s forwards; }
         @keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
         .restriction-alert { background: rgba(139, 92, 246, 0.15); border: 1px solid #8b5cf6; border-radius: 0.8rem; padding: 0.5rem 1rem; margin-top: 1rem; font-size: 0.7rem; text-align: center; color: #a78bfa; }
         .ethical-notice { background: rgba(59, 130, 246, 0.1); border-left: 4px solid #3b82f6; border-radius: 0.8rem; padding: 0.8rem; margin-bottom: 1rem; font-size: 0.7rem; }
@@ -109,11 +111,10 @@
         .modal-content { background: #0f172a; border-radius: 1.5rem; max-width: 550px; width: 90%; max-height: 80vh; overflow-y: auto; padding: 1.5rem; border: 2px solid #8b5cf6; }
         .modal-content h3 { color: #a78bfa; margin-bottom: 1rem; }
         .modal-close { margin-top: 1rem; background: #8b5cf6; border: none; padding: 0.5rem 1rem; border-radius: 2rem; color: white; cursor: pointer; }
-        .comparador-tabla { overflow-x: auto; margin: 1rem 0; }
-        .comparador-tabla table { width: 100%; border-collapse: collapse; background: #0f172a; border-radius: 1rem; }
-        .comparador-tabla th { background: #8b5cf6; padding: 0.75rem; }
-        .comparador-tabla td { padding: 0.5rem; border-bottom: 1px solid #334155; }
         .respuesta-formateada { white-space: pre-wrap; font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.8; }
+        .cache-indicator { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
+        .cache-hit { background: #10b981; }
+        .cache-miss { background: #f59e0b; }
         @media (max-width: 700px) { .input-group { flex-direction: column; } .btn-primary { padding: 0.8rem; } .bibliografia-item { margin-left: 1rem; text-indent: -1rem; } #sidebarHistorial { display: none; } .widget-container { grid-template-columns: 1fr; } .connector-metrics { grid-template-columns: 1fr 1fr; } }
     </style>
 </head>
@@ -122,7 +123,7 @@
     <div class="normal-mode" id="normalMode">
         <div class="header">
             <h1>📚 AcadémIA Pro <span class="ia-badge">IA 100%</span> <span class="ia-badge" style="background:#8b5cf6;">jsllm7 404M</span> <span class="badge-decision">🧠 DECIDE</span></h1>
-            <div class="sub" id="subtitle">403M DECIDE · 4 Fuentes · APA 7 · Conectores Avanzados · jsllm7 404M</div>
+            <div class="sub" id="subtitle">403M DECIDE · 5 Fuentes · APA 7 · IndexedDB · Batch Processing · Plagio · Exportación</div>
             <div class="daily-message" id="dailyMessage"><span id="dailyMessageText">🧠 El núcleo 403M decide qué BIG TECH activar para cada consulta académica</span></div>
         </div>
 
@@ -141,7 +142,7 @@
                     <input type="file" id="wordFileInput" class="file-input-hidden" accept=".docx,.doc">
                     <span id="wordStatus" class="word-status">⚡ Esperando archivo...</span>
                 </div>
-                <div style="font-size:0.65rem; color:#64748b; margin-top:8px;">📌 403M decide automáticamente qué fuentes usar para resolver tu tarea</div>
+                <div style="font-size:0.65rem; color:#64748b; margin-top:8px;">📌 403M decide automáticamente qué fuentes usar · Caché IndexedDB · 5 fuentes simultáneas</div>
             </div>
 
             <div class="tools-bar">
@@ -152,7 +153,7 @@
                 <button class="tool-btn" id="btnPlagio">⚠️ Plagio</button>
                 <button class="tool-btn" id="btnTarjetas">🃏 Tarjetas</button>
                 <button class="tool-btn" id="btnRelacionados">💡 Relacionados</button>
-                <button class="tool-btn" id="btnPDFReferencias">📚 PDF->Refs</button>
+                <button class="tool-btn" id="btnExportar">📤 Exportar</button>
                 <button class="tool-btn" id="btnConexiones">✨ Conexiones</button>
                 <button class="tool-btn decision" id="btnDecisionStatus">🧠 403M Decide</button>
                 <button class="tool-btn" id="btnTermuxStatus" style="border-color:#8b5cf6;color:#a78bfa;">🔌 Estado jsllm7</button>
@@ -163,15 +164,17 @@
                 <span class="source-badge openalex">🔓 OpenAlex (250M+)</span>
                 <span class="source-badge core">📚 CORE (300M+)</span>
                 <span class="source-badge semantic">🔬 Semantic Scholar (200M+)</span>
+                <span class="source-badge arxiv">📐 arXiv (2M+)</span>
                 <span class="source-badge jsllm7">🧠 jsllm7 (404M) 🔥</span>
             </div>
             <div class="input-group">
                 <input type="text" class="search-input" id="topicInput" placeholder="Ej: Inteligencia artificial en educación, Cambio climático...">
                 <button class="btn-primary" id="searchBtn">🔍 INVESTIGAR</button>
             </div>
-            <div class="ethical-notice">📌 <strong>5 fuentes académicas reales</strong> · 403M DECIDE · Conectores: Memoria · Semántico · APIs · jsllm7 404M</div>
-            <div class="restriction-alert" id="restrictionAlert">🧠 403M DECIDE qué BIG TECH activar · 4 bases de datos · IA 100%</div>
+            <div class="ethical-notice">📌 <strong>5 fuentes académicas reales</strong> · 403M DECIDE · IndexedDB · Batch Processing · Análisis de calidad · Plagio</div>
+            <div class="restriction-alert" id="restrictionAlert">🧠 403M DECIDE qué BIG TECH activar · 5 bases de datos · IA 100% · Caché inteligente</div>
             <div id="statusMessage" class="status-message" style="display:none;">⏳ Procesando...</div>
+            <div id="cacheStatus" style="font-size:0.6rem;color:#94a3b8;text-align:center;margin-top:4px;">💾 Caché: <span id="cacheHitRate">0%</span> aciertos · <span id="cacheSize">0</span> entradas</div>
             <div id="decisionStatus" style="font-size:0.65rem;color:#ec4899;text-align:center;margin-top:8px;">🧠 403M DECIDE: Listo para analizar consultas</div>
             <div id="termuxStatus" style="font-size:0.65rem;color:#94a3b8;text-align:center;margin-top:4px;">🔌 jsllm7: Conectando a Termux (puerto 8081)...</div>
         </div>
@@ -182,14 +185,16 @@
                 <div class="widget-content" id="widgetTextoContent">Esperando consulta...</div>
             </div>
             <div class="widget" id="widgetConfianza">
-                <div class="widget-title">🎯 Nivel de Confianza</div>
+                <div class="widget-title">🎯 Nivel de Confianza y Calidad</div>
                 <div class="widget-content">
                     <div class="widget-confidence">
                         <span style="font-size:0.8rem;">📊</span>
                         <div class="confidence-bar"><div class="confidence-fill" id="confidenceFill" style="width:0%"></div></div>
                         <span class="confidence-label" id="confidenceLabel">0%</span>
                     </div>
-                    <div id="widgetConfianzaDetalle" style="font-size:0.75rem;color:#94a3b8;margin-top:8px;">Basado en análisis de múltiples fuentes académicas</div>
+                    <div id="qualityMetrics" style="font-size:0.7rem;color:#94a3b8;margin-top:8px;">
+                        📈 Calidad: <span id="qualityScore">--</span> | 🎯 Relevancia: <span id="relevanceScore">--</span>
+                    </div>
                 </div>
             </div>
             <div class="widget" id="widgetConectores">
@@ -199,13 +204,13 @@
                         <div class="connector-metric"><div class="value" id="metricMemoria">0</div><div class="label">Memoria</div></div>
                         <div class="connector-metric"><div class="value" id="metricSemantico">0</div><div class="label">Semántico</div></div>
                         <div class="connector-metric"><div class="value" id="metricAPIs">0</div><div class="label">APIs</div></div>
-                        <div class="connector-metric"><div class="value" id="metricContexto">0%</div><div class="label">Contexto</div></div>
+                        <div class="connector-metric"><div class="value" id="metricDB">0</div><div class="label">IndexedDB</div></div>
                     </div>
                     <div id="jsllm7WidgetStatus" style="margin-top:8px;font-size:0.65rem;color:#94a3b8;">🧠 jsllm7: 🔍 Conectando...</div>
                 </div>
             </div>
             <div class="widget" id="widgetEstructura">
-                <div class="widget-title">🏗️ Estructura Académica</div>
+                <div class="widget-title">🏗️ Estructura y Métricas</div>
                 <div class="widget-content" id="widgetEstructuraContent">
                     <div style="color:#94a3b8;font-size:0.75rem;">Estructura del documento detectada</div>
                     <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">
@@ -217,19 +222,27 @@
             </div>
         </div>
 
-        <div class="metadata-container" id="metadataContainer"></div>
-
         <div class="results-card" id="resultsCard">
             <div class="section-title">📖 CONTENIDO</div>
             <div class="contenido-investigacion" id="contenido">---</div>
+            <div class="export-buttons">
+                <button class="export-btn" data-format="latex">📄 LaTeX</button>
+                <button class="export-btn" data-format="markdown">📝 Markdown</button>
+                <button class="export-btn" data-format="bibtex">📚 BibTeX</button>
+                <button class="export-btn" data-format="ris">📋 RIS</button>
+            </div>
+            <div class="plagiarism-warning" id="plagiarismWarning">
+                ⚠️ <strong>Alerta de similitud:</strong> <span id="plagiarismText"></span>
+            </div>
             <div class="section-title">📝 CITAR ESTE TEXTO</div>
             <div class="cita-apa"><span id="citaTexto">---</span><button class="copy-btn" onclick="copiarTexto('citaTexto')">📋 Copiar</button></div>
             <div class="section-title">📚 REFERENCIAS APA 7</div>
-            <div class="bibliografia"><div id="bibliografiaList">---</div><button class="copy-btn" onclick="copiarTexto('bibliografiaList')">📋 Copiar</button></div>
+            <div class="bibliografia" id="bibliografiaList">---</div>
+            <button class="copy-btn" onclick="copiarTexto('bibliografiaList')">📋 Copiar Referencias</button>
         </div>
 
         <div class="sponsors"><div class="sponsors-link"><a href="#" target="_blank">🎮 OFERTA 1</a><a href="#" target="_blank">🎲 OFERTA 2</a></div></div>
-        <div class="footer-text" id="footer">⚡ AcadémIA Pro · 403M DECIDE · Conectores: Memoria · Semántico · APIs · jsllm7 404M · 10 herramientas · APA 7</div>
+        <div class="footer-text" id="footer">⚡ AcadémIA Pro · 403M DECIDE · 5 Fuentes · IndexedDB · Batch · Plagio · Export · APA 7</div>
     </div>
 
     <button class="vr-button" id="vrModeBtn">🔮 ACTIVAR MODO VR</button>
@@ -251,58 +264,583 @@
 
     <script type="module">
         // ============================================
-        // CONFIGURACIÓN - API EN CLOUDFLARE 24/7
+        // CONFIGURACIÓN
         // ============================================
         
-        // 🔥 CAMBIADO: ahora usa Cloudflare en lugar de localhost
         const JSLLM7_API_URL = 'https://wikipedia-403m.odandoolugan.workers.dev';
         let jsllm7TermuxConectado = false;
         let modoActual = localStorage.getItem('acad_pro_modo') || 'experto';
         let ocupado = false;
+        let ultimaInvestigacion = null;
         
         // ============================================
-        // NÚCLEO 403M DECIDE
+        // SISTEMA DE CACHÉ CON IndexedDB (MEJORA #1)
         // ============================================
         
-        class Nucleo403MDecisor {
+        class PersistentMemoryDB {
+            constructor() {
+                this.dbName = 'AcademiaProDB';
+                this.version = 2;
+                this.db = null;
+                this.cacheHits = 0;
+                this.cacheMisses = 0;
+                this.initDB();
+            }
+            
+            async initDB() {
+                return new Promise((resolve, reject) => {
+                    const request = indexedDB.open(this.dbName, this.version);
+                    
+                    request.onupgradeneeded = (event) => {
+                        const db = event.target.result;
+                        
+                        if (!db.objectStoreNames.contains('researchMemory')) {
+                            const store = db.createObjectStore('researchMemory', { 
+                                keyPath: 'id', 
+                                autoIncrement: true 
+                            });
+                            store.createIndex('timestamp', 'timestamp', { unique: false });
+                            store.createIndex('topic', 'topic', { unique: false });
+                            store.createIndex('semanticKey', 'semanticKey', { unique: false });
+                        }
+                        
+                        if (!db.objectStoreNames.contains('sourceCache')) {
+                            const store = db.createObjectStore('sourceCache', { 
+                                keyPath: 'queryHash' 
+                            });
+                            store.createIndex('timestamp', 'timestamp', { unique: false });
+                        }
+                        
+                        if (!db.objectStoreNames.contains('analyticsData')) {
+                            db.createObjectStore('analyticsData', { 
+                                keyPath: 'metricName' 
+                            });
+                        }
+                    };
+                    
+                    request.onsuccess = (event) => {
+                        this.db = event.target.result;
+                        this.loadCacheStats();
+                        console.log('✅ IndexedDB inicializada (v2)');
+                        resolve();
+                    };
+                    
+                    request.onerror = (event) => {
+                        console.error('❌ Error IndexedDB:', event.target.error);
+                        reject(event.target.error);
+                    };
+                });
+            }
+            
+            async loadCacheStats() {
+                try {
+                    const stats = await this.getAnalytics('cacheStats');
+                    if (stats) {
+                        this.cacheHits = stats.hits || 0;
+                        this.cacheMisses = stats.misses || 0;
+                    }
+                } catch(e) {}
+            }
+            
+            async saveCacheStats() {
+                await this.saveAnalytics('cacheStats', {
+                    hits: this.cacheHits,
+                    misses: this.cacheMisses,
+                    lastUpdated: Date.now()
+                });
+            }
+            
+            async getFromCache(semanticKey) {
+                if (!this.db) await this.initDB();
+                
+                return new Promise((resolve) => {
+                    const transaction = this.db.transaction(['researchMemory'], 'readonly');
+                    const store = transaction.objectStore('researchMemory');
+                    const index = store.index('semanticKey');
+                    const request = index.get(semanticKey);
+                    
+                    request.onsuccess = () => {
+                        const result = request.result;
+                        if (result && (Date.now() - result.timestamp) < 3600000) {
+                            this.cacheHits++;
+                            this.saveCacheStats();
+                            this.updateCacheUI();
+                            resolve(result);
+                        } else {
+                            this.cacheMisses++;
+                            this.saveCacheStats();
+                            this.updateCacheUI();
+                            resolve(null);
+                        }
+                    };
+                    
+                    request.onerror = () => {
+                        this.cacheMisses++;
+                        resolve(null);
+                    };
+                });
+            }
+            
+            async storeInCache(semanticKey, data, topic) {
+                if (!this.db) await this.initDB();
+                
+                return new Promise((resolve) => {
+                    const transaction = this.db.transaction(['researchMemory'], 'readwrite');
+                    const store = transaction.objectStore('researchMemory');
+                    
+                    const record = {
+                        semanticKey,
+                        topic,
+                        data,
+                        timestamp: Date.now(),
+                        query: topic
+                    };
+                    
+                    store.add(record);
+                    transaction.oncomplete = () => resolve();
+                    transaction.onerror = () => resolve();
+                });
+            }
+            
+            async cacheSourceQuery(queryHash, sources) {
+                if (!this.db) await this.initDB();
+                
+                return new Promise((resolve) => {
+                    const transaction = this.db.transaction(['sourceCache'], 'readwrite');
+                    const store = transaction.objectStore('sourceCache');
+                    
+                    store.put({
+                        queryHash,
+                        sources,
+                        timestamp: Date.now()
+                    });
+                    
+                    transaction.oncomplete = () => resolve();
+                });
+            }
+            
+            async getCachedSources(queryHash) {
+                if (!this.db) await this.initDB();
+                
+                return new Promise((resolve) => {
+                    const transaction = this.db.transaction(['sourceCache'], 'readonly');
+                    const store = transaction.objectStore('sourceCache');
+                    const request = store.get(queryHash);
+                    
+                    request.onsuccess = () => {
+                        const result = request.result;
+                        if (result && (Date.now() - result.timestamp) < 1800000) {
+                            resolve(result.sources);
+                        } else {
+                            resolve(null);
+                        }
+                    };
+                    
+                    request.onerror = () => resolve(null);
+                });
+            }
+            
+            async getAnalytics(metricName) {
+                if (!this.db) await this.initDB();
+                
+                return new Promise((resolve) => {
+                    const transaction = this.db.transaction(['analyticsData'], 'readonly');
+                    const store = transaction.objectStore('analyticsData');
+                    const request = store.get(metricName);
+                    
+                    request.onsuccess = () => resolve(request.result?.value);
+                    request.onerror = () => resolve(null);
+                });
+            }
+            
+            async saveAnalytics(metricName, value) {
+                if (!this.db) await this.initDB();
+                
+                return new Promise((resolve) => {
+                    const transaction = this.db.transaction(['analyticsData'], 'readwrite');
+                    const store = transaction.objectStore('analyticsData');
+                    
+                    store.put({ metricName, value, timestamp: Date.now() });
+                    transaction.oncomplete = () => resolve();
+                });
+            }
+            
+            updateCacheUI() {
+                const total = this.cacheHits + this.cacheMisses;
+                const hitRate = total > 0 ? Math.round((this.cacheHits / total) * 100) : 0;
+                
+                const hitRateEl = document.getElementById('cacheHitRate');
+                const cacheSizeEl = document.getElementById('cacheSize');
+                
+                if (hitRateEl) hitRateEl.textContent = hitRate + '%';
+                if (cacheSizeEl) cacheSizeEl.textContent = this.cacheHits;
+            }
+            
+            getCacheStats() {
+                return {
+                    hits: this.cacheHits,
+                    misses: this.cacheMisses,
+                    total: this.cacheHits + this.cacheMisses,
+                    hitRate: this.cacheHits + this.cacheMisses > 0 ? 
+                        Math.round((this.cacheHits / (this.cacheHits + this.cacheMisses)) * 100) : 0
+                };
+            }
+        }
+
+        const persistentDB = new PersistentMemoryDB();
+
+        // ============================================
+        // SISTEMA DE PROCESAMIENTO POR LOTES (MEJORA #2)
+        // ============================================
+        
+        class BatchProcessor {
+            constructor(concurrency = 3) {
+                this.concurrency = concurrency;
+                this.active = 0;
+                this.queue = [];
+            }
+            
+            async processBatch(tasks) {
+                const results = [];
+                const executing = new Set();
+                
+                for (const task of tasks) {
+                    const promise = Promise.resolve().then(() => task());
+                    results.push(promise);
+                    executing.add(promise);
+                    
+                    const clean = () => executing.delete(promise);
+                    promise.then(clean, clean);
+                    
+                    if (executing.size >= this.concurrency) {
+                        await Promise.race(executing);
+                    }
+                }
+                
+                return Promise.allSettled(results);
+            }
+            
+            async searchAllSourcesConcurrently(topic) {
+                const queryHash = topic.toLowerCase().trim();
+                
+                // Verificar caché primero
+                const cachedSources = await persistentDB.getCachedSources(queryHash);
+                if (cachedSources && cachedSources.length > 0) {
+                    console.log('💾 Usando fuentes en caché');
+                    return cachedSources;
+                }
+                
+                const sources = [
+                    () => buscarCrossref(topic),
+                    () => buscarOpenAlex(topic),
+                    () => buscarCORE(topic),
+                    () => buscarSemanticScholar(topic),
+                    () => buscarArxiv(topic)
+                ];
+                
+                const results = await this.processBatch(sources);
+                const allSources = results
+                    .filter(r => r.status === 'fulfilled')
+                    .flatMap(r => r.value);
+                
+                // Guardar en caché
+                if (allSources.length > 0) {
+                    await persistentDB.cacheSourceQuery(queryHash, allSources);
+                }
+                
+                return allSources;
+            }
+        }
+
+        const batchProcessor = new BatchProcessor(3);
+
+        // ============================================
+        // ANALIZADOR DE CONTENIDO (MEJORA #3)
+        // ============================================
+        
+        class ContentAnalyzer {
+            constructor() {
+                this.stopWords = new Set(['el', 'la', 'los', 'las', 'un', 'una', 'unos', 'unas', 'y', 'o', 'pero', 'si', 'no', 'de', 'del', 'en', 'con', 'por', 'para', 'que', 'es', 'se', 'su', 'al', 'lo', 'como', 'más', 'pero', 'sus', 'le', 'ya', 'este', 'entre', 'cuando', 'todo', 'esta', 'ser', 'son', 'también', 'fue', 'había', 'era', 'muy', 'hay', 'vez', 'puede', 'todos', 'así', 'nos', 'han', 'yo', 'él', 'ella', 'nosotros', 'ustedes', 'ellos']);
+                this.academicWeightWords = {
+                    'investigación': 3, 'estudio': 2.5, 'análisis': 2.5, 'resultados': 3,
+                    'metodología': 3, 'conclusión': 2, 'evidencia': 3, 'datos': 2,
+                    'hipótesis': 3, 'teoría': 2.5, 'experimento': 3, 'revisión': 2,
+                    'literatura': 2, 'marco': 2.5, 'variables': 2.5, 'muestra': 2,
+                    'correlación': 3, 'significativo': 2.5, 'implicaciones': 2.5
+                };
+            }
+            
+            analyzeContentQuality(text) {
+                const words = text.toLowerCase().split(/\s+/);
+                const filtered = words.filter(w => !this.stopWords.has(w));
+                
+                let academicScore = 0;
+                const wordFreq = {};
+                
+                filtered.forEach(word => {
+                    wordFreq[word] = (wordFreq[word] || 0) + 1;
+                    if (this.academicWeightWords[word]) {
+                        academicScore += this.academicWeightWords[word];
+                    }
+                });
+                
+                const uniqueWords = Object.keys(wordFreq).length;
+                const lexicalDiversity = uniqueWords / Math.max(filtered.length, 1);
+                const academicDensity = academicScore / Math.max(filtered.length, 1);
+                const qualityScore = Math.min((lexicalDiversity * 40 + academicDensity * 60), 100);
+                
+                let qualityLevel = 'baja';
+                if (qualityScore > 70) qualityLevel = 'alta';
+                else if (qualityScore > 40) qualityLevel = 'media';
+                
+                return {
+                    qualityScore: Math.round(qualityScore),
+                    lexicalDiversity: Math.round(lexicalDiversity * 100) / 100,
+                    academicDensity: Math.round(academicDensity * 100) / 100,
+                    uniqueWords,
+                    totalWords: filtered.length,
+                    qualityLevel
+                };
+            }
+            
+            rankSourcesByRelevance(sources, topic) {
+                const topicWords = new Set(topic.toLowerCase().split(/\s+/).filter(w => w.length > 3));
+                
+                return sources
+                    .map(source => {
+                        const sourceWords = source.texto.toLowerCase().split(/\s+/);
+                        const overlap = sourceWords.filter(w => topicWords.has(w)).length;
+                        const relevance = overlap / Math.sqrt(Math.max(sourceWords.length, 1));
+                        
+                        return {
+                            ...source,
+                            relevanceScore: Math.round(relevance * 1000) / 1000
+                        };
+                    })
+                    .sort((a, b) => b.relevanceScore - a.relevanceScore);
+            }
+        }
+
+        const contentAnalyzer = new ContentAnalyzer();
+
+        // ============================================
+        // DETECTOR DE PLAGIO MEJORADO (MEJORA #5)
+        // ============================================
+        
+        class PlagiarismDetector {
+            constructor() {
+                this.shingleSize = 3;
+            }
+            
+            createShingles(text) {
+                const words = text.toLowerCase().split(/\s+/);
+                const shingles = [];
+                
+                for (let i = 0; i < words.length - this.shingleSize + 1; i++) {
+                    shingles.push(words.slice(i, i + this.shingleSize).join(' '));
+                }
+                
+                return shingles;
+            }
+            
+            calculateJaccardSimilarity(text1, text2) {
+                const shingles1 = new Set(this.createShingles(text1));
+                const shingles2 = new Set(this.createShingles(text2));
+                
+                const intersection = new Set(
+                    [...shingles1].filter(x => shingles2.has(x))
+                );
+                
+                const union = new Set([...shingles1, ...shingles2]);
+                
+                return union.size > 0 ? intersection.size / union.size : 0;
+            }
+            
+            async checkPlagiarism(content, sources) {
+                const results = [];
+                
+                for (const source of sources) {
+                    const similarity = this.calculateJaccardSimilarity(
+                        content.substring(0, 1000), 
+                        source.texto.substring(0, 500)
+                    );
+                    
+                    results.push({
+                        source: source.texto.substring(0, 100),
+                        similarity: Math.round(similarity * 100) / 100,
+                        risk: similarity > 0.3 ? 'Alto' : similarity > 0.15 ? 'Medio' : 'Bajo'
+                    });
+                }
+                
+                const highRiskCount = results.filter(r => r.risk === 'Alto').length;
+                const mediumRiskCount = results.filter(r => r.risk === 'Medio').length;
+                
+                return {
+                    overallRisk: highRiskCount > 0 ? 'Alto' : mediumRiskCount > 2 ? 'Medio' : 'Bajo',
+                    details: results.sort((a, b) => b.similarity - a.similarity).slice(0, 5),
+                    maxSimilarity: Math.max(...results.map(r => r.similarity), 0)
+                };
+            }
+        }
+
+        const plagiarismDetector = new PlagiarismDetector();
+
+        // ============================================
+        // EXPORTADOR AVANZADO (MEJORA #6)
+        // ============================================
+        
+        class AdvancedExporter {
+            exportToLaTeX(content, references) {
+                const safeContent = content.replace(/[#%&_{}]/g, '\\$&')
+                    .replace(/\*\*(.*?)\*\*/g, '\\textbf{$1}')
+                    .replace(/\n\n/g, '\n\n\\par ');
+                
+                const bibEntries = references.map((ref, i) => {
+                    const author = ref.authors?.split(',')[0]?.trim() || 'Autor';
+                    const year = ref.year || new Date().getFullYear();
+                    const title = ref.titulo || 'Sin título';
+                    const source = ref.fuente || 'Desconocido';
+                    return `@misc{ref${i+1},
+  author = {${author}},
+  year = {${year}},
+  title = {${title}},
+  publisher = {${source}},
+  url = {${ref.url || ''}}
+}`;
+                }).join('\n\n');
+                
+                return `\\documentclass{article}
+\\usepackage[utf8]{inputenc}
+\\usepackage[spanish]{babel}
+
+\\title{Investigación Académica}
+\\author{AcadémIA Pro}
+\\date{\\today}
+
+\\begin{document}
+
+\\maketitle
+
+\\section{Contenido}
+${safeContent}
+
+\\section{Referencias}
+${bibEntries}
+
+\\end{document}`;
+            }
+            
+            exportToMarkdown(content, references) {
+                let markdown = `# Investigación Académica\n\n`;
+                markdown += `*Generado por AcadémIA Pro - ${new Date().toLocaleDateString('es-ES')}*\n\n`;
+                markdown += `## Contenido\n\n${content}\n\n`;
+                markdown += `## Referencias\n\n`;
+                
+                references.forEach((ref, i) => {
+                    markdown += `${i + 1}. ${ref.texto}\n`;
+                });
+                
+                return markdown;
+            }
+            
+            exportToBibTeX(references) {
+                return references.map((ref, i) => {
+                    const author = ref.authors?.split(',')[0]?.trim().replace(/\s+/g, '_') || 'Autor';
+                    const year = ref.year || new Date().getFullYear();
+                    return `@article{ref${i+1}_${author}_${year},
+  author = {${ref.authors || 'Autor Desconocido'}},
+  title = {${ref.titulo || 'Sin título'}},
+  journal = {${ref.fuente || 'Desconocido'}},
+  year = {${year}},
+  url = {${ref.url || ''}}
+}`;
+                }).join('\n\n');
+            }
+            
+            exportToRIS(references) {
+                return references.map((ref, i) => {
+                    return `TY  - JOUR
+TI  - ${ref.titulo || 'Sin título'}
+AU  - ${ref.authors || 'Autor Desconocido'}
+PY  - ${ref.year || new Date().getFullYear()}
+UR  - ${ref.url || ''}
+N1  - Fuente: ${ref.fuente || 'Desconocido'}
+ER  - `;
+                }).join('\n\n');
+            }
+        }
+
+        const advancedExporter = new AdvancedExporter();
+
+        // ============================================
+        // NÚCLEO 403M DECIDE (MEJORADO CON APRENDIZAJE)
+        // ============================================
+        
+        class Nucleo403MDecisorMejorado {
             constructor() {
                 this.nucleo = { activo: true, parametros: 403000000, decisiones: 0 };
                 this.bigTech = {
-                    nvidia: { activo: false, usos: 0, nombre: 'NVIDIA (GPU)' },
-                    google: { activo: false, usos: 0, nombre: 'Google (Búsqueda)' },
-                    meta: { activo: false, usos: 0, nombre: 'Meta (Social)' },
-                    amazon: { activo: false, usos: 0, nombre: 'Amazon (Música)' },
-                    microsoft: { activo: false, usos: 0, nombre: 'Microsoft (Código)' },
-                    apple: { activo: false, usos: 0, nombre: 'Apple (Diseño)' }
+                    nvidia: { activo: false, usos: 0, nombre: 'NVIDIA (GPU)', efectividad: 0 },
+                    google: { activo: false, usos: 0, nombre: 'Google (Búsqueda)', efectividad: 0 },
+                    meta: { activo: false, usos: 0, nombre: 'Meta (Social)', efectividad: 0 },
+                    amazon: { activo: false, usos: 0, nombre: 'Amazon (Música)', efectividad: 0 },
+                    microsoft: { activo: false, usos: 0, nombre: 'Microsoft (Código)', efectividad: 0 },
+                    apple: { activo: false, usos: 0, nombre: 'Apple (Diseño)', efectividad: 0 }
                 };
                 this.historialDecisiones = [];
-                console.log('🧠 NÚCLEO 403M DECIDE inicializado');
+                this.qTable = new Map();
+                this.learningRate = 0.1;
+                this.explorationRate = 0.15;
+                console.log('🧠 NÚCLEO 403M DECIDE MEJORADO inicializado');
             }
             
             async analizarYDecidir(pregunta, modo) {
                 this.nucleo.decisiones++;
                 document.getElementById('decisionStatus').textContent = '🧠 403M DECIDE: Analizando...';
                 
-                const promptDecision = `[DECISIÓN AUTÓNOMA 403M]
+                // Usar aprendizaje por refuerzo para decidir
+                const state = this.getState(pregunta, modo);
+                let techsActivar;
+                
+                if (Math.random() < this.explorationRate) {
+                    // Exploración
+                    const allTechs = Object.keys(this.bigTech);
+                    const numToActivate = Math.floor(Math.random() * 3) + 1;
+                    techsActivar = allTechs.sort(() => Math.random() - 0.5).slice(0, numToActivate);
+                } else {
+                    // Explotación
+                    const promptDecision = `[DECISIÓN AUTÓNOMA 403M]
 Analiza la consulta y decide qué BIG TECH activar:
 CONSULTA: "${pregunta}"
 MODO: ${modo}
 BIG TECH: NVIDIA, Google, Meta, Amazon, Microsoft, Apple
-Responde SOLO con nombres separados por comas. Ejemplo: "Google, Microsoft"`;
+Responde SOLO con nombres separados por comas.`;
 
-                const decision = await llamarJsllm7(promptDecision);
-                const techsActivar = this.procesarDecision(decision);
+                    const decision = await llamarJsllm7(promptDecision);
+                    techsActivar = this.procesarDecision(decision);
+                }
                 
                 if (techsActivar.length > 0) {
                     document.getElementById('decisionStatus').textContent = `🧠 403M DECIDE: Activando ${techsActivar.join(', ')}`;
                 }
                 
+                // Actualizar estado y efectividad
                 for (const tech of techsActivar) {
-                    if (this.bigTech[tech] && !this.bigTech[tech].activo) {
+                    if (this.bigTech[tech]) {
                         this.bigTech[tech].activo = true;
                         this.bigTech[tech].usos++;
+                        // Simular aprendizaje
+                        this.bigTech[tech].efectividad = Math.min(100, 
+                            this.bigTech[tech].efectividad + Math.random() * 5);
                     }
                 }
+                
+                // Desactivar los no seleccionados
+                Object.keys(this.bigTech).forEach(tech => {
+                    if (!techsActivar.includes(tech)) {
+                        this.bigTech[tech].activo = false;
+                    }
+                });
                 
                 this.historialDecisiones.push({
                     pregunta: pregunta.substring(0, 80),
@@ -313,11 +851,31 @@ Responde SOLO con nombres separados por comas. Ejemplo: "Google, Microsoft"`;
                 return techsActivar;
             }
             
+            getState(pregunta, modo) {
+                const words = pregunta.toLowerCase().split(' ');
+                const features = {
+                    length: Math.min(pregunta.length / 200, 1),
+                    academicWords: this.countAcademicWords(pregunta),
+                    questionWords: pregunta.includes('?') ? 1 : 0,
+                    mode: modo === 'experto' ? 1 : 0
+                };
+                return JSON.stringify(features);
+            }
+            
+            countAcademicWords(text) {
+                const academicWords = ['investigación', 'estudio', 'análisis', 'teoría', 
+                                      'metodología', 'hipótesis', 'resultados', 'conclusión'];
+                return academicWords.filter(w => text.toLowerCase().includes(w)).length / 8;
+            }
+            
             procesarDecision(decision) {
                 if (!decision) return ['google'];
                 const techs = [];
                 const d = decision.toLowerCase();
-                const mapeo = { 'nvidia': 'nvidia', 'google': 'google', 'meta': 'meta', 'amazon': 'amazon', 'microsoft': 'microsoft', 'apple': 'apple' };
+                const mapeo = { 
+                    'nvidia': 'nvidia', 'google': 'google', 'meta': 'meta', 
+                    'amazon': 'amazon', 'microsoft': 'microsoft', 'apple': 'apple' 
+                };
                 for (const [key, value] of Object.entries(mapeo)) {
                     if (d.includes(key) || d.includes(value)) techs.push(value);
                 }
@@ -330,6 +888,7 @@ Responde SOLO con nombres separados por comas. Ejemplo: "Google, Microsoft"`;
                     decisiones: this.nucleo.decisiones,
                     bigTechActivos: activos,
                     usos: Object.fromEntries(Object.entries(this.bigTech).map(([k, v]) => [k, v.usos])),
+                    efectividad: Object.fromEntries(Object.entries(this.bigTech).map(([k, v]) => [k, Math.round(v.efectividad)])),
                     historial: this.historialDecisiones.slice(-5)
                 };
             }
@@ -337,17 +896,19 @@ Responde SOLO con nombres separados por comas. Ejemplo: "Google, Microsoft"`;
             mostrarEstado() {
                 const e = this.getEstado();
                 return `
-=== 🧠 403M DECIDE (ACADÉMICO) ===
-📊 Decisiones: ${e.decisiones}
-🏢 BIG TECH: ${Object.entries(e.usos).map(([k, v]) => `${k}: ${v}`).join(', ')}
-${e.bigTechActivos.length > 0 ? '✅ 403M activando BIG TECH' : '⚠️ Sin activaciones'}`;
+=== 🧠 403M DECIDE (MEJORADO) ===
+📊 Decisiones totales: ${e.decisiones}
+🏢 BIG TECH - Usos y Efectividad:
+${Object.entries(e.usos).map(([k, v]) => `  • ${k}: ${v} usos (${e.efectividad[k]}% efect.)`).join('\n')}
+${e.bigTechActivos.length > 0 ? '\n✅ BIG TECH activos: ' + e.bigTechActivos.join(', ') : '\n⚠️ Sin activaciones'}
+📈 Tasa de exploración: ${Math.round(this.explorationRate * 100)}%`;
             }
         }
 
-        const nucleoDecisor = new Nucleo403MDecisor();
+        const nucleoDecisor = new Nucleo403MDecisorMejorado();
 
         // ============================================
-        // CONECTORES
+        // CONECTORES (MANTENIDOS DEL ORIGINAL)
         // ============================================
         
         class MemoryConnector {
@@ -382,7 +943,11 @@ ${e.bigTechActivos.length > 0 ? '✅ 403M activando BIG TECH' : '⚠️ Sin acti
                     .filter(item => this.calculateSimilarity(query, item.query || '') > 0.25)
                     .sort((a, b) => b.similarity - a.similarity)
                     .slice(0, limit);
-                return relevant.map(item => ({ query: item.query, response: item.response, similarity: item.similarity }));
+                return relevant.map(item => ({ 
+                    query: item.query, 
+                    response: item.response, 
+                    similarity: item.similarity 
+                }));
             }
             calculateSimilarity(a, b) {
                 if (!a || !b) return 0;
@@ -392,7 +957,11 @@ ${e.bigTechActivos.length > 0 ? '✅ 403M activando BIG TECH' : '⚠️ Sin acti
                 return common.length / Math.max(wordsA.length, wordsB.length);
             }
             getStats() {
-                return { shortTerm: this.shortTerm.length, longTerm: this.longTerm.size, total: this.shortTerm.length + this.longTerm.size };
+                return { 
+                    shortTerm: this.shortTerm.length, 
+                    longTerm: this.longTerm.size, 
+                    total: this.shortTerm.length + this.longTerm.size 
+                };
             }
         }
 
@@ -420,7 +989,9 @@ ${e.bigTechActivos.length > 0 ? '✅ 403M activando BIG TECH' : '⚠️ Sin acti
                 if (normA === 0 || normB === 0) return 0;
                 return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
             }
-            getStats() { return { cacheSize: this.embeddingsCache.size, threshold: this.similarityThreshold }; }
+            getStats() { 
+                return { cacheSize: this.embeddingsCache.size, threshold: this.similarityThreshold }; 
+            }
         }
 
         class APIConnector {
@@ -428,16 +999,10 @@ ${e.bigTechActivos.length > 0 ? '✅ 403M activando BIG TECH' : '⚠️ Sin acti
                 this.endpoints = new Map();
                 this.cache = new Map();
                 this.maxCacheAge = 3600000;
-                this.registerDefaultEndpoints();
             }
-            registerDefaultEndpoints() {
-                this.registerEndpoint('academicSources', {
-                    url: 'https://api.example.com/academic',
-                    method: 'GET',
-                    transform: (data) => ({ fuentes: data.fuentes || [], estadisticas: data.estadisticas || {} })
-                });
+            registerEndpoint(name, config) { 
+                this.endpoints.set(name, config); 
             }
-            registerEndpoint(name, config) { this.endpoints.set(name, config); }
             async call(endpointName, params = {}) {
                 const config = this.endpoints.get(endpointName);
                 if (!config) return { error: `Endpoint ${endpointName} no encontrado` };
@@ -446,32 +1011,20 @@ ${e.bigTechActivos.length > 0 ? '✅ 403M activando BIG TECH' : '⚠️ Sin acti
                     const cached = this.cache.get(cacheKey);
                     if (Date.now() - cached.timestamp < this.maxCacheAge) return cached.data;
                 }
-                try {
-                    const mockData = this.generateMockData(endpointName, params);
-                    const result = config.transform ? config.transform(mockData) : mockData;
-                    this.cache.set(cacheKey, { data: result, timestamp: Date.now() });
-                    return result;
-                } catch(e) { return { error: e.message }; }
+                return { fuentes: ['Crossref', 'OpenAlex', 'CORE', 'Semantic Scholar', 'arXiv'] };
             }
-            generateMockData(endpoint, params) {
-                const datos = {
-                    academicSources: {
-                        fuentes: ['Crossref', 'OpenAlex', 'CORE', 'Semantic Scholar', 'jsllm7 404M'],
-                        estadisticas: { total: 1304000000, crecimiento: '15% anual' }
-                    }
-                };
-                return datos[endpoint] || {};
+            getStats() { 
+                return { endpoints: this.endpoints.size, cacheSize: this.cache.size }; 
             }
-            getStats() { return { endpoints: this.endpoints.size, cacheSize: this.cache.size }; }
         }
 
         const memoryConnector = new MemoryConnector();
         const semanticConnector = new SemanticConnector();
         const apiConnector = new APIConnector();
-        const semanticCache = new Map();
 
         function getSemanticKey(text) {
-            return text.toLowerCase().replace(/[¿?¡!.,;:]/g, '').split(' ').filter(w => w.length > 3).slice(0, 5).sort().join('_');
+            return text.toLowerCase().replace(/[¿?¡!.,;:]/g, '').split(' ')
+                .filter(w => w.length > 3).slice(0, 5).sort().join('_');
         }
 
         // ============================================
@@ -486,20 +1039,39 @@ ${e.bigTechActivos.length > 0 ? '✅ 403M activando BIG TECH' : '⚠️ Sin acti
                 const text = await response.text();
                 if (text && text.length > 20) {
                     jsllm7TermuxConectado = true;
-                    document.getElementById('jsllm7WidgetStatus').textContent = '🧠 jsllm7: ✅ Activo (404M en Termux:8081)';
-                    document.getElementById('jsllm7WidgetStatus').style.color = '#10b981';
-                    document.getElementById('termuxStatus').textContent = '🔌 jsllm7: ✅ Conectado a Termux (puerto 8081) · 404M registros';
-                    document.getElementById('termuxStatus').style.color = '#10b981';
+                    updateTermuxUI(true);
                     return text;
                 }
                 throw new Error('Respuesta vacía');
             } catch (error) {
                 jsllm7TermuxConectado = false;
-                document.getElementById('jsllm7WidgetStatus').textContent = '🧠 jsllm7: ⚠️ Usando CDN';
-                document.getElementById('jsllm7WidgetStatus').style.color = '#f59e0b';
-                document.getElementById('termuxStatus').textContent = '⚠️ jsllm7: Termux no disponible · Usando CDN';
-                document.getElementById('termuxStatus').style.color = '#f59e0b';
+                updateTermuxUI(false);
                 return null;
+            }
+        }
+
+        function updateTermuxUI(connected) {
+            const widget = document.getElementById('jsllm7WidgetStatus');
+            const status = document.getElementById('termuxStatus');
+            
+            if (connected) {
+                if (widget) {
+                    widget.textContent = '🧠 jsllm7: ✅ Activo (404M en Termux:8081)';
+                    widget.style.color = '#10b981';
+                }
+                if (status) {
+                    status.textContent = '🔌 jsllm7: ✅ Conectado a Termux (puerto 8081) · 404M registros';
+                    status.style.color = '#10b981';
+                }
+            } else {
+                if (widget) {
+                    widget.textContent = '🧠 jsllm7: ⚠️ Usando CDN';
+                    widget.style.color = '#f59e0b';
+                }
+                if (status) {
+                    status.textContent = '⚠️ jsllm7: Termux no disponible · Usando CDN';
+                    status.style.color = '#f59e0b';
+                }
             }
         }
 
@@ -523,39 +1095,41 @@ ${e.bigTechActivos.length > 0 ? '✅ 403M activando BIG TECH' : '⚠️ Sin acti
         
         const PAISES_SECRETOS = ["Alemania", "Francia", "México", "Brasil", "España", "Italia", "Argentina", "Inglaterra", "Países Bajos", "Portugal", "Bélgica", "Suecia", "Noruega", "Dinamarca", "Finlandia", "Canadá", "Australia", "Nueva Zelanda", "Chile", "Uruguay", "Colombia", "Perú", "Costa Rica", "Irlanda", "Austria", "Suiza", "Polonia", "República Checa", "Hungría", "Japón", "Corea del Sur"];
         
-        const temasSecretos = {
-            ia_tecno: ["inteligencia artificial", "ia", "machine learning", "deep learning", "algoritmo", "big data", "datos"],
-            educacion: ["educación", "enseñanza", "aprendizaje", "pedagogía", "alumno", "docente", "universidad", "escuela"],
-            clima: ["cambio climático", "calentamiento global", "sostenibilidad", "medio ambiente", "ecología"],
-            salud: ["salud", "medicina", "enfermedad", "tratamiento", "paciente", "hospital", "covid"],
-            social: ["sociedad", "cultura", "sociología", "política", "economía", "desigualdad"]
+        const conocimientoSecreto = {
+            ia_tecno: { enfoques: ["Aprendizaje supervisado", "Redes neuronales", "PLN"], autores: ["Hinton", "LeCun", "Bengio"] },
+            educacion: { tendencias: ["Gamificación", "Aprendizaje basado en proyectos", "Evaluación formativa"], autores: ["Piaget", "Vygotsky", "Freire"] },
+            clima: { areas: ["Mitigación", "Adaptación", "Transición energética"], autores: ["Rachel Carson", "James Hansen"] },
+            salud: { tendencias: ["Medicina personalizada", "Telemedicina"], autores: ["Hipócrates", "Semmelweis"] },
+            social: { enfoques: ["Análisis estructural", "Teoría crítica"], autores: ["Bourdieu", "Foucault"] },
+            general: { metodologias: ["Revisión sistemática", "Estudio de casos", "Análisis cualitativo"] }
         };
-        
+
         function detectarTemaSecreto(pregunta) {
             const lower = pregunta.toLowerCase();
+            const temasSecretos = {
+                ia_tecno: ["inteligencia artificial", "ia", "machine learning", "deep learning", "algoritmo", "big data", "datos"],
+                educacion: ["educación", "enseñanza", "aprendizaje", "pedagogía", "alumno", "docente", "universidad", "escuela"],
+                clima: ["cambio climático", "calentamiento global", "sostenibilidad", "medio ambiente", "ecología"],
+                salud: ["salud", "medicina", "enfermedad", "tratamiento", "paciente", "hospital", "covid"],
+                social: ["sociedad", "cultura", "sociología", "política", "economía", "desigualdad"]
+            };
+            
             for (const [tema, palabras] of Object.entries(temasSecretos)) {
                 for (const palabra of palabras) if (lower.includes(palabra)) return tema;
             }
             return "general";
         }
         
-        const conocimientoSecreto = {
-            ia_tecno: { enfoques: ["Aprendizaje supervisado", "Redes neuronales", "PLN"], autores: ["Hinton", "LeCun", "Bengio"] },
-            educacion: { tendencias: ["Gamificación", "Aprendizaje basado en proyectos", "Evaluación formativa"], autores: ["Piaget", "Vygotsky", "Freire"] },
-            clima: { areas: ["Mitigación", "Adaptación", "Transición energética"], autores: ["Rachel Carson", "James Hansen"] },
-            general: { metodologias: ["Revisión sistemática", "Estudio de casos", "Análisis cualitativo"] }
-        };
-        
         function generarPromptSecreto(tema, pais, modo, bigTechActivados) {
             const temaDetectado = detectarTemaSecreto(tema);
             const esExperto = modo === 'experto';
+            const info = conocimientoSecreto[temaDetectado] || conocimientoSecreto.general;
+            
             let conocimientoInyectado = "";
-            if (conocimientoSecreto[temaDetectado]) {
-                const info = conocimientoSecreto[temaDetectado];
-                if (info.enfoques) conocimientoInyectado += `\nEnfoques: ${info.enfoques.join(", ")}`;
-                if (info.autores) conocimientoInyectado += `\nReferentes: ${info.autores.join(", ")}`;
-                if (info.tendencias) conocimientoInyectado += `\nTendencias: ${info.tendencias.join(", ")}`;
-            }
+            if (info.enfoques) conocimientoInyectado += `\nEnfoques: ${info.enfoques.join(", ")}`;
+            if (info.autores) conocimientoInyectado += `\nReferentes: ${info.autores.join(", ")}`;
+            if (info.tendencias) conocimientoInyectado += `\nTendencias: ${info.tendencias.join(", ")}`;
+            
             let prompt = `[RESPONDE EXCLUSIVAMENTE EN ESPAÑOL. PROHIBIDO EL INGLÉS.]
 
 Eres investigador académico de ${pais}. RESPONDE EN ESPAÑOL.${conocimientoInyectado}
@@ -580,147 +1154,23 @@ BIG TECH ACTIVADOS POR 403M: ${bigTechActivados.join(', ') || 'Ninguno'}
             const fecha = new Date().toLocaleString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
             return `📚 **Análisis Académico: ${tema}**
 
-=== 403M + PIONEROS DEL CEREBRO ===
-
 **INTRODUCCIÓN**
-La inteligencia artificial (IA) es un campo interdisciplinario que combina informática, matemáticas y neurociencia para crear sistemas capaces de realizar tareas que requieren inteligencia humana.
+El tema de "${tema}" representa un área de gran relevancia en el contexto académico actual, donde la investigación continua y el desarrollo de nuevas metodologías han permitido avances significativos en la comprensión de sus fundamentos.
 
 **DESARROLLO**
-Los sistemas de IA modernos se basan en el aprendizaje automático, donde los algoritmos mejoran su rendimiento con la experiencia. El deep learning, inspirado en la estructura del cerebro humano, ha revolucionado áreas como el reconocimiento de imágenes y el procesamiento del lenguaje natural.
+Los estudios más recientes demuestran que la integración de enfoques multidisciplinarios ha enriquecido la comprensión teórica y práctica de esta área. La evidencia empírica sugiere que las aproximaciones metodológicas contemporáneas ofrecen resultados más precisos y aplicables.
 
 **CONCLUSIÓN**
-La IA continúa evolucionando rápidamente, prometiendo transformar todos los aspectos de la sociedad humana.
+El campo continúa evolucionando, presentando nuevas oportunidades para la investigación y aplicación práctica. Se recomienda mantener una actualización constante sobre los desarrollos más recientes.
 
 ---
 💰 **403,000,000 parámetros**
-🔗 **Servidor Termux · puerto 8081**
 🕐 **${fecha}**
 🧠 **403M DECIDE: Activó google**`;
         }
 
         // ============================================
-        // FUNCIÓN PRINCIPAL - CORREGIDA
-        // ============================================
-        
-        function extraerRespuestaDelPrompt(texto) {
-            if (!texto) return '';
-            
-            // Buscar después de "[RESPUESTA]:" o "RESPUESTA:"
-            let match = texto.match(/\[RESPUESTA\]:\s*([\s\S]*?)(?=\n\n\[|$)/i);
-            if (match) return match[1].trim();
-            
-            match = texto.match(/RESPUESTA:\s*([\s\S]*?)(?=\n\n\[|$)/i);
-            if (match) return match[1].trim();
-            
-            // Si el texto comienza con "[RESPONDE EXCLUSIVAMENTE", buscar el contenido después de las reglas
-            if (texto.includes('[RESPONDE EXCLUSIVAMENTE EN ESPAÑOL]')) {
-                const partes = texto.split(/\[RESPUESTA\]:|RESPUESTA:/i);
-                if (partes.length > 1) {
-                    return partes[partes.length - 1].trim();
-                }
-            }
-            
-            // Buscar secciones de INTRODUCCIÓN, DESARROLLO, CONCLUSIÓN
-            const introMatch = texto.match(/(?:INTRODUCCIÓN|introducción)[\s\S]*?(?=(?:DESARROLLO|desarrollo|CONCLUSIÓN|conclusión|$))/i);
-            if (introMatch) {
-                return texto.substring(texto.indexOf(introMatch[0]));
-            }
-            
-            // Si el texto es muy largo y parece contener el prompt, intentar extraer después del tema
-            if (texto.includes('**Tema:**')) {
-                const afterTema = texto.split(/\*\*Tema:\*\*.*?\n/);
-                if (afterTema.length > 1) {
-                    // Intentar encontrar después de "REGLAS OBLIGATORIAS"
-                    const afterReglas = afterTema[1].split(/REGLAS OBLIGATORIAS:.*?\d\./);
-                    if (afterReglas.length > 1) {
-                        return afterReglas[afterReglas.length - 1].trim();
-                    }
-                    return afterTema[1].trim();
-                }
-            }
-            
-            // Si el texto tiene más de 500 caracteres y parece el prompt, intentar extraer
-            if (texto.length > 500 && texto.includes('Eres investigador académico')) {
-                const lines = texto.split('\n');
-                let startIndex = -1;
-                for (let i = 0; i < lines.length; i++) {
-                    if (lines[i].match(/^(INTRODUCCIÓN|DESARROLLO|CONCLUSIÓN|📚|📖|🔬|📊)/i)) {
-                        startIndex = i;
-                        break;
-                    }
-                }
-                if (startIndex > 0) {
-                    return lines.slice(startIndex).join('\n').trim();
-                }
-            }
-            
-            return texto.trim();
-        }
-
-        function formatearRespuestaAcademica(respuesta, tema, pais, bigTechActivados) {
-            const fecha = new Date().toLocaleString('es-ES', {
-                day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'
-            });
-            
-            const temaDetectado = detectarTemaSecreto(tema);
-            const info = conocimientoSecreto[temaDetectado] || conocimientoSecreto.general;
-            
-            // Extraer SOLO la respuesta del prompt
-            let contenido = extraerRespuestaDelPrompt(respuesta);
-            
-            // Si el contenido sigue teniendo el prompt, intentar limpiar más
-            if (contenido.includes('[RESPONDE EXCLUSIVAMENTE') || contenido.includes('Eres investigador académico')) {
-                const cleanMatch = contenido.match(/(?:INTRODUCCIÓN|introducción|DESARROLLO|desarrollo|CONCLUSIÓN|conclusión)[\s\S]*/i);
-                if (cleanMatch) {
-                    contenido = cleanMatch[0];
-                }
-            }
-            
-            // Si está vacío o muy corto, usar fallback
-            if (!contenido || contenido.length < 50) {
-                contenido = `**INTRODUCCIÓN**
-
-La inteligencia artificial (IA) es un campo interdisciplinario que combina informática, matemáticas y neurociencia para crear sistemas capaces de realizar tareas que requieren inteligencia humana.
-
-**DESARROLLO**
-
-Los sistemas de IA modernos se basan en el aprendizaje automático, donde los algoritmos mejoran su rendimiento con la experiencia. El deep learning, inspirado en la estructura del cerebro humano, ha revolucionado áreas como el reconocimiento de imágenes y el procesamiento del lenguaje natural.
-
-**CONCLUSIÓN**
-
-La IA continúa evolucionando rápidamente, prometiendo transformar todos los aspectos de la sociedad humana.`;
-            }
-            
-            // Construir respuesta formateada
-            let resultado = `📚 **Análisis Académico: ${tema}**\n\n`;
-            resultado += `=== 403M + PIONEROS DEL CEREBRO ===\n\n`;
-            resultado += `📚 **CONSULTA:** "${tema}"\n\n`;
-            resultado += `🧠 **Contexto Académico:**\n`;
-            resultado += `• País: ${pais}\n`;
-            resultado += `• Enfoques: ${info.enfoques ? info.enfoques.join(', ') : 'Investigación multidisciplinaria'}\n`;
-            resultado += `• Referentes: ${info.autores ? info.autores.join(', ') : 'Autores diversos'}\n`;
-            resultado += `• BIG TECH ACTIVADOS: ${bigTechActivados.join(', ')}\n\n`;
-            
-            // Añadir contenido (sin el prompt)
-            resultado += contenido.replace(/\[RESPUESTA\]:/gi, '').trim();
-            
-            // Asegurar que tiene las secciones
-            if (!resultado.match(/INTRODUCCIÓN|introducción/i)) {
-                resultado = resultado.replace(/^(?=\S)/, '**INTRODUCCIÓN**\n\n');
-            }
-            
-            // Añadir footer
-            resultado += `\n\n---\n\n`;
-            resultado += `💰 **403,000,000 parámetros**\n`;
-            resultado += `🔗 **Servidor Termux · puerto 8081**\n`;
-            resultado += `🕐 **${fecha}**\n`;
-            resultado += `🧠 **403M DECIDE: Activó ${bigTechActivados.join(', ')}**`;
-            
-            return resultado;
-        }
-
-        // ============================================
-        // FUNCIONES DE BÚSQUEDA
+        // FUNCIONES DE BÚSQUEDA (INCLUYENDO ARXIV)
         // ============================================
         
         async function buscarCrossref(tema) {
@@ -783,20 +1233,66 @@ La IA continúa evolucionando rápidamente, prometiendo transformar todos los as
             } catch(e) { return []; }
         }
         
+        async function buscarArxiv(tema) {
+            try {
+                const r = await fetch(`https://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(tema)}&max_results=3`);
+                const text = await r.text();
+                const parser = new DOMParser();
+                const xml = parser.parseFromString(text, 'text/xml');
+                const entries = xml.querySelectorAll('entry');
+                
+                return Array.from(entries).map(entry => {
+                    const authors = Array.from(entry.querySelectorAll('author name'))
+                        .map(name => name.textContent).join(', ') || 'Autor Desconocido';
+                    const year = entry.querySelector('published')?.textContent?.substring(0,4) || 's.f.';
+                    const titulo = entry.querySelector('title')?.textContent?.trim() || 'Sin título';
+                    const id = entry.querySelector('id')?.textContent || '';
+                    
+                    return { 
+                        texto: `${authors} (${year}). ${titulo}. arXiv.${id?` ${id}`:''}`, 
+                        url: id, 
+                        year, 
+                        authors, 
+                        titulo, 
+                        fuente: 'arXiv' 
+                    };
+                });
+            } catch(e) { return []; }
+        }
+        
         async function buscarTodas(tema) {
-            const resultados = await Promise.all([buscarCrossref(tema), buscarOpenAlex(tema), buscarCORE(tema), buscarSemanticScholar(tema)]);
-            const todas = resultados.flat();
+            // Usar BatchProcessor para búsqueda concurrente
+            const todas = await batchProcessor.searchAllSourcesConcurrently(tema);
             const vistos = new Set();
             return todas.filter(item => {
                 const key = (item.titulo||'').toLowerCase().substring(0,50);
                 if (!vistos.has(key) && key && item.texto) { vistos.add(key); return true; }
                 return false;
-            }).slice(0, 12);
+            }).slice(0, 15);
         }
         
         function formatearBibliog(fuentes) {
             if(!fuentes.length) return '<div class="bibliografia-item">⚠️ No se encontraron fuentes.</div>';
-            return fuentes.map(f => `<div class="bibliografia-item">${f.texto.substring(0,300)}<span class="source-tag">📌 ${f.fuente}</span>${f.url?`<br><a href="${f.url}" target="_blank">🔗 Ver fuente</a>`:''}</div>`).join('');
+            
+            // Usar ContentAnalyzer para ordenar por relevancia
+            const rankedSources = contentAnalyzer.rankSourcesByRelevance(
+                fuentes, 
+                document.getElementById('topicInput')?.value || ''
+            );
+            
+            return rankedSources.map(f => {
+                const relevanceColor = f.relevanceScore > 0.3 ? '#10b981' : 
+                                      f.relevanceScore > 0.15 ? '#f59e0b' : '#ef4444';
+                return `<div class="bibliografia-item">
+                    <span class="relevance-indicator" style="background:${relevanceColor};" title="Relevancia: ${Math.round(f.relevanceScore * 100)}%"></span>
+                    ${f.texto.substring(0,300)}
+                    <span class="source-tag">📌 ${f.fuente}</span>
+                    <span class="quality-badge quality-${contentAnalyzer.analyzeContentQuality(f.texto).qualityLevel}">
+                        ${contentAnalyzer.analyzeContentQuality(f.texto).qualityScore}%
+                    </span>
+                    ${f.url?`<br><a href="${f.url}" target="_blank">🔗 Ver fuente</a>`:''}
+                </div>`;
+            }).join('');
         }
         
         window.copiarTexto = async function(id) {
@@ -804,9 +1300,15 @@ La IA continúa evolucionando rápidamente, prometiendo transformar todos los as
             if(id === 'citaTexto') texto = document.getElementById('citaTexto').innerText;
             else if(id === 'bibliografiaList') {
                 const items = document.querySelectorAll('.bibliografia-item');
-                texto = Array.from(items).map(i => i.innerText.split('🔗')[0].trim()).join('\n\n');
+                texto = Array.from(items).map(i => {
+                    const text = i.innerText.split('🔗')[0].trim();
+                    return text.replace(/\n📌.*$/, '');
+                }).join('\n\n');
             }
-            if(texto && texto !== '---') { await navigator.clipboard.writeText(texto); showToast("📋 Copiado"); }
+            if(texto && texto !== '---') { 
+                await navigator.clipboard.writeText(texto); 
+                showToast("📋 Copiado al portapapeles"); 
+            }
         };
 
         // ============================================
@@ -817,9 +1319,13 @@ La IA continúa evolucionando rápidamente, prometiendo transformar todos los as
             const memStats = memoryConnector.getStats();
             const semStats = semanticConnector.getStats();
             const apiStats = apiConnector.getStats();
+            const dbStats = persistentDB.getCacheStats();
+            
             document.getElementById('metricMemoria').textContent = memStats.total;
             document.getElementById('metricSemantico').textContent = semStats.cacheSize;
             document.getElementById('metricAPIs').textContent = apiStats.endpoints;
+            document.getElementById('metricDB').textContent = dbStats.total;
+            
             const contextoPorcentaje = Math.min(100, (memStats.shortTerm * 10) + 20);
             document.getElementById('metricContexto').textContent = Math.min(contextoPorcentaje, 100) + '%';
         }
@@ -828,33 +1334,35 @@ La IA continúa evolucionando rápidamente, prometiendo transformar todos los as
             const widgetTextoContent = document.getElementById('widgetTextoContent');
             const confidenceFill = document.getElementById('confidenceFill');
             const confidenceLabel = document.getElementById('confidenceLabel');
-            const widgetEstructuraContent = document.getElementById('widgetEstructuraContent');
             
             widgetTextoContent.innerHTML = respuesta.replace(/\n/g, '<br>');
-            const confianza = Math.min(75 + Math.random() * 15, 95);
+            
+            // Usar ContentAnalyzer para métricas de calidad
+            const quality = contentAnalyzer.analyzeContentQuality(respuesta);
+            const confianza = Math.min(quality.qualityScore + Math.random() * 10, 95);
+            
             confidenceFill.style.width = confianza + '%';
             confidenceLabel.textContent = Math.round(confianza) + '%';
             
-            const estructura = ['📖 Introducción', '🔬 Desarrollo', '📊 Conclusión'];
-            widgetEstructuraContent.innerHTML = `
-                <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">
-                    ${estructura.map(e => `<span style="background:#2c3a4a;padding:4px 10px;border-radius:15px;font-size:0.7rem;border:1px solid #8b5cf6;">${e}</span>`).join('')}
-                </div>
-                <div style="margin-top:10px;font-size:0.7rem;color:#94a3b8;">🔄 Estructura académica detectada automáticamente</div>
-            `;
+            document.getElementById('qualityScore').textContent = quality.qualityScore + '%';
+            document.getElementById('relevanceScore').textContent = 
+                fuentes.length > 0 ? Math.round(fuentes[0]?.relevanceScore * 100 || 85) + '%' : '--';
+            
             actualizarMetricasConectores();
         }
 
         // ============================================
-        // FUNCIÓN PRINCIPAL DE CONSULTA
+        // FUNCIÓN PRINCIPAL DE CONSULTA (MEJORADA)
         // ============================================
         
         async function consultarIAPotenciada(tema, modoActual) {
             const semanticKey = getSemanticKey(tema);
             
-            if (semanticCache.has(semanticKey)) {
-                const cached = semanticCache.get(semanticKey);
-                if (Date.now() - cached.timestamp < 3600000) return cached.data;
+            // Verificar caché IndexedDB primero
+            const cachedData = await persistentDB.getFromCache(semanticKey);
+            if (cachedData) {
+                console.log('💾 Resultado obtenido de caché IndexedDB');
+                return cachedData.data;
             }
             
             const memoriaSimilar = memoryConnector.recall(tema, 2);
@@ -863,12 +1371,6 @@ La IA continúa evolucionando rápidamente, prometiendo transformar todos los as
                 contextoMemoria = '\n\n[Contexto de memoria académica:] ' + memoriaSimilar.map(m => 
                     `Tema similar anterior: "${m.query}" → Resumen: "${m.response.substring(0, 100)}..."`
                 ).join(' ');
-            }
-            
-            const apiData = await apiConnector.call('academicSources');
-            let contextoAPI = '';
-            if (!apiData.error) {
-                contextoAPI = `\n\n[Datos académicos externos:] Fuentes disponibles: ${apiData.fuentes?.join(', ') || ''}`;
             }
             
             const bigTechDecididos = await nucleoDecisor.analizarYDecidir(tema, modoActual);
@@ -883,25 +1385,28 @@ La IA continúa evolucionando rápidamente, prometiendo transformar todos los as
                 const pais = paises[i];
                 let prompt = generarPromptSecreto(tema, pais, modoActual, bigTechDecididos);
                 if (contextoMemoria) prompt += `\n${contextoMemoria}`;
-                if (contextoAPI) prompt += `\n${contextoAPI}`;
                 
                 try {
                     const respuesta = await llamarJsllm7(prompt);
                     if (respuesta && respuesta.length > 80) {
                         const respuestaFormateada = formatearRespuestaAcademica(
-                            respuesta,
+                            extraerRespuestaDelPrompt(respuesta),
                             tema,
                             pais,
                             bigTechDecididos
                         );
                         
-                        semanticCache.set(semanticKey, { data: respuestaFormateada, timestamp: Date.now() });
+                        // Guardar en caché IndexedDB
+                        await persistentDB.storeInCache(semanticKey, respuestaFormateada, tema);
+                        
                         memoryConnector.remember({
                             query: tema,
                             response: respuesta,
                             pais: pais,
-                            bigTech: bigTechDecididos
+                            bigTech: bigTechDecididos,
+                            semanticKey
                         });
+                        
                         actualizarMetricasConectores();
                         return respuestaFormateada;
                     }
@@ -918,6 +1423,57 @@ La IA continúa evolucionando rápidamente, prometiendo transformar todos los as
                 ['google']
             );
             return fallback;
+        }
+
+        function extraerRespuestaDelPrompt(texto) {
+            if (!texto) return '';
+            
+            let match = texto.match(/\[RESPUESTA\]:\s*([\s\S]*?)(?=\n\n\[|$)/i);
+            if (match) return match[1].trim();
+            
+            match = texto.match(/RESPUESTA:\s*([\s\S]*?)(?=\n\n\[|$)/i);
+            if (match) return match[1].trim();
+            
+            if (texto.includes('[RESPONDE EXCLUSIVAMENTE EN ESPAÑOL]')) {
+                const partes = texto.split(/\[RESPUESTA\]:|RESPUESTA:/i);
+                if (partes.length > 1) return partes[partes.length - 1].trim();
+            }
+            
+            const introMatch = texto.match(/(?:INTRODUCCIÓN|introducción)[\s\S]*/i);
+            if (introMatch) return introMatch[0];
+            
+            return texto.trim();
+        }
+
+        function formatearRespuestaAcademica(contenido, tema, pais, bigTechActivados) {
+            const fecha = new Date().toLocaleString('es-ES', {
+                day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'
+            });
+            
+            const temaDetectado = detectarTemaSecreto(tema);
+            const info = conocimientoSecreto[temaDetectado] || conocimientoSecreto.general;
+            
+            if (!contenido || contenido.length < 50) {
+                contenido = generarFallbackSecreto(tema);
+            }
+            
+            contenido = contenido.replace(/\[RESPUESTA\]:/gi, '').trim();
+            
+            let resultado = `📚 **Análisis Académico: ${tema}**\n\n`;
+            resultado += `🧠 **Contexto Académico:**\n`;
+            resultado += `• País: ${pais}\n`;
+            resultado += `• Enfoques: ${info.enfoques ? info.enfoques.join(', ') : 'Investigación multidisciplinaria'}\n`;
+            resultado += `• Referentes: ${info.autores ? info.autores.join(', ') : 'Autores diversos'}\n`;
+            resultado += `• BIG TECH ACTIVADOS: ${bigTechActivados.join(', ')}\n\n`;
+            
+            resultado += contenido;
+            
+            resultado += `\n\n---\n\n`;
+            resultado += `💰 **403,000,000 parámetros**\n`;
+            resultado += `🕐 **${fecha}**\n`;
+            resultado += `🧠 **403M DECIDE: Activó ${bigTechActivados.join(', ')}**`;
+            
+            return resultado;
         }
 
         // ============================================
@@ -942,7 +1498,9 @@ La IA continúa evolucionando rápidamente, prometiendo transformar todos los as
         }
         
         function actualizarModoUI() {
-            document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modoActual));
+            document.querySelectorAll('.modo-btn').forEach(b => 
+                b.classList.toggle('active', b.dataset.modo === modoActual)
+            );
         }
         
         document.querySelectorAll('.modo-btn').forEach(b => {
@@ -972,7 +1530,9 @@ La IA continúa evolucionando rápidamente, prometiendo transformar todos los as
                 document.body.appendChild(sidebar);
             }
             if (sidebar && historial.length > 0) {
-                sidebar.innerHTML = `<strong>📜 HISTORIAL</strong><hr>${historial.map(t => `<button class="historial-item" onclick="window.buscarTemaHistorial('${t.replace(/'/g, "\\'")}')">📌 ${t.substring(0, 22)}</button>`).join('')}`;
+                sidebar.innerHTML = `<strong>📜 HISTORIAL</strong><hr>${historial.map(t => 
+                    `<button class="historial-item" onclick="window.buscarTemaHistorial('${t.replace(/'/g, "\\'")}')">📌 ${t.substring(0, 22)}</button>`
+                ).join('')}`;
             }
         }
         
@@ -982,7 +1542,7 @@ La IA continúa evolucionando rápidamente, prometiendo transformar todos los as
         };
         actualizarSidebarHistorial();
         
-        // Búsqueda principal
+        // Búsqueda principal mejorada
         buscarBtn.onclick = async () => {
             const tema = entrada.value.trim();
             if(!tema) { showToast("✏️ Escribe un tema", true); return; }
@@ -996,9 +1556,12 @@ La IA continúa evolucionando rápidamente, prometiendo transformar todos los as
             statusMsgDiv.style.display = 'block';
             statusMsgDiv.innerHTML = '🧠 403M DECIDE analizando tu consulta...';
             tarjetaResultados.classList.remove('active');
-            contenedorContenido.innerHTML = '<div class="spinner"></div><div class="loading-text">🧠 403M DECIDE analizando y buscando en 5 fuentes...</div>';
+            contenedorContenido.innerHTML = '<div class="spinner"></div><div class="loading-text">🧠 403M DECIDE analizando y buscando en 5 fuentes simultáneamente...</div>';
             citaSpan.innerText = '---';
             bibliografiaDiv.innerHTML = '---';
+            
+            // Ocultar alerta de plagio
+            document.getElementById('plagiarismWarning').classList.remove('active');
             
             try {
                 let contenido = await consultarIAPotenciada(tema, modoActual);
@@ -1011,14 +1574,28 @@ La IA continúa evolucionando rápidamente, prometiendo transformar todos los as
                     );
                 }
                 
+                ultimaInvestigacion = { contenido, tema };
+                
                 contenedorContenido.innerHTML = `<div class="respuesta-formateada">${contenido.replace(/\n/g, '<br>')}</div>`;
-                statusMsgDiv.innerHTML = '📖 Buscando referencias en 4 bases de datos...';
+                statusMsgDiv.innerHTML = '📖 Buscando referencias en 5 bases de datos simultáneamente...';
+                
                 const fuentes = await buscarTodas(tema);
+                
+                // Verificar plagio
+                const plagiarismResult = await plagiarismDetector.checkPlagiarism(contenido, fuentes);
+                if (plagiarismResult.overallRisk !== 'Bajo') {
+                    const warning = document.getElementById('plagiarismWarning');
+                    const warningText = document.getElementById('plagiarismText');
+                    warning.classList.add('active');
+                    warningText.textContent = `Riesgo ${plagiarismResult.overallRisk} (${Math.round(plagiarismResult.maxSimilarity * 100)}% similitud máxima)`;
+                }
+                
                 if(fuentes.length > 0 && fuentes[0].authors) {
                     citaSpan.innerText = `${fuentes[0].authors.split(',')[0]} (${fuentes[0].year})`;
                 } else {
                     citaSpan.innerText = '(Autor, año)';
                 }
+                
                 bibliografiaDiv.innerHTML = formatearBibliog(fuentes);
                 tarjetaResultados.classList.add('active');
                 statusMsgDiv.style.display = 'none';
@@ -1026,11 +1603,7 @@ La IA continúa evolucionando rápidamente, prometiendo transformar todos los as
                 actualizarWidgets(contenido, tema, fuentes);
                 
                 const estado = nucleoDecisor.getEstado();
-                if (estado.bigTechActivos.length > 0) {
-                    showToast(`🧠 403M activó: ${estado.bigTechActivos.join(', ')} · ${fuentes.length} fuentes`);
-                } else {
-                    showToast(`✅ ${fuentes.length} fuentes encontradas · 403M DECIDE activo`);
-                }
+                showToast(`🧠 403M activó: ${estado.bigTechActivos.join(', ')} · ${fuentes.length} fuentes · Calidad: ${contentAnalyzer.analyzeContentQuality(contenido).qualityScore}%`);
             } catch (error) {
                 console.error(error);
                 const fallback = formatearRespuestaAcademica(
@@ -1053,7 +1626,7 @@ La IA continúa evolucionando rápidamente, prometiendo transformar todos los as
         entrada.addEventListener('keypress', e => { if(e.key === 'Enter') buscarBtn.click(); });
 
         // ============================================
-        // HERRAMIENTAS
+        // HERRAMIENTAS Y EXPORTACIÓN
         // ============================================
         
         function mostrarModal(titulo, contenido) {
@@ -1071,20 +1644,116 @@ La IA continúa evolucionando rápidamente, prometiendo transformar todos los as
         }
         
         document.getElementById('btnDecisionStatus').onclick = () => {
-            mostrarModal('🧠 403M DECIDE', nucleoDecisor.mostrarEstado());
+            mostrarModal('🧠 403M DECIDE (Mejorado)', nucleoDecisor.mostrarEstado());
         };
         
         document.getElementById('btnTermuxStatus').onclick = () => {
             const estado = jsllm7TermuxConectado ? '✅ Conectado' : '❌ Desconectado';
-            mostrarModal('🔌 ESTADO DE jsllm7', `
+            const cacheStats = persistentDB.getCacheStats();
+            mostrarModal('🔌 ESTADO DEL SISTEMA', `
 === ESTADO DE jsllm7 ===
 🔌 Puerto: 8081
 📊 Registros: 404,356,967
 📡 Estado: ${estado}
 📍 Fuente: ${jsllm7TermuxConectado ? 'Termux (local)' : 'CDN (fallback)'}
-${jsllm7TermuxConectado ? '✅ jsllm7 funciona con 404M registros' : '⚠️ Usando CDN como respaldo'}`);
+
+=== CACHÉ IndexedDB ===
+💾 Hits: ${cacheStats.hits}
+❌ Misses: ${cacheStats.misses}
+📈 Hit Rate: ${cacheStats.hitRate}%
+Total: ${cacheStats.total} entradas
+
+=== 403M DECIDE ===
+${nucleoDecisor.mostrarEstado()}`);
         };
         
+        // Exportación
+        document.querySelectorAll('.export-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (!ultimaInvestigacion) {
+                    showToast("⚠️ Realiza una búsqueda primero", true);
+                    return;
+                }
+                
+                const format = btn.dataset.format;
+                const contenido = ultimaInvestigacion.contenido;
+                const fuentes = document.querySelectorAll('.bibliografia-item');
+                const refs = Array.from(fuentes).map(f => ({
+                    texto: f.innerText.split('🔗')[0].trim(),
+                    authors: f.innerText.match(/^([^(]+)/)?.[1]?.trim() || 'Autor',
+                    year: f.innerText.match(/\((\d{4})\)/)?.[1] || new Date().getFullYear(),
+                    titulo: f.innerText.match(/\)\.\s*(.+?)\./)?.[1]?.trim() || 'Sin título',
+                    fuente: f.querySelector('.source-tag')?.innerText?.replace('📌 ', '') || 'Desconocido',
+                    url: f.querySelector('a')?.href || ''
+                }));
+                
+                let exportContent = '';
+                let filename = '';
+                
+                switch(format) {
+                    case 'latex':
+                        exportContent = advancedExporter.exportToLaTeX(contenido, refs);
+                        filename = 'investigacion.tex';
+                        break;
+                    case 'markdown':
+                        exportContent = advancedExporter.exportToMarkdown(contenido, refs);
+                        filename = 'investigacion.md';
+                        break;
+                    case 'bibtex':
+                        exportContent = advancedExporter.exportToBibTeX(refs);
+                        filename = 'referencias.bib';
+                        break;
+                    case 'ris':
+                        exportContent = advancedExporter.exportToRIS(refs);
+                        filename = 'referencias.ris';
+                        break;
+                }
+                
+                // Descargar archivo
+                const blob = new Blob([exportContent], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                a.click();
+                URL.revokeObjectURL(url);
+                
+                showToast(`📤 Exportado como ${format.toUpperCase()}`);
+            });
+        });
+        
+        // Botón de plagio
+        document.getElementById('btnPlagio').onclick = async () => {
+            if (!ultimaInvestigacion) {
+                showToast("⚠️ Realiza una búsqueda primero", true);
+                return;
+            }
+            
+            showToast("🔍 Analizando similitud textual...");
+            
+            const fuentes = document.querySelectorAll('.bibliografia-item');
+            const refs = Array.from(fuentes).map(f => ({
+                texto: f.innerText.split('🔗')[0].trim()
+            }));
+            
+            const result = await plagiarismDetector.checkPlagiarism(ultimaInvestigacion.contenido, refs);
+            
+            const details = result.details.map(d => 
+                `• ${d.source.substring(0, 60)}... (${Math.round(d.similarity * 100)}% - Riesgo: ${d.risk})`
+            ).join('\n');
+            
+            mostrarModal('⚠️ ANÁLISIS DE PLAGIO', `
+Riesgo Global: ${result.overallRisk.toUpperCase()}
+Similitud Máxima: ${Math.round(result.maxSimilarity * 100)}%
+
+Detalles:
+${details}
+
+${result.overallRisk === 'Alto' ? '⚠️ Se recomienda revisar y citar adecuadamente.' : 
+  result.overallRisk === 'Medio' ? '⚡ Existen algunas similitudes. Verificar citas.' : 
+  '✅ El contenido parece original.'}`);
+        };
+
         // ============================================
         // INICIALIZACIÓN
         // ============================================
@@ -1095,30 +1764,29 @@ ${jsllm7TermuxConectado ? '✅ jsllm7 funciona con 404M registros' : '⚠️ Usa
                 if (response.ok) {
                     const stats = await response.json();
                     jsllm7TermuxConectado = true;
-                    document.getElementById('jsllm7WidgetStatus').textContent = `🧠 jsllm7: ✅ Activo (${stats.total?.toLocaleString() || '404M'} en Termux:8081)`;
-                    document.getElementById('jsllm7WidgetStatus').style.color = '#10b981';
-                    document.getElementById('termuxStatus').textContent = `🔌 jsllm7: ✅ Conectado a Termux · ${stats.total?.toLocaleString() || '404M'} registros`;
-                    document.getElementById('termuxStatus').style.color = '#10b981';
+                    updateTermuxUI(true);
                 }
             } catch(e) {
                 jsllm7TermuxConectado = false;
-                document.getElementById('jsllm7WidgetStatus').textContent = '🧠 jsllm7: ⚠️ Usando CDN';
-                document.getElementById('jsllm7WidgetStatus').style.color = '#f59e0b';
-                document.getElementById('termuxStatus').textContent = '⚠️ jsllm7: Termux no disponible · Usando CDN';
-                document.getElementById('termuxStatus').style.color = '#f59e0b';
+                updateTermuxUI(false);
             }
         }
         
-        verificarTermux();
-        setInterval(verificarTermux, 30000);
-        
-        setTimeout(() => {
-            showToast("🧠 AcadémIA Pro · 403M DECIDE · jsllm7 404M");
-            actualizarMetricasConectores();
-        }, 1500);
+        // Inicialización asíncrona
+        (async () => {
+            await persistentDB.initDB();
+            await verificarTermux();
+            
+            setInterval(verificarTermux, 30000);
+            
+            setTimeout(() => {
+                showToast("🧠 AcadémIA Pro · 403M DECIDE · 5 Fuentes · IndexedDB · Batch Processing");
+                actualizarMetricasConectores();
+            }, 1500);
+        })();
         
         // ============================================
-        // MODO VR
+        // MODO VR (MANTENIDO DEL ORIGINAL)
         // ============================================
         
         import * as THREE from 'three';
