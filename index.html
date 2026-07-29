@@ -449,11 +449,46 @@ class PersistentMemoryDB {
 const persistentDB = new PersistentMemoryDB();
 
 // ============================================
-// ANALIZADOR DE CONTENIDO + PLAGIO + EXPORTADOR
+// ANALIZADOR DE CONTENIDO + PLAGIO + EXPORTADOR (MEJORADO)
 // ============================================
 class ContentAnalyzer {
-    constructor() { this.stopWords = new Set(['el','la','los','las','un','una','de','del','en','con','por','para','que','es','se','su','al','lo','como','más','y','o','pero','si','no']); this.academicWords = { 'investigación':3,'estudio':2.5,'análisis':2.5,'resultados':3,'metodología':3,'conclusión':2,'evidencia':3,'datos':2 }; }
-    analyzeQuality(text) { const words = text.toLowerCase().split(/\s+/); const filtered = words.filter(w => !this.stopWords.has(w)); let score = 0; filtered.forEach(w => { if (this.academicWords[w]) score += this.academicWords[w]; }); const qs = Math.min((score / Math.max(filtered.length, 1)) * 100 + 30, 100); return { qualityScore: Math.round(qs), qualityLevel: qs > 70 ? 'alta' : qs > 40 ? 'media' : 'baja' }; }
+    constructor() {
+        this.stopWords = new Set(['el','la','los','las','un','una','de','del','en','con','por','para','que','es','se','su','al','lo','como','más','y','o','pero','si','no']);
+        this.academicWords = {
+            'investigación':3, 'estudio':2.5, 'análisis':2.5, 'resultados':3,
+            'metodología':3, 'conclusión':2, 'evidencia':3, 'datos':2,
+            'sistema':2, 'proceso':2, 'desarrollo':2.5, 'inteligencia':2.5,
+            'tecnología':2, 'aprendizaje':2.5, 'toma de decisiones':3
+        };
+    }
+
+    analyzeQuality(text) {
+        const words = text.toLowerCase().split(/\s+/);
+        const filtered = words.filter(w => !this.stopWords.has(w));
+        let score = 0;
+        
+        filtered.forEach(w => {
+            if (this.academicWords[w]) score += this.academicWords[w];
+        });
+
+        // --- MEJORA: BONIFICACIÓN POR ESTRUCTURA ACADÉMICA ---
+        let estructuraBonus = 0;
+        const lowerText = text.toLowerCase();
+        if (lowerText.includes('introducción')) estructuraBonus += 10;
+        if (lowerText.includes('desarrollo')) estructuraBonus += 15;
+        if (lowerText.includes('conclusión')) estructuraBonus += 10;
+        if (lowerText.includes('1.')) estructuraBonus += 5; // Listas numeradas
+        if (lowerText.includes('2.')) estructuraBonus += 5;
+        // ----------------------------------------------------
+
+        const finalScore = (score / Math.max(filtered.length, 1)) * 100 + 30 + estructuraBonus;
+        const q = Math.min(Math.round(finalScore), 100);
+        
+        return {
+            qualityScore: q,
+            qualityLevel: q > 75 ? 'alta' : q > 50 ? 'media' : 'baja'
+        };
+    }
 }
 const contentAnalyzer = new ContentAnalyzer();
 
@@ -549,7 +584,7 @@ document.getElementById('btnDecisionStatus').onclick = () => { mostrarModal('�
 document.getElementById('btnTermuxStatus').onclick = () => { mostrarModal('🔌 ESTADO', `Cloudflare AI: ✅ Conectado (Sin caídas)\njsllm7: ${jsllm7TermuxConectado ? '✅ Conectado' : '⚠️ CDN'}\nIndexedDB: ${persistentDB.getStats().total} entradas\n12 Fuentes: ✅ Activas`); };
 
 // ============================================
-// BOTÓN PRINCIPAL DE BÚSQUEDA (FASE 2 Y 3: Búsqueda local + Envío a IA)
+// BOTÓN PRINCIPAL DE BÚSQUEDA (FASE 2 Y 3 + MEJORAS)
 // ============================================
 document.getElementById('searchBtn').addEventListener('click', async () => {
     const input = document.getElementById('topicInput');
@@ -659,6 +694,57 @@ Instrucciones:
         document.getElementById('metricSemantico').innerText = stats.hits;
         document.getElementById('metricAPIs').innerText = '13';
         document.getElementById('metricDB').innerText = await persistentDB.getAnalytics('cacheStats')?.total || 0;
+
+        // ================================
+        // MEJORA 1: Agregar un botón para cargar los Temas Relacionados bajo demanda
+        // ================================
+        const contenidoDiv = document.getElementById('contenido');
+        contenidoDiv.innerHTML += `
+            <br><br>
+            <div style="background: rgba(139, 92, 246, 0.1); border-radius: 0.8rem; padding: 1rem; text-align: center; border: 1px dashed #8b5cf6;">
+                <button id="btnCargarTemas" style="background: #8b5cf6; border: none; color: white; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold;">
+                    📚 Cargar Temas Relacionados
+                </button>
+                <div id="contenedorTemas" style="margin-top: 10px; display: none;"></div>
+            </div>
+        `;
+
+        // Agregar el evento clic al botón que acabamos de crear
+        setTimeout(() => {
+            document.getElementById('btnCargarTemas').addEventListener('click', async function() {
+                this.disabled = true;
+                this.innerText = 'Cargando...';
+                const contenedor = document.getElementById('contenedorTemas');
+                contenedor.style.display = 'block';
+                contenedor.innerHTML = '<span class="loading-spinner"></span> Buscando temas relacionados...';
+
+                try {
+                    const respuestaTemas = await fetch(CLOUDFLARE_AI_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            pregunta: `Basándote en el concepto de "${query}", genera 3 temas de investigación académica avanzados y relacionados. Proporciona solo los títulos.`
+                        })
+                    });
+                    if (respuestaTemas.ok) {
+                        const temasTexto = await respuestaTemas.text();
+                        contenedor.innerHTML = `
+                            <div style="background: rgba(139, 92, 246, 0.2); border-left: 4px solid #8b5cf6; padding: 1rem; border-radius: 0.8rem; text-align: left;">
+                                <strong style="color: #a78bfa;">📌 Temas relacionados sugeridos:</strong><br>
+                                <span style="color: #eef2ff; font-size: 0.9rem; line-height: 1.6;">${temasTexto}</span>
+                            </div>
+                        `;
+                    } else {
+                        contenedor.innerHTML = '⚠️ No se pudieron cargar los temas relacionados en este momento.';
+                    }
+                } catch (e) {
+                    contenedor.innerHTML = '❌ Error al conectar con el servidor.';
+                } finally {
+                    this.disabled = false;
+                    this.innerText = '📚 Cargar Temas Relacionados';
+                }
+            });
+        }, 100);
 
     } catch (error) {
         showToast("❌ Error: " + error.message, true);
