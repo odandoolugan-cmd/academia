@@ -549,7 +549,7 @@ document.getElementById('btnDecisionStatus').onclick = () => { mostrarModal('�
 document.getElementById('btnTermuxStatus').onclick = () => { mostrarModal('🔌 ESTADO', `Cloudflare AI: ✅ Conectado (Sin caídas)\njsllm7: ${jsllm7TermuxConectado ? '✅ Conectado' : '⚠️ CDN'}\nIndexedDB: ${persistentDB.getStats().total} entradas\n12 Fuentes: ✅ Activas`); };
 
 // ============================================
-// BOTÓN PRINCIPAL DE BÚSQUEDA (INTEGRACIÓN CON TU WORKER)
+// BOTÓN PRINCIPAL DE BÚSQUEDA (FASE 2 Y 3: Búsqueda local + Envío a IA)
 // ============================================
 document.getElementById('searchBtn').addEventListener('click', async () => {
     const input = document.getElementById('topicInput');
@@ -560,14 +560,56 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
     ocupado = true;
     document.getElementById('searchBtn').disabled = true;
     document.getElementById('statusMessage').style.display = 'block';
-    document.getElementById('statusMessage').innerText = '⏳ Cloudflare AI está pensando...';
+    document.getElementById('statusMessage').innerText = '🔍 Buscando en 12 fuentes y preparando análisis...';
     
     try {
-        // 1. PETICIÓN A TU WORKER DE CLOUDFLARE (Nunca se cae)
+        // ================================
+        // FASE 2: LA PÁGINA BUSCA EN LAS 12 FUENTES ACADÉMICAS LOCALES
+        // ================================
+        const resultados12 = await fuentes12.buscarTodasLasFuentes(query);
+        let contextoAcademico = "";
+        
+        if (resultados12.resumen.total_resultados > 0) {
+            contextoAcademico = `\n\n--- INICIO DE INVESTIGACIÓN ACADÉMICA ---\n`;
+            contextoAcademico += `Se encontraron ${resultados12.resumen.total_resultados} resultados en ${resultados12.resumen.fuentes_exitosas} fuentes.\n\n`;
+            
+            // Extraemos un resumen simple de las mejores fuentes (Semantic Scholar, CORE, arXiv)
+            const fuentesPrioritarias = ['semanticScholar', 'core', 'arxiv', 'wikipedia'];
+            fuentesPrioritarias.forEach(key => {
+                const f = resultados12.fuentes[key];
+                if (f && f.exito && f.count > 0) {
+                    contextoAcademico += `\n[${key.toUpperCase()} - ${f.count} resultados]:\n`;
+                    f.data.slice(0, 2).forEach(r => {
+                        contextoAcademico += `• Título: ${r.titulo || 'Sin título'}\n`;
+                        contextoAcademico += `  Autor: ${r.autor || 'Desconocido'} (${r.year || 's.f.'})\n`;
+                        contextoAcademico += `  Resumen: ${(r.abstract || r.descripcion || r.snippet || 'Sin resumen disponible.').substring(0, 200)}...\n`;
+                        if(r.url && r.url !== '#') contextoAcademico += `  Fuente: ${r.url}\n`;
+                    });
+                }
+            });
+            contextoAcademico += `\n--- FIN DE INVESTIGACIÓN ACADÉMICA ---\n\n`;
+        } else {
+            contextoAcademico = `\n[No se encontraron fuentes académicas específicas para esta consulta en la búsqueda local.]\n\n`;
+        }
+
+        // ================================
+        // FASE 3: ENVIAR EL CONTEXTO REAL A LA IA DE CLOUDFLARE
+        // ================================
+        const promptParaIA = `Tarea: Realiza una investigación académica profunda sobre: "${query}".
+        
+${contextoAcademico}
+
+Instrucciones: 
+1. Analiza la información académica proporcionada arriba.
+2. Si hay información académica, ÚSALA para redactar una respuesta estructurada, formal y basada en hechos.
+3. Si la información académica es escasa, complementa con tu conocimiento general.
+4. Estructura la respuesta con: Introducción, Desarrollo (con subpuntos) y Conclusión.
+5. Incluye citas APA 7 básicas cuando menciones autores o estudios.`;
+
         const respuestaCloudflare = await fetch(CLOUDFLARE_AI_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ pregunta: query })
+            body: JSON.stringify({ pregunta: promptParaIA })
         });
         
         if (!respuestaCloudflare.ok) throw new Error("Error al conectar con Cloudflare AI");
@@ -588,19 +630,28 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
         ultimaInvestigacion = { contenido: textoIA };
         document.getElementById('contenido').innerText = textoIA;
         document.getElementById('resultsCard').classList.add('active');
-        document.getElementById('citaTexto').innerText = `Cloudflare AI (2026). Respuesta a: "${query}".`;
+        document.getElementById('citaTexto').innerText = `AcadémIA Pro (2026). Investigación basada en 12 fuentes: "${query}".`;
         
-        // 5. CREAR BIBLIOGRAFÍA CON REFERENCIA AL WORKER
-        document.getElementById('bibliografiaList').innerHTML = `
-            <div class="bibliografia-item">
-                Cloudflare AI (2026). Respuesta generada para la consulta "${query}". 
-                <span class="source-tag">⚡ Cloudflare Worker</span>
-                <br><a href="${CLOUDFLARE_AI_URL}" target="_blank">🔗 Ver fuente</a>
-            </div>
-        `;
+        // 5. CREAR BIBLIOGRAFÍA CON LAS FUENTES REALES
+        let bibliografiaHTML = "";
+        if (resultados12.resumen.total_resultados > 0) {
+            const fuentesHTML = Object.entries(resultados12.fuentes)
+                .filter(([key, f]) => f.exito && f.count > 0)
+                .flatMap(([key, f]) => f.data.slice(0, 3).map(r => 
+                    `<div class="bibliografia-item">
+                        ${r.autor || 'Autor'} (${r.year || 's.f.'}). <em>${r.titulo || 'Sin título'}</em>. ${r.fuente || 'Fuente académica'}. 
+                        ${r.url && r.url !== '#' ? `<br><a href="${r.url}" target="_blank">🔗 Ver fuente</a>` : ''}
+                        <span class="source-tag">📌 ${r.fuente || 'Desconocido'}</span>
+                    </div>`
+                ));
+            bibliografiaHTML = fuentesHTML.join('');
+        } else {
+            bibliografiaHTML = `<div class="bibliografia-item">No se encontraron referencias académicas específicas para esta consulta en la búsqueda local. Se utilizó el conocimiento base de la IA.</div>`;
+        }
+        document.getElementById('bibliografiaList').innerHTML = bibliografiaHTML;
         
-        showToast("✅ Respuesta generada por Cloudflare AI");
-        document.getElementById('decisionStatus').innerText = `🧠 403M DECIDE: IA respondió a "${query}"`;
+        showToast("✅ Investigación generada basada en fuentes académicas reales");
+        document.getElementById('decisionStatus').innerText = `🧠 403M DECIDE: Investigación completada para "${query}"`;
         
         // ACTUALIZAR MÉTRICAS
         const stats = persistentDB.getStats();
