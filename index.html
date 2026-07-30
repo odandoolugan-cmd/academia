@@ -68,7 +68,7 @@
         .results-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 1.5rem; padding: 1.5rem; border: 1px solid rgba(139, 92, 246, 0.3); display: none; }
         .results-card.active { display: block; }
         .section-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 1rem; border-left: 4px solid #8b5cf6; padding-left: 1rem; }
-        .contenido-investigacion { background: rgba(15, 23, 42, 0.6); border-radius: 1rem; padding: 1.2rem; margin-bottom: 1.5rem; line-height: 1.6; white-space: pre-wrap; max-height: 500px; overflow-y: auto; }
+        .contenido-investigacion { background: rgba(15, 23, 42, 0.6); border-radius: 1rem; padding: 1.2rem; margin-bottom: 1.5rem; line-height: 1.6; white-space: pre-wrap; max-height: 600px; overflow-y: auto; }
         .export-buttons { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
         .export-btn { background: #334155; border: 1px solid #475569; padding: 4px 12px; border-radius: 15px; font-size: 0.65rem; cursor: pointer; color: #94a3b8; transition: 0.2s; }
         .export-btn:hover { background: #8b5cf6; color: white; border-color: #8b5cf6; }
@@ -116,6 +116,52 @@
         .modal-content h3 { color: #a78bfa; margin-bottom: 1rem; }
         .modal-close { margin-top: 1rem; background: #8b5cf6; border: none; padding: 0.5rem 1rem; border-radius: 2rem; color: white; cursor: pointer; }
         .respuesta-formateada { white-space: pre-wrap; font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.8; }
+        
+        /* Botón de análisis avanzado */
+        .analisis-avanzado-btn {
+            background: #8b5cf6;
+            border: none;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.65rem;
+            transition: 0.2s;
+            margin-top: 8px;
+        }
+        .analisis-avanzado-btn:hover {
+            background: #7c3aed;
+            transform: scale(1.02);
+        }
+        .analisis-avanzado-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .analisis-container {
+            margin-top: 8px;
+            padding: 10px 14px;
+            background: rgba(139, 92, 246, 0.08);
+            border-left: 3px solid #8b5cf6;
+            border-radius: 0 8px 8px 0;
+            display: none;
+        }
+        .analisis-container.visible {
+            display: block;
+        }
+        .analisis-container .titulo {
+            font-weight: 600;
+            color: #a78bfa;
+            font-size: 0.7rem;
+            margin-bottom: 4px;
+        }
+        .analisis-container .texto {
+            font-size: 0.8rem;
+            color: #eef2ff;
+            line-height: 1.5;
+        }
+        
         @media (max-width: 700px) { .input-group { flex-direction: column; } .btn-primary { padding: 0.8rem; } .bibliografia-item { margin-left: 1rem; text-indent: -1rem; } #sidebarHistorial { display: none; } .widget-container { grid-template-columns: 1fr; } .connector-metrics { grid-template-columns: 1fr 1fr; } }
     </style>
 </head>
@@ -471,15 +517,14 @@ class ContentAnalyzer {
             if (this.academicWords[w]) score += this.academicWords[w];
         });
 
-        // --- MEJORA: BONIFICACIÓN POR ESTRUCTURA ACADÉMICA ---
         let estructuraBonus = 0;
         const lowerText = text.toLowerCase();
         if (lowerText.includes('introducción')) estructuraBonus += 10;
         if (lowerText.includes('desarrollo')) estructuraBonus += 15;
         if (lowerText.includes('conclusión')) estructuraBonus += 10;
-        if (lowerText.includes('1.')) estructuraBonus += 5; // Listas numeradas
+        if (lowerText.includes('1.')) estructuraBonus += 5;
         if (lowerText.includes('2.')) estructuraBonus += 5;
-        // ----------------------------------------------------
+        if (lowerText.includes('3.')) estructuraBonus += 5;
 
         const finalScore = (score / Math.max(filtered.length, 1)) * 100 + 30 + estructuraBonus;
         const q = Math.min(Math.round(finalScore), 100);
@@ -514,9 +559,11 @@ function showToast(msg, isErr) { const t = document.createElement('div'); t.clas
 
 function mostrarModal(titulo, contenido) {
     const modal = document.createElement('div'); modal.className = 'modal-overlay';
-    modal.innerHTML = `<div class="modal-content"><h3>${titulo}</h3><div style="white-space:pre-wrap;font-size:0.85rem;line-height:1.5;">${contenido.replace(/\n/g, '<br>')}</div><button class="modal-close">Cerrar</button></div>`;
-    modal.querySelector('.modal-close').onclick = () => modal.remove();
+    modal.innerHTML = `<div class="modal-content"><h3>${titulo}</h3><div id="modalTexto" style="white-space:pre-wrap;font-size:0.85rem;line-height:1.5;max-height:50vh;overflow-y:auto;"></div><button class="modal-close">Cerrar</button></div>`;
     document.body.appendChild(modal);
+    const textoDiv = modal.querySelector('#modalTexto');
+    typeWriter(textoDiv, contenido, 15);
+    modal.querySelector('.modal-close').onclick = () => modal.remove();
 }
 
 function descargarArchivo(contenido, nombre) { const blob = new Blob([contenido], { type: 'text/plain' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = nombre; a.click(); URL.revokeObjectURL(url); }
@@ -532,6 +579,112 @@ window.copiarTexto = async function(id) {
     else if (id === 'bibliografiaList') { const items = document.querySelectorAll('.bibliografia-item'); texto = Array.from(items).map(i => i.innerText.split('🔗')[0].trim()).join('\n\n'); }
     if (texto && texto !== '---') { await navigator.clipboard.writeText(texto); showToast("📋 Copiado"); }
 };
+
+// ============================================
+// EFECTO MÁQUINA DE ESCRIBIR
+// ============================================
+function typeWriter(element, text, speed = 15) {
+    element.innerHTML = '';
+    let i = 0;
+    return new Promise((resolve) => {
+        function type() {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(type, speed);
+            } else {
+                resolve();
+            }
+        }
+        type();
+    });
+}
+
+// ============================================
+// FUNCIÓN DE LLAMADA A CLOUDFLARE AI (OPTIMIZADA)
+// ============================================
+async function llamarIAConContexto(prompt, temaBusqueda = '') {
+    try {
+        let contextoAcademico = '';
+        if (temaBusqueda) {
+            const resultados12 = await fuentes12.buscarTodasLasFuentes(temaBusqueda);
+            if (resultados12.resumen.total_resultados > 0) {
+                contextoAcademico = '\n\n--- CONTEXTO ACADÉMICO DEL TEMA ---\n';
+                contextoAcademico += `Se encontraron ${resultados12.resumen.total_resultados} resultados académicos relacionados.\n\n`;
+                const fuentesPrioritarias = ['semanticScholar', 'core', 'arxiv', 'wikipedia'];
+                fuentesPrioritarias.forEach(key => {
+                    const f = resultados12.fuentes[key];
+                    if (f && f.exito && f.count > 0) {
+                        contextoAcademico += `\n[${key.toUpperCase()} - ${f.count} resultados]:\n`;
+                        f.data.slice(0, 2).forEach(r => {
+                            contextoAcademico += `• Título: ${r.titulo || 'Sin título'}\n`;
+                            if (r.abstract) contextoAcademico += `  Resumen: ${r.abstract.substring(0, 200)}...\n`;
+                        });
+                    }
+                });
+                contextoAcademico += '\n--- FIN CONTEXTO ACADÉMICO ---\n\n';
+            }
+        }
+
+        // PROMPT OPTIMIZADO PARA INVESTIGACIONES ACADÉMICAS COMPLETAS
+        const promptCompleto = `${contextoAcademico}
+
+${prompt}
+
+⚠️ INSTRUCCIONES OBLIGATORIAS PARA LA INVESTIGACIÓN ACADÉMICA:
+1. La investigación DEBE ser COMPLETA y EXTENSA (mínimo 500-700 palabras).
+2. Estructura OBLIGATORIA:
+   - INTRODUCCIÓN: Presentación del tema, relevancia y objetivo (2-3 párrafos).
+   - DESARROLLO: Análisis profundo con 3-5 subpuntos, datos y ejemplos (5-7 párrafos).
+   - CONCLUSIÓN: Síntesis de hallazgos y reflexión final (2-3 párrafos).
+3. NO te detengas hasta haber completado TODA la investigación.
+4. Usa el contexto académico proporcionado como base fundamental.
+5. Incluye citas a autores cuando sea posible (formato APA 7).
+6. Mantén un tono académico, formal y riguroso.
+
+RESPONDE CON LA MÁXIMA EXTENSIÓN Y CALIDAD ACADÉMICA:`;
+
+        const response = await fetch(CLOUDFLARE_AI_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ pregunta: promptCompleto })
+        });
+        
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const text = await response.text();
+        
+        if (text && text.length > 20) {
+            jsllm7TermuxConectado = true;
+            
+            // Si la respuesta es muy corta (< 300 caracteres), reintentar
+            if (text.length < 300) {
+                console.warn('⚠️ Investigación corta, reintentando...');
+                const retryPrompt = `Realiza una investigación académica COMPLETA Y EXTENSA sobre: "${temaBusqueda || prompt.substring(0, 50)}". 
+                Estructura: Introducción, Desarrollo (con 3-5 subpuntos), Conclusión.
+                Extensión mínima: 500 palabras. No te detengas hasta completar.`;
+                const retryResponse = await fetch(CLOUDFLARE_AI_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ pregunta: retryPrompt })
+                });
+                if (retryResponse.ok) {
+                    const retryText = await retryResponse.text();
+                    if (retryText.length > text.length) {
+                        console.log('✅ Reintento exitoso:', retryText.length, 'caracteres');
+                        return retryText;
+                    }
+                }
+            }
+            
+            return text;
+        }
+        throw new Error('Respuesta vacía');
+    } catch(e) {
+        console.warn('⚠️ Error en llamada IA:', e.message);
+        jsllm7TermuxConectado = false;
+        return null;
+    }
+}
 
 // ============================================
 // BOTÓN 12 FUENTES
@@ -584,7 +737,7 @@ document.getElementById('btnDecisionStatus').onclick = () => { mostrarModal('�
 document.getElementById('btnTermuxStatus').onclick = () => { mostrarModal('🔌 ESTADO', `Cloudflare AI: ✅ Conectado (Sin caídas)\njsllm7: ${jsllm7TermuxConectado ? '✅ Conectado' : '⚠️ CDN'}\nIndexedDB: ${persistentDB.getStats().total} entradas\n12 Fuentes: ✅ Activas`); };
 
 // ============================================
-// BOTÓN PRINCIPAL DE BÚSQUEDA (FASE 2 Y 3 + MEJORAS)
+// BOTÓN PRINCIPAL DE BÚSQUEDA (OPTIMIZADO)
 // ============================================
 document.getElementById('searchBtn').addEventListener('click', async () => {
     const input = document.getElementById('topicInput');
@@ -599,16 +752,15 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
     
     try {
         // ================================
-        // FASE 2: LA PÁGINA BUSCA EN LAS 12 FUENTES ACADÉMICAS LOCALES
+        // FASE 2: BÚSQUEDA EN 12 FUENTES
         // ================================
         const resultados12 = await fuentes12.buscarTodasLasFuentes(query);
         let contextoAcademico = "";
         
         if (resultados12.resumen.total_resultados > 0) {
-            contextoAcademico = `\n\n--- INICIO DE INVESTIGACIÓN ACADÉMICA ---\n`;
+            contextoAcademico = `\n\n--- INVESTIGACIÓN ACADÉMICA EN FUENTES ---\n`;
             contextoAcademico += `Se encontraron ${resultados12.resumen.total_resultados} resultados en ${resultados12.resumen.fuentes_exitosas} fuentes.\n\n`;
             
-            // Extraemos un resumen simple de las mejores fuentes (Semantic Scholar, CORE, arXiv)
             const fuentesPrioritarias = ['semanticScholar', 'core', 'arxiv', 'wikipedia'];
             fuentesPrioritarias.forEach(key => {
                 const f = resultados12.fuentes[key];
@@ -618,28 +770,26 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
                         contextoAcademico += `• Título: ${r.titulo || 'Sin título'}\n`;
                         contextoAcademico += `  Autor: ${r.autor || 'Desconocido'} (${r.year || 's.f.'})\n`;
                         contextoAcademico += `  Resumen: ${(r.abstract || r.descripcion || r.snippet || 'Sin resumen disponible.').substring(0, 200)}...\n`;
-                        if(r.url && r.url !== '#') contextoAcademico += `  Fuente: ${r.url}\n`;
                     });
                 }
             });
             contextoAcademico += `\n--- FIN DE INVESTIGACIÓN ACADÉMICA ---\n\n`;
-        } else {
-            contextoAcademico = `\n[No se encontraron fuentes académicas específicas para esta consulta en la búsqueda local.]\n\n`;
         }
 
         // ================================
-        // FASE 3: ENVIAR EL CONTEXTO REAL A LA IA DE CLOUDFLARE
+        // FASE 3: ENVÍO A CLOUDFLARE AI CON PROMPT OPTIMIZADO
         // ================================
-        const promptParaIA = `Tarea: Realiza una investigación académica profunda sobre: "${query}".
+        const promptParaIA = `Tarea: Realiza una investigación académica profunda y completa sobre: "${query}".
         
 ${contextoAcademico}
 
-Instrucciones: 
+Instrucciones OBLIGATORIAS:
 1. Analiza la información académica proporcionada arriba.
 2. Si hay información académica, ÚSALA para redactar una respuesta estructurada, formal y basada en hechos.
 3. Si la información académica es escasa, complementa con tu conocimiento general.
-4. Estructura la respuesta con: Introducción, Desarrollo (con subpuntos) y Conclusión.
-5. Incluye citas APA 7 básicas cuando menciones autores o estudios.`;
+4. Estructura OBLIGATORIA: Introducción, Desarrollo (con 3-5 subpuntos) y Conclusión.
+5. Incluye citas APA 7 cuando menciones autores o estudios.
+6. Extensión mínima: 500 palabras.`;
 
         const respuestaCloudflare = await fetch(CLOUDFLARE_AI_URL, {
             method: 'POST',
@@ -650,20 +800,38 @@ Instrucciones:
         if (!respuestaCloudflare.ok) throw new Error("Error al conectar con Cloudflare AI");
         const textoIA = await respuestaCloudflare.text();
         
+        // Si la respuesta es muy corta, reintentar
+        let textoFinal = textoIA;
+        if (textoIA.length < 300) {
+            showToast("🔄 Respuesta corta, refinando...");
+            const retryPrompt = `Realiza una investigación académica COMPLETA sobre: "${query}". 
+            Estructura: Introducción, Desarrollo (3-5 subpuntos), Conclusión.
+            Extensión mínima: 500 palabras. NO te detengas hasta completar.`;
+            const retryResponse = await fetch(CLOUDFLARE_AI_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ pregunta: retryPrompt })
+            });
+            if (retryResponse.ok) {
+                const retryText = await retryResponse.text();
+                if (retryText.length > textoIA.length) textoFinal = retryText;
+            }
+        }
+        
         // 2. GUARDAR EN MEMORIA
         const key = `ia_${query}`;
-        await persistentDB.storeInCache(key, { contenido: textoIA, query: query }, query);
+        await persistentDB.storeInCache(key, { contenido: textoFinal, query: query }, query);
         
         // 3. ANALIZAR CALIDAD Y MOSTRAR EN WIDGETS
-        const quality = contentAnalyzer.analyzeQuality(textoIA);
+        const quality = contentAnalyzer.analyzeQuality(textoFinal);
         document.getElementById('confidenceFill').style.width = `${quality.qualityScore}%`;
         document.getElementById('confidenceLabel').innerText = `${quality.qualityScore}%`;
         document.getElementById('qualityScore').innerText = quality.qualityLevel.toUpperCase();
-        document.getElementById('widgetTextoContent').innerText = textoIA.substring(0, 150) + '...';
+        document.getElementById('widgetTextoContent').innerText = textoFinal.substring(0, 150) + '...';
         
         // 4. MOSTRAR EN EL CONTENIDO PRINCIPAL (Resultados)
-        ultimaInvestigacion = { contenido: textoIA };
-        document.getElementById('contenido').innerText = textoIA;
+        ultimaInvestigacion = { contenido: textoFinal };
+        document.getElementById('contenido').innerText = textoFinal;
         document.getElementById('resultsCard').classList.add('active');
         document.getElementById('citaTexto').innerText = `AcadémIA Pro (2026). Investigación basada en 12 fuentes: "${query}".`;
         
@@ -685,7 +853,7 @@ Instrucciones:
         }
         document.getElementById('bibliografiaList').innerHTML = bibliografiaHTML;
         
-        showToast("✅ Investigación generada basada en fuentes académicas reales");
+        showToast(`✅ Investigación · ${textoFinal.length} caracteres`);
         document.getElementById('decisionStatus').innerText = `🧠 403M DECIDE: Investigación completada para "${query}"`;
         
         // ACTUALIZAR MÉTRICAS
@@ -696,52 +864,50 @@ Instrucciones:
         document.getElementById('metricDB').innerText = await persistentDB.getAnalytics('cacheStats')?.total || 0;
 
         // ================================
-        // MEJORA 1: Agregar un botón para cargar los Temas Relacionados bajo demanda
+        // BOTÓN DE ANÁLISIS AVANZADO (BAJO DEMANDA)
         // ================================
         const contenidoDiv = document.getElementById('contenido');
         contenidoDiv.innerHTML += `
             <br><br>
             <div style="background: rgba(139, 92, 246, 0.1); border-radius: 0.8rem; padding: 1rem; text-align: center; border: 1px dashed #8b5cf6;">
-                <button id="btnCargarTemas" style="background: #8b5cf6; border: none; color: white; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold;">
-                    📚 Cargar Temas Relacionados
-                </button>
-                <div id="contenedorTemas" style="margin-top: 10px; display: none;"></div>
+                <button id="btnAnalisisAvanzado" class="analisis-avanzado-btn">📚 Cargar Análisis Avanzado</button>
+                <div class="analisis-container" id="contenedorAnalisisAvanzado">
+                    <div class="titulo">📊 Análisis académico avanzado:</div>
+                    <div class="texto" id="textoAnalisisAvanzado">Cargando...</div>
+                </div>
             </div>
         `;
 
-        // Agregar el evento clic al botón que acabamos de crear
+        // Agregar el evento clic al botón
         setTimeout(() => {
-            document.getElementById('btnCargarTemas').addEventListener('click', async function() {
+            document.getElementById('btnAnalisisAvanzado').addEventListener('click', async function() {
                 this.disabled = true;
-                this.innerText = 'Cargando...';
-                const contenedor = document.getElementById('contenedorTemas');
-                contenedor.style.display = 'block';
-                contenedor.innerHTML = '<span class="loading-spinner"></span> Buscando temas relacionados...';
+                this.textContent = '⏳ Cargando...';
+                const contenedor = document.getElementById('contenedorAnalisisAvanzado');
+                const textoDiv = document.getElementById('textoAnalisisAvanzado');
+                contenedor.classList.add('visible');
+                textoDiv.innerHTML = '<span class="loading-spinner"></span> Generando análisis avanzado...';
 
                 try {
-                    const respuestaTemas = await fetch(CLOUDFLARE_AI_URL, {
+                    const respuestaAvanzada = await fetch(CLOUDFLARE_AI_URL, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            pregunta: `Basándote en el concepto de "${query}", genera 3 temas de investigación académica avanzados y relacionados. Proporciona solo los títulos.`
+                            pregunta: `Genera un análisis académico avanzado sobre "${query}". Incluye perspectivas multidisciplinarias, autores clave y una bibliografía recomendada.`
                         })
                     });
-                    if (respuestaTemas.ok) {
-                        const temasTexto = await respuestaTemas.text();
-                        contenedor.innerHTML = `
-                            <div style="background: rgba(139, 92, 246, 0.2); border-left: 4px solid #8b5cf6; padding: 1rem; border-radius: 0.8rem; text-align: left;">
-                                <strong style="color: #a78bfa;">📌 Temas relacionados sugeridos:</strong><br>
-                                <span style="color: #eef2ff; font-size: 0.9rem; line-height: 1.6;">${temasTexto}</span>
-                            </div>
-                        `;
+                    if (respuestaAvanzada.ok) {
+                        const textoAvanzado = await respuestaAvanzada.text();
+                        textoDiv.innerHTML = textoAvanzado.replace(/\n/g, '<br>');
+                        showToast(`✅ Análisis avanzado · ${textoAvanzado.length} caracteres`);
                     } else {
-                        contenedor.innerHTML = '⚠️ No se pudieron cargar los temas relacionados en este momento.';
+                        textoDiv.innerHTML = '⚠️ No se pudo generar el análisis avanzado en este momento.';
                     }
                 } catch (e) {
-                    contenedor.innerHTML = '❌ Error al conectar con el servidor.';
+                    textoDiv.innerHTML = '❌ Error al conectar con el servidor.';
                 } finally {
                     this.disabled = false;
-                    this.innerText = '📚 Cargar Temas Relacionados';
+                    this.textContent = '📚 Cargar Análisis Avanzado';
                 }
             });
         }, 100);
