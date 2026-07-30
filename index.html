@@ -627,64 +627,31 @@ async function llamarIAConContexto(prompt, temaBusqueda = '') {
         }
 
         // PROMPT OPTIMIZADO PARA INVESTIGACIONES ACADÉMICAS COMPLETAS
-        const promptCompleto = `${contextoAcademico}
+        const promptParaIA = `Actúa como un investigador aleman académico senior con doctorado, especializado en el tema: "${query}".
 
-${prompt}
+Contexto Geografìco: Enfoca la investigación en ${pais || 'contexto latinoamericano e internacional'}. 
+Prioriza autores, estudios, estadísticas e instituciones de ese país cuando existan, 
+y complementa con literatura internacional relevante.
 
-⚠️ INSTRUCCIONES OBLIGATORIAS PARA LA INVESTIGACIÓN ACADÉMICA:
-1. La investigación DEBE ser COMPLETA y EXTENSA (mínimo 500-700 palabras).
-2. Estructura OBLIGATORIA:
-   - INTRODUCCIÓN: Presentación del tema, relevancia y objetivo (2-3 párrafos).
-   - DESARROLLO: Análisis profundo con 3-5 subpuntos, datos y ejemplos (5-7 párrafos).
-   - CONCLUSIÓN: Síntesis de hallazgos y reflexión final (2-3 párrafos).
-3. NO te detengas hasta haber completado TODA la investigación.
-4. Usa el contexto académico proporcionado como base fundamental.
-5. Incluye citas a autores cuando sea posible (formato APA 7).
-6. Mantén un tono académico, formal y riguroso.
+${contextoAcademico}
 
-RESPONDE CON LA MÁXIMA EXTENSIÓN Y CALIDAD ACADÉMICA:`;
+Reglas obligatorias (cúmplelas Todas sin excepción):
+1. Idioma: Escribe absolutamente Todo en español académico formal (registro de tesis universitaria).
+2. Estructura Exacta (usa estos encabezados literales):
+   - "Introduccìòn:" → contextualiza el tema, plantea el problema y anticipa los puntos a desarrollar (mínimo 150 palabras).
+   - "Desarrollo:" → mínimo 3 subpuntos numerados "1.", "2.", "3." (puedes agregar más). 
+     Cada subpunto debe tener un subtítulo descriptivo y al menos 2 párrafos con datos concretos.
+   - "Conclusión:" → sintetiza hallazgos, no introduzcas información nueva, cierra con una reflexión o recomendación.
+3. Citas: Incluye mínimo 4 citas en formato APA 7 dentro del texto, ej: (García, 2021) o según García (2021)... 
+   Usa autores y estudios reales y verificables; si no estás seguro de que un autor exista, no lo inventes.
+4. Extensìon: Entre 800 y 1200 palabras. Administra el espacio para que la "Conclusión:" SIEMPRE quede completa al final. 
+   Si el texto se acerca al límite, acorta el Desarrollo, nunca la Conclusión.
+5. Prohibido: No uses frases meta como "Claro, aquí tienes", "Como IA...", ni notas al final. 
+   No repitas las instrucciones. No dejes secciones incompletas.
+6. Rigor: Evita generalidades vacías. Cada afirmación importante debe apoyarse en un dato, cifra, teoría o autor.
 
-        const response = await fetch(CLOUDFLARE_AI_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ pregunta: promptCompleto })
-        });
-        
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const text = await response.text();
-        
-        if (text && text.length > 20) {
-            jsllm7TermuxConectado = true;
+Empieza tu respuesta directamente con "Introducción:" y termina con el último párrafo de la "Conclusión:".`;
             
-            // Si la respuesta es muy corta (< 300 caracteres), reintentar
-            if (text.length < 300) {
-                console.warn('⚠️ Investigación corta, reintentando...');
-                const retryPrompt = `Realiza una investigación académica COMPLETA Y EXTENSA sobre: "${temaBusqueda || prompt.substring(0, 50)}". 
-                Estructura: Introducción, Desarrollo (con 3-5 subpuntos), Conclusión.
-                Extensión mínima: 500 palabras. No te detengas hasta completar.`;
-                const retryResponse = await fetch(CLOUDFLARE_AI_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ pregunta: retryPrompt })
-                });
-                if (retryResponse.ok) {
-                    const retryText = await retryResponse.text();
-                    if (retryText.length > text.length) {
-                        console.log('✅ Reintento exitoso:', retryText.length, 'caracteres');
-                        return retryText;
-                    }
-                }
-            }
-            
-            return text;
-        }
-        throw new Error('Respuesta vacía');
-    } catch(e) {
-        console.warn('⚠️ Error en llamada IA:', e.message);
-        jsllm7TermuxConectado = false;
-        return null;
-    }
-}
 
 // ============================================
 // BOTÓN 12 FUENTES
@@ -800,23 +767,7 @@ Instrucciones OBLIGATORIAS:
         if (!respuestaCloudflare.ok) throw new Error("Error al conectar con Cloudflare AI");
         const textoIA = await respuestaCloudflare.text();
         
-        // Si la respuesta es muy corta, reintentar
-        let textoFinal = textoIA;
-        if (textoIA.length < 300) {
-            showToast("🔄 Respuesta corta, refinando...");
-            const retryPrompt = `Realiza una investigación académica COMPLETA sobre: "${query}". 
-            Estructura: Introducción, Desarrollo (3-5 subpuntos), Conclusión.
-            Extensión mínima: 500 palabras. NO te detengas hasta completar.`;
-            const retryResponse = await fetch(CLOUDFLARE_AI_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ pregunta: retryPrompt })
-            });
-            if (retryResponse.ok) {
-                const retryText = await retryResponse.text();
-                if (retryText.length > textoIA.length) textoFinal = retryText;
-            }
-        }
+
         
         // 2. GUARDAR EN MEMORIA
         const key = `ia_${query}`;
