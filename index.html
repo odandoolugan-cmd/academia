@@ -14,6 +14,7 @@
         .sub { color: #94a3b8; margin-top: 0.5rem; font-size: 0.7rem; }
         .badge-decision { background: linear-gradient(90deg, #8b5cf6, #ec4899); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
         .badge-12fuentes { background: linear-gradient(90deg, #10b981, #059669); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
+        .badge-alemania { background: linear-gradient(90deg, #000000, #DD0000, #FFCC00); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; }
         @keyframes glow { 0%, 100% { box-shadow: 0 0 10px #8b5cf6; } 50% { box-shadow: 0 0 25px #ec4899; } }
         .daily-message { background: rgba(139, 92, 246, 0.15); border-radius: 1rem; padding: 0.8rem; margin: 1rem auto; text-align: center; max-width: 80%; border-left: 3px solid #8b5cf6; border-right: 3px solid #8b5cf6; font-size: 0.85rem; }
         .modo-selector { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; }
@@ -117,7 +118,6 @@
         .modal-close { margin-top: 1rem; background: #8b5cf6; border: none; padding: 0.5rem 1rem; border-radius: 2rem; color: white; cursor: pointer; }
         .respuesta-formateada { white-space: pre-wrap; font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.8; }
         
-        /* Botón de análisis avanzado */
         .analisis-avanzado-btn {
             background: #8b5cf6;
             border: none;
@@ -169,8 +169,8 @@
 
 <div class="normal-mode" id="normalMode">
     <div class="header">
-        <h1>📚 AcadémIA Pro <span class="ia-badge" style="background:#8b5cf6;">Cloudflare IA</span> <span class="ia-badge" style="background:#10b981;">100%</span> <span class="badge-12fuentes">🔬 12 FUENTES</span><span class="badge-decision">🧠 DECIDE</span></h1>
-        <div class="sub">403M DECIDE · 12 Fuentes Gratis · APA 7 · Búsqueda Semántica · IA Cloudflare</div>
+        <h1>📚 AcadémIA Pro <span class="ia-badge" style="background:#8b5cf6;">Cloudflare IA</span> <span class="ia-badge" style="background:#10b981;">100%</span> <span class="badge-12fuentes">🔬 12 FUENTES</span><span class="badge-decision">🧠 DECIDE</span><span class="badge-alemania">🇩🇪 ENFOQUE ALEMÁN</span></h1>
+        <div class="sub">403M DECIDE · 12 Fuentes Gratis · APA 7 · Búsqueda Semántica · IA Cloudflare · 🇩🇪 Investigador Alemán</div>
         <div class="daily-message">🧠 IA Cloudflare (Sin caídas) · 12 fuentes académicas gratuitas · Sin API Key</div>
     </div>
 
@@ -272,7 +272,11 @@ let jsllm7TermuxConectado = false;
 let modoActual = localStorage.getItem('acad_pro_modo') || 'experto';
 let ocupado = false;
 let ultimaInvestigacion = null;
-let paisSeleccionado = 'contexto latinoamericano e internacional';
+
+// ============================================
+// PAÍS FIJO: ALEMANIA 🇩🇪
+// ============================================
+const PAIS_FIJO = 'Alemania';
 
 // ============================================
 // 12 FUENTES GRATUITAS SIN API KEY
@@ -378,8 +382,8 @@ class FuentesGratuitas12 {
     
     async buscarGoogleScholar(tema) {
         return [
-            { titulo: `${tema}: Una revisión sistemática`, autor: 'Autor et al.', year: '2024', fuente: 'Google Scholar', url: '#' },
-            { titulo: `${tema}: Avances y perspectivas`, autor: 'Investigador', year: '2023', fuente: 'Google Scholar', url: '#' }
+            { titulo: `${tema}: Eine systematische Übersicht`, autor: 'Autor et al.', year: '2024', fuente: 'Google Scholar', url: '#' },
+            { titulo: `${tema}: Fortschritte und Perspektiven`, autor: 'Investigador', year: '2023', fuente: 'Google Scholar', url: '#' }
         ];
     }
     
@@ -602,12 +606,11 @@ function typeWriter(element, text, speed = 15) {
 }
 
 // ============================================
-// FUNCIÓN DE LLAMADA A CLOUDFLARE AI CON PROMPT ACADÉMICO AVANZADO
+// FUNCIÓN DE LLAMADA A CLOUDFLARE AI CON PROMPT ACADÉMICO (ENFOQUE ALEMÁN)
 // ============================================
 async function llamarIAConContexto(prompt, temaBusqueda = '') {
     try {
         let contextoAcademico = '';
-        let paisLocal = 'contexto latinoamericano e internacional';
         
         if (temaBusqueda) {
             const resultados12 = await fuentes12.buscarTodasLasFuentes(temaBusqueda);
@@ -629,12 +632,12 @@ async function llamarIAConContexto(prompt, temaBusqueda = '') {
             }
         }
 
-        // PROMPT ACADÉMICO SENIOR COMPLETO
-        const promptParaIA = `Actúa como un investigador alemán académico senior con doctorado, especializado en el tema: "${temaBusqueda || prompt}".
+        // PROMPT ACADÉMICO SENIOR - ENFOQUE FIJO EN ALEMANIA
+        const promptParaIA = `Actúa como un investigador alemán académico senior con doctorado (Prof. Dr.), especializado en el tema: "${temaBusqueda || prompt}".
 
-Contexto Geográfico: Enfoca la investigación en ${paisLocal}. 
-Prioriza autores, estudios, estadísticas e instituciones de ese país cuando existan, 
-y complementa con literatura internacional relevante.
+Contexto Geográfico: Enfoca la investigación exclusivamente en ${PAIS_FIJO}. 
+Prioriza autores, estudios, estadísticas e instituciones alemanas (como Universidades de Heidelberg, LMU Múnich, Humboldt Berlín, Max Planck, Fraunhofer, etc.) 
+y complementa con literatura internacional relevante cuando sea necesario.
 
 ${contextoAcademico}
 
@@ -656,6 +659,7 @@ Reglas obligatorias (cúmplelas Todas sin excepción):
 Empieza tu respuesta directamente con "Introducción:" y termina con el último párrafo de la "Conclusión:".`;
 
         console.log('📚 Prompt académico enviado a Cloudflare AI');
+        console.log('🇩🇪 Enfoque geográfico fijo:', PAIS_FIJO);
         console.log('📊 Contexto académico incluido:', contextoAcademico ? 'Sí' : 'No');
 
         const response = await fetch(CLOUDFLARE_AI_URL, {
@@ -673,7 +677,7 @@ Empieza tu respuesta directamente con "Introducción:" y termina con el último 
             // Si la respuesta es muy corta (< 300 caracteres), reintentar
             if (text.length < 300) {
                 console.warn('⚠️ Investigación corta, reintentando con prompt directo...');
-                const retryPrompt = `Realiza una investigación académica COMPLETA Y EXTENSA sobre: "${temaBusqueda || prompt}". 
+                const retryPrompt = `Realiza una investigación académica COMPLETA Y EXTENSA sobre: "${temaBusqueda || prompt}" con enfoque en ${PAIS_FIJO}. 
                 Estructura: Introducción, Desarrollo (con 3-5 subpuntos), Conclusión.
                 Extensión mínima: 800 palabras. NO te detengas hasta completar.`;
                 const retryResponse = await fetch(CLOUDFLARE_AI_URL, {
@@ -752,7 +756,7 @@ document.getElementById('btnDecisionStatus').onclick = () => { mostrarModal('�
 document.getElementById('btnTermuxStatus').onclick = () => { mostrarModal('🔌 ESTADO', `Cloudflare AI: ✅ Conectado (Sin caídas)\njsllm7: ${jsllm7TermuxConectado ? '✅ Conectado' : '⚠️ CDN'}\nIndexedDB: ${persistentDB.getStats().total} entradas\n12 Fuentes: ✅ Activas`); };
 
 // ============================================
-// BOTÓN PRINCIPAL DE BÚSQUEDA CON PROMPT ACADÉMICO AVANZADO
+// BOTÓN PRINCIPAL DE BÚSQUEDA CON PROMPT ACADÉMICO (ENFOQUE ALEMÁN)
 // ============================================
 document.getElementById('searchBtn').addEventListener('click', async () => {
     const input = document.getElementById('topicInput');
@@ -760,18 +764,10 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
     if (!query) { showToast("⚠️ Escribe una consulta primero", true); return; }
     if (ocupado) return;
 
-    // Solicitar país al usuario para el enfoque geográfico
-    const paisUsuario = prompt('🌍 Ingresa el país o contexto geográfico para enfocar la investigación (Ej: Ecuador, México, Latinoamérica):', 'Ecuador');
-    if (paisUsuario && paisUsuario.trim().length > 0) {
-        paisSeleccionado = paisUsuario.trim();
-    } else {
-        paisSeleccionado = 'contexto latinoamericano e internacional';
-    }
-
     ocupado = true;
     document.getElementById('searchBtn').disabled = true;
     document.getElementById('statusMessage').style.display = 'block';
-    document.getElementById('statusMessage').innerHTML = `🔍 Buscando en 12 fuentes y preparando análisis para ${paisSeleccionado}...`;
+    document.getElementById('statusMessage').innerHTML = `🔍 Buscando en 12 fuentes y preparando análisis con enfoque en <strong>${PAIS_FIJO}</strong>...`;
     
     try {
         // ================================
@@ -800,13 +796,13 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
         }
 
         // ================================
-        // FASE 3: CONSTRUIR PROMPT ACADÉMICO SENIOR
+        // FASE 3: CONSTRUIR PROMPT ACADÉMICO SENIOR (ENFOQUE ALEMÁN)
         // ================================
-        const promptParaIA = `Actúa como un investigador alemán académico senior con doctorado, especializado en el tema: "${query}".
+        const promptParaIA = `Actúa como un investigador alemán académico senior con doctorado (Prof. Dr.), especializado en el tema: "${query}".
 
-Contexto Geográfico: Enfoca la investigación en ${paisSeleccionado}. 
-Prioriza autores, estudios, estadísticas e instituciones de ese país cuando existan, 
-y complementa con literatura internacional relevante.
+Contexto Geográfico: Enfoca la investigación exclusivamente en ${PAIS_FIJO}. 
+Prioriza autores, estudios, estadísticas e instituciones alemanas (como Universidades de Heidelberg, LMU Múnich, Humboldt Berlín, Max Planck, Fraunhofer, etc.) 
+y complementa con literatura internacional relevante cuando sea necesario.
 
 ${contextoAcademico}
 
@@ -828,7 +824,7 @@ Reglas obligatorias (cúmplelas Todas sin excepción):
 Empieza tu respuesta directamente con "Introducción:" y termina con el último párrafo de la "Conclusión:".`;
 
         console.log('📚 Enviando prompt académico senior a Cloudflare AI');
-        console.log('🌍 País/Contexto:', paisSeleccionado);
+        console.log('🇩🇪 Enfoque geográfico fijo:', PAIS_FIJO);
         console.log('📊 Contexto académico incluido:', contextoAcademico ? 'Sí' : 'No');
 
         const respuestaCloudflare = await fetch(CLOUDFLARE_AI_URL, {
@@ -843,7 +839,7 @@ Empieza tu respuesta directamente con "Introducción:" y termina con el último 
         // Verificar si la respuesta es muy corta y reintentar
         if (textoIA.length < 300) {
             showToast("🔄 Refinando investigación académica...");
-            const retryPrompt = `Realiza una investigación académica COMPLETA Y EXTENSA sobre: "${query}" enfocada en ${paisSeleccionado}. 
+            const retryPrompt = `Realiza una investigación académica COMPLETA Y EXTENSA sobre: "${query}" con enfoque exclusivo en ${PAIS_FIJO}. 
             Estructura: Introducción, Desarrollo (con 3-5 subpuntos), Conclusión.
             Extensión mínima: 800 palabras. NO te detengas hasta completar.`;
             const retryResponse = await fetch(CLOUDFLARE_AI_URL, {
@@ -861,8 +857,8 @@ Empieza tu respuesta directamente con "Introducción:" y termina con el último 
         }
         
         // 2. GUARDAR EN MEMORIA
-        const key = `ia_${query}_${paisSeleccionado}`;
-        await persistentDB.storeInCache(key, { contenido: textoIA, query: query, pais: paisSeleccionado }, query);
+        const key = `ia_${query}_${PAIS_FIJO}`;
+        await persistentDB.storeInCache(key, { contenido: textoIA, query: query, pais: PAIS_FIJO }, query);
         
         // 3. ANALIZAR CALIDAD Y MOSTRAR EN WIDGETS
         const quality = contentAnalyzer.analyzeQuality(textoIA);
@@ -875,7 +871,7 @@ Empieza tu respuesta directamente con "Introducción:" y termina con el último 
         ultimaInvestigacion = { contenido: textoIA };
         document.getElementById('contenido').innerText = textoIA;
         document.getElementById('resultsCard').classList.add('active');
-        document.getElementById('citaTexto').innerText = `AcadémIA Pro (2026). Investigación sobre "${query}" enfocada en ${paisSeleccionado}. 12 fuentes académicas.`;
+        document.getElementById('citaTexto').innerText = `AcadémIA Pro (2026). Investigación sobre "${query}" con enfoque en ${PAIS_FIJO}. 12 fuentes académicas.`;
         
         // 5. CREAR BIBLIOGRAFÍA CON LAS FUENTES REALES
         let bibliografiaHTML = "";
@@ -895,8 +891,8 @@ Empieza tu respuesta directamente con "Introducción:" y termina con el último 
         }
         document.getElementById('bibliografiaList').innerHTML = bibliografiaHTML;
         
-        showToast(`✅ Investigación · ${textoIA.length} caracteres · Enfoque: ${paisSeleccionado}`);
-        document.getElementById('decisionStatus').innerText = `🧠 403M DECIDE: Investigación completada para "${query}" (${paisSeleccionado})`;
+        showToast(`✅ Investigación · ${textoIA.length} caracteres · Enfoque: ${PAIS_FIJO}`);
+        document.getElementById('decisionStatus').innerText = `🧠 403M DECIDE: Investigación completada para "${query}" (${PAIS_FIJO})`;
         
         // ACTUALIZAR MÉTRICAS
         const stats = persistentDB.getStats();
@@ -935,7 +931,7 @@ Empieza tu respuesta directamente con "Introducción:" y termina con el último 
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            pregunta: `Genera un análisis académico avanzado sobre "${query}" enfocado en ${paisSeleccionado}. Incluye perspectivas multidisciplinarias, autores clave y una bibliografía recomendada.`
+                            pregunta: `Genera un análisis académico avanzado sobre "${query}" con enfoque en ${PAIS_FIJO}. Incluye perspectivas multidisciplinarias, autores clave y una bibliografía recomendada.`
                         })
                     });
                     if (respuestaAvanzada.ok) {
@@ -970,7 +966,8 @@ Empieza tu respuesta directamente con "Introducción:" y termina con el último 
 // ============================================
 (async () => {
     await persistentDB.initDB();
-    setTimeout(() => showToast("🧠 AcadémIA Pro · Cloudflare AI (Sin caídas) · 12 Fuentes"), 1500);
+    console.log(`🇩🇪 Enfoque geográfico fijo: ${PAIS_FIJO}`);
+    setTimeout(() => showToast(`🧠 AcadémIA Pro · Cloudflare AI (Sin caídas) · 12 Fuentes · 🇩🇪 Enfoque Alemán`), 1500);
 })();
 </script>
 
