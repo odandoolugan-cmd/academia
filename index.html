@@ -272,6 +272,7 @@ let jsllm7TermuxConectado = false;
 let modoActual = localStorage.getItem('acad_pro_modo') || 'experto';
 let ocupado = false;
 let ultimaInvestigacion = null;
+let paisSeleccionado = 'contexto latinoamericano e internacional';
 
 // ============================================
 // 12 FUENTES GRATUITAS SIN API KEY
@@ -601,15 +602,17 @@ function typeWriter(element, text, speed = 15) {
 }
 
 // ============================================
-// FUNCIÓN DE LLAMADA A CLOUDFLARE AI (OPTIMIZADA)
+// FUNCIÓN DE LLAMADA A CLOUDFLARE AI CON PROMPT ACADÉMICO AVANZADO
 // ============================================
 async function llamarIAConContexto(prompt, temaBusqueda = '') {
     try {
         let contextoAcademico = '';
+        let paisLocal = 'contexto latinoamericano e internacional';
+        
         if (temaBusqueda) {
             const resultados12 = await fuentes12.buscarTodasLasFuentes(temaBusqueda);
             if (resultados12.resumen.total_resultados > 0) {
-                contextoAcademico = '\n\n--- CONTEXTO ACADÉMICO DEL TEMA ---\n';
+                contextoAcademico = `\n\n--- CONTEXTO ACADÉMICO DEL TEMA ---\n`;
                 contextoAcademico += `Se encontraron ${resultados12.resumen.total_resultados} resultados académicos relacionados.\n\n`;
                 const fuentesPrioritarias = ['semanticScholar', 'core', 'arxiv', 'wikipedia'];
                 fuentesPrioritarias.forEach(key => {
@@ -626,10 +629,10 @@ async function llamarIAConContexto(prompt, temaBusqueda = '') {
             }
         }
 
-        // PROMPT OPTIMIZADO PARA INVESTIGACIONES ACADÉMICAS COMPLETAS
-        const promptParaIA = `Actúa como un investigador aleman académico senior con doctorado, especializado en el tema: "${query}".
+        // PROMPT ACADÉMICO SENIOR COMPLETO
+        const promptParaIA = `Actúa como un investigador alemán académico senior con doctorado, especializado en el tema: "${temaBusqueda || prompt}".
 
-Contexto Geografìco: Enfoca la investigación en ${pais || 'contexto latinoamericano e internacional'}. 
+Contexto Geográfico: Enfoca la investigación en ${paisLocal}. 
 Prioriza autores, estudios, estadísticas e instituciones de ese país cuando existan, 
 y complementa con literatura internacional relevante.
 
@@ -638,20 +641,65 @@ ${contextoAcademico}
 Reglas obligatorias (cúmplelas Todas sin excepción):
 1. Idioma: Escribe absolutamente Todo en español académico formal (registro de tesis universitaria).
 2. Estructura Exacta (usa estos encabezados literales):
-   - "Introduccìòn:" → contextualiza el tema, plantea el problema y anticipa los puntos a desarrollar (mínimo 150 palabras).
+   - "Introducción:" → contextualiza el tema, plantea el problema y anticipa los puntos a desarrollar (mínimo 150 palabras).
    - "Desarrollo:" → mínimo 3 subpuntos numerados "1.", "2.", "3." (puedes agregar más). 
      Cada subpunto debe tener un subtítulo descriptivo y al menos 2 párrafos con datos concretos.
    - "Conclusión:" → sintetiza hallazgos, no introduzcas información nueva, cierra con una reflexión o recomendación.
 3. Citas: Incluye mínimo 4 citas en formato APA 7 dentro del texto, ej: (García, 2021) o según García (2021)... 
    Usa autores y estudios reales y verificables; si no estás seguro de que un autor exista, no lo inventes.
-4. Extensìon: Entre 800 y 1200 palabras. Administra el espacio para que la "Conclusión:" SIEMPRE quede completa al final. 
+4. Extensión: Entre 800 y 1200 palabras. Administra el espacio para que la "Conclusión:" SIEMPRE quede completa al final. 
    Si el texto se acerca al límite, acorta el Desarrollo, nunca la Conclusión.
 5. Prohibido: No uses frases meta como "Claro, aquí tienes", "Como IA...", ni notas al final. 
    No repitas las instrucciones. No dejes secciones incompletas.
 6. Rigor: Evita generalidades vacías. Cada afirmación importante debe apoyarse en un dato, cifra, teoría o autor.
 
 Empieza tu respuesta directamente con "Introducción:" y termina con el último párrafo de la "Conclusión:".`;
+
+        console.log('📚 Prompt académico enviado a Cloudflare AI');
+        console.log('📊 Contexto académico incluido:', contextoAcademico ? 'Sí' : 'No');
+
+        const response = await fetch(CLOUDFLARE_AI_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ pregunta: promptParaIA })
+        });
+        
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const text = await response.text();
+        
+        if (text && text.length > 20) {
+            jsllm7TermuxConectado = true;
             
+            // Si la respuesta es muy corta (< 300 caracteres), reintentar
+            if (text.length < 300) {
+                console.warn('⚠️ Investigación corta, reintentando con prompt directo...');
+                const retryPrompt = `Realiza una investigación académica COMPLETA Y EXTENSA sobre: "${temaBusqueda || prompt}". 
+                Estructura: Introducción, Desarrollo (con 3-5 subpuntos), Conclusión.
+                Extensión mínima: 800 palabras. NO te detengas hasta completar.`;
+                const retryResponse = await fetch(CLOUDFLARE_AI_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ pregunta: retryPrompt })
+                });
+                if (retryResponse.ok) {
+                    const retryText = await retryResponse.text();
+                    if (retryText.length > text.length) {
+                        console.log('✅ Reintento exitoso:', retryText.length, 'caracteres');
+                        return retryText;
+                    }
+                }
+            }
+            
+            console.log(`📄 Respuesta recibida: ${text.length} caracteres`);
+            return text;
+        }
+        throw new Error('Respuesta vacía');
+    } catch(e) {
+        console.warn('⚠️ Error en llamada IA:', e.message);
+        jsllm7TermuxConectado = false;
+        return null;
+    }
+}
 
 // ============================================
 // BOTÓN 12 FUENTES
@@ -704,7 +752,7 @@ document.getElementById('btnDecisionStatus').onclick = () => { mostrarModal('�
 document.getElementById('btnTermuxStatus').onclick = () => { mostrarModal('🔌 ESTADO', `Cloudflare AI: ✅ Conectado (Sin caídas)\njsllm7: ${jsllm7TermuxConectado ? '✅ Conectado' : '⚠️ CDN'}\nIndexedDB: ${persistentDB.getStats().total} entradas\n12 Fuentes: ✅ Activas`); };
 
 // ============================================
-// BOTÓN PRINCIPAL DE BÚSQUEDA (OPTIMIZADO)
+// BOTÓN PRINCIPAL DE BÚSQUEDA CON PROMPT ACADÉMICO AVANZADO
 // ============================================
 document.getElementById('searchBtn').addEventListener('click', async () => {
     const input = document.getElementById('topicInput');
@@ -712,10 +760,18 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
     if (!query) { showToast("⚠️ Escribe una consulta primero", true); return; }
     if (ocupado) return;
 
+    // Solicitar país al usuario para el enfoque geográfico
+    const paisUsuario = prompt('🌍 Ingresa el país o contexto geográfico para enfocar la investigación (Ej: Ecuador, México, Latinoamérica):', 'Ecuador');
+    if (paisUsuario && paisUsuario.trim().length > 0) {
+        paisSeleccionado = paisUsuario.trim();
+    } else {
+        paisSeleccionado = 'contexto latinoamericano e internacional';
+    }
+
     ocupado = true;
     document.getElementById('searchBtn').disabled = true;
     document.getElementById('statusMessage').style.display = 'block';
-    document.getElementById('statusMessage').innerText = '🔍 Buscando en 12 fuentes y preparando análisis...';
+    document.getElementById('statusMessage').innerHTML = `🔍 Buscando en 12 fuentes y preparando análisis para ${paisSeleccionado}...`;
     
     try {
         // ================================
@@ -744,19 +800,36 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
         }
 
         // ================================
-        // FASE 3: ENVÍO A CLOUDFLARE AI CON PROMPT OPTIMIZADO
+        // FASE 3: CONSTRUIR PROMPT ACADÉMICO SENIOR
         // ================================
-        const promptParaIA = `Tarea: Realiza una investigación académica profunda y completa sobre: "${query}".
-        
+        const promptParaIA = `Actúa como un investigador alemán académico senior con doctorado, especializado en el tema: "${query}".
+
+Contexto Geográfico: Enfoca la investigación en ${paisSeleccionado}. 
+Prioriza autores, estudios, estadísticas e instituciones de ese país cuando existan, 
+y complementa con literatura internacional relevante.
+
 ${contextoAcademico}
 
-Instrucciones OBLIGATORIAS:
-1. Analiza la información académica proporcionada arriba.
-2. Si hay información académica, ÚSALA para redactar una respuesta estructurada, formal y basada en hechos.
-3. Si la información académica es escasa, complementa con tu conocimiento general.
-4. Estructura OBLIGATORIA: Introducción, Desarrollo (con 3-5 subpuntos) y Conclusión.
-5. Incluye citas APA 7 cuando menciones autores o estudios.
-6. Extensión mínima: 500 palabras.`;
+Reglas obligatorias (cúmplelas Todas sin excepción):
+1. Idioma: Escribe absolutamente Todo en español académico formal (registro de tesis universitaria).
+2. Estructura Exacta (usa estos encabezados literales):
+   - "Introducción:" → contextualiza el tema, plantea el problema y anticipa los puntos a desarrollar (mínimo 150 palabras).
+   - "Desarrollo:" → mínimo 3 subpuntos numerados "1.", "2.", "3." (puedes agregar más). 
+     Cada subpunto debe tener un subtítulo descriptivo y al menos 2 párrafos con datos concretos.
+   - "Conclusión:" → sintetiza hallazgos, no introduzcas información nueva, cierra con una reflexión o recomendación.
+3. Citas: Incluye mínimo 4 citas en formato APA 7 dentro del texto, ej: (García, 2021) o según García (2021)... 
+   Usa autores y estudios reales y verificables; si no estás seguro de que un autor exista, no lo inventes.
+4. Extensión: Entre 800 y 1200 palabras. Administra el espacio para que la "Conclusión:" SIEMPRE quede completa al final. 
+   Si el texto se acerca al límite, acorta el Desarrollo, nunca la Conclusión.
+5. Prohibido: No uses frases meta como "Claro, aquí tienes", "Como IA...", ni notas al final. 
+   No repitas las instrucciones. No dejes secciones incompletas.
+6. Rigor: Evita generalidades vacías. Cada afirmación importante debe apoyarse en un dato, cifra, teoría o autor.
+
+Empieza tu respuesta directamente con "Introducción:" y termina con el último párrafo de la "Conclusión:".`;
+
+        console.log('📚 Enviando prompt académico senior a Cloudflare AI');
+        console.log('🌍 País/Contexto:', paisSeleccionado);
+        console.log('📊 Contexto académico incluido:', contextoAcademico ? 'Sí' : 'No');
 
         const respuestaCloudflare = await fetch(CLOUDFLARE_AI_URL, {
             method: 'POST',
@@ -765,26 +838,44 @@ Instrucciones OBLIGATORIAS:
         });
         
         if (!respuestaCloudflare.ok) throw new Error("Error al conectar con Cloudflare AI");
-        const textoIA = await respuestaCloudflare.text();
+        let textoIA = await respuestaCloudflare.text();
         
-
+        // Verificar si la respuesta es muy corta y reintentar
+        if (textoIA.length < 300) {
+            showToast("🔄 Refinando investigación académica...");
+            const retryPrompt = `Realiza una investigación académica COMPLETA Y EXTENSA sobre: "${query}" enfocada en ${paisSeleccionado}. 
+            Estructura: Introducción, Desarrollo (con 3-5 subpuntos), Conclusión.
+            Extensión mínima: 800 palabras. NO te detengas hasta completar.`;
+            const retryResponse = await fetch(CLOUDFLARE_AI_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ pregunta: retryPrompt })
+            });
+            if (retryResponse.ok) {
+                const retryText = await retryResponse.text();
+                if (retryText.length > textoIA.length) {
+                    textoIA = retryText;
+                    console.log('✅ Reintento exitoso:', textoIA.length, 'caracteres');
+                }
+            }
+        }
         
         // 2. GUARDAR EN MEMORIA
-        const key = `ia_${query}`;
-        await persistentDB.storeInCache(key, { contenido: textoFinal, query: query }, query);
+        const key = `ia_${query}_${paisSeleccionado}`;
+        await persistentDB.storeInCache(key, { contenido: textoIA, query: query, pais: paisSeleccionado }, query);
         
         // 3. ANALIZAR CALIDAD Y MOSTRAR EN WIDGETS
-        const quality = contentAnalyzer.analyzeQuality(textoFinal);
+        const quality = contentAnalyzer.analyzeQuality(textoIA);
         document.getElementById('confidenceFill').style.width = `${quality.qualityScore}%`;
         document.getElementById('confidenceLabel').innerText = `${quality.qualityScore}%`;
         document.getElementById('qualityScore').innerText = quality.qualityLevel.toUpperCase();
-        document.getElementById('widgetTextoContent').innerText = textoFinal.substring(0, 150) + '...';
+        document.getElementById('widgetTextoContent').innerText = textoIA.substring(0, 150) + '...';
         
         // 4. MOSTRAR EN EL CONTENIDO PRINCIPAL (Resultados)
-        ultimaInvestigacion = { contenido: textoFinal };
-        document.getElementById('contenido').innerText = textoFinal;
+        ultimaInvestigacion = { contenido: textoIA };
+        document.getElementById('contenido').innerText = textoIA;
         document.getElementById('resultsCard').classList.add('active');
-        document.getElementById('citaTexto').innerText = `AcadémIA Pro (2026). Investigación basada en 12 fuentes: "${query}".`;
+        document.getElementById('citaTexto').innerText = `AcadémIA Pro (2026). Investigación sobre "${query}" enfocada en ${paisSeleccionado}. 12 fuentes académicas.`;
         
         // 5. CREAR BIBLIOGRAFÍA CON LAS FUENTES REALES
         let bibliografiaHTML = "";
@@ -804,8 +895,8 @@ Instrucciones OBLIGATORIAS:
         }
         document.getElementById('bibliografiaList').innerHTML = bibliografiaHTML;
         
-        showToast(`✅ Investigación · ${textoFinal.length} caracteres`);
-        document.getElementById('decisionStatus').innerText = `🧠 403M DECIDE: Investigación completada para "${query}"`;
+        showToast(`✅ Investigación · ${textoIA.length} caracteres · Enfoque: ${paisSeleccionado}`);
+        document.getElementById('decisionStatus').innerText = `🧠 403M DECIDE: Investigación completada para "${query}" (${paisSeleccionado})`;
         
         // ACTUALIZAR MÉTRICAS
         const stats = persistentDB.getStats();
@@ -844,7 +935,7 @@ Instrucciones OBLIGATORIAS:
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            pregunta: `Genera un análisis académico avanzado sobre "${query}". Incluye perspectivas multidisciplinarias, autores clave y una bibliografía recomendada.`
+                            pregunta: `Genera un análisis académico avanzado sobre "${query}" enfocado en ${paisSeleccionado}. Incluye perspectivas multidisciplinarias, autores clave y una bibliografía recomendada.`
                         })
                     });
                     if (respuestaAvanzada.ok) {
