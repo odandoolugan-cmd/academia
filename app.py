@@ -2,14 +2,14 @@ from flask import Flask, request, jsonify, send_from_directory
 import requests
 import os
 
-app = Flask(__name__, static_folder='.')
+# Le decimos a Flask que los archivos están en la carpeta "static"
+app = Flask(__name__, static_folder='static')
 
-# 1. Esta línea es la clave: Sirve tu index.html cuando entras a la raíz
 @app.route('/')
 def home():
-    return send_from_directory('.', 'index.html')
+    # Sirve el index.html que está dentro de la carpeta static
+    return send_from_directory('static', 'index.html')
 
-# 2. Tu puente para hablar con Ollama (se mantiene igual)
 @app.route('/preguntar', methods=['POST'])
 def preguntar():
     try:
