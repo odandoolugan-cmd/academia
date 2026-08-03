@@ -1,14 +1,7 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify
 import requests
-import os
 
-# Le decimos a Flask que los archivos están en la carpeta "static"
-app = Flask(__name__, static_folder='static')
-
-@app.route('/')
-def home():
-    # Sirve el index.html que está dentro de la carpeta static
-    return send_from_directory('static', 'index.html')
+app = Flask(__name__)
 
 @app.route('/preguntar', methods=['POST'])
 def preguntar():
