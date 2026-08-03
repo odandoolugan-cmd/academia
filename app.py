@@ -1,8 +1,15 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 import requests
+import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='.')
 
+# 1. Esta línea es la clave: Sirve tu index.html cuando entras a la raíz
+@app.route('/')
+def home():
+    return send_from_directory('.', 'index.html')
+
+# 2. Tu puente para hablar con Ollama (se mantiene igual)
 @app.route('/preguntar', methods=['POST'])
 def preguntar():
     try:
