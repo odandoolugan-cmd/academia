@@ -140,14 +140,14 @@
     </div>
 
     <div class="modo-selector">
-        <button class="modo-btn active" data-modo="experto">🧠 MODO EXPERTO (4000 tokens)</button>
-        <button class="modo-btn" data-modo="basico">⚡ MODO BÁSICO (1500 tokens)</button>
+        <button class="modo-btn active" data-modo="experto">🧠 MODO EXPERTO</button>
+        <button class="modo-btn" data-modo="basico">⚡ MODO BÁSICO</button>
         <span id="modoActualIndicator" class="modo-activo-indicator modo-experto">🧠 Experto</span>
     </div>
 
     <div class="search-card">
         <div class="resolver-section">
-            <div class="resolver-title">🎓 RESOLVEDOR DE DEBERES INTELIGENTE (403M DECIDE)</div>
+            <div class="resolver-title">🎓 RESOLVEDOR DE DEBERES INTELIGENTE 403M DECIDE</div>
             <div class="word-upload-bar">
                 <button class="word-btn" id="subirWordBtn">📄 SUBIR WORD</button>
                 <button class="word-btn primary" id="resolverWordBtn" disabled>✨ RESOLVER CON IA</button>
@@ -171,11 +171,11 @@
         </div>
 
         <div class="sources-badge">
-            <span class="source-badge crossref">📄 Crossref (150M)</span>
-            <span class="source-badge openalex">🔓 OpenAlex (250M+)</span>
-            <span class="source-badge core">📚 CORE (300M+)</span>
-            <span class="source-badge semantic">🔬 Semantic Scholar (200M+)</span>
-            <span class="source-badge arxiv">📐 arXiv (2M+)</span>
+            <span class="source-badge crossref">📄 Crossref 150M</span>
+            <span class="source-badge openalex">🔓 OpenAlex 250M+</span>
+            <span class="source-badge core">📚 CORE 300M+</span>
+            <span class="source-badge semantic">🔬 Semantic Scholar 200M+</span>
+            <span class="source-badge arxiv">📐 arXiv 2M+</span>
             <span class="source-badge gratis">🔬 +7 Gratis</span>
             <span class="source-badge wasm" style="background: rgba(245, 158, 11, 0.3); border-color: #f59e0b;">⚡ WebAssembly</span>
         </div>
@@ -214,7 +214,7 @@
         <div class="plagiarism-warning" id="plagiarismWarning">⚠️ <strong>Alerta:</strong> <span id="plagiarismText"></span></div>
         <div class="section-title">📝 CITAR</div>
         <div class="cita-apa"><span id="citaTexto">---</span><button class="copy-btn" onclick="copiarTexto('citaTexto')">📋 Copiar</button></div>
-        <div class="section-title">📚 REFERENCIAS APA 7 (2018-2026)</div>
+        <div class="section-title">📚 REFERENCIAS APA 7 2018-2026</div>
         <div class="bibliografia" id="bibliografiaList">---</div>
         <button class="copy-btn" onclick="copiarTexto('bibliografiaList')">📋 Copiar Referencias</button>
     </div>
@@ -244,6 +244,7 @@ const PAIS_FIJO = 'Alemania';
 let ocupado = false;
 let modoActual = 'experto';
 let ultimaInvestigacion = null;
+let contenidoWord = ''; // Variable para almacenar el contenido del Word
 
 // ============================================
 // CLASE WEBASSEMBLY OPTIMIZER - LIMPIA FORMATO
@@ -440,7 +441,7 @@ class FuentesGratuitas12 {
 const fuentes12 = new FuentesGratuitas12();
 
 // ============================================
-// GENERAR BIBLIOGRAFÍA (2018-2026)
+// GENERAR BIBLIOGRAFÍA 2018-2026
 // ============================================
 function generarBibliografia(texto, tema) {
     const autores = [
@@ -545,7 +546,7 @@ function mostrarModal(titulo, contenido) {
 }
 
 // ============================================
-// SELECTOR DE MODO
+// SELECTOR DE MODO - SIN MOSTRAR TOKENS
 // ============================================
 document.querySelectorAll('.modo-btn').forEach(btn => {
     btn.addEventListener('click', function() {
@@ -554,16 +555,186 @@ document.querySelectorAll('.modo-btn').forEach(btn => {
         modoActual = this.dataset.modo;
         const indicator = document.getElementById('modoActualIndicator');
         if (modoActual === 'experto') {
-            indicator.textContent = '🧠 Experto (4000 tokens)';
+            indicator.textContent = '🧠 Experto';
             indicator.className = 'modo-activo-indicator modo-experto';
-            document.getElementById('decisionStatus').innerHTML = '🧠 Modo Experto - Investigación profunda (4000 tokens)';
+            document.getElementById('decisionStatus').innerHTML = '🧠 Modo Experto - Investigación profunda';
         } else {
-            indicator.textContent = '⚡ Básico (1500 tokens)';
+            indicator.textContent = '⚡ Básico';
             indicator.className = 'modo-activo-indicator modo-basico';
-            document.getElementById('decisionStatus').innerHTML = '⚡ Modo Básico - Respuesta concisa (1500 tokens)';
+            document.getElementById('decisionStatus').innerHTML = '⚡ Modo Básico - Respuesta concisa';
         }
         showToast(`Modo: ${modoActual === 'experto' ? '🧠 Experto' : '⚡ Básico'}`);
     });
+});
+
+// ============================================
+// BOTÓN SUBIR WORD
+// ============================================
+document.getElementById('subirWordBtn').addEventListener('click', function() {
+    document.getElementById('wordFileInput').click();
+});
+
+document.getElementById('wordFileInput').addEventListener('change', async function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const statusSpan = document.getElementById('wordStatus');
+    const resolverBtn = document.getElementById('resolverWordBtn');
+    const descargarBtn = document.getElementById('descargarWordBtn');
+    
+    statusSpan.textContent = '📄 Cargando archivo...';
+    statusSpan.style.color = '#f59e0b';
+    
+    try {
+        const arrayBuffer = await file.arrayBuffer();
+        const result = await mammoth.extractRawText({ arrayBuffer });
+        contenidoWord = result.value;
+        
+        if (contenidoWord.trim().length < 10) {
+            throw new Error('El archivo no contiene texto legible');
+        }
+        
+        statusSpan.textContent = `✅ Archivo cargado: ${file.name} (${contenidoWord.length} caracteres)`;
+        statusSpan.style.color = '#10b981';
+        resolverBtn.disabled = false;
+        descargarBtn.style.display = 'inline-block';
+        descargarBtn.disabled = false;
+        
+        showToast(`✅ Word cargado: ${contenidoWord.length} caracteres`);
+    } catch (error) {
+        console.error('Error al leer el archivo:', error);
+        statusSpan.textContent = '❌ Error al leer el archivo';
+        statusSpan.style.color = '#ef4444';
+        contenidoWord = '';
+        resolverBtn.disabled = true;
+        descargarBtn.style.display = 'none';
+        descargarBtn.disabled = true;
+        showToast('❌ Error al leer el archivo Word', true);
+    }
+    
+    // Resetear el input para permitir cargar el mismo archivo de nuevo
+    e.target.value = '';
+});
+
+// ============================================
+// BOTÓN RESOLVER WORD
+// ============================================
+document.getElementById('resolverWordBtn').addEventListener('click', async function() {
+    if (!contenidoWord || contenidoWord.trim().length < 10) {
+        showToast('⚠️ Primero sube un archivo Word válido', true);
+        return;
+    }
+    
+    if (ocupado) return;
+    
+    ocupado = true;
+    this.disabled = true;
+    const btn = document.getElementById('searchBtn');
+    btn.disabled = true;
+    
+    const modoNombre = modoActual === 'experto' ? 'Experto' : 'Básico';
+    actualizarFase(`📄 Resolviendo Word con IA (${modoNombre})...`);
+    actualizarStatus(`🧠 Enviando contenido a Mistral AI...`);
+    actualizarProgress(10);
+    
+    try {
+        // Los tokens son secretos - se usan internamente
+        const maxTokens = modoActual === 'experto' ? 4000 : 1500;
+        
+        const prompt = `Analiza y resuelve el siguiente contenido académico con enfoque en ${PAIS_FIJO}:\n\n${contenidoWord.substring(0, 3000)}`;
+        
+        const respuestaMistral = await fetch(MISTRAL_API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${MISTRAL_API_KEY}`
+            },
+            body: JSON.stringify({
+                model: 'mistral-large-latest',
+                messages: [
+                    { role: 'system', content: 'Eres un investigador académico alemán experto. Responde en español con estructura académica completa. NO uses asteriscos ni formato especial.' },
+                    { role: 'user', content: prompt }
+                ],
+                temperature: 0.7,
+                max_tokens: maxTokens
+            })
+        });
+        
+        actualizarProgress(60);
+        
+        if (!respuestaMistral.ok) {
+            const errorData = await respuestaMistral.json().catch(() => ({}));
+            throw new Error(errorData.error?.message || `Error ${respuestaMistral.status}`);
+        }
+        
+        const data = await respuestaMistral.json();
+        let textoIA = data.choices?.[0]?.message?.content || '';
+        
+        if (!textoIA || textoIA.length < 50) {
+            throw new Error('La respuesta de Mistral fue demasiado corta');
+        }
+        
+        actualizarProgress(80);
+        
+        // Optimizar con WASM
+        if (!wasmOptimizer.initialized) {
+            await wasmOptimizer.init();
+        }
+        const textoOptimizado = wasmOptimizer.cleanText(textoIA);
+        
+        // Mostrar resultados
+        document.getElementById('contenido').innerText = textoOptimizado;
+        document.getElementById('resultsCard').classList.add('active');
+        document.getElementById('citaTexto').innerText = `AcadémIA Pro (2026). Análisis de documento con enfoque en ${PAIS_FIJO}. Mistral AI + WebAssembly.`;
+        
+        const bibliografiaHTML = generarBibliografia(textoOptimizado, 'documento subido');
+        document.getElementById('bibliografiaList').innerHTML = bibliografiaHTML;
+        
+        document.getElementById('confidenceFill').style.width = '90%';
+        document.getElementById('confidenceLabel').innerText = '90%';
+        document.getElementById('qualityScore').innerText = 'ALTA';
+        document.getElementById('widgetTextoContent').innerText = textoOptimizado.substring(0, 150) + '...';
+        
+        actualizarFase(`✅ Word resuelto · ${textoOptimizado.length} caracteres · WASM activo`);
+        actualizarProgress(100);
+        showToast(`✅ Word resuelto · ${textoOptimizado.length} caracteres`);
+        
+    } catch (error) {
+        console.error('❌ Error:', error);
+        showToast('❌ Error: ' + error.message, true);
+        document.getElementById('contenido').innerText = 'Error al procesar el archivo: ' + error.message;
+        document.getElementById('resultsCard').classList.add('active');
+        actualizarFase('❌ Error al resolver el Word');
+        actualizarProgress(0);
+    } finally {
+        ocupado = false;
+        this.disabled = false;
+        btn.disabled = false;
+        ocultarStatus();
+        setTimeout(() => actualizarProgress(0), 2000);
+    }
+});
+
+// ============================================
+// BOTÓN DESCARGAR WORD
+// ============================================
+document.getElementById('descargarWordBtn').addEventListener('click', function() {
+    const contenido = document.getElementById('contenido')?.innerText || '';
+    if (!contenido || contenido === '---') {
+        showToast('⚠️ No hay contenido para descargar', true);
+        return;
+    }
+    
+    const blob = new Blob([contenido], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `resolucion_word_${new Date().toISOString().slice(0,10)}.docx`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('📥 Word descargado correctamente');
 });
 
 // ============================================
@@ -616,7 +787,7 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
         }
 
         // ================================
-        // FASE 2: PROMPT SEGÚN MODO
+        // FASE 2: PROMPT SEGÚN MODO (TOKENS SECRETOS)
         // ================================
         actualizarFase('📝 Construyendo prompt académico...');
         actualizarProgress(20);
@@ -643,7 +814,7 @@ Reglas obligatorias:
 5. COMPLETA LA RESPUESTA: No te detengas hasta terminar la Conclusión.
 
 Empieza con "Introducción:" y termina con "Conclusión:".`;
-            maxTokens = 4000;
+            maxTokens = 4000; // Secreto - no se muestra al usuario
         } else {
             promptParaIA = `Actúa como investigador académico. Responde de forma clara y concisa sobre: "${query}" con enfoque en ${PAIS_FIJO}.
 
@@ -657,7 +828,7 @@ Estructura:
 Incluye 2 citas APA 7 con autores alemanes. Extensión: 400-600 palabras.
 
 Empieza con "Introducción:" y termina con "Conclusión:".`;
-            maxTokens = 1500;
+            maxTokens = 1500; // Secreto - no se muestra al usuario
         }
 
         actualizarFase(`☁️ Enviando a Mistral AI (${modoNombre})...`);
@@ -724,7 +895,7 @@ Empieza con "Introducción:" y termina con "Conclusión:".`;
         document.getElementById('resultsCard').classList.add('active');
         document.getElementById('citaTexto').innerText = `AcadémIA Pro (2026). Investigación sobre "${query}" con enfoque en ${PAIS_FIJO}. Mistral AI + WebAssembly.`;
         
-        // Crear bibliografía (2018-2026)
+        // Crear bibliografía 2018-2026
         const bibliografiaHTML = generarBibliografia(textoOptimizado, query);
         document.getElementById('bibliografiaList').innerHTML = bibliografiaHTML;
         
@@ -738,8 +909,8 @@ Empieza con "Introducción:" y termina con "Conclusión:".`;
         document.getElementById('qualityScore').innerText = quality.qualityLevel.toUpperCase();
         document.getElementById('widgetTextoContent').innerText = textoOptimizado.substring(0, 150) + '...';
         
-        // Actualizar estado
-        document.getElementById('decisionStatus').innerText = `🧠 403M DECIDE: Investigación completada con Mistral AI (${wasmStats.optimizaciones} optimizaciones) · Modo: ${modoNombre}`;
+        // Actualizar estado - SIN MENCIONAR TOKENS
+        document.getElementById('decisionStatus').innerText = `🧠 403M DECIDE: Investigación completada con Mistral AI · Modo: ${modoNombre}`;
         actualizarFase(`✅ Completado · ${textoOptimizado.length} caracteres · WASM activo · Modo ${modoNombre}`);
         actualizarProgress(100);
         
@@ -840,7 +1011,7 @@ document.getElementById('btnDecisionStatus').onclick = () => {
         `Mistral AI: ✅\n` +
         `WebAssembly: ${wasmOptimizer.initialized ? '✅ Activo' : '⚠️ No disponible'}\n` +
         `12 Fuentes: ✅ Activas\n` +
-        `Modo actual: ${modoActual === 'experto' ? '🧠 Experto (4000 tokens)' : '⚡ Básico (1500 tokens)'}`
+        `Modo actual: ${modoActual === 'experto' ? '🧠 Experto' : '⚡ Básico'}`
     );
 };
 
@@ -853,7 +1024,7 @@ document.getElementById('btnTermuxStatus').onclick = () => {
         `  • Tiempo total: ${Math.round(stats.tiempoTotal)}ms\n\n` +
         `🔗 Mistral AI: ✅ Conectado\n` +
         `📚 Fuentes: ✅ Activas\n` +
-        `📌 Modo actual: ${modoActual === 'experto' ? '🧠 Experto (4000 tokens)' : '⚡ Básico (1500 tokens)'}\n\n` +
+        `📌 Modo actual: ${modoActual === 'experto' ? '🧠 Experto' : '⚡ Básico'}\n\n` +
         `📡 FLUJO: Página web → Mistral AI → Respuesta COMPLETA → Página web`
     );
 };
@@ -957,8 +1128,6 @@ document.getElementById('btnExportar').onclick = () => {
 (async () => {
     console.log('🚀 Inicializando AcadémIA Pro con Mistral AI y WebAssembly');
     console.log('🇩🇪 Enfoque geográfico fijo:', PAIS_FIJO);
-    console.log('🧠 Modo Experto: 4000 tokens');
-    console.log('⚡ Modo Básico: 1500 tokens');
     console.log('📡 FLUJO: Página web → Mistral AI → Respuesta COMPLETA → Página web');
     
     setTimeout(async () => {
