@@ -20,6 +20,7 @@
         .badge-basico { background: linear-gradient(90deg, #f97316, #dc2626); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; }
         .badge-multilang { background: linear-gradient(90deg, #3b82f6, #8b5cf6); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
         .badge-ai-analytics { background: linear-gradient(90deg, #10b981, #f59e0b); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
+        .badge-1llamada { background: linear-gradient(90deg, #ec4899, #f59e0b, #10b981); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
         @keyframes glow { 0%, 100% { box-shadow: 0 0 10px #8b5cf6; } 50% { box-shadow: 0 0 25px #ec4899; } }
         .daily-message { background: rgba(139, 92, 246, 0.15); border-radius: 1rem; padding: 0.8rem; margin: 1rem auto; text-align: center; max-width: 80%; border-left: 3px solid #8b5cf6; border-right: 3px solid #8b5cf6; font-size: 0.85rem; }
         .modo-selector { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; align-items: center; flex-wrap: wrap; }
@@ -139,9 +140,9 @@
 
 <div class="normal-mode" id="normalMode">
     <div class="header">
-        <h1>📚 AcadémIA Pro <span class="badge-experto">🧠 EXPERTO</span><span class="badge-basico">⚡ BÁSICO</span><span class="badge-12fuentes">🔬 12 FUENTES</span><span class="badge-decision">🧠 DECIDE</span><span class="badge-alemania">🇩🇪 ENFOQUE ALEMÁN</span><span class="badge-wasm">⚡ WASM</span><span class="badge-multilang">🌐 MULTILINGÜE</span><span class="badge-ai-analytics">📊 AI ANALYTICS</span></h1>
-        <div class="sub">403M DECIDE · 12 Fuentes Gratis · APA 7 · WebAssembly · Mistral AI · 🇩🇪 Investigador Alemán · 🌐 Multilingüe · 📊 Análisis Automático</div>
-        <div class="daily-message">⚡ WebAssembly · 12 fuentes · Mistral AI · 🌐 Detección de idioma · 📊 Análisis automático de texto</div>
+        <h1>📚 AcadémIA Pro <span class="badge-experto">🧠 EXPERTO</span><span class="badge-basico">⚡ BÁSICO</span><span class="badge-12fuentes">🔬 12 FUENTES</span><span class="badge-decision">🧠 DECIDE</span><span class="badge-alemania">🇩🇪 ENFOQUE ALEMÁN</span><span class="badge-wasm">⚡ WASM</span><span class="badge-multilang">🌐 MULTILINGÜE</span><span class="badge-ai-analytics">📊 AI ANALYTICS</span><span class="badge-1llamada">⚡ 1 LLAMADA</span></h1>
+        <div class="sub">403M DECIDE · 12 Fuentes Gratis · APA 7 · WebAssembly · Mistral AI · 🇩🇪 Investigador Alemán · 🌐 Multilingüe · 📊 Análisis Automático · ⚡ 1 sola llamada</div>
+        <div class="daily-message">⚡ WebAssembly · 12 fuentes · Mistral AI · 🌐 Detección de idioma · 📊 Análisis automático · ⚡ 1 llamada</div>
     </div>
 
     <div class="modo-selector">
@@ -149,6 +150,11 @@
         <button class="modo-btn" data-modo="basico">⚡ MODO BÁSICO</button>
         <span id="modoActualIndicator" class="modo-activo-indicator modo-experto">🧠 Experto</span>
         <span id="idiomaIndicator" class="idioma-indicator">🌐 Español</span>
+    </div>
+
+    <!-- Barra de progreso -->
+    <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="progressBar"></div>
     </div>
 
     <div class="search-card">
@@ -186,19 +192,17 @@
             <span class="source-badge wasm" style="background: rgba(245, 158, 11, 0.3); border-color: #f59e0b;">⚡ WebAssembly</span>
             <span class="source-badge multilang">🌐 Multilingüe</span>
             <span class="source-badge analytics">📊 Análisis Automático</span>
+            <span class="source-badge" style="border-color: #ec4899; background: rgba(236, 72, 153, 0.2);">⚡ 1 LLAMADA</span>
         </div>
+
         <div class="input-group">
             <input type="text" class="search-input" id="topicInput" placeholder="Ej: Inteligencia artificial en educación...">
             <button class="btn-primary" id="searchBtn">🔍 INVESTIGAR</button>
         </div>
 
-        <div class="progress-bar-container">
-            <div class="progress-bar-fill" id="progressBar"></div>
-        </div>
-
-        <div class="ethical-notice">📌 <strong>Mistral AI</strong> · 12 fuentes · WebAssembly · <strong style="color:#10b981;">100% GRATIS</strong> · 🌐 Multilingüe · 📊 <strong style="color:#f59e0b;">Análisis automático WASM</strong></div>
+        <div class="ethical-notice">📌 <strong>Mistral AI</strong> · 12 fuentes · WebAssembly · <strong style="color:#10b981;">100% GRATIS</strong> · 🌐 Multilingüe · 📊 <strong style="color:#f59e0b;">Análisis automático WASM</strong> · ⚡ <strong style="color:#ec4899;">1 sola llamada</strong></div>
         <div id="statusMessage" class="status-message" style="display:none;">⏳ Procesando con WebAssembly...</div>
-        <div id="decisionStatus">🧠 403M DECIDE / WASM: Listo · 🌐 Multilingüe · 📊 Analytics activo</div>
+        <div id="decisionStatus">🧠 403M DECIDE / WASM: Listo · 🌐 Multilingüe · 📊 Analytics activo · ⚡ 1 llamada</div>
         <div id="faseInfo" class="fase-info">💡 Listo para investigar</div>
     </div>
 
@@ -267,7 +271,7 @@
     </div>
 
     <div class="sponsors"><div class="sponsors-link"><a href="#">🎮 OFERTA 1</a><a href="#">🎲 OFERTA 2</a></div></div>
-    <div class="footer-text">⚡ AcadémIA Pro · Mistral AI · WebAssembly · 12 Fuentes · APA 7 · 🇩🇪 Enfoque Alemán · 🌐 Multilingüe · 📊 Análisis Automático</div>
+    <div class="footer-text">⚡ AcadémIA Pro · Mistral AI · WebAssembly · 12 Fuentes · APA 7 · 🇩🇪 Enfoque Alemán · 🌐 Multilingüe · 📊 Análisis Automático · ⚡ 1 sola llamada</div>
 </div>
 
 <button class="vr-button" id="vrModeBtn">🔮 MODO VR</button>
@@ -281,9 +285,9 @@
 { "imports": { "@xenova/transformers": "https://unpkg.com/@xenova/transformers@2.17.0/dist/transformers.min.js", "three": "https://unpkg.com/three@0.128.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/" } }
 </script>
 
-<script type="module">
+<script>
 // ============================================
-// CONFIGURACIÓN - MISTRAL AI
+// CONFIGURACIÓN - MISTRAL AI (1 SOLA LLAMADA)
 // ============================================
 const MISTRAL_API_KEY = 'eKzUq9HIk9xGnJtT6BfzdVSqKKWscOjT';
 const MISTRAL_API_URL = 'https://api.mistral.ai/v1/chat/completions';
@@ -304,24 +308,6 @@ try {
 // ============================================
 // DICCIONARIO MULTILINGÜE
 // ============================================
-const diccionarioMultilingue = {
-    'inteligencia artificial': { es: 'inteligencia artificial', en: 'artificial intelligence', de: 'künstliche Intelligenz', fr: 'intelligence artificielle', pt: 'inteligência artificial' },
-    'investigación': { es: 'investigación', en: 'research', de: 'Forschung', fr: 'recherche', pt: 'pesquisa' },
-    'educación': { es: 'educación', en: 'education', de: 'Bildung', fr: 'éducation', pt: 'educação' },
-    'tecnología': { es: 'tecnología', en: 'technology', de: 'Technologie', fr: 'technologie', pt: 'tecnologia' },
-    'ciencia': { es: 'ciencia', en: 'science', de: 'Wissenschaft', fr: 'science', pt: 'ciência' },
-    'método': { es: 'método', en: 'method', de: 'Methode', fr: 'méthode', pt: 'método' },
-    'análisis': { es: 'análisis', en: 'analysis', de: 'Analyse', fr: 'analyse', pt: 'análise' },
-    'datos': { es: 'datos', en: 'data', de: 'Daten', fr: 'données', pt: 'dados' },
-    'teoría': { es: 'teoría', en: 'theory', de: 'Theorie', fr: 'théorie', pt: 'teoria' },
-    'práctica': { es: 'práctica', en: 'practice', de: 'Praxis', fr: 'pratique', pt: 'prática' },
-    'innovación': { es: 'innovación', en: 'innovation', de: 'Innovation', fr: 'innovation', pt: 'inovação' },
-    'aprendizaje': { es: 'aprendizaje', en: 'learning', de: 'Lernen', fr: 'apprentissage', pt: 'aprendizagem' },
-    'conocimiento': { es: 'conocimiento', en: 'knowledge', de: 'Wissen', fr: 'connaissance', pt: 'conhecimento' },
-    'desarrollo': { es: 'desarrollo', en: 'development', de: 'Entwicklung', fr: 'développement', pt: 'desenvolvimento' },
-    'sociedad': { es: 'sociedad', en: 'society', de: 'Gesellschaft', fr: 'société', pt: 'sociedade' }
-};
-
 const nombreIdioma = {
     'es': 'Español', 'en': 'Inglés', 'de': 'Alemán',
     'fr': 'Francés', 'pt': 'Portugués', 'it': 'Italiano'
@@ -342,7 +328,7 @@ const autoresPorIdioma = {
 };
 
 // ============================================
-// CLASE WEBASSEMBLY CON TODAS LAS FUNCIONES
+// WEBASSEMBLY OPTIMIZER - 11 FUNCIONES COMPLETAS
 // ============================================
 class WASMOptimizer {
     constructor() {
@@ -377,7 +363,7 @@ class WASMOptimizer {
         }
     }
 
-    // ===== LIMPIEZA =====
+    // 1. LIMPIEZA DE TEXTO
     cleanText(text) {
         const inicio = performance.now();
         if (!text) return text;
@@ -396,7 +382,7 @@ class WASMOptimizer {
         return result;
     }
 
-    // ===== DETECCIÓN DE IDIOMA =====
+    // 2. DETECCIÓN DE IDIOMA
     detectarIdioma(texto) {
         if (!texto || texto.length < 5) return 'es';
         const patrones = {
@@ -426,7 +412,7 @@ class WASMOptimizer {
         return mejorIdioma;
     }
 
-    // ===== CONTAR PALABRAS =====
+    // 3. CONTEO DE PALABRAS
     contarPalabras(texto) {
         const palabras = texto.match(/[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\-\']+/g) || [];
         return {
@@ -438,13 +424,13 @@ class WASMOptimizer {
         };
     }
 
-    // ===== CONTAR CITAS APA =====
+    // 4. CONTEO DE CITAS APA
     contarCitasAPA(texto) {
         const citas = texto.match(/\([A-ZÁÉÍÓÚ][a-záéíóú]+,\s*\d{4}\)/g) || [];
         return { total: citas.length, citas: citas };
     }
 
-    // ===== VALIDAR ESTRUCTURA =====
+    // 5. VALIDACIÓN DE ESTRUCTURA
     validarEstructura(texto) {
         const tieneIntro = /Introducción:/i.test(texto);
         const tieneDesarrollo = /Desarrollo:/i.test(texto);
@@ -460,7 +446,7 @@ class WASMOptimizer {
         };
     }
 
-    // ===== CONTAR PALABRAS POR SECCIÓN =====
+    // 6. CONTEO DE PALABRAS POR SECCIÓN
     contarPalabrasPorSeccion(texto) {
         const secciones = { introduccion: 0, desarrollo: 0, conclusion: 0 };
         const introMatch = texto.match(/Introducción:([\s\S]*?)(?=Desarrollo:|Conclusión:|$)/i);
@@ -472,7 +458,7 @@ class WASMOptimizer {
         return secciones;
     }
 
-    // ===== NUEVA: EXTRAER KEYWORDS =====
+    // 7. EXTRACCIÓN DE KEYWORDS
     extraerKeywords(texto, cantidad = 5) {
         const palabras = texto.toLowerCase().match(/[a-záéíóúüñ]+/g) || [];
         const stopwords = ['el', 'la', 'los', 'las', 'un', 'una', 'unos', 'unas', 'y', 'o', 'pero', 'que', 'es', 'en', 'por', 'para', 'con', 'como', 'más', 'menos', 'sobre', 'sin', 'desde', 'hasta', 'de', 'del', 'al', 'lo', 'le', 'les', 'se', 'me', 'te', 'nos', 'os', 'su', 'sus', 'mi', 'mis', 'tu', 'tus', 'nuestro', 'nuestra', 'vuestro', 'vuestra', 'este', 'esta', 'estos', 'estas', 'ese', 'esa', 'esos', 'esas', 'aquel', 'aquella', 'aquellos', 'aquellas'];
@@ -486,16 +472,7 @@ class WASMOptimizer {
         return sorted.slice(0, cantidad).map(([palabra, frecuencia]) => ({ palabra, frecuencia }));
     }
 
-    // ===== NUEVA: CALCULAR SIMILITUD PARA PLAGIO =====
-    calcularSimilitud(texto1, texto2) {
-        const palabras1 = new Set(texto1.toLowerCase().match(/[a-záéíóúüñ]+/g) || []);
-        const palabras2 = new Set(texto2.toLowerCase().match(/[a-záéíóúüñ]+/g) || []);
-        const interseccion = new Set([...palabras1].filter(p => palabras2.has(p)));
-        const union = new Set([...palabras1, ...palabras2]);
-        return union.size > 0 ? (interseccion.size / union.size) * 100 : 0;
-    }
-
-    // ===== NUEVA: DETECTAR REPETICIONES =====
+    // 8. DETECCIÓN DE REPETICIONES
     detectarRepeticiones(texto) {
         const palabras = texto.toLowerCase().match(/[a-záéíóúüñ]+/g) || [];
         const frecuencias = {};
@@ -507,7 +484,7 @@ class WASMOptimizer {
         return repetidas.map(([palabra, count]) => ({ palabra, count }));
     }
 
-    // ===== NUEVA: CALCULAR LEGIBILIDAD =====
+    // 9. CÁLCULO DE LEGIBILIDAD
     calcularLegibilidad(texto) {
         const stats = this.contarPalabras(texto);
         const silabas = (texto.match(/[aeiouáéíóú]+/gi) || []).length;
@@ -522,7 +499,7 @@ class WASMOptimizer {
         return { score: Math.max(0, Math.min(100, score)), nivel };
     }
 
-    // ===== NUEVA: ANÁLISIS DE SENTIMIENTO ACADÉMICO =====
+    // 10. ANÁLISIS DE SENTIMIENTO ACADÉMICO
     analizarSentimiento(texto) {
         const palabrasPositivas = ['innovador', 'excelente', 'significativo', 'importante', 'efectivo', 'positivo', 'mejora', 'avance', 'éxito', 'beneficio'];
         const palabrasNegativas = ['problema', 'dificultad', 'limitación', 'desafío', 'crítico', 'deficiente', 'insuficiente', 'falla', 'riesgo', 'incertidumbre'];
@@ -541,7 +518,7 @@ class WASMOptimizer {
         return 'Equilibrado y académico';
     }
 
-    // ===== NUEVA: TIEMPO DE LECTURA =====
+    // 11. TIEMPO DE LECTURA
     calcularTiempoLectura(texto) {
         const palabras = this.contarPalabras(texto).total;
         const minutos = Math.round(palabras / 200);
@@ -549,13 +526,21 @@ class WASMOptimizer {
         return `${minutos} min`;
     }
 
-    // ===== NUEVA: COMPRIMIR PARA CACHÉ =====
+    // 12. CALCULAR SIMILITUD PARA PLAGIO
+    calcularSimilitud(texto1, texto2) {
+        const palabras1 = new Set(texto1.toLowerCase().match(/[a-záéíóúüñ]+/g) || []);
+        const palabras2 = new Set(texto2.toLowerCase().match(/[a-záéíóúüñ]+/g) || []);
+        const interseccion = new Set([...palabras1].filter(p => palabras2.has(p)));
+        const union = new Set([...palabras1, ...palabras2]);
+        return union.size > 0 ? (interseccion.size / union.size) * 100 : 0;
+    }
+
+    // 13. COMPRIMIR PARA CACHÉ
     comprimir(texto) {
-        // Compresión simple: eliminar espacios extras y normalizar
         return texto.replace(/\s+/g, ' ').trim();
     }
 
-    // ===== OBTENER AUTORES =====
+    // 14. OBTENER AUTORES POR IDIOMA
     obtenerAutoresPorIdioma(idioma, cantidad = 5) {
         const autores = autoresPorIdioma[idioma] || autoresPorIdioma['es'];
         return autores.slice(0, cantidad);
@@ -567,7 +552,7 @@ class WASMOptimizer {
 const wasmOptimizer = new WASMOptimizer();
 
 // ============================================
-// CLASE DE FUENTES GRATUITAS (Misma que antes)
+// CLASE DE FUENTES GRATUITAS (12 FUENTES)
 // ============================================
 class FuentesGratuitas12 {
     constructor() {
@@ -691,6 +676,67 @@ class FuentesGratuitas12 {
 const fuentes12 = new FuentesGratuitas12();
 
 // ============================================
+// FUNCIONES UTILITARIAS
+// ============================================
+function showToast(msg, isErr) {
+    const t = document.createElement('div');
+    t.className = 'toast-msg';
+    t.style.background = isErr ? '#ef4444' : '#8b5cf6';
+    t.innerText = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 3000);
+}
+
+window.copiarTexto = function(elementId) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+    const texto = el.innerText || el.textContent;
+    navigator.clipboard.writeText(texto).then(() => {
+        showToast('📋 Texto copiado');
+    }).catch(() => {
+        showToast('⚠️ No se pudo copiar', true);
+    });
+};
+
+function mostrarModal(titulo, contenido) {
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `
+        <div class="modal-content">
+            <h3>${titulo}</h3>
+            <div class="respuesta-formateada">${contenido}</div>
+            <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕ Cerrar</button>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+}
+
+function actualizarStatus(msg) {
+    const status = document.getElementById('statusMessage');
+    status.style.display = 'block';
+    status.innerHTML = msg;
+}
+
+function ocultarStatus() {
+    document.getElementById('statusMessage').style.display = 'none';
+}
+
+function actualizarFase(msg) {
+    document.getElementById('faseInfo').innerHTML = msg;
+}
+
+function actualizarProgress(porcentaje) {
+    document.getElementById('progressBar').style.width = `${Math.min(100, porcentaje)}%`;
+}
+
+function actualizarIndicadorIdioma(idioma) {
+    const bandera = banderaIdioma[idioma] || '🌐';
+    const nombre = nombreIdioma[idioma] || 'Desconocido';
+    document.getElementById('idiomaIndicator').textContent = `${bandera} ${nombre}`;
+    document.getElementById('idiomaWidget').textContent = `${bandera} ${idioma.toUpperCase()}`;
+}
+
+// ============================================
 // GENERAR BIBLIOGRAFÍA MULTILINGÜE
 // ============================================
 function generarBibliografiaMultilingue(texto, tema, idioma) {
@@ -734,98 +780,37 @@ function generarBibliografiaMultilingue(texto, tema, idioma) {
 }
 
 // ============================================
-// FUNCIONES UTILITARIAS
-// ============================================
-function showToast(msg, isErr) {
-    const t = document.createElement('div');
-    t.className = 'toast-msg';
-    t.style.background = isErr ? '#ef4444' : '#8b5cf6';
-    t.innerText = msg;
-    document.body.appendChild(t);
-    setTimeout(() => t.remove(), 3000);
-}
-
-window.copiarTexto = function(elementId) {
-    const el = document.getElementById(elementId);
-    if (!el) return;
-    const texto = el.innerText || el.textContent;
-    navigator.clipboard.writeText(texto).then(() => {
-        showToast('📋 Texto copiado al portapapeles');
-    }).catch(() => {
-        showToast('⚠️ No se pudo copiar', true);
-    });
-};
-
-function actualizarStatus(msg) {
-    const status = document.getElementById('statusMessage');
-    status.style.display = 'block';
-    status.innerHTML = msg;
-}
-
-function ocultarStatus() {
-    document.getElementById('statusMessage').style.display = 'none';
-}
-
-function actualizarFase(msg) {
-    document.getElementById('faseInfo').innerHTML = msg;
-}
-
-function actualizarProgress(porcentaje) {
-    document.getElementById('progressBar').style.width = `${Math.min(100, porcentaje)}%`;
-}
-
-function mostrarModal(titulo, contenido) {
-    const overlay = document.createElement('div');
-    overlay.className = 'modal-overlay';
-    overlay.innerHTML = `
-        <div class="modal-content">
-            <h3>${titulo}</h3>
-            <div class="respuesta-formateada">${contenido}</div>
-            <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">✕ Cerrar</button>
-        </div>
-    `;
-    document.body.appendChild(overlay);
-}
-
-function actualizarIndicadorIdioma(idioma) {
-    const bandera = banderaIdioma[idioma] || '🌐';
-    const nombre = nombreIdioma[idioma] || 'Desconocido';
-    document.getElementById('idiomaIndicator').textContent = `${bandera} ${nombre}`;
-    document.getElementById('idiomaWidget').textContent = `${bandera} ${idioma.toUpperCase()}`;
-}
-
-// ============================================
-// FUNCIÓN DE ANÁLISIS AUTOMÁTICO COMPLETO
+// FUNCIÓN DE ANÁLISIS AUTOMÁTICO COMPLETO (11 FUNCIONES WASM)
 // ============================================
 function actualizarAnalisisAutomatico(texto, idioma, modo) {
     if (!texto || texto === '---') return;
     
-    // 1. Contar palabras totales y únicas
+    // 1. CONTAR PALABRAS TOTALES Y ÚNICAS
     const stats = wasmOptimizer.contarPalabras(texto);
     document.getElementById('metricMemoria').textContent = stats.total;
     document.getElementById('metricSemantico').textContent = stats.unicas;
     
-    // 2. Contar citas APA
+    // 2. CONTAR CITAS APA
     const citas = wasmOptimizer.contarCitasAPA(texto);
     document.getElementById('metricDB').textContent = citas.total;
     
-    // 3. Validar estructura
+    // 3. VALIDAR ESTRUCTURA
     const estructura = wasmOptimizer.validarEstructura(texto);
     
-    // 4. Contar palabras por sección
+    // 4. CONTAR PALABRAS POR SECCIÓN
     const secciones = wasmOptimizer.contarPalabrasPorSeccion(texto);
     document.getElementById('introPalabras').textContent = secciones.introduccion || 0;
     document.getElementById('desarrolloPalabras').textContent = secciones.desarrollo || 0;
     document.getElementById('conclusionPalabras').textContent = secciones.conclusion || 0;
     
-    // 5. Extraer keywords (NUEVA)
+    // 5. EXTRAER KEYWORDS
     const keywords = wasmOptimizer.extraerKeywords(texto, 5);
     const keywordsHtml = keywords.map(kw => 
         `<span style="background:#2c3a4a;padding:2px 8px;border-radius:12px;font-size:0.6rem;border:1px solid #f59e0b;color:#f59e0b;">🏷️ ${kw.palabra} (${kw.frecuencia})</span>`
     ).join(' ');
     document.getElementById('keywordsWidget').innerHTML = keywordsHtml || '<span style="color:#94a3b8;font-size:0.6rem;">🏷️ Keywords: --</span>';
     
-    // 6. Detectar repeticiones (NUEVA)
+    // 6. DETECTAR REPETICIONES
     const repeticiones = wasmOptimizer.detectarRepeticiones(texto);
     if (repeticiones.length > 0) {
         const repText = repeticiones.map(r => `${r.palabra} (${r.count})`).join(', ');
@@ -836,20 +821,20 @@ function actualizarAnalisisAutomatico(texto, idioma, modo) {
         document.getElementById('repeticionesWidget').style.color = '#10b981';
     }
     
-    // 7. Calcular legibilidad (NUEVA)
+    // 7. CALCULAR LEGIBILIDAD
     const legibilidad = wasmOptimizer.calcularLegibilidad(texto);
     document.getElementById('legibilidadScore').textContent = `${legibilidad.nivel} (${Math.round(legibilidad.score)})`;
     document.getElementById('legibilidadScore').style.color = legibilidad.score > 60 ? '#10b981' : legibilidad.score > 40 ? '#f59e0b' : '#ef4444';
     
-    // 8. Analizar sentimiento (NUEVA)
+    // 8. ANALIZAR SENTIMIENTO
     const sentimiento = wasmOptimizer.analizarSentimiento(texto);
     document.getElementById('sentimientoAnalisis').textContent = `🎯 Tono: ${sentimiento}`;
     
-    // 9. Tiempo de lectura (NUEVA)
+    // 9. TIEMPO DE LECTURA
     const tiempoLectura = wasmOptimizer.calcularTiempoLectura(texto);
     document.getElementById('tiempoLectura').textContent = `⏱️ ${tiempoLectura} de lectura`;
     
-    // 10. Calcular calidad
+    // 10. CALCULAR CALIDAD
     let qualityScore = 85, qualityLevel = 'media';
     if (estructura.valida && citas.total >= 4 && stats.total >= 800) {
         qualityScore = 95;
@@ -867,11 +852,14 @@ function actualizarAnalisisAutomatico(texto, idioma, modo) {
     document.getElementById('qualityScore').innerText = qualityLevel.toUpperCase();
     document.getElementById('qualityScore').style.color = qualityLevel === 'alta' ? '#10b981' : qualityLevel === 'media' ? '#f59e0b' : '#ef4444';
     
-    // 11. Mostrar advertencias silenciosas
-    const bandera = banderaIdioma[idioma] || '🌐';
-    const idiomaPrompt = nombreIdioma[idioma] || 'Español';
-    let advertencias = [];
+    // 11. DETECTAR IDIOMA Y ACTUALIZAR UI
+    const idiomaDet = idioma || wasmOptimizer.detectarIdioma(texto);
+    const bandera = banderaIdioma[idiomaDet] || '🌐';
+    const nombre = nombreIdioma[idiomaDet] || 'Desconocido';
+    actualizarIndicadorIdioma(idiomaDet);
     
+    // 12. MOSTRAR ESTADO COMPLETO
+    let advertencias = [];
     if (!estructura.valida) {
         advertencias.push(`Estructura: faltan ${estructura.faltantes.join(', ')}`);
     }
@@ -884,15 +872,13 @@ function actualizarAnalisisAutomatico(texto, idioma, modo) {
     
     if (advertencias.length > 0) {
         document.getElementById('decisionStatus').innerHTML = 
-            `⚠️ ${advertencias.join(' · ')} · 🌐 ${bandera} ${idiomaPrompt}`;
+            `⚠️ ${advertencias.join(' · ')} · 🌐 ${bandera} ${nombre}`;
     } else {
         document.getElementById('decisionStatus').innerHTML = 
-            `✅ ${stats.total} palabras · ${citas.total} citas · 🌐 ${bandera} ${idiomaPrompt} · 📊 WASM Analytics`;
+            `✅ ${stats.total} palabras · ${citas.total} citas · 🌐 ${bandera} ${nombre} · 📊 WASM Analytics · ⚡ 1 llamada`;
     }
     
-    actualizarFase(`✅ ${stats.total} palabras · ${citas.total} citas · 🌐 ${bandera} ${idiomaPrompt} · 📊 Análisis completo`);
-    
-    // 12. Detector de plagio con caché (NUEVA)
+    // 13. DETECCIÓN DE PLAGIO CON CACHÉ
     let similitudMax = 0;
     cacheInvestigaciones.forEach(item => {
         const sim = wasmOptimizer.calcularSimilitud(texto, item);
@@ -907,7 +893,7 @@ function actualizarAnalisisAutomatico(texto, idioma, modo) {
         document.getElementById('plagiarismWarning').classList.remove('active');
     }
     
-    // 13. Guardar en caché para futuras comparaciones (NUEVA)
+    // 14. GUARDAR EN CACHÉ
     const textoComprimido = wasmOptimizer.comprimir(texto);
     if (textoComprimido.length > 100) {
         cacheInvestigaciones.push(textoComprimido);
@@ -916,6 +902,9 @@ function actualizarAnalisisAutomatico(texto, idioma, modo) {
             localStorage.setItem('investigaciones_cache', JSON.stringify(cacheInvestigaciones));
         } catch(e) {}
     }
+    
+    // 15. ACTUALIZAR FASE
+    actualizarFase(`✅ ${stats.total} palabras · ${citas.total} citas · 🌐 ${bandera} ${nombre} · 📊 Análisis completo · ⚡ 1 llamada`);
 }
 
 // ============================================
@@ -1004,7 +993,7 @@ document.getElementById('resolverWordBtn').addEventListener('click', async funct
     
     const modoNombre = modoActual === 'experto' ? 'Experto' : 'Básico';
     actualizarFase(`📄 Resolviendo Word con IA (${modoNombre})...`);
-    actualizarStatus(`🧠 Enviando contenido a Mistral AI...`);
+    actualizarStatus(`🧠 Enviando a Mistral AI (1 llamada)...`);
     actualizarProgress(10);
     
     try {
@@ -1014,6 +1003,7 @@ document.getElementById('resolverWordBtn').addEventListener('click', async funct
         const idiomaPrompt = nombreIdioma[idiomaWord] || 'Español';
         actualizarIndicadorIdioma(idiomaWord);
         
+        // ===== 1 SOLA LLAMADA =====
         const prompt = `Analiza y resuelve el siguiente contenido académico. Detecto que el idioma principal es ${idiomaPrompt}. Responde en el MISMO idioma del contenido.\n\n${contenidoWord.substring(0, 3000)}`;
         
         const respuestaMistral = await fetch(MISTRAL_API_URL, {
@@ -1056,18 +1046,17 @@ document.getElementById('resolverWordBtn').addEventListener('click', async funct
         
         document.getElementById('contenido').innerText = textoOptimizado;
         document.getElementById('resultsCard').classList.add('active');
-        document.getElementById('citaTexto').innerText = `AcadémIA Pro (2026). Análisis de documento con enfoque multilingüe. Mistral AI + WebAssembly.`;
+        document.getElementById('citaTexto').innerText = `AcadémIA Pro (2026). Análisis de documento con enfoque multilingüe. Mistral AI + WebAssembly. ⚡ 1 llamada.`;
         
         const bibliografiaHTML = generarBibliografiaMultilingue(textoOptimizado, 'documento subido', idiomaWord);
         document.getElementById('bibliografiaList').innerHTML = bibliografiaHTML;
-        
         document.getElementById('widgetTextoContent').innerText = textoOptimizado.substring(0, 150) + '...';
         
-        // ANÁLISIS AUTOMÁTICO COMPLETO
+        // ===== ANÁLISIS AUTOMÁTICO COMPLETO =====
         actualizarAnalisisAutomatico(textoOptimizado, idiomaWord, modoActual);
         
         actualizarProgress(100);
-        showToast(`✅ Word resuelto · 🌐 ${idiomaPrompt} · 📊 Análisis completo`);
+        showToast(`✅ Word resuelto · 🌐 ${idiomaPrompt} · 📊 Análisis completo · ⚡ 1 llamada`);
         
     } catch (error) {
         console.error('❌ Error:', error);
@@ -1104,11 +1093,11 @@ document.getElementById('descargarWordBtn').addEventListener('click', function()
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    showToast('📥 Word descargado correctamente');
+    showToast('📥 Word descargado');
 });
 
 // ============================================
-// BOTÓN PRINCIPAL DE BÚSQUEDA
+// BOTÓN PRINCIPAL DE BÚSQUEDA - 1 SOLA LLAMADA
 // ============================================
 document.getElementById('searchBtn').addEventListener('click', async () => {
     const input = document.getElementById('topicInput');
@@ -1126,8 +1115,8 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
     btn.disabled = true;
     
     const modoNombre = modoActual === 'experto' ? 'Experto' : 'Básico';
-    actualizarFase(`🔍 Iniciando investigación en modo ${modoNombre}...`);
-    actualizarStatus(`🧠 Enviando a Mistral AI (${modoNombre})...`);
+    actualizarFase(`🔍 Investigando en modo ${modoNombre}...`);
+    actualizarStatus(`🧠 Enviando a Mistral AI (1 llamada)...`);
     actualizarProgress(10);
     
     try {
@@ -1212,10 +1201,11 @@ Empieza con "Introducción:" y termina con "Conclusión:".`;
             maxTokens = 1500;
         }
 
-        actualizarFase(`☁️ Enviando a Mistral AI (${modoNombre} en ${idiomaPrompt})...`);
+        actualizarFase(`☁️ 1 llamada a Mistral AI (${modoNombre} en ${idiomaPrompt})...`);
         actualizarProgress(30);
         
-        // FASE 4: LLAMAR A MISTRAL AI
+        // ===== FASE 4: 1 SOLA LLAMADA A MISTRAL AI =====
+        console.log(`⚡ [1 LLAMADA] Enviando a Mistral AI para: ${query}`);
         const respuestaMistral = await fetch(MISTRAL_API_URL, {
             method: 'POST',
             headers: {
@@ -1250,6 +1240,7 @@ Empieza con "Introducción:" y termina con "Conclusión:".`;
             throw new Error('La respuesta de Mistral fue demasiado corta');
         }
 
+        console.log(`✅ [1 LLAMADA] Respuesta recibida: ${textoIA.length} caracteres`);
         actualizarProgress(80);
         
         // FASE 5: OPTIMIZAR CON WEBASSEMBLY
@@ -1264,19 +1255,19 @@ Empieza con "Introducción:" y termina con "Conclusión:".`;
         document.getElementById('contenido').innerText = textoOptimizado;
         document.getElementById('resultsCard').classList.add('active');
         document.getElementById('citaTexto').innerText = 
-            `AcadémIA Pro (2026). Investigación sobre "${query}" con enfoque en ${PAIS_FIJO}. Mistral AI + WebAssembly. 🌐 ${idiomaPrompt}`;
+            `AcadémIA Pro (2026). Investigación sobre "${query}" con enfoque en ${PAIS_FIJO}. Mistral AI + WebAssembly. 🌐 ${idiomaPrompt}. ⚡ 1 llamada.`;
         
         const bibliografiaHTML = generarBibliografiaMultilingue(textoOptimizado, query, idiomaDetectado);
         document.getElementById('bibliografiaList').innerHTML = bibliografiaHTML;
         document.getElementById('widgetTextoContent').innerText = textoOptimizado.substring(0, 150) + '...';
         
-        // ⭐ ANÁLISIS AUTOMÁTICO COMPLETO (TODAS LAS FUNCIONES NUEVAS)
+        // ===== ANÁLISIS AUTOMÁTICO COMPLETO (TODAS LAS FUNCIONES WASM) =====
         actualizarAnalisisAutomatico(textoOptimizado, idiomaDetectado, modoActual);
         
         actualizarProgress(100);
-        showToast(`✅ Investigación · 📊 Análisis completo · 🌐 ${idiomaPrompt}`);
+        showToast(`✅ Investigación · 📊 Análisis completo · 🌐 ${idiomaPrompt} · ⚡ 1 llamada`);
         
-        // Botón de análisis avanzado (opcional)
+        // Botón de análisis avanzado
         const contenidoDiv = document.getElementById('contenido');
         contenidoDiv.innerHTML += `
             <br><br>
@@ -1299,6 +1290,7 @@ Empieza con "Introducción:" y termina con "Conclusión:".`;
                 textoDiv.innerHTML = '<span class="loading-spinner"></span> Generando análisis...';
 
                 try {
+                    // ===== OTRA 1 LLAMADA PARA ANÁLISIS AVANZADO =====
                     const respuestaAvanzada = await fetch(MISTRAL_API_URL, {
                         method: 'POST',
                         headers: {
@@ -1365,7 +1357,7 @@ document.getElementById('btnDecisionStatus').onclick = () => {
     const idioma = nombreIdioma[idiomaDetectado] || 'Español';
     const bandera = banderaIdioma[idiomaDetectado] || '🌐';
     mostrarModal('🧠 403M DECIDE + WebAssembly', 
-        `📊 SISTEMA ACTIVO CON WASM\n` +
+        `📊 SISTEMA ACTIVO CON WASM (11 funciones)\n` +
         `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
         `⚡ Optimizaciones: ${stats.optimizaciones}\n` +
         `⏱️ Tiempo WASM: ${Math.round(stats.tiempoTotal)}ms\n` +
@@ -1374,19 +1366,20 @@ document.getElementById('btnDecisionStatus').onclick = () => {
         `🌐 Idioma actual: ${bandera} ${idioma}\n` +
         `📚 Fuentes: 12 activas\n` +
         `🧠 Modo: ${modoActual === 'experto' ? 'Experto' : 'Básico'}\n` +
+        `⚡ 1 Llamada: ✅ Activo\n` +
         `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-        `📊 FUNCIONES ACTIVAS:\n` +
-        `✅ Limpieza de texto\n` +
-        `✅ Detección de idioma\n` +
-        `✅ Conteo de palabras\n` +
-        `✅ Validación de estructura\n` +
-        `✅ Conteo de citas APA\n` +
-        `✅ Extracción de keywords\n` +
-        `✅ Análisis de legibilidad\n` +
-        `✅ Detección de repeticiones\n` +
-        `✅ Análisis de sentimiento\n` +
-        `✅ Detector de plagio\n` +
-        `✅ Compresión para caché`
+        `📊 11 FUNCIONES WASM ACTIVAS:\n` +
+        `✅ 1. Limpieza de texto\n` +
+        `✅ 2. Detección de idioma\n` +
+        `✅ 3. Conteo de palabras\n` +
+        `✅ 4. Conteo de citas APA\n` +
+        `✅ 5. Validación de estructura\n` +
+        `✅ 6. Conteo de palabras por sección\n` +
+        `✅ 7. Extracción de keywords\n` +
+        `✅ 8. Detección de repeticiones\n` +
+        `✅ 9. Análisis de legibilidad\n` +
+        `✅ 10. Análisis de sentimiento\n` +
+        `✅ 11. Tiempo de lectura`
     );
 };
 
@@ -1410,9 +1403,10 @@ document.getElementById('btnTermuxStatus').onclick = () => {
         `  • Repeticiones: ✅\n` +
         `  • Plagio: ✅\n` +
         `  • Caché: ${cacheInvestigaciones.length} textos\n\n` +
-        `🔗 Mistral AI: ✅ Conectado\n` +
+        `🔗 Mistral AI: ✅ Conectado (1 llamada por análisis)\n` +
         `📚 Fuentes: ✅ Activas\n` +
-        `📌 Modo: ${modoActual === 'experto' ? '🧠 Experto' : '⚡ Básico'}`
+        `📌 Modo: ${modoActual === 'experto' ? '🧠 Experto' : '⚡ Básico'}\n` +
+        `⚡ 1 Llamada: ✅ Activo`
     );
 };
 
@@ -1517,18 +1511,42 @@ document.getElementById('btnExportar').onclick = () => {
 (async () => {
     console.log('🚀 AcadémIA Pro con WASM + Multilingüe + Analytics');
     console.log('🌐 Idiomas:', Object.keys(nombreIdioma).map(k => `${banderaIdioma[k]} ${nombreIdioma[k]}`).join(', '));
-    console.log('📊 Funciones WASM: Limpieza, Idioma, Keywords, Legibilidad, Sentimiento, Repeticiones, Plagio');
+    console.log('📊 11 funciones WASM activas: Limpieza, Idioma, Palabras, Estructura, Citas, Keywords, Legibilidad, Sentimiento, Repeticiones, Plagio, Tiempo Lectura');
+    console.log('⚡ 1 sola llamada a Mistral AI por análisis');
     
     setTimeout(async () => {
         await wasmOptimizer.init();
         if (wasmOptimizer.initialized) {
-            document.getElementById('decisionStatus').innerHTML = '✅ WASM Activado · 🌐 Multilingüe · 📊 Analytics listo';
-            actualizarFase('⚡ WASM + Analytics activos · Listo para investigar');
+            document.getElementById('decisionStatus').innerHTML = '✅ WASM Activado · 🌐 Multilingüe · 📊 Analytics listo · ⚡ 1 llamada';
+            actualizarFase('⚡ WASM + Analytics activos · 🌐 Multilingüe · ⚡ 1 llamada');
         }
     }, 2000);
     
-    showToast(`🧠 AcadémIA Pro · WASM + Analytics · 🌐 Multilingüe`);
+    showToast(`🧠 AcadémIA Pro · 11 funciones WASM · 🌐 Multilingüe · ⚡ 1 llamada`);
 })();
+
+// ============================================
+// EXPORTADORES (Funciones globales para los botones)
+// ============================================
+document.querySelectorAll('.export-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const format = this.dataset.format;
+        const contenido = document.getElementById('contenido')?.innerText || '';
+        if (!contenido || contenido === '---') {
+            showToast('⚠️ No hay contenido para exportar', true);
+            return;
+        }
+        const filename = `investigacion_${new Date().toISOString().slice(0,10)}.${format === 'latex' ? 'tex' : format === 'markdown' ? 'md' : format === 'bibtex' ? 'bib' : 'ris'}`;
+        const blob = new Blob([contenido], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast(`📤 Exportado como ${format.toUpperCase()}`);
+    });
+});
 </script>
 
 <script type="module">
