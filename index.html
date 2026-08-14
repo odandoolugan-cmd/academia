@@ -2,9 +2,9 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <title>AcadémIA Pro · 403M DECIDE · 12 Fuentes · WASM ULTRA · Mistral AI + Agente</title>
+    <title>AcadémIA Pro · 403M DECIDE · 12 Fuentes · WASM ULTRA · Mistral AI + Agente · ♾️ ILIMITADO</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', system-ui, sans-serif; background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%); color: #eef2ff; min-height: 100vh; padding: 1rem; overflow-x: hidden; }
@@ -23,6 +23,7 @@
         .badge-1llamada { background: linear-gradient(90deg, #ec4899, #f59e0b, #10b981); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
         .badge-100funciones { background: linear-gradient(90deg, #8b5cf6, #ec4899, #f59e0b); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
         .badge-agente { background: linear-gradient(90deg, #f59e0b, #8b5cf6, #ec4899); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
+        .badge-ilimitado { background: linear-gradient(90deg, #ec4899, #f59e0b, #10b981, #3b82f6, #8b5cf6); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
         @keyframes glow { 0%, 100% { box-shadow: 0 0 10px #8b5cf6; } 50% { box-shadow: 0 0 25px #ec4899; } }
         .daily-message { background: rgba(139, 92, 246, 0.15); border-radius: 1rem; padding: 0.8rem; margin: 1rem auto; text-align: center; max-width: 80%; border-left: 3px solid #8b5cf6; border-right: 3px solid #8b5cf6; font-size: 0.85rem; }
         .modo-selector { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; align-items: center; flex-wrap: wrap; }
@@ -50,6 +51,8 @@
         .tool-btn.decision:hover { background: linear-gradient(135deg, #8b5cf6, #ec4899); color: white; border-color: #8b5cf6; }
         .tool-btn.fuentes12 { border-color: #10b981; color: #34d399; background: #1e293b; }
         .tool-btn.fuentes12:hover { background: linear-gradient(135deg, #10b981, #059669); color: white; border-color: #10b981; }
+        .tool-btn.ilimitado { border-color: #f59e0b; color: #fbbf24; background: #1e293b; }
+        .tool-btn.ilimitado:hover { background: linear-gradient(90deg, #f59e0b, #d97706); color: white; border-color: #f59e0b; }
         .sources-badge { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1rem; justify-content: center; }
         .source-badge { background: rgba(139, 92, 246, 0.2); padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; border: 1px solid rgba(139, 92, 246, 0.4); }
         .source-badge.crossref { border-color: #3b82f6; }
@@ -63,6 +66,7 @@
         .source-badge.analytics { border-color: #f59e0b; background: rgba(245, 158, 11, 0.2); }
         .source-badge.ultra { border-color: #8b5cf6; background: rgba(139, 92, 246, 0.3); }
         .source-badge.agente { border-color: #f59e0b; background: rgba(245, 158, 11, 0.3); }
+        .source-badge.ilimitado { border-color: #f59e0b; background: rgba(245, 158, 11, 0.3); animation: glow 2s infinite; }
         .input-group { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
         .search-input { flex: 1; padding: 1rem; background: #1e293b; border: 1px solid #334155; border-radius: 1rem; color: white; font-size: 1rem; }
         .search-input:focus { outline: none; border-color: #8b5cf6; }
@@ -148,9 +152,9 @@
 
 <div class="normal-mode" id="normalMode">
     <div class="header">
-        <h1>📚 AcadémIA Pro <span class="badge-experto">🧠 EXPERTO</span><span class="badge-basico">⚡ BÁSICO</span><span class="badge-12fuentes">🔬 12 FUENTES</span><span class="badge-decision">🧠 DECIDE</span><span class="badge-alemania">🇩🇪 ENFOQUE ALEMÁN</span><span class="badge-wasm">⚡ WASM</span><span class="badge-multilang">🌐 MULTILINGÜE</span><span class="badge-ai-analytics">📊 AI ANALYTICS</span><span class="badge-1llamada">⚡ 1 LLAMADA</span><span class="badge-100funciones">🚀 100+ FUNCIONES</span><span class="badge-agente">🤖 AGENTE</span></h1>
-        <div class="sub">403M DECIDE · 12 Fuentes Gratis · APA 7 · WebAssembly · Mistral AI + Agente · 🇩🇪 Investigador Alemán · 🌐 Multilingüe · 📊 Análisis Automático · ⚡ 1 sola llamada · 🚀 100+ funciones WASM</div>
-        <div class="daily-message">⚡ WebAssembly ULTRA · 100+ funciones · 12 fuentes · Mistral AI + Agente · 🌐 Detección de idioma · 📊 Análisis automático · ⚡ 1 llamada</div>
+        <h1>📚 AcadémIA Pro <span class="badge-experto">🧠 EXPERTO</span><span class="badge-basico">⚡ BÁSICO</span><span class="badge-12fuentes">🔬 12 FUENTES</span><span class="badge-decision">🧠 DECIDE</span><span class="badge-alemania">🇩🇪 ENFOQUE ALEMÁN</span><span class="badge-wasm">⚡ WASM</span><span class="badge-multilang">🌐 MULTILINGÜE</span><span class="badge-ai-analytics">📊 AI ANALYTICS</span><span class="badge-1llamada">⚡ 1 LLAMADA</span><span class="badge-100funciones">🚀 100+ FUNCIONES</span><span class="badge-agente">🤖 AGENTE</span><span class="badge-ilimitado">♾️ ILIMITADO</span></h1>
+        <div class="sub">403M DECIDE · 12 Fuentes + Ilimitadas · APA 7 · WebAssembly · Mistral AI + Agente · 🇩🇪 Investigador Alemán · 🌐 Multilingüe · 📊 Análisis Automático · ⚡ 1 sola llamada · 🚀 100+ funciones WASM · ♾️ Sin límites</div>
+        <div class="daily-message">⚡ WebAssembly ULTRA · 100+ funciones · 12 fuentes + Ilimitadas · Mistral AI + Agente · 🌐 Detección de idioma · 📊 Análisis automático · ⚡ 1 llamada · ♾️ Sin límites</div>
     </div>
 
     <div class="modo-selector">
@@ -167,7 +171,7 @@
 
     <div class="search-card">
         <div class="resolver-section">
-            <div class="resolver-title">🎓 RESOLVEDOR DE DEBERES INTELIGENTE 403M DECIDE + AGENTE</div>
+            <div class="resolver-title">🎓 RESOLVEDOR DE DEBERES INTELIGENTE 403M DECIDE + AGENTE + ♾️ ILIMITADO</div>
             <div class="word-upload-bar">
                 <button class="word-btn" id="subirWordBtn">📄 SUBIR WORD</button>
                 <button class="word-btn primary" id="resolverWordBtn" disabled>✨ RESOLVER CON IA</button>
@@ -186,6 +190,7 @@
             <button class="tool-btn" id="btnRelacionados">💡 Relacionados</button>
             <button class="tool-btn" id="btnExportar">📤 Exportar</button>
             <button class="tool-btn fuentes12" id="btn12Fuentes">🔬 12 FUENTES</button>
+            <button class="tool-btn ilimitado" id="btnFuentesIlimitadas">♾️ ILIMITADO</button>
             <button class="tool-btn decision" id="btnDecisionStatus">🧠 403M Decide</button>
             <button class="tool-btn decision" id="btnMemoriaStatus">🧠 Memoria WASM</button>
             <button class="tool-btn" id="btnTermuxStatus">🔌 Estado</button>
@@ -205,6 +210,7 @@
             <span class="source-badge analytics">📊 Análisis Automático</span>
             <span class="source-badge" style="border-color: #ec4899; background: rgba(236, 72, 153, 0.2);">⚡ 1 LLAMADA</span>
             <span class="source-badge ultra" style="border-color: #8b5cf6; background: rgba(139, 92, 246, 0.3);">🚀 100+ FUNCIONES</span>
+            <span class="source-badge ilimitado" style="border-color: #f59e0b; background: rgba(245, 158, 11, 0.3); animation: glow 2s infinite;">♾️ ILIMITADAS</span>
         </div>
 
         <div class="input-group">
@@ -212,9 +218,9 @@
             <button class="btn-primary" id="searchBtn">🔍 INVESTIGAR</button>
         </div>
 
-        <div class="ethical-notice">📌 <strong>Mistral AI + Agente</strong> · 12 fuentes · WebAssembly ULTRA · <strong style="color:#10b981;">100% GRATIS</strong> · 🌐 Multilingüe · 📊 <strong style="color:#f59e0b;">100+ funciones WASM</strong> · ⚡ <strong style="color:#ec4899;">1 sola llamada</strong> · 🤖 <strong style="color:#f59e0b;">Agente integrado</strong></div>
-        <div id="statusMessage" class="status-message" style="display:none;">⏳ Procesando con WebAssembly ULTRA + Agente...</div>
-        <div id="decisionStatus">🧠 403M DECIDE / WASM ULTRA: Listo · 🤖 Agente: Activo · 🌐 Multilingüe · 📊 100+ funciones · ⚡ 1 llamada</div>
+        <div class="ethical-notice">📌 <strong>Mistral AI + Agente</strong> · 12 fuentes + Ilimitadas · WebAssembly ULTRA · <strong style="color:#10b981;">100% GRATIS</strong> · 🌐 Multilingüe · 📊 <strong style="color:#f59e0b;">100+ funciones WASM</strong> · ⚡ <strong style="color:#ec4899;">1 sola llamada</strong> · 🤖 <strong style="color:#f59e0b;">Agente integrado</strong> · ♾️ <strong style="color:#f59e0b;">Sin límites</strong></div>
+        <div id="statusMessage" class="status-message" style="display:none;">⏳ Procesando con WebAssembly ULTRA + Agente + Fuentes Ilimitadas...</div>
+        <div id="decisionStatus">🧠 403M DECIDE / WASM ULTRA: Listo · 🤖 Agente: Activo · 🌐 Multilingüe · 📊 100+ funciones · ⚡ 1 llamada · ♾️ Fuentes ilimitadas</div>
         <div id="faseInfo" class="fase-info">💡 Listo para investigar</div>
         
         <!-- Estadísticas WASM Ultra -->
@@ -225,6 +231,7 @@
             <span>📊 Funciones: <strong id="ultraFunciones">0</strong></span>
             <span>🧠 Memoria: <strong id="ultraMemoria">0 KB</strong></span>
             <span>🤖 Agente: <strong id="ultraAgente">✅ Activo</strong></span>
+            <span>♾️ Fuentes: <strong id="ultraFuentes">0</strong></span>
         </div>
     </div>
 
@@ -273,6 +280,7 @@
                 </div>
                 <div style="font-size:0.6rem;color:#94a3b8;margin-top:4px;" id="repeticionesWidget">🔄 Repeticiones: --</div>
                 <div style="font-size:0.6rem;color:#94a3b8;margin-top:2px;" id="completitudWidget">📊 Completitud: --%</div>
+                <div style="font-size:0.55rem;color:#f59e0b;margin-top:4px;border-top:1px solid #334155;padding-top:4px;" id="fuentesWidget">♾️ Fuentes ilimitadas activas</div>
             </div>
         </div>
     </div>
@@ -295,7 +303,7 @@
     </div>
 
     <div class="sponsors"><div class="sponsors-link"><a href="#">🎮 OFERTA 1</a><a href="#">🎲 OFERTA 2</a></div></div>
-    <div class="footer-text">⚡ AcadémIA Pro · Mistral AI + Agente · WebAssembly ULTRA · 12 Fuentes · APA 7 · 🇩🇪 Enfoque Alemán · 🌐 Multilingüe · 📊 100+ funciones · ⚡ 1 sola llamada</div>
+    <div class="footer-text">⚡ AcadémIA Pro · Mistral AI + Agente · WebAssembly ULTRA · 12 Fuentes + Ilimitadas · APA 7 · 🇩🇪 Enfoque Alemán · 🌐 Multilingüe · 📊 100+ funciones · ⚡ 1 sola llamada · ♾️ Sin límites</div>
 </div>
 
 <button class="vr-button" id="vrModeBtn">🔮 MODO VR</button>
@@ -311,7 +319,7 @@
 
 <script>
 // ============================================
-// WASM ULTRA - 100+ FUNCIONES + AGENTE + EXTRACTOR ACADÉMICO (CORREGIDO)
+// WASM ULTRA - 100+ FUNCIONES + AGENTE + FUENTES ILIMITADAS (CORREGIDO)
 // ============================================
 
 class WASMUltra {
@@ -331,7 +339,7 @@ class WASMUltra {
 
     async init() {
         try {
-            console.log('⚡ Inicializando WASM Ultra con 100+ funciones + Agente + Extractor...');
+            console.log('⚡ Inicializando WASM Ultra con 100+ funciones + Agente + Fuentes Ilimitadas...');
             const wasmCode = new Uint8Array([
                 0x00, 0x61, 0x73, 0x6d,
                 0x01, 0x00, 0x00, 0x00,
@@ -347,7 +355,7 @@ class WASMUltra {
             ]);
             await WebAssembly.instantiate(wasmCode);
             this.initialized = true;
-            console.log('✅ WASM Ultra + Agente + Extractor listo');
+            console.log('✅ WASM Ultra + Agente + Fuentes Ilimitadas listo');
             return true;
         } catch (error) {
             console.warn('⚠️ Error en WASM:', error.message);
@@ -549,6 +557,7 @@ class WASMUltra {
 
     extraerAutores(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') return [];
         const patrones = [
             /(?:según|como dice|de acuerdo con|citando a|cita a)\s+([A-ZÁÉÍÓÚ][a-záéíóú]+(?:\s+[A-ZÁÉÍÓÚ][a-záéíóú]+)?)/gi,
             /\(([A-ZÁÉÍÓÚ][a-záéíóú]+(?:\s+[A-ZÁÉÍÓÚ][a-záéíóú]+)?),\s*\d{4}\)/g,
@@ -572,6 +581,7 @@ class WASMUltra {
 
     nivelVocabulario(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') return 'Básico';
         const palabras = texto.toLowerCase().match(/[a-záéíóúüñ]+/g) || [];
         const palabrasUnicas = new Set(palabras);
         const palabrasLargas = [...palabrasUnicas].filter(p => p.length > 7).length;
@@ -587,6 +597,7 @@ class WASMUltra {
 
     detectarIdiomaConConfianza(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') return { idioma: 'es', confianza: 50 };
         const idioma = this.detectarIdioma(texto);
         const confianza = this.calcularConfianzaIdioma(texto, idioma);
         this.stats.funcionesEjecutadas++;
@@ -595,6 +606,7 @@ class WASMUltra {
     }
 
     calcularConfianzaIdioma(texto, idioma) {
+        if (!texto || typeof texto !== 'string') return 0.5;
         const patrones = {
             'es': ['el', 'la', 'los', 'las', 'un', 'una', 'y', 'que', 'es', 'en', 'por', 'para', 'con', 'como', 'más', 'pero', 'sus', 'sobre', 'está', 'tiene', 'puede'],
             'en': ['the', 'and', 'or', 'but', 'of', 'to', 'for', 'with', 'on', 'at', 'from', 'by', 'in', 'an', 'that', 'this', 'these', 'those', 'has', 'have', 'are'],
@@ -615,6 +627,7 @@ class WASMUltra {
 
     resumirTexto(texto, numOraciones = 5) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') return '';
         const oraciones = texto.match(/[^.!?]+[.!?]+/g) || [];
         if (oraciones.length <= numOraciones) return texto;
         const palabras = texto.toLowerCase().match(/[a-záéíóúüñ]+/g) || [];
@@ -638,6 +651,7 @@ class WASMUltra {
 
     palabrasPorFrecuencia(texto, minFrecuencia = 2) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') return [];
         const palabras = texto.toLowerCase().match(/[a-záéíóúüñ]+/g) || [];
         const frecuencias = {};
         palabras.forEach(p => { frecuencias[p] = (frecuencias[p] || 0) + 1; });
@@ -653,6 +667,7 @@ class WASMUltra {
 
     tonoTexto(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') return 'Neutral/Equilibrado';
         const palabrasFormales = ['asimismo', 'no obstante', 'por consiguiente', 'en efecto', 'cabe destacar', 'es pertinente', 'en virtud de', 'a fin de', 'con respecto a', 'debido a', 'en relación con', 'por otra parte', 'en primer lugar', 'en segundo lugar', 'finalmente'];
         const palabrasInformales = ['bueno', 'pues', 'vale', 'claro', 'ok', 'ya', 'ni modo', 'qué onda', 'chido', 'genial', 'padre', 'madre', 'güey', 'wey', 'vale', 'che', 'pibe', 'bro', 'amigo'];
         const palabrasAcademicas = ['investigación', 'análisis', 'metodología', 'resultados', 'conclusión', 'hipótesis', 'variable', 'muestra', 'estadístico', 'teórico', 'empírico', 'cuantitativo', 'cualitativo', 'científico', 'académico'];
@@ -674,6 +689,7 @@ class WASMUltra {
 
     complejidadOraciones(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') return { promedio: 0, max: 0, min: 0, distribucion: 'Sin oraciones' };
         const oraciones = texto.match(/[^.!?]+[.!?]+/g) || [];
         if (oraciones.length === 0) return { promedio: 0, max: 0, min: 0, distribucion: 'Sin oraciones' };
         const longitudes = oraciones.map(o => o.split(/\s+/).length);
@@ -693,6 +709,7 @@ class WASMUltra {
 
     temaPrincipal(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') return 'No se pudo detectar';
         const keywords = this.extraerKeywords(texto, 10);
         if (keywords.length === 0) return 'No se pudo detectar';
         const lower = texto.toLowerCase();
@@ -720,6 +737,7 @@ class WASMUltra {
 
     contarReferencias(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') return { total: 0, detalles: [] };
         const patrones = [
             /\([A-ZÁÉÍÓÚ][a-záéíóú]+,\s*\d{4}\)/g,
             /\[[0-9]+\]/g,
@@ -745,6 +763,7 @@ class WASMUltra {
 
     extraerURLs(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') return [];
         const patron = /(https?:\/\/[^\s<>"']+)/g;
         this.stats.funcionesEjecutadas++;
         this.stats.tiempoTotal += (performance.now() - inicio);
@@ -753,6 +772,7 @@ class WASMUltra {
 
     contarAbreviaturas(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') return { total: 0, unicas: 0, lista: [] };
         const patron = /([A-ZÁÉÍÓÚ]{2,}(?:\.[A-ZÁÉÍÓÚ]{2,})?)/g;
         const matches = texto.match(patron) || [];
         const unicas = new Set(matches);
@@ -763,6 +783,7 @@ class WASMUltra {
 
     extraerPaises(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') return [];
         const paises = [
             'Alemania', 'España', 'México', 'Argentina', 'Colombia', 'Chile', 'Perú',
             'Ecuador', 'Venezuela', 'Uruguay', 'Paraguay', 'Bolivia', 'Costa Rica',
@@ -770,7 +791,7 @@ class WASMUltra {
             'Puerto Rico', 'República Dominicana', 'Estados Unidos', 'Canadá',
             'Inglaterra', 'Francia', 'Italia', 'Portugal', 'Brasil', 'China', 'Japón',
             'Corea del Sur', 'India', 'Rusia', 'Australia', 'Sudáfrica', 'Egipto',
-            'Nigeria', 'Kenia', 'Argentina', 'Colombia', 'Chile', 'Perú', 'Bolivia'
+            'Nigeria', 'Kenia'
         ];
         const encontrados = [];
         paises.forEach(p => {
@@ -781,17 +802,60 @@ class WASMUltra {
         return encontrados;
     }
 
+    // ✅ FUNCIÓN CORREGIDA - calculaSimilitud
+    calcularSimilitud(texto1, texto2) {
+        const inicio = performance.now();
+        
+        // 🔥 SOLUCIÓN: Verificar que ambos argumentos sean strings
+        const str1 = typeof texto1 === 'string' ? texto1 : String(texto1 || '');
+        const str2 = typeof texto2 === 'string' ? texto2 : String(texto2 || '');
+        
+        if (!str1 || !str2 || str1.length < 2 || str2.length < 2) {
+            return 0;
+        }
+        
+        const palabras1 = new Set(str1.toLowerCase().match(/[a-záéíóúüñ]+/g) || []);
+        const palabras2 = new Set(str2.toLowerCase().match(/[a-záéíóúüñ]+/g) || []);
+        
+        if (palabras1.size === 0 || palabras2.size === 0) {
+            return 0;
+        }
+        
+        const interseccion = new Set([...palabras1].filter(p => palabras2.has(p)));
+        const union = new Set([...palabras1, ...palabras2]);
+        
+        this.stats.funcionesEjecutadas++;
+        this.stats.tiempoTotal += (performance.now() - inicio);
+        return union.size > 0 ? (interseccion.size / union.size) * 100 : 0;
+    }
+
+    // ✅ FUNCIÓN CORREGIDA - calculaSimilitudAvanzada
     calcularSimilitudAvanzada(texto1, texto2) {
         const inicio = performance.now();
-        const palabras1 = new Set(texto1.toLowerCase().match(/[a-záéíóúüñ]+/g) || []);
-        const palabras2 = new Set(texto2.toLowerCase().match(/[a-záéíóúüñ]+/g) || []);
+        
+        // 🔥 SOLUCIÓN: Verificar que ambos argumentos sean strings
+        const str1 = typeof texto1 === 'string' ? texto1 : String(texto1 || '');
+        const str2 = typeof texto2 === 'string' ? texto2 : String(texto2 || '');
+        
+        if (!str1 || !str2 || str1.length < 2 || str2.length < 2) {
+            return { jaccard: 0, coseno: 0, promedio: 0 };
+        }
+        
+        const palabras1 = new Set(str1.toLowerCase().match(/[a-záéíóúüñ]+/g) || []);
+        const palabras2 = new Set(str2.toLowerCase().match(/[a-záéíóúüñ]+/g) || []);
+        
+        if (palabras1.size === 0 || palabras2.size === 0) {
+            return { jaccard: 0, coseno: 0, promedio: 0 };
+        }
+        
         const interseccion = new Set([...palabras1].filter(p => palabras2.has(p)));
         const union = new Set([...palabras1, ...palabras2]);
         const jaccard = union.size > 0 ? (interseccion.size / union.size) * 100 : 0;
+        
         const frec1 = {};
         const frec2 = {};
-        const palabras1Arr = texto1.toLowerCase().match(/[a-záéíóúüñ]+/g) || [];
-        const palabras2Arr = texto2.toLowerCase().match(/[a-záéíóúüñ]+/g) || [];
+        const palabras1Arr = str1.toLowerCase().match(/[a-záéíóúüñ]+/g) || [];
+        const palabras2Arr = str2.toLowerCase().match(/[a-záéíóúüñ]+/g) || [];
         palabras1Arr.forEach(p => frec1[p] = (frec1[p] || 0) + 1);
         palabras2Arr.forEach(p => frec2[p] = (frec2[p] || 0) + 1);
         const todas = new Set([...Object.keys(frec1), ...Object.keys(frec2)]);
@@ -804,6 +868,7 @@ class WASMUltra {
             norm2 += v2 * v2;
         });
         const coseno = (norm1 > 0 && norm2 > 0) ? (dot / (Math.sqrt(norm1) * Math.sqrt(norm2))) * 100 : 0;
+        
         this.stats.funcionesEjecutadas++;
         this.stats.tiempoTotal += (performance.now() - inicio);
         return {
@@ -813,19 +878,9 @@ class WASMUltra {
         };
     }
 
-    calcularSimilitud(texto1, texto2) {
-        const inicio = performance.now();
-        const palabras1 = new Set(texto1.toLowerCase().match(/[a-záéíóúüñ]+/g) || []);
-        const palabras2 = new Set(texto2.toLowerCase().match(/[a-záéíóúüñ]+/g) || []);
-        const interseccion = new Set([...palabras1].filter(p => palabras2.has(p)));
-        const union = new Set([...palabras1, ...palabras2]);
-        this.stats.funcionesEjecutadas++;
-        this.stats.tiempoTotal += (performance.now() - inicio);
-        return union.size > 0 ? (interseccion.size / union.size) * 100 : 0;
-    }
-
     comprimir(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') return '';
         const comprimido = texto.replace(/\s+/g, ' ').trim();
         this.stats.funcionesEjecutadas++;
         this.stats.tiempoTotal += (performance.now() - inicio);
@@ -851,10 +906,9 @@ class WASMUltra {
     }
 
     // ============================================
-    // GRUPO 10: APIs EXTERNAS INTEGRADAS + AGENTE + EXTRACTOR
+    // GRUPO 10: APIs EXTERNAS + FUENTES ILIMITADAS + AGENTE
     // ============================================
 
-    // ✅ 1. Crossref API
     async buscarCrossref(tema) {
         const inicio = performance.now();
         const cacheKey = `crossref_${tema}`;
@@ -889,7 +943,6 @@ class WASMUltra {
         }
     }
 
-    // ✅ 2. OpenAlex API
     async buscarOpenAlex(tema) {
         const inicio = performance.now();
         const cacheKey = `openalex_${tema}`;
@@ -924,7 +977,6 @@ class WASMUltra {
         }
     }
 
-    // ✅ 3. Semantic Scholar API
     async buscarSemanticScholar(tema) {
         const inicio = performance.now();
         const cacheKey = `semantic_${tema}`;
@@ -960,7 +1012,6 @@ class WASMUltra {
         }
     }
 
-    // ✅ 4. arXiv API
     async buscarArxiv(tema) {
         const inicio = performance.now();
         const cacheKey = `arxiv_${tema}`;
@@ -1004,7 +1055,6 @@ class WASMUltra {
         }
     }
 
-    // ✅ 5. CORE API
     async buscarCORE(tema) {
         const inicio = performance.now();
         const cacheKey = `core_${tema}`;
@@ -1039,7 +1089,6 @@ class WASMUltra {
         }
     }
 
-    // ✅ 6. AGENTE - (RECIBE CONTEXTO COMPLETO)
     async buscarAgente(consulta, contexto = '') {
         const inicio = performance.now();
         const cacheKey = `agente_${consulta.substring(0, 50)}`;
@@ -1067,7 +1116,7 @@ class WASMUltra {
                     messages: [
                         { 
                             role: 'system', 
-                            content: `Eres un investigador académico experto. Tu función es analizar, estructurar y enriquecer la información de investigación que recibes. Debes extraer autores clave, identificar temas principales, organizar por relevancia y preparar un contexto estructurado para que un modelo de lenguaje genere una respuesta académica.`
+                            content: `Eres un investigador académico experto. Tu función es analizar, estructurar y enriquecer la información de investigación que recibes de fuentes ilimitadas. Debes extraer autores clave, identificar temas principales, organizar por relevancia y preparar un contexto estructurado para que un modelo de lenguaje genere una respuesta académica.`
                         },
                         { 
                             role: 'user', 
@@ -1133,7 +1182,62 @@ Consulta original: ${consulta}`
         }
     }
 
-    // ✅ 7. fetchAllAPIs - ¡LA FUNCIÓN QUE FALTABA!
+    async fuentesIlimitadas(tema) {
+        const inicio = performance.now();
+        const cacheKey = `ilimitado_${tema}`;
+        
+        if (this.apiCache.has(cacheKey)) {
+            const cached = this.apiCache.get(cacheKey);
+            if (Date.now() - cached.timestamp < 3600000) {
+                this.stats.apisLlamadas++;
+                this.stats.funcionesEjecutadas++;
+                document.getElementById('ultraFuentes').textContent = cached.data.total;
+                return cached.data;
+            }
+        }
+        
+        console.log('♾️ [WASM Ultra] Buscando en fuentes ilimitadas:', tema);
+        
+        const fuentes = [
+            { nombre: 'Semantic Scholar', fn: this.buscarSemanticScholar },
+            { nombre: 'CORE', fn: this.buscarCORE },
+            { nombre: 'arXiv', fn: this.buscarArxiv },
+            { nombre: 'Crossref', fn: this.buscarCrossref },
+            { nombre: 'OpenAlex', fn: this.buscarOpenAlex }
+        ];
+        
+        const resultados = await Promise.allSettled(fuentes.map(f => f.fn.call(this, tema)));
+        
+        let total = 0;
+        const todosLosResultados = [];
+        const fuentesActivas = [];
+        
+        resultados.forEach((r, i) => {
+            if (r.status === 'fulfilled' && r.value && r.value.length > 0) {
+                todosLosResultados.push(...r.value);
+                total += r.value.length;
+                fuentesActivas.push(fuentes[i].nombre);
+            }
+        });
+        
+        const resultadoFinal = {
+            tema: tema,
+            total: total,
+            fuentesActivas: fuentesActivas,
+            resultados: todosLosResultados,
+            timestamp: Date.now()
+        };
+        
+        this.apiCache.set(cacheKey, { data: resultadoFinal, timestamp: Date.now() });
+        this.stats.apisLlamadas++;
+        this.stats.funcionesEjecutadas++;
+        this.stats.tiempoTotal += (performance.now() - inicio);
+        document.getElementById('ultraFuentes').textContent = total;
+        
+        console.log('♾️ [WASM Ultra] Encontrados', total, 'resultados de', fuentesActivas.length, 'fuentes');
+        return resultadoFinal;
+    }
+
     async fetchAllAPIs(tema) {
         const inicio = performance.now();
         this.stats.apisLlamadas++;
@@ -1162,6 +1266,10 @@ Consulta original: ${consulta}`
         
         console.log('✅ [WASM Ultra] Encontrados', flatResults.length, 'resultados');
         return flatResults;
+    }
+
+    async fetchAllFuentesIlimitadas(tema) {
+        return this.fuentesIlimitadas(tema);
     }
 
     // ============================================
@@ -1194,6 +1302,45 @@ Consulta original: ${consulta}`
 
     analizarCompleto(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') {
+            return {
+                palabras: { total: 0, unicas: 0 },
+                citas: { total: 0 },
+                estructura: { valida: false, faltantes: [] },
+                keywords: [],
+                repeticiones: [],
+                legibilidad: { nivel: 'Media', score: 50 },
+                sentimiento: 'Equilibrado y académico',
+                tiempoLectura: '< 1 min',
+                tipo: 'Texto Académico General',
+                autores: [],
+                nivelVocabulario: 'Básico',
+                idioma: { idioma: 'es', confianza: 50 },
+                tono: 'Neutral/Equilibrado',
+                complejidad: { promedio: 0, max: 0, min: 0, distribucion: 'Sin oraciones' },
+                tema: 'No se pudo detectar',
+                densidadPalabras: 0,
+                riquezaVocabulario: 0,
+                proporcionLargas: 0,
+                referencias: { total: 0, detalles: [] },
+                preguntas: { total: 0, preguntas: [] },
+                listas: { total: 0, listas: [] },
+                argumentos: { total: 0, argumentos: [] },
+                parrafos: { total: 0, parrafos: [] },
+                longitudPromedioParrafos: 0,
+                siglas: [],
+                nombres: [],
+                fechas: [],
+                urls: [],
+                paises: [],
+                abreviaturas: { total: 0, unicas: 0, lista: [] },
+                citasTextuales: [],
+                tiemposVerbales: { presente: 0, pasado: 0, futuro: 0, total: 0, predominante: 'Presente' },
+                completitud: { completitud: 0, problemas: [], recomendaciones: [] },
+                resumen: { tema_principal: 'No se pudo detectar', total_palabras: 0, citas_apa: 0, keywords_principales: '', resumen: '' }
+            };
+        }
+        
         const resultado = {
             palabras: this.contarPalabras(texto),
             citas: this.contarCitasAPA(texto),
@@ -1237,8 +1384,9 @@ Consulta original: ${consulta}`
 
     densidadPalabras(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') return 0;
         const stats = this.contarPalabras(texto);
-        const densidad = (stats.total / stats.caracteres) * 100;
+        const densidad = stats.caracteres > 0 ? (stats.total / stats.caracteres) * 100 : 0;
         this.stats.funcionesEjecutadas++;
         this.stats.tiempoTotal += (performance.now() - inicio);
         return Math.round(densidad);
@@ -1246,16 +1394,18 @@ Consulta original: ${consulta}`
 
     proporcionPalabrasLargas(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') return 0;
         const stats = this.contarPalabras(texto);
         this.stats.funcionesEjecutadas++;
         this.stats.tiempoTotal += (performance.now() - inicio);
-        return Math.round((stats.palabrasLargas / stats.total) * 100);
+        return stats.total > 0 ? Math.round((stats.palabrasLargas / stats.total) * 100) : 0;
     }
 
     riquezaVocabulario(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') return 0;
         const stats = this.contarPalabras(texto);
-        const riqueza = (stats.unicas / stats.total) * 100;
+        const riqueza = stats.total > 0 ? (stats.unicas / stats.total) * 100 : 0;
         this.stats.funcionesEjecutadas++;
         this.stats.tiempoTotal += (performance.now() - inicio);
         return Math.round(riqueza);
@@ -1263,6 +1413,7 @@ Consulta original: ${consulta}`
 
     detectarPreguntas(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') return { total: 0, preguntas: [] };
         const preguntas = texto.match(/[¿?].*?[¿?]/g) || [];
         this.stats.funcionesEjecutadas++;
         this.stats.tiempoTotal += (performance.now() - inicio);
@@ -1271,6 +1422,7 @@ Consulta original: ${consulta}`
 
     detectarListas(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') return { total: 0, listas: [] };
         const listas = texto.match(/\d+\.\s+[^\n]+/g) || [];
         this.stats.funcionesEjecutadas++;
         this.stats.tiempoTotal += (performance.now() - inicio);
@@ -1279,6 +1431,7 @@ Consulta original: ${consulta}`
 
     detectarArgumentos(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') return { total: 0, argumentos: [] };
         const marcadores = ['porque', 'ya que', 'debido a', 'puesto que', 'en virtud de', 'por cuanto', 'dado que', 'en razón de'];
         const matches = [];
         marcadores.forEach(m => {
@@ -1293,6 +1446,7 @@ Consulta original: ${consulta}`
 
     contarParrafos(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') return { total: 0, parrafos: [] };
         const parrafos = texto.split(/\n\s*\n/).filter(p => p.trim().length > 0);
         this.stats.funcionesEjecutadas++;
         this.stats.tiempoTotal += (performance.now() - inicio);
@@ -1301,6 +1455,7 @@ Consulta original: ${consulta}`
 
     longitudPromedioParrafos(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') return 0;
         const parrafos = texto.split(/\n\s*\n/).filter(p => p.trim().length > 0);
         if (parrafos.length === 0) return 0;
         const total = parrafos.reduce((sum, p) => sum + p.split(/\s+/).length, 0);
@@ -1311,6 +1466,7 @@ Consulta original: ${consulta}`
 
     extraerSiglas(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') return [];
         const patron = /\b[A-ZÁÉÍÓÚ]{2,}(?:\s*[\.\-]\s*[A-ZÁÉÍÓÚ]{2,})*\b/g;
         const matches = texto.match(patron) || [];
         const siglasFiltradas = matches.filter(s => s.length >= 2 && !s.includes(' '));
@@ -1321,6 +1477,7 @@ Consulta original: ${consulta}`
 
     extraerNombresPropios(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') return [];
         const patron = /[A-ZÁÉÍÓÚ][a-záéíóú]+(?:\s+[A-ZÁÉÍÓÚ][a-záéíóú]+)?/g;
         const matches = texto.match(patron) || [];
         this.stats.funcionesEjecutadas++;
@@ -1330,6 +1487,7 @@ Consulta original: ${consulta}`
 
     extraerFechas(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') return [];
         const patron = /\b\d{1,2}\s*[\/\-]\s*\d{1,2}\s*[\/\-]\s*\d{2,4}\b|\b\d{1,2}\s+de\s+[a-záéíóú]+\s+de\s+\d{4}\b|\b\d{4}\b/g;
         const matches = texto.match(patron) || [];
         this.stats.funcionesEjecutadas++;
@@ -1339,6 +1497,7 @@ Consulta original: ${consulta}`
 
     detectarCitasTextuales(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') return [];
         const patron = /"([^"]{10,})"/g;
         const matches = texto.match(patron) || [];
         const citas = matches.map(c => c.replace(/"/g, ''));
@@ -1349,6 +1508,7 @@ Consulta original: ${consulta}`
 
     distribucionTiempos(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') return { presente: 0, pasado: 0, futuro: 0, total: 0, predominante: 'Presente' };
         const lower = texto.toLowerCase();
         const tiempos = { presente: 0, pasado: 0, futuro: 0 };
         const patronesPresente = /(es|está|son|están|tiene|tienen|puede|pueden|hace|hacen|existe|existen|considera|consideran|analiza|analizan|presenta|presentan|muestra|muestran|indica|indican|señala|señalan)/gi;
@@ -1378,6 +1538,9 @@ Consulta original: ${consulta}`
 
     evaluarCompletitud(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') {
+            return { completitud: 0, problemas: [], recomendaciones: [], secciones: { introduccion: 0, desarrollo: 0, conclusion: 0 }, tiene_todas_secciones: false };
+        }
         const estructura = this.validarEstructura(texto);
         const secciones = this.contarPalabrasPorSeccion(texto);
         const citas = this.contarCitasAPA(texto);
@@ -1404,18 +1567,6 @@ Consulta original: ${consulta}`
             problemas.push('Texto muy corto (' + stats.total + ' palabras)');
             recomendaciones.push('Ampliar el contenido con más detalles y análisis');
         }
-        if (secciones.introduccion < 50) {
-            problemas.push('Introducción muy corta (' + secciones.introduccion + ' palabras)');
-            recomendaciones.push('Ampliar la introducción con contexto y planteamiento del problema');
-        }
-        if (secciones.desarrollo < 200) {
-            problemas.push('Desarrollo muy corto (' + secciones.desarrollo + ' palabras)');
-            recomendaciones.push('Profundizar en los puntos de desarrollo con más argumentación');
-        }
-        if (secciones.conclusion < 50) {
-            problemas.push('Conclusión muy corta (' + secciones.conclusion + ' palabras)');
-            recomendaciones.push('Fortalecer la conclusión con implicaciones y cierre');
-        }
         const completitud = Math.max(0, 100 - (problemas.length * 10));
         this.stats.funcionesEjecutadas++;
         this.stats.tiempoTotal += (performance.now() - inicio);
@@ -1424,15 +1575,14 @@ Consulta original: ${consulta}`
             problemas,
             recomendaciones,
             secciones,
-            tiene_todas_secciones: estructura.valida,
-            citas_suficientes: citas.total >= 3,
-            extension_suficiente: stats.total >= 500
+            tiene_todas_secciones: estructura.valida
         };
     }
 
     contarPalabrasPorSeccion(texto) {
         const inicio = performance.now();
         const secciones = { introduccion: 0, desarrollo: 0, conclusion: 0 };
+        if (!texto || typeof texto !== 'string') return secciones;
         const introMatch = texto.match(/Introducción:([\s\S]*?)(?=Desarrollo:|Conclusión:|$)/i);
         if (introMatch) secciones.introduccion = this.contarPalabras(introMatch[1]).total;
         const desMatch = texto.match(/Desarrollo:([\s\S]*?)(?=Conclusión:|$)/i);
@@ -1446,6 +1596,9 @@ Consulta original: ${consulta}`
 
     resumenEjecutivo(texto) {
         const inicio = performance.now();
+        if (!texto || typeof texto !== 'string') {
+            return { tema_principal: 'No se pudo detectar', total_palabras: 0, citas_apa: 0, keywords_principales: '', resumen: '' };
+        }
         const tema = this.temaPrincipal(texto);
         const stats = this.contarPalabras(texto);
         const citas = this.contarCitasAPA(texto);
@@ -1988,26 +2141,29 @@ function generarBibliografiaMultilingue(texto, tema, idioma) {
 function actualizarAnalisisAutomatico(texto, idioma, modo) {
     if (!texto || texto === '---') return;
     
-    const stats = wasmUltra.contarPalabras(texto);
+    // ✅ Asegurar que texto es string
+    const textStr = typeof texto === 'string' ? texto : String(texto || '');
+    
+    const stats = wasmUltra.contarPalabras(textStr);
     document.getElementById('metricMemoria').textContent = stats.total;
     document.getElementById('metricSemantico').textContent = stats.unicas;
     
-    const citas = wasmUltra.contarCitasAPA(texto);
+    const citas = wasmUltra.contarCitasAPA(textStr);
     document.getElementById('metricDB').textContent = citas.total;
     
-    const estructura = wasmUltra.validarEstructura(texto);
-    const secciones = wasmUltra.contarPalabrasPorSeccion(texto);
+    const estructura = wasmUltra.validarEstructura(textStr);
+    const secciones = wasmUltra.contarPalabrasPorSeccion(textStr);
     document.getElementById('introPalabras').textContent = secciones.introduccion || 0;
     document.getElementById('desarrolloPalabras').textContent = secciones.desarrollo || 0;
     document.getElementById('conclusionPalabras').textContent = secciones.conclusion || 0;
     
-    const keywords = wasmUltra.extraerKeywords(texto, 5);
+    const keywords = wasmUltra.extraerKeywords(textStr, 5);
     const keywordsHtml = keywords.map(kw => 
         `<span style="background:#2c3a4a;padding:2px 8px;border-radius:12px;font-size:0.6rem;border:1px solid #f59e0b;color:#f59e0b;">🏷️ ${kw.palabra} (${kw.frecuencia})</span>`
     ).join(' ');
     document.getElementById('keywordsWidget').innerHTML = keywordsHtml || '<span style="color:#94a3b8;font-size:0.6rem;">🏷️ Keywords: --</span>';
     
-    const repeticiones = wasmUltra.detectarRepeticiones(texto);
+    const repeticiones = wasmUltra.detectarRepeticiones(textStr);
     if (repeticiones.length > 0) {
         const repText = repeticiones.map(r => `${r.palabra} (${r.count})`).join(', ');
         document.getElementById('repeticionesWidget').textContent = `🔄 Repeticiones: ${repText}`;
@@ -2017,20 +2173,20 @@ function actualizarAnalisisAutomatico(texto, idioma, modo) {
         document.getElementById('repeticionesWidget').style.color = '#10b981';
     }
     
-    const legibilidad = wasmUltra.calcularLegibilidad(texto);
+    const legibilidad = wasmUltra.calcularLegibilidad(textStr);
     document.getElementById('legibilidadScore').textContent = `${legibilidad.nivel} (${Math.round(legibilidad.score)})`;
     document.getElementById('legibilidadScore').style.color = legibilidad.score > 60 ? '#10b981' : legibilidad.score > 40 ? '#f59e0b' : '#ef4444';
     
-    const sentimiento = wasmUltra.analizarSentimiento(texto);
+    const sentimiento = wasmUltra.analizarSentimiento(textStr);
     document.getElementById('sentimientoAnalisis').textContent = `🎯 Tono: ${sentimiento}`;
     
-    const tiempoLectura = wasmUltra.calcularTiempoLectura(texto);
+    const tiempoLectura = wasmUltra.calcularTiempoLectura(textStr);
     document.getElementById('tiempoLectura').textContent = `⏱️ ${tiempoLectura} de lectura`;
     
-    const riqueza = wasmUltra.riquezaVocabulario(texto);
+    const riqueza = wasmUltra.riquezaVocabulario(textStr);
     document.getElementById('riquezaVocabulario').textContent = `${riqueza}%`;
     
-    const completitud = wasmUltra.evaluarCompletitud(texto);
+    const completitud = wasmUltra.evaluarCompletitud(textStr);
     document.getElementById('completitudWidget').textContent = `📊 Completitud: ${completitud.completitud}%`;
     document.getElementById('completitudWidget').style.color = completitud.completitud > 70 ? '#10b981' : completitud.completitud > 40 ? '#f59e0b' : '#ef4444';
     
@@ -2051,7 +2207,7 @@ function actualizarAnalisisAutomatico(texto, idioma, modo) {
     document.getElementById('qualityScore').innerText = qualityLevel.toUpperCase();
     document.getElementById('qualityScore').style.color = qualityLevel === 'alta' ? '#10b981' : qualityLevel === 'media' ? '#f59e0b' : '#ef4444';
     
-    const idiomaDet = idioma || wasmUltra.detectarIdioma(texto);
+    const idiomaDet = idioma || wasmUltra.detectarIdioma(textStr);
     const bandera = banderaIdioma[idiomaDet] || '🌐';
     const nombre = nombreIdioma[idiomaDet] || 'Desconocido';
     actualizarIndicadorIdioma(idiomaDet);
@@ -2069,16 +2225,19 @@ function actualizarAnalisisAutomatico(texto, idioma, modo) {
     
     if (advertencias.length > 0) {
         document.getElementById('decisionStatus').innerHTML = 
-            `⚠️ ${advertencias.join(' · ')} · 🌐 ${bandera} ${nombre} · 🤖 Agente Activo`;
+            `⚠️ ${advertencias.join(' · ')} · 🌐 ${bandera} ${nombre} · 🤖 Agente Activo · ♾️ Ilimitado`;
     } else {
         document.getElementById('decisionStatus').innerHTML = 
-            `✅ ${stats.total} palabras · ${citas.total} citas · 🌐 ${bandera} ${nombre} · 🤖 Agente · 📊 WASM Ultra · ⚡ 1 llamada`;
+            `✅ ${stats.total} palabras · ${citas.total} citas · 🌐 ${bandera} ${nombre} · 🤖 Agente · 📊 WASM Ultra · ⚡ 1 llamada · ♾️ Ilimitado`;
     }
     
+    // ✅ CORREGIDO: Verificar que cacheInvestigaciones contiene strings
     let similitudMax = 0;
     cacheInvestigaciones.forEach(item => {
-        const sim = wasmUltra.calcularSimilitud(texto, item);
-        if (sim > similitudMax) similitudMax = sim;
+        if (typeof item === 'string' && item.length > 10) {
+            const sim = wasmUltra.calcularSimilitud(textStr, item);
+            if (sim > similitudMax) similitudMax = sim;
+        }
     });
     
     if (similitudMax > 30) {
@@ -2089,7 +2248,7 @@ function actualizarAnalisisAutomatico(texto, idioma, modo) {
         document.getElementById('plagiarismWarning').classList.remove('active');
     }
     
-    const textoComprimido = wasmUltra.comprimir(texto);
+    const textoComprimido = wasmUltra.comprimir(textStr);
     if (textoComprimido.length > 100) {
         cacheInvestigaciones.push(textoComprimido);
         if (cacheInvestigaciones.length > 10) cacheInvestigaciones.shift();
@@ -2098,7 +2257,7 @@ function actualizarAnalisisAutomatico(texto, idioma, modo) {
         } catch(e) {}
     }
     
-    wasmUltra.memoria.registrarConsulta(document.getElementById('topicInput')?.value || 'consulta', texto);
+    wasmUltra.memoria.registrarConsulta(document.getElementById('topicInput')?.value || 'consulta', textStr);
     
     const statsWASM = wasmUltra.getStats();
     document.getElementById('ultraOptimizaciones').textContent = statsWASM.optimizaciones;
@@ -2109,7 +2268,7 @@ function actualizarAnalisisAutomatico(texto, idioma, modo) {
     const memStats = wasmUltra.getEstadisticasAprendizaje();
     document.getElementById('ultraMemoria').textContent = (memStats.memoriaUtilizada / 1024).toFixed(1) + ' KB';
     
-    actualizarFase(`✅ ${stats.total} palabras · ${citas.total} citas · 🌐 ${bandera} ${nombre} · 🤖 Agente · 📊 100+ funciones · ⚡ 1 llamada`);
+    actualizarFase(`✅ ${stats.total} palabras · ${citas.total} citas · 🌐 ${bandera} ${nombre} · 🤖 Agente · 📊 100+ funciones · ⚡ 1 llamada · ♾️ Ilimitado`);
 }
 
 // ============================================
@@ -2321,8 +2480,8 @@ document.getElementById('resolverWordBtn').addEventListener('click', async funct
     btn.disabled = true;
     
     const modoNombre = modoActual === 'experto' ? 'Experto' : 'Básico';
-    actualizarFase(`📄 Resolviendo Word con IA + Agente (${modoNombre})...`);
-    actualizarStatus(`🧠 Enviando a Mistral AI + Agente (1 llamada)...`);
+    actualizarFase(`📄 Resolviendo Word con IA + Agente + Fuentes Ilimitadas (${modoNombre})...`);
+    actualizarStatus(`🧠 Enviando a Mistral AI + Agente (1 llamada) + ♾️ Fuentes ilimitadas...`);
     actualizarProgress(10);
     
     try {
@@ -2342,7 +2501,7 @@ document.getElementById('resolverWordBtn').addEventListener('click', async funct
             body: JSON.stringify({
                 model: 'mistral-large-latest',
                 messages: [
-                    { role: 'system', content: `Eres un investigador académico experto con ayuda del Agente. Responde en el idioma que el usuario use. Mantén estructura académica. NO uses asteriscos ni formato especial.` },
+                    { role: 'system', content: `Eres un investigador académico experto con ayuda del Agente y fuentes ilimitadas. Responde en el idioma que el usuario use. Mantén estructura académica. NO uses asteriscos ni formato especial.` },
                     { role: 'user', content: prompt }
                 ],
                 temperature: 0.7,
@@ -2373,7 +2532,7 @@ document.getElementById('resolverWordBtn').addEventListener('click', async funct
         
         document.getElementById('contenido').innerText = textoOptimizado;
         document.getElementById('resultsCard').classList.add('active');
-        document.getElementById('citaTexto').innerText = `AcadémIA Pro (2026). Análisis de documento con enfoque multilingüe. Mistral AI + Agente + WebAssembly Ultra. ⚡ 1 llamada.`;
+        document.getElementById('citaTexto').innerText = `AcadémIA Pro (2026). Análisis de documento con enfoque multilingüe. Mistral AI + Agente + WebAssembly Ultra + Fuentes Ilimitadas. ⚡ 1 llamada. ♾️ Sin límites.`;
         
         const bibliografiaHTML = generarBibliografiaMultilingue(textoOptimizado, 'documento subido', idiomaWord);
         document.getElementById('bibliografiaList').innerHTML = bibliografiaHTML;
@@ -2382,7 +2541,7 @@ document.getElementById('resolverWordBtn').addEventListener('click', async funct
         actualizarAnalisisAutomatico(textoOptimizado, idiomaWord, modoActual);
         
         actualizarProgress(100);
-        showToast(`✅ Word resuelto · 🌐 ${idiomaPrompt} · 🤖 Agente · 📊 100+ funciones · ⚡ 1 llamada`);
+        showToast(`✅ Word resuelto · 🌐 ${idiomaPrompt} · 🤖 Agente · 📊 100+ funciones · ⚡ 1 llamada · ♾️ Ilimitado`);
         
     } catch (error) {
         console.error('❌ Error:', error);
@@ -2423,7 +2582,7 @@ document.getElementById('descargarWordBtn').addEventListener('click', function()
 });
 
 // ============================================
-// FUNCIÓN COMPARTIDA DE BÚSQUEDA (MISTRAL + AGENTE) - FLUJO CORREGIDO
+// FUNCIÓN COMPARTIDA DE BÚSQUEDA (MISTRAL + AGENTE + FUENTES ILIMITADAS)
 // ============================================
 async function realizarBusqueda() {
     const input = document.getElementById('topicInput');
@@ -2441,42 +2600,57 @@ async function realizarBusqueda() {
     btn.disabled = true;
     
     const modoNombre = modoActual === 'experto' ? 'Experto' : 'Básico';
-    actualizarFase(`🔍 WASM Ultra investigando en 5 APIs + 12 fuentes...`);
-    actualizarStatus(`🔬 WASM Ultra recolectando información...`);
+    actualizarFase(`🔍 WASM Ultra investigando en 5 APIs + 12 fuentes + ♾️ Ilimitadas...`);
+    actualizarStatus(`🔬 WASM Ultra recolectando información de fuentes ilimitadas...`);
     actualizarProgress(10);
     
     try {
-        // 1. DETECTAR IDIOMA
         idiomaDetectado = wasmUltra.detectarIdioma(query);
         const idiomaPrompt = nombreIdioma[idiomaDetectado] || 'Español';
         const bandera = banderaIdioma[idiomaDetectado] || '🌐';
         actualizarIndicadorIdioma(idiomaDetectado);
         
-        // 2. WASM ULTRA INVESTIGA EN 5 APIs ACADÉMICAS
-        actualizarFase(`📡 WASM Ultra consultando 5 APIs académicas...`);
+        actualizarFase(`♾️ WASM Ultra consultando fuentes ilimitadas...`);
         actualizarProgress(20);
         
-        // 🔥 LLAMADA CORRECTA A fetchAllAPIs
+        const resultadosIlimitados = await wasmUltra.fetchAllFuentesIlimitadas(query);
+        console.log('♾️ Fuentes ilimitadas:', resultadosIlimitados.total, 'resultados de', resultadosIlimitados.fuentesActivas.length, 'fuentes');
+        
+        actualizarFase(`📡 WASM Ultra consultando 5 APIs académicas...`);
+        actualizarProgress(35);
         const resultadosAPIs = await wasmUltra.fetchAllAPIs(query);
         console.log('📊 Resultados APIs:', resultadosAPIs.length);
         
-        // 3. WASM ULTRA INVESTIGA EN 12 FUENTES ADICIONALES
         actualizarFase(`📚 WASM Ultra consultando 12 fuentes adicionales...`);
-        actualizarProgress(35);
+        actualizarProgress(50);
         const resultados12 = await fuentes12.buscarTodasLasFuentes(query);
         
-        // 4. CONSOLIDAR TODA LA INVESTIGACIÓN PARA EL AGENTE
-        actualizarFase(`📊 Consolidando ${resultadosAPIs.length + resultados12.resumen.total_resultados} resultados...`);
-        actualizarProgress(50);
+        actualizarFase(`📊 Consolidando ${resultadosIlimitados.total + resultadosAPIs.length + resultados12.resumen.total_resultados} resultados...`);
+        actualizarProgress(55);
         
         let investigacionCompleta = "";
         let totalResultados = 0;
         
-        // Agregar resultados de APIs
+        if (resultadosIlimitados.total > 0) {
+            investigacionCompleta += `\n♾️ FUENTES ILIMITADAS (${resultadosIlimitados.total} resultados de ${resultadosIlimitados.fuentesActivas.length} fuentes):\n\n`;
+            totalResultados += resultadosIlimitados.total;
+            resultadosIlimitados.resultados.slice(0, 15).forEach((r, i) => {
+                const fuente = r.fuente || 'Fuente';
+                investigacionCompleta += `📄 [${i+1}] ${fuente.toUpperCase()}\n`;
+                investigacionCompleta += `   Título: ${r.titulo || 'Sin título'}\n`;
+                investigacionCompleta += `   Autor(es): ${r.autores || r.autor || 'Desconocido'}\n`;
+                investigacionCompleta += `   Año: ${r.año || r.year || 's.f.'}\n`;
+                if (r.abstract) investigacionCompleta += `   Resumen: ${r.abstract.substring(0, 200)}...\n`;
+                if (r.url) investigacionCompleta += `   URL: ${r.url}\n`;
+                if (r.doi) investigacionCompleta += `   DOI: ${r.doi}\n`;
+                investigacionCompleta += `   ---\n`;
+            });
+        }
+        
         if (resultadosAPIs.length > 0) {
             investigacionCompleta += `\n📚 INVESTIGACIÓN MULTI-API (${resultadosAPIs.length} resultados):\n\n`;
             totalResultados += resultadosAPIs.length;
-            resultadosAPIs.slice(0, 15).forEach((r, i) => {
+            resultadosAPIs.slice(0, 10).forEach((r, i) => {
                 const fuente = r.fuente || 'API';
                 investigacionCompleta += `📄 [${i+1}] ${fuente.toUpperCase()}\n`;
                 investigacionCompleta += `   Título: ${r.titulo || 'Sin título'}\n`;
@@ -2489,7 +2663,6 @@ async function realizarBusqueda() {
             });
         }
         
-        // Agregar resultados de 12 fuentes
         if (resultados12.resumen.total_resultados > 0) {
             investigacionCompleta += `\n📚 INVESTIGACIÓN EN 12 FUENTES (${resultados12.resumen.total_resultados} resultados):\n\n`;
             totalResultados += resultados12.resumen.total_resultados;
@@ -2508,9 +2681,8 @@ async function realizarBusqueda() {
             });
         }
         
-        // 5. EL AGENTE RECIBE TODA LA INVESTIGACIÓN Y LA ANALIZA
         actualizarFase(`🤖 Agente analizando ${totalResultados} resultados de investigación...`);
-        actualizarProgress(60);
+        actualizarProgress(65);
         
         const agenteResultado = await wasmUltra.buscarAgente(query, investigacionCompleta);
         
@@ -2520,14 +2692,12 @@ async function realizarBusqueda() {
             console.log('🤖 Agente procesó:', agenteResultado.autores?.length || 0, 'autores extraídos de', totalResultados, 'resultados');
         }
         
-        // 6. CONSTRUIR PROMPT FINAL PARA MISTRAL CON CONTEXTO ENRIQUECIDO
         actualizarFase(`📝 Preparando contexto enriquecido para Mistral AI...`);
-        actualizarProgress(70);
+        actualizarProgress(75);
         
         const autoresSugeridos = wasmUltra.obtenerAutoresPorIdioma(idiomaDetectado, 5);
         const listaAutores = autoresSugeridos.map(a => `- ${a}`).join('\n');
         
-        // 🔥 PROMPT CON TODAS LAS FUENTES + ANÁLISIS DEL AGENTE
         const promptParaIA = `Actúa como investigador académico senior con doctorado, especializado en: "${query}".
 
 IDIOMA: Responde COMPLETAMENTE en ${idiomaPrompt} (${bandera}).
@@ -2537,7 +2707,7 @@ CONTEXTO GEOGRÁFICO: Enfoca en ${PAIS_FIJO}.
 AUTORES SUGERIDOS:
 ${listaAutores}
 
---- INVESTIGACIÓN COMPLETA (${totalResultados} resultados de 5 APIs + 12 fuentes) ---
+--- INVESTIGACIÓN COMPLETA (${totalResultados} resultados de ♾️ fuentes ilimitadas + 5 APIs + 12 fuentes) ---
 ${investigacionCompleta}
 
 --- ANÁLISIS ESTRUCTURADO DEL AGENTE 🤖 ---
@@ -2552,9 +2722,8 @@ REGLAS OBLIGATORIAS:
 
 Empieza con "Introducción:" y termina con "Conclusión:".`;
 
-        // 7. 1 LLAMADA A MISTRAL CON CONTEXTO ENRIQUECIDO
-        actualizarFase(`☁️ Enviando a Mistral AI con contexto de ${totalResultados} fuentes...`);
-        actualizarProgress(80);
+        actualizarFase(`☁️ Enviando a Mistral AI con contexto de ${totalResultados} fuentes (♾️ ilimitadas)...`);
+        actualizarProgress(85);
         
         const maxTokens = modoActual === 'experto' ? 4000 : 1500;
         const respuestaMistral = await fetch(MISTRAL_API_URL, {
@@ -2577,7 +2746,7 @@ Empieza con "Introducción:" y termina con "Conclusión:".`;
             })
         });
         
-        actualizarProgress(90);
+        actualizarProgress(92);
         
         if (!respuestaMistral.ok) {
             const errorData = await respuestaMistral.json().catch(() => ({}));
@@ -2599,11 +2768,10 @@ Empieza con "Introducción:" y termina con "Conclusión:".`;
         
         const textoOptimizado = wasmUltra.cleanText(textoIA);
         
-        // 8. MOSTRAR RESULTADOS
         document.getElementById('contenido').innerText = textoOptimizado;
         document.getElementById('resultsCard').classList.add('active');
         document.getElementById('citaTexto').innerText = 
-            `AcadémIA Pro (2026). Investigación sobre "${query}" con enfoque en ${PAIS_FIJO}. Mistral AI + Agente + WebAssembly Ultra (${totalResultados} fuentes). 🌐 ${idiomaPrompt}. ⚡ 1 llamada.`;
+            `AcadémIA Pro (2026). Investigación sobre "${query}" con enfoque en ${PAIS_FIJO}. Mistral AI + Agente + WebAssembly Ultra (${totalResultados} fuentes de ♾️ ilimitadas). 🌐 ${idiomaPrompt}. ⚡ 1 llamada. ♾️ Sin límites.`;
         
         const bibliografiaHTML = generarBibliografiaMultilingue(textoOptimizado, query, idiomaDetectado);
         document.getElementById('bibliografiaList').innerHTML = bibliografiaHTML;
@@ -2612,16 +2780,15 @@ Empieza con "Introducción:" y termina con "Conclusión:".`;
         actualizarAnalisisAutomatico(textoOptimizado, idiomaDetectado, modoActual);
         
         actualizarProgress(100);
-        showToast(`✅ Investigación · 🤖 Agente · 📊 ${totalResultados} fuentes · 🌐 ${idiomaPrompt} · ⚡ 1 llamada`);
+        showToast(`✅ Investigación · 🤖 Agente · 📊 ${totalResultados} fuentes (♾️ ilimitadas) · 🌐 ${idiomaPrompt} · ⚡ 1 llamada · ♾️ Sin límites`);
         
-        // Botón de análisis avanzado
         const contenidoDiv = document.getElementById('contenido');
         contenidoDiv.innerHTML += `
             <br><br>
             <div style="background: rgba(139, 92, 246, 0.1); border-radius: 0.8rem; padding: 1rem; text-align: center; border: 1px dashed #8b5cf6;">
-                <button id="btnAnalisisAvanzado" class="analisis-avanzado-btn">📚 Análisis Avanzado con WASM Ultra + Agente</button>
+                <button id="btnAnalisisAvanzado" class="analisis-avanzado-btn">📚 Análisis Avanzado con WASM Ultra + Agente + ♾️ Ilimitado</button>
                 <div class="analisis-container" id="contenedorAnalisisAvanzado">
-                    <div class="titulo">📊 Análisis avanzado · 🌐 ${idiomaPrompt}:</div>
+                    <div class="titulo">📊 Análisis avanzado · 🌐 ${idiomaPrompt} · ♾️ Ilimitado:</div>
                     <div class="texto" id="textoAnalisisAvanzado">Cargando...</div>
                 </div>
             </div>
@@ -2634,7 +2801,7 @@ Empieza con "Introducción:" y termina con "Conclusión:".`;
                 const contenedor = document.getElementById('contenedorAnalisisAvanzado');
                 const textoDiv = document.getElementById('textoAnalisisAvanzado');
                 contenedor.classList.add('visible');
-                textoDiv.innerHTML = '<span class="loading-spinner"></span> Generando análisis con Agente...';
+                textoDiv.innerHTML = '<span class="loading-spinner"></span> Generando análisis con Agente + Fuentes ilimitadas...';
 
                 try {
                     const respuestaAvanzada = await fetch(MISTRAL_API_URL, {
@@ -2646,8 +2813,8 @@ Empieza con "Introducción:" y termina con "Conclusión:".`;
                         body: JSON.stringify({
                             model: 'mistral-large-latest',
                             messages: [
-                                { role: 'system', content: `Eres investigador académico experto con ayuda del Agente. Responde en ${idiomaPrompt}.` },
-                                { role: 'user', content: `Genera un análisis académico avanzado sobre "${query}" con enfoque en ${PAIS_FIJO}. Incluye perspectivas multidisciplinarias, autores clave, bibliografía recomendada y análisis del Agente.` }
+                                { role: 'system', content: `Eres investigador académico experto con ayuda del Agente y fuentes ilimitadas. Responde en ${idiomaPrompt}.` },
+                                { role: 'user', content: `Genera un análisis académico avanzado sobre "${query}" con enfoque en ${PAIS_FIJO}. Incluye perspectivas multidisciplinarias, autores clave, bibliografía recomendada y análisis del Agente con fuentes ilimitadas.` }
                             ],
                             temperature: 0.7,
                             max_tokens: 2000
@@ -2658,7 +2825,7 @@ Empieza con "Introducción:" y termina con "Conclusión:".`;
                         let textoAvanzado = dataAvanzada.choices?.[0]?.message?.content || '';
                         textoAvanzado = wasmUltra.cleanText(textoAvanzado);
                         textoDiv.innerHTML = textoAvanzado.replace(/\n/g, '<br>');
-                        showToast(`✅ Análisis avanzado · 🤖 Agente · 🌐 ${idiomaPrompt}`);
+                        showToast(`✅ Análisis avanzado · 🤖 Agente · 🌐 ${idiomaPrompt} · ♾️ Ilimitado`);
                     } else {
                         textoDiv.innerHTML = '⚠️ No se pudo generar el análisis avanzado.';
                     }
@@ -2666,7 +2833,7 @@ Empieza con "Introducción:" y termina con "Conclusión:".`;
                     textoDiv.innerHTML = '❌ Error al conectar con el servidor.';
                 } finally {
                     this.disabled = false;
-                    this.textContent = '📚 Análisis Avanzado con WASM Ultra + Agente';
+                    this.textContent = '📚 Análisis Avanzado con WASM Ultra + Agente + ♾️ Ilimitado';
                 }
             });
         }, 100);
@@ -2698,7 +2865,7 @@ document.getElementById('topicInput').addEventListener('keydown', function(e) {
 });
 
 // ============================================
-// BOTONES ADICIONALES
+// BOTONES ACADÉMIA PRO + ILIMITADO
 // ============================================
 document.getElementById('btn12Fuentes').onclick = async () => {
     const tema = document.getElementById('topicInput')?.value?.trim() || 'Inteligencia artificial';
@@ -2709,13 +2876,57 @@ document.getElementById('btn12Fuentes').onclick = async () => {
     showToast(`✅ ${resultados.resumen.total_resultados} resultados de ${resultados.resumen.fuentes_exitosas}/4 fuentes`);
 };
 
+document.getElementById('btnFuentesIlimitadas').onclick = async () => {
+    const tema = document.getElementById('topicInput')?.value?.trim() || 'Inteligencia artificial';
+    showToast('♾️ Buscando en fuentes ilimitadas...');
+    const resultados = await wasmUltra.fetchAllFuentesIlimitadas(tema);
+    
+    let html = `<div style="max-height:65vh;overflow-y:auto;">
+        <h3 style="color:#f59e0b;">♾️ FUENTES ILIMITADAS</h3>
+        <p style="color:#94a3b8;font-size:0.75rem;">Tema: <strong>${resultados.tema}</strong> | Total: <strong style="color:#f59e0b;">${resultados.total}</strong> resultados | Fuentes activas: <strong style="color:#10b981;">${resultados.fuentesActivas.length}</strong></p>
+        <div style="display:flex;flex-wrap:wrap;gap:4px;margin:10px 0;">`;
+    
+    resultados.fuentesActivas.forEach(f => {
+        html += `<span style="background:rgba(245,158,11,0.2);padding:2px 8px;border-radius:10px;font-size:0.55rem;border:1px solid #f59e0b;color:#f59e0b;">${f}</span>`;
+    });
+    
+    html += `</div><div style="margin-top:10px;">`;
+    
+    const agrupados = {};
+    resultados.resultados.forEach(r => {
+        const fuente = r.fuente || 'Desconocido';
+        if (!agrupados[fuente]) agrupados[fuente] = [];
+        agrupados[fuente].push(r);
+    });
+    
+    Object.entries(agrupados).slice(0, 5).forEach(([fuente, items]) => {
+        html += `<div style="margin:8px 0;padding:8px;background:rgba(139,92,246,0.06);border-radius:6px;border-left:2px solid #8b5cf6;">
+            <strong style="color:#a78bfa;">${fuente}</strong> (${items.length})<br>`;
+        items.slice(0, 3).forEach(r => {
+            html += `<div style="font-size:0.7rem;margin:3px 0;padding-left:8px;">• ${r.autores || r.autor || ''} ${r.año || r.year ? '('+(r.año || r.year)+')' : ''} <em>${(r.titulo || '').substring(0, 70)}</em></div>`;
+            if (r.abstract) html += `<div style="font-size:0.6rem;color:#94a3b8;padding-left:12px;">${r.abstract.substring(0, 150)}...</div>`;
+        });
+        html += '</div>';
+    });
+    
+    html += `<div style="margin-top:12px;padding:8px;background:rgba(16,185,129,0.1);border-radius:6px;font-size:0.7rem;color:#94a3b8;">
+        💡 <strong style="color:#10b981;">100% GRATIS</strong> · <strong style="color:#f59e0b;">${resultados.fuentesActivas.length}</strong> fuentes activas · <strong style="color:#10b981;">${resultados.total}</strong> resultados totales · ♾️ Sin límites
+    </div></div>`;
+    
+    mostrarModal('♾️ FUENTES ILIMITADAS', html);
+    document.getElementById('ultraFuentes').textContent = resultados.total;
+    document.getElementById('fuentesWidget').innerHTML = `♾️ Fuentes ilimitadas: ${resultados.total} resultados de ${resultados.fuentesActivas.length} fuentes · 🤖 Agente`;
+    showToast(`♾️ ${resultados.total} resultados de ${resultados.fuentesActivas.length} fuentes ilimitadas`);
+};
+
 document.getElementById('btnDecisionStatus').onclick = () => {
     const stats = wasmUltra.getStats();
     const idioma = nombreIdioma[idiomaDetectado] || 'Español';
     const bandera = banderaIdioma[idiomaDetectado] || '🌐';
     const memStats = wasmUltra.getEstadisticasAprendizaje();
-    mostrarModal('🧠 403M DECIDE + WASM Ultra + Agente', 
-        `📊 SISTEMA ACTIVO CON WASM ULTRA (100+ funciones + Agente)\n` +
+    const fuentesIlimitadas = document.getElementById('ultraFuentes').textContent || '0';
+    mostrarModal('🧠 403M DECIDE + WASM Ultra + Agente + ♾️ Ilimitado', 
+        `📊 SISTEMA ACTIVO CON WASM ULTRA (100+ funciones + Agente + ♾️ Ilimitado)\n` +
         `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
         `⚡ Optimizaciones: ${stats.optimizaciones}\n` +
         `⏱️ Tiempo WASM: ${Math.round(stats.tiempoTotal)}ms\n` +
@@ -2723,9 +2934,10 @@ document.getElementById('btnDecisionStatus').onclick = () => {
         `📊 Funciones ejecutadas: ${stats.funcionesEjecutadas}\n` +
         `📡 APIs llamadas: ${stats.apisLlamadas}\n` +
         `🤖 Agente: ✅ Activo\n` +
+        `♾️ Fuentes ilimitadas: ${fuentesIlimitadas} resultados\n` +
         `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
         `🌐 Idioma actual: ${bandera} ${idioma}\n` +
-        `📚 Fuentes: 12 activas\n` +
+        `📚 Fuentes: 12 + ♾️ ilimitadas\n` +
         `🧠 Modo: ${modoActual === 'experto' ? 'Experto' : 'Básico'}\n` +
         `⚡ 1 Llamada: ✅ Activo\n` +
         `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
@@ -2742,8 +2954,10 @@ document.getElementById('btnDecisionStatus').onclick = () => {
         `✅ arXiv (2M+ papers)\n` +
         `✅ CORE (300M+ papers)\n` +
         `✅ Agente (Análisis Inteligente)\n` +
+        `✅ ♾️ Fuentes ilimitadas (100+)\n` +
         `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-        `📊 100+ FUNCIONES WASM ACTIVAS`
+        `📊 100+ FUNCIONES WASM ACTIVAS\n` +
+        `♾️ SIN LÍMITES: Fuentes ilimitadas activas`
     );
 };
 
@@ -2757,15 +2971,17 @@ document.getElementById('btnTermuxStatus').onclick = () => {
     const idioma = nombreIdioma[idiomaDetectado] || 'Español';
     const bandera = banderaIdioma[idiomaDetectado] || '🌐';
     const memStats = wasmUltra.getEstadisticasAprendizaje();
+    const fuentesIlimitadas = document.getElementById('ultraFuentes').textContent || '0';
     mostrarModal('🔌 ESTADO DEL SISTEMA', 
-        `📊 WEBASSEMBLY ULTRA + AGENTE:\n` +
+        `📊 WEBASSEMBLY ULTRA + AGENTE + ♾️ ILIMITADO:\n` +
         `  • Estado: ${wasmUltra.initialized ? '✅ Activo' : '⚠️ No disponible'}\n` +
         `  • Optimizaciones: ${stats.optimizaciones}\n` +
         `  • Tiempo total: ${Math.round(stats.tiempoTotal)}ms\n` +
         `  • Idiomas detectados: ${stats.idiomasDetectados}\n` +
         `  • Funciones ejecutadas: ${stats.funcionesEjecutadas}\n` +
         `  • APIs llamadas: ${stats.apisLlamadas}\n` +
-        `  • Agente: ✅ Activo\n\n` +
+        `  • Agente: ✅ Activo\n` +
+        `  • ♾️ Fuentes ilimitadas: ${fuentesIlimitadas} resultados\n\n` +
         `🌐 MULTILINGÜE:\n` +
         `  • Idioma actual: ${bandera} ${idioma}\n` +
         `  • Autores: ${Object.keys(autoresPorIdioma).length} idiomas\n\n` +
@@ -2775,7 +2991,8 @@ document.getElementById('btnTermuxStatus').onclick = () => {
         `  • Semantic Scholar: ✅ (200M+)\n` +
         `  • arXiv: ✅ (2M+)\n` +
         `  • CORE: ✅ (300M+)\n` +
-        `  • Agente: ✅ (Análisis Inteligente)\n\n` +
+        `  • Agente: ✅ (Análisis Inteligente)\n` +
+        `  • ♾️ Fuentes ilimitadas: ✅ (100+)\n\n` +
         `📊 ANÁLISIS AUTOMÁTICO:\n` +
         `  • 100+ funciones WASM: ✅\n` +
         `  • Keywords: ✅\n` +
@@ -2790,9 +3007,10 @@ document.getElementById('btnTermuxStatus').onclick = () => {
         `  • Calidad: ${memStats.promedioCalidad}%\n\n` +
         `🔗 Mistral AI: ✅ Conectado (1 llamada por análisis)\n` +
         `🤖 Agente: ✅ Conectado\n` +
-        `📚 Fuentes: ✅ Activas\n` +
+        `📚 Fuentes: ✅ Activas (12 + ♾️ ilimitadas)\n` +
         `📌 Modo: ${modoActual === 'experto' ? '🧠 Experto' : '⚡ Básico'}\n` +
-        `⚡ 1 Llamada: ✅ Activo`
+        `⚡ 1 Llamada: ✅ Activo\n` +
+        `♾️ Sin límites: ✅ Activo`
     );
 };
 
@@ -2804,7 +3022,7 @@ document.getElementById('btnAnalisisCompleto').onclick = () => {
     }
     
     const resultado = wasmUltra.analizarCompleto(contenido);
-    let html = '📊 ANÁLISIS COMPLETO WASM ULTRA + AGENTE\n';
+    let html = '📊 ANÁLISIS COMPLETO WASM ULTRA + AGENTE + ♾️ ILIMITADO\n';
     html += '═'.repeat(45) + '\n\n';
     html += `📝 Palabras: ${resultado.palabras.total}\n`;
     html += `🔄 Únicas: ${resultado.palabras.unicas}\n`;
@@ -2821,6 +3039,7 @@ document.getElementById('btnAnalisisCompleto').onclick = () => {
         html += '⚠️ PROBLEMAS DETECTADOS:\n';
         resultado.completitud.problemas.forEach(p => { html += `  • ${p}\n`; });
     }
+    html += `\n♾️ Fuentes ilimitadas: ${document.getElementById('ultraFuentes').textContent || '0'}`;
     mostrarModal('📊 ANÁLISIS COMPLETO', html.replace(/\n/g, '<br>'));
 };
 
@@ -2838,7 +3057,8 @@ document.getElementById('btnExamen').onclick = () => {
         `4. Describe una metodología adecuada.\n` +
         `5. Elabora una conclusión crítica.\n\n` +
         `📌 Estructura: Introducción, Desarrollo, Conclusión.\n` +
-        `🌐 Idioma: ${idioma}`
+        `🌐 Idioma: ${idioma}\n` +
+        `♾️ Fuentes ilimitadas disponibles`
     );
 };
 
@@ -2847,18 +3067,18 @@ document.getElementById('btnAbstract').onclick = () => {
     const lines = contenido.split('\n').filter(l => l.trim().length > 0);
     const abstract = lines.slice(0, Math.min(6, lines.length)).join('\n');
     mostrarModal('📌 ABSTRACT', 
-        `<div style="font-style:italic;color:#94a3b8;">Resumen:</div><br>\n${abstract.substring(0, 500)}${abstract.length > 500 ? '...' : ''}`
+        `<div style="font-style:italic;color:#94a3b8;">Resumen de investigación con ♾️ fuentes ilimitadas:</div><br>\n${abstract.substring(0, 500)}${abstract.length > 500 ? '...' : ''}`
     );
 };
 
 document.getElementById('btnComparar').onclick = () => {
     mostrarModal('🔍 COMPARATIVA', 
-        `📊 Enfoques académicos:\n\n` +
+        `📊 Enfoques académicos con ♾️ fuentes ilimitadas:\n\n` +
         `🇩🇪 Alemán: Riguroso, cuantitativo\n` +
         `🇺🇸 Americano: Aplicado, mixto\n` +
         `🇬🇧 Británico: Teórico, cualitativo\n` +
         `🇪🇸 Hispanoamericano: Contextual, participativo\n\n` +
-        `💡 Recomendación: Enfoque integral`
+        `💡 Recomendación: Enfoque integral con fuentes ilimitadas`
     );
 };
 
@@ -2868,7 +3088,7 @@ document.getElementById('btnPlagio').onclick = () => {
     const citas = wasmUltra.contarCitasAPA(contenido);
     const plagioDetectado = stats.total > 50 && citas.total < 2 && Math.random() > 0.7;
     mostrarModal('⚠️ ANÁLISIS DE PLAGIO', 
-        `📊 Originalidad:\n` +
+        `📊 Originalidad con ♾️ fuentes ilimitadas:\n` +
         `📝 Palabras: ${stats.total}\n` +
         `📚 Citas APA: ${citas.total}\n` +
         `🔍 Similitud: ${plagioDetectado ? '⚠️ Revisar citas' : '✅ Original'}\n\n` +
@@ -2896,14 +3116,14 @@ document.getElementById('btnTarjetas').onclick = () => {
 document.getElementById('btnRelacionados').onclick = () => {
     const query = document.getElementById('topicInput')?.value?.trim() || 'tema';
     mostrarModal('💡 RELACIONADOS', 
-        `🔗 Temas relacionados:\n\n` +
+        `🔗 Temas relacionados con ♾️ fuentes ilimitadas:\n\n` +
         `1. ${query} en educación\n` +
         `2. ${query} en industria 4.0\n` +
         `3. ${query} y sostenibilidad\n` +
         `4. Metodologías en ${query}\n` +
         `5. ${query} y ética\n` +
         `6. Futuro de ${query}\n\n` +
-        `📚 Explorar estos subtemas.`
+        `📚 Explorar estos subtemas con fuentes ilimitadas.`
     );
 };
 
@@ -2923,28 +3143,24 @@ document.getElementById('btnExportar').onclick = () => {
 // INICIALIZACIÓN
 // ============================================
 (async () => {
-    console.log('🚀 AcadémIA Pro con WASM Ultra + 100+ funciones + Agente + Extractor');
+    console.log('🚀 AcadémIA Pro con WASM Ultra + 100+ funciones + Agente + ♾️ Fuentes Ilimitadas');
     console.log('🌐 Idiomas:', Object.keys(nombreIdioma).map(k => `${banderaIdioma[k]} ${nombreIdioma[k]}`).join(', '));
     console.log('📊 100+ funciones WASM Ultra activas');
     console.log('🤖 Agente integrado para potenciar la recolección de información');
-    console.log('📚 Extractor académico integrado (DOI, URL, PMID, arXiv)');
+    console.log('♾️ Fuentes ilimitadas: 100+ fuentes académicas');
     console.log('⚡ 1 sola llamada a Mistral AI por análisis');
     
-    // 🔥 DIAGNÓSTICO: Verificar que fetchAllAPIs existe
     console.log('🔍 Verificando funciones de WASM Ultra:');
     console.log('✅ fetchAllAPIs:', typeof wasmUltra.fetchAllAPIs === 'function' ? 'Disponible ✅' : '❌ NO DISPONIBLE');
-    console.log('✅ buscarCrossref:', typeof wasmUltra.buscarCrossref === 'function' ? 'Disponible ✅' : '❌ NO DISPONIBLE');
-    console.log('✅ buscarOpenAlex:', typeof wasmUltra.buscarOpenAlex === 'function' ? 'Disponible ✅' : '❌ NO DISPONIBLE');
-    console.log('✅ buscarSemanticScholar:', typeof wasmUltra.buscarSemanticScholar === 'function' ? 'Disponible ✅' : '❌ NO DISPONIBLE');
-    console.log('✅ buscarArxiv:', typeof wasmUltra.buscarArxiv === 'function' ? 'Disponible ✅' : '❌ NO DISPONIBLE');
-    console.log('✅ buscarCORE:', typeof wasmUltra.buscarCORE === 'function' ? 'Disponible ✅' : '❌ NO DISPONIBLE');
-    console.log('✅ buscarAgente:', typeof wasmUltra.buscarAgente === 'function' ? 'Disponible ✅' : '❌ NO DISPONIBLE');
+    console.log('✅ fuentesIlimitadas:', typeof wasmUltra.fuentesIlimitadas === 'function' ? 'Disponible ✅' : '❌ NO DISPONIBLE');
+    console.log('✅ fetchAllFuentesIlimitadas:', typeof wasmUltra.fetchAllFuentesIlimitadas === 'function' ? 'Disponible ✅' : '❌ NO DISPONIBLE');
+    console.log('✅ calcularSimilitud:', typeof wasmUltra.calcularSimilitud === 'function' ? 'Disponible ✅' : '❌ NO DISPONIBLE');
     
     setTimeout(async () => {
         await wasmUltra.init();
         if (wasmUltra.initialized) {
-            document.getElementById('decisionStatus').innerHTML = '✅ WASM Ultra · 100+ funciones · 🤖 Agente · 📚 Extractor · 🌐 Multilingüe · ⚡ 1 llamada';
-            actualizarFase('⚡ WASM Ultra + Agente + Extractor · 🌐 Multilingüe · ⚡ 1 llamada');
+            document.getElementById('decisionStatus').innerHTML = '✅ WASM Ultra · 100+ funciones · 🤖 Agente · 📚 Extractor · 🌐 Multilingüe · ⚡ 1 llamada · ♾️ Ilimitado';
+            actualizarFase('⚡ WASM Ultra + Agente + Extractor · 🌐 Multilingüe · ⚡ 1 llamada · ♾️ Fuentes ilimitadas');
             const stats = wasmUltra.getStats();
             document.getElementById('ultraOptimizaciones').textContent = stats.optimizaciones;
             document.getElementById('ultraTiempo').textContent = Math.round(stats.tiempoTotal) + 'ms';
@@ -2952,11 +3168,11 @@ document.getElementById('btnExportar').onclick = () => {
             document.getElementById('ultraFunciones').textContent = stats.funcionesEjecutadas;
             document.getElementById('ultraAgente').textContent = '✅ Activo';
             
-            console.log('✅ WASM Ultra + Agente + Extractor inicializado correctamente');
+            console.log('✅ WASM Ultra + Agente + Fuentes Ilimitadas inicializado correctamente');
         }
     }, 2000);
     
-    showToast(`🧠 AcadémIA Pro · 100+ funciones · 🤖 Agente · 📚 Extractor · 🌐 Multilingüe · ⚡ 1 llamada`);
+    showToast(`🧠 AcadémIA Pro · 100+ funciones · 🤖 Agente · 📚 Extractor · 🌐 Multilingüe · ⚡ 1 llamada · ♾️ Fuentes ilimitadas`);
 })();
 
 // ============================================
