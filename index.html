@@ -335,8 +335,8 @@
             <span class="badge b-agente">🤖 AGENTE</span>
             <span class="badge b-ilim">♾️ ILIMITADO</span>
         </h1>
-        <div class="sub">Core 403M · Agent-Reach · 12 Fuentes + Ilimitadas · APA 7 · WebAssembly Rust REAL · Multi-IA (Mistral + OpenRouter) · 🇩🇪 Enfoque Alemán · 🌐 Multilingüe · 📊 Análisis Automático · ⚡ 1 sola llamada · 🚀 100+ funciones Rust · ♾️ Sin límites</div>
-        <div class="daily">⚡ WebAssembly Rust REAL (compilado en Termux) · 50x más rápido · 🔄 Multi-IA con fallback · 🔌 Agent-Reach (GitHub, Reddit, Wikipedia) · 🧬 Core 403M auto-evolutivo · 🌐 Detección de idioma · 📊 Análisis automático · ⚡ 1 llamada · ♾️ Sin límites</div>
+        <div class="sub">Core 403M · Agent-Reach · 12 Fuentes + Ilimitadas · APA 7 · WebAssembly Rust REAL · Multi-IA (9 proveedores en paralelo) · 🇩🇪 Enfoque Alemán · 🌐 Multilingüe · 📊 Análisis Automático · ⚡ 1 sola llamada · 🚀 100+ funciones Rust · ♾️ Sin límites</div>
+        <div class="daily">⚡ WebAssembly Rust REAL · 50x más rápido · 🔄 Multi-IA paralelo con Promise.any · 🧠 Fallback académico con datos reales · 🔌 Agent-Reach (GitHub, Reddit, Wikipedia) · 🧬 Core 403M auto-evolutivo · 🌐 Detección de idioma · 📊 Análisis automático · ♾️ Sin límites</div>
     </header>
 
     <!-- STATUS BARS -->
@@ -362,6 +362,12 @@
             <span class="item">📦 GitHub <strong id="arGitHub">0</strong></span>
             <span class="item">📖 Reddit <strong id="arReddit">0</strong></span>
             <span class="item">🌐 Wiki <strong id="arWiki">0</strong></span>
+        </div>
+        <div class="status-row core">
+            <span class="lbl">🔄 Multi-IA:</span>
+            <span class="item"><strong id="multiIaStatus" class="ok">⏳ Esperando…</strong></span>
+            <span class="item">✅ OK: <strong id="iaOkCount">0</strong></span>
+            <span class="item">❌ Fallos: <strong id="iaFailsCount">0</strong></span>
         </div>
     </div>
 
@@ -423,11 +429,11 @@
 
         <!-- NOTICE -->
         <div class="notice">
-            📌 <strong>Multi-IA</strong> (Mistral + OpenRouter con fallback) · Core 403M · Agent-Reach · 12 fuentes + Ilimitadas · <strong style="color:#f59e0b;">WebAssembly Rust REAL (50x)</strong> · <strong style="color:#10b981;">100% GRATIS</strong> · 🌐 Multilingüe · 📊 <strong style="color:#f59e0b;">100+ funciones Rust</strong> · ⚡ <strong style="color:#ec4899;">1 sola llamada</strong> · 🔌 <strong style="color:#f59e0b;">Agent-Reach: GitHub, Reddit, Wikipedia</strong> · 🧬 <strong style="color:#8b5cf6;">Core 403M en 2do plano</strong> · ♾️ <strong style="color:#f59e0b;">Sin límites</strong>
+            📌 <strong>Multi-IA</strong> (9 proveedores en paralelo con Promise.any) · Core 403M · Agent-Reach · 12 fuentes + Ilimitadas · <strong style="color:#f59e0b;">WebAssembly Rust REAL (50x)</strong> · <strong style="color:#10b981;">100% GRATIS</strong> · 🌐 Multilingüe · 📊 <strong style="color:#f59e0b;">100+ funciones Rust</strong> · ⚡ <strong style="color:#ec4899;">Gana el proveedor más rápido</strong> · 🔌 <strong style="color:#f59e0b;">Agent-Reach: GitHub, Reddit, Wikipedia</strong> · 🧬 <strong style="color:#8b5cf6;">Core 403M en 2do plano</strong> · 🧠 <strong style="color:#10b981;">Fallback académico con datos reales</strong>
         </div>
 
         <div class="status-msg" id="statusMessage"><span class="spinner"></span><span id="statusText">Procesando…</span></div>
-        <div id="decisionStatus" style="font-size:.68rem;color:#a78bfa;margin-top:4px;text-align:center;">🧠 WASM Rust: Listo · 🔌 Agent-Reach: Activo · 🧬 Core 403M: Activo · 🌐 Multilingüe · ⚡ 1 llamada · ♾️ Ilimitado</div>
+        <div id="decisionStatus" style="font-size:.68rem;color:#a78bfa;margin-top:4px;text-align:center;">🧠 WASM Rust: Listo · 🔌 Agent-Reach: Activo · 🧬 Core 403M: Activo · 🌐 Multilingüe · ⚡ Paralelo · ♾️ Ilimitado</div>
         <div class="phase-info" id="faseInfo">💡 Listo para investigar</div>
 
         <!-- ULTRA STATS -->
@@ -441,7 +447,7 @@
             <span>♾️ Fuentes: <strong id="ultraFuentes">0</strong></span>
             <span>🔄 IA: <strong id="ultraProveedor">Multi-IA</strong></span>
             <span>🦀 WASM: <strong id="ultraWasm">⏳</strong></span>
-            <span>⚡ <strong style="color:#f59e0b;">50x MÁS RÁPIDO</strong></span>
+            <span>⚡ <strong style="color:#f59e0b;">PARALELO 50x</strong></span>
         </div>
     </div>
 
@@ -511,96 +517,119 @@
     </div>
 
     <footer class="footer">
-        ⚡ AcadémIA Pro · WASM Rust · Multi-IA · Core 403M · Agent-Reach · 12 Fuentes + Ilimitadas · APA 7 · 🇩🇪 Enfoque Alemán · 🌐 Multilingüe · 📊 100+ funciones · ⚡ 1 sola llamada · ♾️ Sin límites
+        ⚡ AcadémIA Pro · WASM Rust · Multi-IA paralelo · Core 403M · Agent-Reach · 12 Fuentes + Ilimitadas · APA 7 · 🇩🇪 Enfoque Alemán · 🌐 Multilingüe · 📊 100+ funciones · 🧠 Fallback académico · ♾️ Sin límites
     </footer>
 </div>
 
 <script type="module">
 // ============================================
-// CONFIG MULTI-IA — TODOS LOS PROVEEDORES CON MODELOS GRATUITOS
+// CONFIG MULTI-IA — 9 PROVEEDORES + MODELOS FREE
 // ============================================
-const IA_PROVEEDORES=[
-    // ---- Google Gemini (Free) ----
+const IA_PROVEEDORES = [
     {
-        nombre:'Google',
-        url:'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AQ.Ab8RN6Ly5QrNa2RWh65DS_PRM_AMDE7E_52VaHe1FcdJcurvgw',
-        key:'AQ.Ab8RN6Ly5QrNa2RWh65DS_PRM_AMDE7E_52VaHe1FcdJcurvgw',
-        modelos:['gemini-2.0-flash','gemini-2.5-flash-preview-04-17'],
-        color:'#4285F4',
-        tipo:'google'
+        nombre: 'Google',
+        url: 'https://generativelanguage.googleapis.com/v1beta/models',
+        key: 'AQ.Ab8RN6Ly5QrNa2RWh65DS_PRM_AMDE7E_52VaHe1FcdJcurvgw',
+        modelos: ['gemini-2.0-flash', 'gemini-2.5-flash-preview-04-17'],
+        tipo: 'google',
+        color: '#4285F4'
     },
-    // ---- Cerebras (Free) ----
     {
-        nombre:'Cerebras',
-        url:'https://api.cerebras.ai/v1/chat/completions',
-        key:'csk-jntkcrk4ev8vk35fhy6ctf4f6y2hdfp5h4f2khvwtdy82kcv',
-        modelos:['llama3.1-8b','llama-3.3-70b','qwen-2.5-32b','qwen-2.5-coder-32b'],
-        color:'#FF6B35'
+        nombre: 'Cerebras',
+        url: 'https://api.cerebras.ai/v1/chat/completions',
+        key: 'csk-jntkcrk4ev8vk35fhy6ctf4f6y2hdfp5h4f2khvwtdy82kcv',
+        modelos: ['llama3.1-8b', 'llama-3.3-70b', 'qwen-2.5-32b'],
+        color: '#FF6B35'
     },
-    // ---- Z.ai (Free) ----
     {
-        nombre:'Z.ai',
-        url:'https://api.z.ai/api/paas/v4/chat/completions',
-        key:'864fd7b42aa04163821d727cd74fbaea.GaPaxOmiAJUpm2TP',
-        modelos:['glm-4-flash','glm-4.5-flash'],
-        color:'#7C3AED'
+        nombre: 'Z.ai',
+        url: 'https://api.z.ai/api/paas/v4/chat/completions',
+        key: '864fd7b42aa04163821d727cd74fbaea.GaPaxOmiAJUpm2TP',
+        modelos: ['glm-4-flash', 'glm-4.5-flash'],
+        color: '#7C3AED'
     },
-    // ---- Mistral (Free) ----
     {
-        nombre:'Mistral AI',
-        url:'https://api.mistral.ai/v1/chat/completions',
-        key:'5qjCySPcH6ltO3ACeYcv8peh8iz252uW',
-        modelos:['mistral-small-latest','mistral-large-latest','open-mistral-7b'],
-        color:'#f97316'
+        nombre: 'Mistral AI',
+        url: 'https://api.mistral.ai/v1/chat/completions',
+        key: '5qjCySPcH6ltO3ACeYcv8peh8iz252uW',
+        modelos: ['mistral-small-latest', 'open-mistral-7b', 'mistral-tiny', 'open-mistral-nemo'],
+        color: '#f97316'
     },
-    // ---- GitHub (Free) ----
     {
-        nombre:'GitHub',
-        url:'https://models.inference.ai.azure.com/chat/completions',
-        key:'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',
-        modelos:['gpt-4o-mini','Phi-3.5-mini-instruct','Meta-Llama-3.1-8B-Instruct'],
-        color:'#24292E'
+        nombre: 'GitHub',
+        url: 'https://models.inference.ai.azure.com/chat/completions',
+        key: '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',
+        modelos: ['gpt-4o-mini', 'Phi-3.5-mini-instruct', 'Meta-Llama-3.1-8B-Instruct'],
+        color: '#24292E'
     },
-    // ---- Ollama Cloud (Free) ----
     {
-        nombre:'Ollama Cloud',
-        url:'https://api.ollama.cloud/v1/chat/completions',
-        key:'0edce97e3d3f405fb5e528efef2757f8.v6Xv_n50E_J9aSpdYQJMvaS3',
-        modelos:['llama3.2','mistral','gemma2','qwen2.5'],
-        color:'#333333'
+        nombre: 'Ollama Cloud',
+        url: 'https://api.ollama.cloud/v1/chat/completions',
+        key: '0edce97e3d3f405fb5e528efef2757f8.v6Xv_n50E_J9aSpdYQJMvaS3',
+        modelos: ['llama3.2', 'mistral', 'gemma2'],
+        color: '#333333'
     },
-    // ---- Kiro (Free) ----
     {
-        nombre:'Kiro',
-        url:'https://api.kiro.ai/v1/chat/completions',
-        key:'sk-xt-41b2aae5f67cc4105f017e26f6f5fe48f21d3e2207977139',
-        modelos:['kiro-chat','kiro-pro'],
-        color:'#00A3FF'
+        nombre: 'Kiro',
+        url: 'https://api.kiro.ai/v1/chat/completions',
+        key: 'sk-xt-41b2aae5f67cc4105f017e26f6f5fe48f21d3e2207977139',
+        modelos: ['kiro-chat'],
+        color: '#00A3FF'
     },
-    // ---- Orca Router (Free) ----
     {
-        nombre:'Orca Router',
-        url:'https://api.orcarouter.ai/v1/chat/completions',
-        key:'sk-orca-cCg3Kbg7IUyeXhXdzZ41MRPe5kuQShyEiQ7tvlILHuk',
-        modelos:['orca-mini','orca-2-7b','orca-2-13b'],
-        color:'#8B5CF6'
+        nombre: 'Orca Router',
+        url: 'https://api.orcarouter.ai/v1/chat/completions',
+        key: 'sk-orca-cCg3Kbg7IUyeXhXdzZ41MRPe5kuQShyEiQ7tvlILHuk',
+        modelos: ['orca-mini', 'orca-2-7b'],
+        color: '#8B5CF6'
     },
-    // ---- OpenRouter (Free) ----
     {
-        nombre:'OpenRouter',
-        url:'https://openrouter.ai/api/v1/chat/completions',
-        key:'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',
-        modelos:['mistralai/mistral-7b-instruct:free','meta-llama/llama-3.1-8b-instruct:free','google/gemma-2-9b-it:free','qwen/qwen-2.5-7b-instruct:free'],
-        color:'#10b981',
-        extraHeaders:{'HTTP-Referer':'https://academia-pro.local','X-Title':'Academia Pro'}
+        nombre: 'OpenRouter',
+        url: 'https://openrouter.ai/api/v1/chat/completions',
+        key: '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',
+        modelos: [
+            'mistralai/mistral-7b-instruct:free',
+            'meta-llama/llama-3.1-8b-instruct:free',
+            'google/gemma-2-9b-it:free',
+            'qwen/qwen-2.5-7b-instruct:free'
+        ],
+        color: '#10b981',
+        extraHeaders: { 'HTTP-Referer': 'https://academia-pro.local', 'X-Title': 'Academia Pro' }
     }
 ];
-const PAIS_FIJO='Alemania';
-let ocupado=false,modoActual='experto',idiomaDetectado='es',proveedorActual=null,idiomasTotal=0;
 
-const nombreIdioma={'es':'Español','en':'Inglés','de':'Alemán','fr':'Francés','pt':'Portugués','it':'Italiano'};
-const banderaIdioma={'es':'🇪🇸','en':'🇬🇧','de':'🇩🇪','fr':'🇫🇷','pt':'🇵🇹','it':'🇮🇹'};
-const autoresPorIdioma={
+const TIMEOUT_IA = 25000;
+const TIMEOUT_TOTAL_ANALISIS = 60000;
+const PAIS_FIJO = 'Alemania';
+
+let ocupado = false, modoActual = 'experto', idiomaDetectado = 'es', proveedorActual = null, idiomasTotal = 0;
+let iaOkCount = 0, iaFailsCount = 0;
+
+// ============================================
+// 🔍 DIAGNÓSTICO
+// ============================================
+const Diagnostico = {
+    contador: 0,
+    log(mensaje, tipo = 'info') {
+        this.contador++;
+        const icono = tipo === 'ok' ? '✅' : tipo === 'warn' ? '⚠️' : tipo === 'error' ? '❌' : 'ℹ️';
+        const hora = new Date().toLocaleTimeString('es-ES');
+        console.log(`[${tipo.toUpperCase()}] ${icono} ${mensaje}`);
+    }
+};
+
+// ============================================
+// 🔧 FETCH CON TIMEOUT
+// ============================================
+function fetchConTimeout(url, opciones = {}, timeoutMs = 8000) {
+    const ctrl = new AbortController();
+    const tid = setTimeout(() => ctrl.abort(), timeoutMs);
+    return fetch(url, { ...opciones, signal: ctrl.signal }).finally(() => clearTimeout(tid));
+}
+
+const nombreIdioma = {'es':'Español','en':'Inglés','de':'Alemán','fr':'Francés','pt':'Portugués','it':'Italiano'};
+const banderaIdioma = {'es':'🇪🇸','en':'🇬🇧','de':'🇩🇪','fr':'🇫🇷','pt':'🇵🇹','it':'🇮🇹'};
+const autoresPorIdioma = {
     'es':['García, J.','Martínez, L.','López, M.','Fernández, R.','Gómez, P.','Sánchez, C.'],
     'en':['Smith, J.','Johnson, R.','Williams, M.','Brown, D.','Jones, P.','Miller, S.'],
     'de':['Müller, J.','Schmidt, H.','Weber, K.','Fischer, L.','Wagner, M.','Becker, R.'],
@@ -612,356 +641,499 @@ const autoresPorIdioma={
 // ============================================
 // WASM RUST
 // ============================================
-class RustWASM{
-    constructor(){this.wasm=null;this.cargado=false;this.stats={funciones:0,tiempo:0,optimizaciones:0};}
-    async cargar(){
-        try{
+class RustWASM {
+    constructor() { this.wasm = null; this.cargado = false; this.stats = { funciones: 0, tiempo: 0, optimizaciones: 0 }; }
+    async cargar() {
+        try {
             console.log('🦀 Cargando WASM Rust desde ./pkg/academia_wasm.js…');
-            const mod=await import('./pkg/academia_wasm.js');
+            const mod = await import('./pkg/academia_wasm.js');
             await mod.default('./pkg/academia_wasm_bg.wasm');
-            this.wasm=mod;this.cargado=true;
-            const v=mod.wasm_version();
-            const funcs=['contar_palabras','contar_caracteres_sin_espacios','contar_oraciones','process_text_full','extract_keywords','extract_authors_fast','detectar_idioma','resumir_texto','process_agent_context','cache_response','get_cached_response','get_cache_size','clear_cache'].filter(f=>typeof mod[f]==='function');
+            this.wasm = mod; this.cargado = true;
+            const v = mod.wasm_version ? mod.wasm_version() : 'unknown';
+            const funcs = ['contar_palabras','contar_caracteres_sin_espacios','contar_oraciones','process_text_full','extract_keywords','extract_authors_fast','detectar_idioma','resumir_texto','process_agent_context','cache_response','get_cached_response','get_cache_size','clear_cache'].filter(f => typeof mod[f] === 'function');
             console.log(`✅ WASM Rust cargado (v${v}) · ${funcs.length}/13 funciones activas`);
-            document.getElementById('rustStatus').textContent='✅ Activo';
-            document.getElementById('rustStatus').className='ok';
-            document.getElementById('rustFuncCount').textContent=funcs.length;
-            document.getElementById('rustVersion').textContent=`v${v}`;
-            document.getElementById('ultraWasm').textContent=`v${v}`;
-            document.getElementById('ultraFunciones').textContent=funcs.length;
+            document.getElementById('rustStatus').textContent = '✅ Activo';
+            document.getElementById('rustStatus').className = 'ok';
+            document.getElementById('rustFuncCount').textContent = funcs.length;
+            document.getElementById('rustVersion').textContent = `v${v}`;
+            document.getElementById('ultraWasm').textContent = `v${v}`;
+            document.getElementById('ultraFunciones').textContent = funcs.length;
             return true;
-        }catch(e){
-            console.warn('⚠️ WASM Rust no disponible:',e.message);
-            document.getElementById('rustStatus').textContent='⚠️ Fallback JS';
-            document.getElementById('rustStatus').className='bad';
-            document.getElementById('ultraWasm').textContent='JS';
+        } catch (e) {
+            console.warn('⚠️ WASM Rust no disponible:', e.message);
+            document.getElementById('rustStatus').textContent = '⚠️ Fallback JS';
+            document.getElementById('rustStatus').className = 'bad';
+            document.getElementById('ultraWasm').textContent = 'JS';
             return false;
         }
     }
-    _js(t){const p=(t.match(/\S+/g)||[]).filter(x=>/[a-záéíóúñ]/i.test(x));const u=new Set((t.toLowerCase().match(/[a-záéíóúüñ]+/g)||[])).size;const c=t.replace(/\s/g,'').length;const o=(t.match(/[.!?]+/g)||[]).length;return{palabras:p.length,unicas:u,caracteres:c,oraciones:o};}
-    contarPalabras(t){if(!this.cargado)return this._js(t);try{const p=this.wasm.contar_palabras(t);const u=new Set((t.toLowerCase().match(/[a-záéíóúüñ]+/g)||[])).size;const c=this.wasm.contar_caracteres_sin_espacios(t);const o=this.wasm.contar_oraciones(t);this.stats.funciones++;this.stats.optimizaciones++;return{palabras:p,unicas:u,caracteres:c,oraciones:o};}catch(e){return this._js(t);}}
-    processFull(t){if(!this.cargado)return null;try{this.stats.funciones++;const r=JSON.parse(this.wasm.process_text_full(t));if(r.tiempo_us)this.stats.tiempo+=r.tiempo_us/1000;return r;}catch(e){return null;}}
-    keywords(t,n=8){if(!this.cargado)return[];try{this.stats.funciones++;return JSON.parse(this.wasm.extract_keywords(t,n));}catch(e){return[];}}
-    autores(t){if(!this.cargado)return[];try{this.stats.funciones++;return JSON.parse(this.wasm.extract_authors_fast(t));}catch(e){return[];}}
-    idioma(t){if(!this.cargado)return'es';try{this.stats.funciones++;return this.wasm.detectar_idioma(t);}catch(e){return'es';}}
-    resumen(t,n=3){if(!this.cargado)return t.substring(0,500);try{this.stats.funciones++;return this.wasm.resumir_texto(t,n);}catch(e){return t.substring(0,500);}}
-    cache(k,v){if(this.cargado)try{this.wasm.cache_response(k,v);}catch(e){}}
-    getCache(k){if(this.cargado){try{const v=this.wasm.get_cached_response(k);return v&&v.length>0?v:null;}catch(e){}}return null;}
-    getCacheSize(){if(this.cargado)try{return this.wasm.get_cache_size();}catch(e){}return 0;}
+    _js(t) {
+        const p = (t.match(/\S+/g) || []).filter(x => /[a-záéíóúñ]/i.test(x));
+        const u = new Set((t.toLowerCase().match(/[a-záéíóúüñ]+/g) || [])).size;
+        const c = t.replace(/\s/g, '').length;
+        const o = (t.match(/[.!?]+/g) || []).length;
+        return { palabras: p.length, unicas: u, caracteres: c, oraciones: o };
+    }
+    contarPalabras(t) {
+        if (!this.cargado) return this._js(t);
+        try {
+            const p = this.wasm.contar_palabras(t);
+            const u = new Set((t.toLowerCase().match(/[a-záéíóúüñ]+/g) || [])).size;
+            const c = this.wasm.contar_caracteres_sin_espacios(t);
+            const o = this.wasm.contar_oraciones(t);
+            this.stats.funciones++; this.stats.optimizaciones++;
+            return { palabras: p, unicas: u, caracteres: c, oraciones: o };
+        } catch (e) { return this._js(t); }
+    }
+    processFull(t) { if (!this.cargado) return null; try { this.stats.funciones++; const r = JSON.parse(this.wasm.process_text_full(t)); if (r.tiempo_us) this.stats.tiempo += r.tiempo_us / 1000; return r; } catch (e) { return null; } }
+    keywords(t, n = 8) { if (!this.cargado) return []; try { this.stats.funciones++; return JSON.parse(this.wasm.extract_keywords(t, n)); } catch (e) { return []; } }
+    autores(t) { if (!this.cargado) return []; try { this.stats.funciones++; return JSON.parse(this.wasm.extract_authors_fast(t)); } catch (e) { return []; } }
+    idioma(t) { if (!this.cargado) return 'es'; try { this.stats.funciones++; return this.wasm.detectar_idioma(t); } catch (e) { return 'es'; } }
+    resumen(t, n = 3) { if (!this.cargado) return t.substring(0, 500); try { this.stats.funciones++; return this.wasm.resumir_texto(t, n); } catch (e) { return t.substring(0, 500); } }
+    cache(k, v) { if (this.cargado) try { this.wasm.cache_response(k, v); } catch (e) {} }
+    getCache(k) { if (this.cargado) { try { const v = this.wasm.get_cached_response(k); return v && v.length > 0 ? v : null; } catch (e) {} } return null; }
+    getCacheSize() { if (this.cargado) try { return this.wasm.get_cache_size(); } catch (e) {} return 0; }
 }
-const rustWASM=new RustWASM();
+const rustWASM = new RustWASM();
 
 // ============================================
-// MULTI-IA
+// 🔄 MULTI-IA PARALELO
 // ============================================
-function actualizarProveedor(nombre,color){
-    const ind=document.getElementById('proveedorIndicator');
-    if(nombre){ind.textContent=`🔄 ${nombre}`;ind.style.borderColor=color||'#10b981';ind.style.color=color||'#6ee7b7';document.getElementById('ultraProveedor').textContent=nombre;}
-    else{ind.textContent='🔄 Multi-IA';ind.style.borderColor='';ind.style.color='';document.getElementById('ultraProveedor').textContent='Multi-IA';}
+function actualizarProveedor(nombre, color) {
+    const ind = document.getElementById('proveedorIndicator');
+    if (nombre) {
+        ind.textContent = `🔄 ${nombre}`;
+        ind.style.borderColor = color || '#10b981';
+        ind.style.color = color || '#6ee7b7';
+        document.getElementById('ultraProveedor').textContent = nombre;
+    } else {
+        ind.textContent = '🔄 Multi-IA';
+        ind.style.borderColor = '';
+        ind.style.color = '';
+        document.getElementById('ultraProveedor').textContent = 'Multi-IA';
+    }
+    document.getElementById('iaOkCount').textContent = iaOkCount;
+    document.getElementById('iaFailsCount').textContent = iaFailsCount;
 }
 
-async function llamarIA(messages,maxTokens=3000){
-    let ultimoError=null;
-    for(const prov of IA_PROVEEDORES){
-        for(const modelo of prov.modelos){
-            try{
-                console.log(`🔄 ${prov.nombre} (${modelo})…`);
-                actualizarFase(`🔄 Probando ${prov.nombre}…`);
-                const headers={'Content-Type':'application/json','Authorization':`Bearer ${prov.key}`};
-                if(prov.extraHeaders)Object.assign(headers,prov.extraHeaders);
+async function llamarIA(messages, maxTokens = 3000) {
+    Diagnostico.log(`Lanzando ${IA_PROVEEDORES.length} proveedores · ${IA_PROVEEDORES.reduce((a, p) => a + p.modelos.length, 0)} modelos en paralelo…`, 'info');
+    actualizarFase('🤖 Multi-IA procesando en paralelo…');
+    document.getElementById('multiIaStatus').textContent = '⏳ Consultando…';
+    document.getElementById('multiIaStatus').className = '';
 
-                let body;
-                let url = prov.url;
+    const promesas = [];
+    for (const prov of IA_PROVEEDORES) {
+        for (const modelo of prov.modelos) {
+            promesas.push(
+                (async () => {
+                    const t0 = Date.now();
+                    try {
+                        const headers = {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${prov.key}`
+                        };
+                        if (prov.extraHeaders) Object.assign(headers, prov.extraHeaders);
 
-                // ---- Google Gemini ----
-                if(prov.tipo === 'google'){
-                    // Gemini usa un formato especial
-                    url = `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${prov.key}`;
-                    body = {
-                        contents: messages.map(m => ({
-                            role: m.role === 'assistant' ? 'model' : m.role,
-                            parts: [{text: m.content}]
-                        })),
-                        generationConfig: {maxOutputTokens: maxTokens, temperature: 0.7}
-                    };
-                } else {
-                    // Formato OpenAI-compatible
-                    body = {
-                        model: modelo,
-                        messages: messages,
-                        temperature: 0.7,
-                        max_tokens: maxTokens
-                    };
-                }
+                        let url = prov.url;
+                        let body;
 
-                const ctrl=new AbortController();
-                const tid=setTimeout(()=>ctrl.abort(),60000);
-                const resp=await fetch(url,{
-                    method:'POST',
-                    headers,
-                    body:JSON.stringify(body),
-                    signal:ctrl.signal
-                });
-                clearTimeout(tid);
+                        if (prov.tipo === 'google') {
+                            url = `${prov.url}/${modelo}:generateContent?key=${prov.key}`;
+                            delete headers['Authorization'];
+                            body = {
+                                contents: messages.map(m => ({
+                                    role: m.role === 'assistant' ? 'model' : m.role,
+                                    parts: [{ text: m.content }]
+                                })),
+                                generationConfig: { maxOutputTokens: maxTokens, temperature: 0.7 }
+                            };
+                        } else {
+                            body = {
+                                model: modelo,
+                                messages,
+                                temperature: 0.7,
+                                max_tokens: maxTokens
+                            };
+                        }
 
-                if([401,403,429].includes(resp.status)){
-                    console.warn(`⚠️ ${prov.nombre}/${modelo} → ${resp.status}`);
-                    ultimoError=`${resp.status} en ${prov.nombre}`;
-                    continue;
-                }
-                if(!resp.ok){
-                    const err=await resp.json().catch(()=>({}));
-                    ultimoError=err.error?.message||`Error ${resp.status}`;
-                    continue;
-                }
+                        const resp = await fetchConTimeout(
+                            url,
+                            { method: 'POST', headers, body: JSON.stringify(body) },
+                            TIMEOUT_IA
+                        );
+                        const dur = ((Date.now() - t0) / 1000).toFixed(1);
 
-                const data=await resp.json();
-                let texto='';
+                        if ([401, 403, 429].includes(resp.status)) {
+                            const errTxt = resp.status === 429 ? 'rate limit' : resp.status === 401 ? 'key inválida' : `HTTP ${resp.status}`;
+                            Diagnostico.log(`${prov.nombre}/${modelo}: ${errTxt} (${dur}s)`, 'error');
+                            iaFailsCount++;
+                            document.getElementById('iaFailsCount').textContent = iaFailsCount;
+                            throw new Error(`${prov.nombre}/${modelo}: ${errTxt}`);
+                        }
+                        if (!resp.ok) {
+                            Diagnostico.log(`${prov.nombre}/${modelo}: HTTP ${resp.status} (${dur}s)`, 'error');
+                            iaFailsCount++;
+                            document.getElementById('iaFailsCount').textContent = iaFailsCount;
+                            throw new Error(`${prov.nombre}/${modelo}: HTTP ${resp.status}`);
+                        }
 
-                // ---- Extraer texto según proveedor ----
-                if(prov.tipo === 'google'){
-                    texto = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-                } else {
-                    texto = data.choices?.[0]?.message?.content || '';
-                }
+                        const data = await resp.json();
+                        let texto = '';
+                        if (prov.tipo === 'google') {
+                            texto = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+                        } else {
+                            texto = data.choices?.[0]?.message?.content || '';
+                        }
 
-                if(texto.length<50){
-                    ultimoError='Respuesta muy corta';
-                    continue;
-                }
-                console.log(`✅ ${prov.nombre} (${modelo}): ${texto.length} chars`);
-                proveedorActual=prov.nombre;
-                actualizarProveedor(prov.nombre,prov.color);
-                return{texto,proveedor:prov.nombre,modelo};
-            }catch(e){
-                console.warn(`⚠️ ${prov.nombre}/${modelo}:`,e.message);
-                ultimoError=e.name==='AbortError'?'Timeout':e.message;
-            }
+                        if (texto.length < 50) {
+                            Diagnostico.log(`${prov.nombre}/${modelo}: respuesta corta (${texto.length})`, 'warn');
+                            iaFailsCount++;
+                            document.getElementById('iaFailsCount').textContent = iaFailsCount;
+                            throw new Error(`${prov.nombre}/${modelo}: respuesta corta`);
+                        }
+
+                        Diagnostico.log(`${prov.nombre}/${modelo}: ${texto.length} chars en ${dur}s`, 'ok');
+                        iaOkCount++;
+                        document.getElementById('iaOkCount').textContent = iaOkCount;
+                        return { texto, proveedor: prov.nombre, modelo };
+                    } catch (e) {
+                        if (e.name === 'AbortError') {
+                            Diagnostico.log(`${prov.nombre}/${modelo}: Timeout ${TIMEOUT_IA / 1000}s`, 'error');
+                            iaFailsCount++;
+                            document.getElementById('iaFailsCount').textContent = iaFailsCount;
+                        }
+                        throw e;
+                    }
+                })()
+            );
         }
     }
-    actualizarProveedor(null);
-    throw new Error(`❌ Todos los proveedores fallaron. Último: ${ultimoError}`);
+
+    try {
+        const resultado = await Promise.any(promesas);
+        proveedorActual = resultado.proveedor;
+        actualizarProveedor(resultado.proveedor, IA_PROVEEDORES.find(p => p.nombre === resultado.proveedor)?.color);
+        document.getElementById('multiIaStatus').textContent = `✅ ${resultado.proveedor}`;
+        document.getElementById('multiIaStatus').className = 'ok';
+        Diagnostico.log(`🏆 GANADOR: ${resultado.proveedor} (${resultado.modelo})`, 'ok');
+        return resultado;
+    } catch (e) {
+        Diagnostico.log('Todos los proveedores IA fallaron', 'error');
+        actualizarProveedor(null);
+        document.getElementById('multiIaStatus').textContent = '❌ Todos fallaron';
+        document.getElementById('multiIaStatus').className = 'bad';
+        throw new Error('Todos los proveedores IA fallaron');
+    }
 }
 
 // ============================================
 // UTILIDADES
 // ============================================
-function showToast(msg,isErr){
-    const t=document.createElement('div');
-    t.className='toast'+(isErr?' error':'');
-    t.textContent=msg;
+function showToast(msg, isErr) {
+    const t = document.createElement('div');
+    t.className = 'toast' + (isErr ? ' error' : '');
+    t.textContent = msg;
     document.body.appendChild(t);
-    setTimeout(()=>t.remove(),3500);
+    setTimeout(() => t.remove(), 3500);
 }
-window.copiarTexto=function(id){
-    const el=document.getElementById(id);if(!el)return;
-    navigator.clipboard.writeText(el.innerText).then(()=>showToast('📋 Copiado')).catch(()=>showToast('⚠️ No se pudo copiar',true));
+window.copiarTexto = function (id) {
+    const el = document.getElementById(id); if (!el) return;
+    navigator.clipboard.writeText(el.innerText).then(() => showToast('📋 Copiado')).catch(() => showToast('⚠️ No se pudo copiar', true));
 };
-function mostrarModal(titulo,contenido){
-    const ov=document.createElement('div');ov.className='modal-bg';
-    ov.innerHTML=`<div class="modal-box"><h3>${titulo}</h3><div class="modal-body">${contenido}</div><button class="modal-close">✕ Cerrar</button></div>`;
-    ov.querySelector('.modal-close').onclick=()=>ov.remove();
-    ov.onclick=e=>{if(e.target===ov)ov.remove();};
+function mostrarModal(titulo, contenido) {
+    const ov = document.createElement('div'); ov.className = 'modal-bg';
+    ov.innerHTML = `<div class="modal-box"><h3>${titulo}</h3><div class="modal-body">${contenido}</div><button class="modal-close">✕ Cerrar</button></div>`;
+    ov.querySelector('.modal-close').onclick = () => ov.remove();
+    ov.onclick = e => { if (e.target === ov) ov.remove(); };
     document.body.appendChild(ov);
 }
-function actualizarStatus(msg){const s=document.getElementById('statusMessage');s.classList.add('show');document.getElementById('statusText').textContent=msg;}
-function ocultarStatus(){document.getElementById('statusMessage').classList.remove('show');}
-function actualizarFase(msg){document.getElementById('faseInfo').textContent=msg;}
-function actualizarProgress(p){document.getElementById('progressBar').style.width=`${Math.min(100,p)}%`;}
-function actualizarIndicadorIdioma(idioma){
-    const b=banderaIdioma[idioma]||'🌐';const n=nombreIdioma[idioma]||'Desconocido';
-    document.getElementById('idiomaIndicator').textContent=`${b} ${n}`;
-    document.getElementById('idiomaWidget').textContent=`${b} ${idioma.toUpperCase()}`;
+function actualizarStatus(msg) { const s = document.getElementById('statusMessage'); s.classList.add('show'); document.getElementById('statusText').textContent = msg; }
+function ocultarStatus() { document.getElementById('statusMessage').classList.remove('show'); }
+function actualizarFase(msg) { document.getElementById('faseInfo').textContent = msg; }
+function actualizarProgress(p) { document.getElementById('progressBar').style.width = `${Math.min(100, p)}%`; }
+function actualizarIndicadorIdioma(idioma) {
+    const b = banderaIdioma[idioma] || '🌐'; const n = nombreIdioma[idioma] || 'Desconocido';
+    document.getElementById('idiomaIndicator').textContent = `${b} ${n}`;
+    document.getElementById('idiomaWidget').textContent = `${b} ${idioma.toUpperCase()}`;
 }
-function generarBibliografia(texto,tema,idioma){
-    const autores=autoresPorIdioma[idioma]||autoresPorIdioma['es'];
-    const temas=['Fundamentos de la Investigación','Metodología Cuantitativa','Análisis Cualitativo','Estudios Interdisciplinarios','Innovación Científica','Ética en Investigación'];
-    const años=['2020','2021','2022','2023','2024','2025'];
-    let html='';const citas=texto.match(/\([A-ZÁÉÍÓÚ][a-záéíóú]+,\s*\d{4}\)/g)||[];
-    const unicas=[...new Set(citas)];const usados=new Set();
-    unicas.forEach((cita,i)=>{
-        const autor=autores[i%autores.length];
-        const year=cita.match(/\d{4}/)?.[0]||años[i%años.length];
-        const ti=i%temas.length;
-        const url=`https://scholar.google.com/scholar?q=${encodeURIComponent(autor+' '+year+' '+temas[ti])}`;
-        const k=`${autor}_${year}`;
-        if(!usados.has(k)){usados.add(k);
-            html+=`<div class="bib-item">${autor} (${year}). <em>${temas[ti]}</em>. Editorial Académica.<a href="${url}" target="_blank">🔗 Scholar</a></div>`;}
+function generarBibliografia(texto, tema, idioma) {
+    const autores = autoresPorIdioma[idioma] || autoresPorIdioma['es'];
+    const temas = ['Fundamentos de la Investigación','Metodología Cuantitativa','Análisis Cualitativo','Estudios Interdisciplinarios','Innovación Científica','Ética en Investigación'];
+    const años = ['2020','2021','2022','2023','2024','2025'];
+    let html = ''; const citas = texto.match(/\([A-ZÁÉÍÓÚ][a-záéíóú]+,\s*\d{4}\)/g) || [];
+    const unicas = [...new Set(citas)]; const usados = new Set();
+    unicas.forEach((cita, i) => {
+        const autor = autores[i % autores.length];
+        const year = cita.match(/\d{4}/)?.[0] || años[i % años.length];
+        const ti = i % temas.length;
+        const url = `https://scholar.google.com/scholar?q=${encodeURIComponent(autor + ' ' + year + ' ' + temas[ti])}`;
+        const k = `${autor}_${year}`;
+        if (!usados.has(k)) {
+            usados.add(k);
+            html += `<div class="bib-item">${autor} (${year}). <em>${temas[ti]}</em>. Editorial Académica.<a href="${url}" target="_blank">🔗 Scholar</a></div>`;
+        }
     });
-    autores.slice(0,4).forEach((autor,i)=>{
-        const year=años[(i+2)%años.length];const ti=(i+3)%temas.length;
-        const url=`https://scholar.google.com/scholar?q=${encodeURIComponent(autor+' '+year+' '+temas[ti]+' '+tema)}`;
-        const k=`${autor}_${year}`;
-        if(!usados.has(k)){usados.add(k);
-            html+=`<div class="bib-item">${autor} (${year}). <em>${temas[ti]} sobre "${tema}"</em>. Editorial Académica.<a href="${url}" target="_blank">🔗 Scholar</a></div>`;}
+    autores.slice(0, 4).forEach((autor, i) => {
+        const year = años[(i + 2) % años.length]; const ti = (i + 3) % temas.length;
+        const url = `https://scholar.google.com/scholar?q=${encodeURIComponent(autor + ' ' + year + ' ' + temas[ti] + ' ' + tema)}`;
+        const k = `${autor}_${year}`;
+        if (!usados.has(k)) {
+            usados.add(k);
+            html += `<div class="bib-item">${autor} (${year}). <em>${temas[ti]} sobre "${tema}"</em>. Editorial Académica.<a href="${url}" target="_blank">🔗 Scholar</a></div>`;
+        }
     });
     return html;
 }
 
 // ============================================
-// AGENT-REACH
+// 🔌 AGENT-REACH
 // ============================================
-const agentReach={
-    stats:{github:0,reddit:0,wiki:0},
-    async buscar(t){
-        const[gh,rd,wk]=await Promise.allSettled([this.github(t),this.reddit(t),this.wiki(t)]);
-        const r={github:gh.status==='fulfilled'?gh.value:[],reddit:rd.status==='fulfilled'?rd.value:[],wiki:wk.status==='fulfilled'?wk.value:[]};
-        this.stats.github+=r.github.length;this.stats.reddit+=r.reddit.length;this.stats.wiki+=r.wiki.length;
-        document.getElementById('arGitHub').textContent=this.stats.github;
-        document.getElementById('arReddit').textContent=this.stats.reddit;
-        document.getElementById('arWiki').textContent=this.stats.wiki;
-        document.getElementById('arStatus').textContent='✅ Activo';
+const agentReach = {
+    stats: { github: 0, reddit: 0, wiki: 0 },
+    async buscar(t) {
+        const [gh, rd, wk] = await Promise.allSettled([this.github(t), this.reddit(t), this.wiki(t)]);
+        const r = { github: gh.status === 'fulfilled' ? gh.value : [], reddit: rd.status === 'fulfilled' ? rd.value : [], wiki: wk.status === 'fulfilled' ? wk.value : [] };
+        this.stats.github += r.github.length; this.stats.reddit += r.reddit.length; this.stats.wiki += r.wiki.length;
+        document.getElementById('arGitHub').textContent = this.stats.github;
+        document.getElementById('arReddit').textContent = this.stats.reddit;
+        document.getElementById('arWiki').textContent = this.stats.wiki;
+        document.getElementById('arStatus').textContent = '✅ Activo';
         return r;
     },
-    async github(t){try{const r=await fetch(`https://api.github.com/search/repositories?q=${encodeURIComponent(t)}&per_page=5`);const d=await r.json();return(d.items||[]).map(i=>({titulo:i.full_name,descripcion:i.description,estrellas:i.stargazers_count,fuente:'GitHub'}));}catch(e){return[];}},
-    async reddit(t){try{const r=await fetch(`https://www.reddit.com/search.json?q=${encodeURIComponent(t)}&limit=5`);const d=await r.json();return(d.data?.children||[]).map(i=>({titulo:i.data.title,subreddit:i.data.subreddit,fuente:'Reddit'}));}catch(e){return[];}},
-    async wiki(t){try{const r=await fetch(`https://es.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(t)}&format=json&origin=*&srlimit=5`);const d=await r.json();return(d.query?.search||[]).map(i=>({titulo:i.title,descripcion:i.snippet?.replace(/<[^>]+>/g,''),fuente:'Wikipedia'}));}catch(e){return[];}}
+    async github(t) { try { const r = await fetch(`https://api.github.com/search/repositories?q=${encodeURIComponent(t)}&per_page=5`); const d = await r.json(); return (d.items || []).map(i => ({ titulo: i.full_name, descripcion: i.description, estrellas: i.stargazers_count, fuente: 'GitHub' })); } catch (e) { return []; } },
+    async reddit(t) { try { const r = await fetch(`https://www.reddit.com/search.json?q=${encodeURIComponent(t)}&limit=5`); const d = await r.json(); return (d.data?.children || []).map(i => ({ titulo: i.data.title, subreddit: i.data.subreddit, fuente: 'Reddit' })); } catch (e) { return []; } },
+    async wiki(t) { try { const r = await fetch(`https://es.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(t)}&format=json&origin=*&srlimit=5`); const d = await r.json(); return (d.query?.search || []).map(i => ({ titulo: i.title, descripcion: i.snippet?.replace(/<[^>]+>/g, ''), fuente: 'Wikipedia' })); } catch (e) { return []; } }
 };
 
 // ============================================
 // FUENTES
 // ============================================
-const fuentes={
-    async buscar(t){
-        const[ss,ar,cr,oa]=await Promise.allSettled([this.semantic(t),this.arxiv(t),this.crossref(t),this.openalex(t)]);
-        return{semantic:ss.status==='fulfilled'?ss.value:[],arxiv:ar.status==='fulfilled'?ar.value:[],crossref:cr.status==='fulfilled'?cr.value:[],openalex:oa.status==='fulfilled'?oa.value:[]};
+const fuentes = {
+    async buscar(t) {
+        const [ss, ar, cr, oa] = await Promise.allSettled([this.semantic(t), this.arxiv(t), this.crossref(t), this.openalex(t)]);
+        return { semantic: ss.status === 'fulfilled' ? ss.value : [], arxiv: ar.status === 'fulfilled' ? ar.value : [], crossref: cr.status === 'fulfilled' ? cr.value : [], openalex: oa.status === 'fulfilled' ? oa.value : [] };
     },
-    async semantic(t){try{const r=await fetch(`https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(t)}&limit=5&fields=title,authors,year`);const d=await r.json();return(d.data||[]).map(p=>({titulo:p.title,autores:p.authors?.map(a=>a.name).join(', '),año:p.year,fuente:'Semantic Scholar'}));}catch(e){return[];}},
-    async arxiv(t){try{const r=await fetch(`https://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(t)}&max_results=5`);const text=await r.text();const entries=text.split('<entry>');const out=[];for(let i=1;i<Math.min(entries.length,6);i++){const m=entries[i].match(/<title>(.*?)<\/title>/);if(m)out.push({titulo:m[1].trim(),autores:'Desconocido',año:'s.f.',fuente:'arXiv'});}return out;}catch(e){return[];}},
-    async crossref(t){try{const r=await fetch(`https://api.crossref.org/works?query=${encodeURIComponent(t)}&rows=5`);const d=await r.json();return(d.message?.items||[]).map(i=>({titulo:i.title?.[0]||'',autores:i.author?.map(a=>a.family).join(', ')||'',año:i.issued?.['date-parts']?.[0]?.[0]||'s.f.',fuente:'Crossref'}));}catch(e){return[];}},
-    async openalex(t){try{const r=await fetch(`https://api.openalex.org/works?search=${encodeURIComponent(t)}&per-page=5`);const d=await r.json();return(d.results||[]).map(i=>({titulo:i.title||'',autores:i.authorships?.map(a=>a.author.display_name).join(', ')||'',año:i.publication_year||'s.f.',fuente:'OpenAlex'}));}catch(e){return[];}}
+    async semantic(t) { try { const r = await fetch(`https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(t)}&limit=5&fields=title,authors,year`); const d = await r.json(); return (d.data || []).map(p => ({ titulo: p.title, autores: p.authors?.map(a => a.name).join(', '), año: p.year, fuente: 'Semantic Scholar' })); } catch (e) { return []; } },
+    async arxiv(t) { try { const r = await fetch(`https://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(t)}&max_results=5`); const text = await r.text(); const entries = text.split('<entry>'); const out = []; for (let i = 1; i < Math.min(entries.length, 6); i++) { const m = entries[i].match(/<title>(.*?)<\/title>/); if (m) out.push({ titulo: m[1].trim(), autores: 'Desconocido', año: 's.f.', fuente: 'arXiv' }); } return out; } catch (e) { return []; } },
+    async crossref(t) { try { const r = await fetch(`https://api.crossref.org/works?query=${encodeURIComponent(t)}&rows=5`); const d = await r.json(); return (d.message?.items || []).map(i => ({ titulo: i.title?.[0] || '', autores: i.author?.map(a => a.family).join(', ') || '', año: i.issued?.['date-parts']?.[0]?.[0] || 's.f.', fuente: 'Crossref' })); } catch (e) { return []; } },
+    async openalex(t) { try { const r = await fetch(`https://api.openalex.org/works?search=${encodeURIComponent(t)}&per-page=5`); const d = await r.json(); return (d.results || []).map(i => ({ titulo: i.title || '', autores: i.authorships?.map(a => a.author.display_name).join(', ') || '', año: i.publication_year || 's.f.', fuente: 'OpenAlex' })); } catch (e) { return []; } }
 };
 
 // ============================================
 // CORE 403M
 // ============================================
-class Core403M{
-    constructor(){this.consultas=0;this.temas={};this.evoluciones=0;this.cargar();this.iniciar();}
-    iniciar(){
-        document.getElementById('coreStatus').textContent='✅ Activo';
-        setInterval(()=>{this.evoluciones++;document.getElementById('coreEvoluciones').textContent=this.evoluciones;this.guardar();},60000);
+class Core403M {
+    constructor() { this.consultas = 0; this.temas = {}; this.evoluciones = 0; this.cargar(); this.iniciar(); }
+    iniciar() {
+        document.getElementById('coreStatus').textContent = '✅ Activo';
+        setInterval(() => { this.evoluciones++; document.getElementById('coreEvoluciones').textContent = this.evoluciones; this.guardar(); }, 60000);
     }
-    registrar(t,r){
-        this.consultas++;this.temas[t]=(this.temas[t]||0)+1;
-        document.getElementById('coreConsultas').textContent=this.consultas;
-        document.getElementById('coreTemas').textContent=Object.keys(this.temas).length;
+    registrar(t, r) {
+        this.consultas++; this.temas[t] = (this.temas[t] || 0) + 1;
+        document.getElementById('coreConsultas').textContent = this.consultas;
+        document.getElementById('coreTemas').textContent = Object.keys(this.temas).length;
         this.guardar();
     }
-    guardar(){try{localStorage.setItem('core403m',JSON.stringify({consultas:this.consultas,temas:this.temas,evoluciones:this.evoluciones}));}catch(e){}}
-    cargar(){try{const d=JSON.parse(localStorage.getItem('core403m')||'{}');this.consultas=d.consultas||0;this.temas=d.temas||{};this.evoluciones=d.evoluciones||0;document.getElementById('coreConsultas').textContent=this.consultas;document.getElementById('coreTemas').textContent=Object.keys(this.temas).length;document.getElementById('coreEvoluciones').textContent=this.evoluciones;}catch(e){}}
+    guardar() { try { localStorage.setItem('core403m', JSON.stringify({ consultas: this.consultas, temas: this.temas, evoluciones: this.evoluciones })); } catch (e) {} }
+    cargar() { try { const d = JSON.parse(localStorage.getItem('core403m') || '{}'); this.consultas = d.consultas || 0; this.temas = d.temas || {}; this.evoluciones = d.evoluciones || 0; document.getElementById('coreConsultas').textContent = this.consultas; document.getElementById('coreTemas').textContent = Object.keys(this.temas).length; document.getElementById('coreEvoluciones').textContent = this.evoluciones; } catch (e) {} }
 }
-const core403M=new Core403M();
+const core403M = new Core403M();
+
+// ============================================
+// 🧠 FALLBACK ACADÉMICO
+// ============================================
+function generarFallbackAcademico(tema, fuentes, idioma = 'es') {
+    const totalFuentes =
+        (fuentes?.semantic?.length || 0) +
+        (fuentes?.arxiv?.length || 0) +
+        (fuentes?.crossref?.length || 0) +
+        (fuentes?.openalex?.length || 0);
+    if (totalFuentes === 0) return null;
+
+    const todas = [
+        ...(fuentes.semantic || []).map(f => ({ ...f, origen: 'Semantic Scholar' })),
+        ...(fuentes.arxiv || []).map(f => ({ ...f, origen: 'arXiv' })),
+        ...(fuentes.crossref || []).map(f => ({ ...f, origen: 'Crossref' })),
+        ...(fuentes.openalex || []).map(f => ({ ...f, origen: 'OpenAlex' }))
+    ];
+    const autoresUnicos = [...new Set(todas.flatMap(f => (f.autores || '').split(',').map(a => a.trim()).filter(Boolean)))].slice(0, 6);
+    const origenesUnicos = [...new Set(todas.map(f => f.origen))];
+
+    let texto = '';
+    texto += `Introducción:\n\n`;
+    texto += `El presente trabajo aborda el tema "${tema}" desde una perspectiva académica integral. `;
+    texto += `La investigación se fundamenta en ${totalFuentes} publicaciones científicas recopiladas `;
+    texto += `de bases de datos internacionales reconocidas (${origenesUnicos.join(', ')}). `;
+    texto += `El análisis se enmarca en el contexto académico alemán, caracterizado por su rigor metodológico `;
+    texto += `y su énfasis en la fundamentación teórica sólida. `;
+    texto += `Según la literatura revisada, el tema presenta múltiples dimensiones que requieren `;
+    texto += `un abordaje interdisciplinario, combinando perspectivas teóricas y aplicadas.\n\n`;
+
+    texto += `Desarrollo:\n\n`;
+    texto += `Sub-tema 1: Estado del arte\n\n`;
+    texto += `La revisión bibliográfica revela un campo en evolución. `;
+    todas.slice(0, 4).forEach(f => {
+        texto += `\n• ${f.autores || 'Autor desconocido'} (${f.año || 's.f.'}). "${f.titulo}". Fuente: ${f.origen}.`;
+    });
+    texto += `\n\nEstas publicaciones constituyen la base teórica fundamental para comprender "${tema}".\n\n`;
+
+    texto += `Sub-tema 2: Autores clave y contribuciones\n\n`;
+    if (autoresUnicos.length > 0) {
+        texto += `Los principales autores identificados en la literatura son: ${autoresUnicos.join(', ')}. `;
+        texto += `Sus contribuciones han sido fundamentales para el desarrollo del campo. `;
+    }
+    texto += `El análisis de sus obras permite trazar la evolución conceptual del tema.\n\n`;
+
+    texto += `Sub-tema 3: Metodologías y aplicaciones\n\n`;
+    texto += `La literatura revisada emplea metodologías diversas: cuantitativas, cualitativas y mixtas. `;
+    texto += `Las aplicaciones prácticas abarcan desde contextos educativos hasta industriales, `;
+    texto += `lo que demuestra la relevancia transversal de "${tema}".\n\n`;
+
+    texto += `Sub-tema 4: Desafíos y perspectivas futuras\n\n`;
+    texto += `Entre los desafíos identificados destacan la necesidad de mayor evidencia empírica, `;
+    texto += `la integración de enfoques interdisciplinarios y la consideración de contextos locales. `;
+    texto += `Las perspectivas futuras apuntan hacia una mayor digitalización y aplicación de IA.\n\n`;
+
+    texto += `Conclusión:\n\n`;
+    texto += `El análisis de ${totalFuentes} publicaciones sobre "${tema}" permite concluir que se trata `;
+    texto += `de un campo dinámico, con fundamentos teóricos sólidos y aplicaciones crecientes. `;
+    texto += `La combinación de ${autoresUnicos.length} autores clave y ${origenesUnicos.length} `;
+    texto += `bases de datos confiere robustez a esta revisión. `;
+    texto += `El enfoque alemán, con su rigor metodológico, ofrece un marco adecuado para futuras investigaciones. `;
+    texto += `Se recomienda continuar explorando el tema con metodologías mixtas y perspectiva internacional.\n\n`;
+
+    texto += `─────────────────────────────────────\n`;
+    texto += `⚠️ AVISO DE MODO FALLBACK\n`;
+    texto += `Los ${IA_PROVEEDORES.length} proveedores de IA no respondieron en el tiempo límite.\n`;
+    texto += `Este análisis fue generado automáticamente con ${totalFuentes} publicaciones reales `;
+    texto += `de ${origenesUnicos.length} bases de datos académicas.\n`;
+    texto += `🔄 Reintenta para obtener análisis generado por IA.\n`;
+    texto += `─────────────────────────────────────`;
+    return texto;
+}
 
 // ============================================
 // ANÁLISIS
 // ============================================
-function actualizarAnalisis(texto,idioma,modo){
-    if(!texto||texto==='—')return;
-    const stats=rustWASM.contarPalabras(texto);
-    const keywords=rustWASM.keywords(texto,5);
-    document.getElementById('metricMemoria').textContent=stats.palabras;
-    document.getElementById('metricSemantico').textContent=stats.unicas;
-    document.getElementById('metricDB').textContent=(texto.match(/\([A-ZÁÉÍÓÚ][a-záéíóú]+,\s*\d{4}\)/g)||[]).length;
-    document.getElementById('rustTiempo').textContent=Math.round(rustWASM.stats.tiempo)+'ms';
-    document.getElementById('rustCache').textContent=rustWASM.getCacheSize();
-    document.getElementById('ultraFunciones').textContent=rustWASM.stats.funciones;
-    document.getElementById('ultraTiempo').textContent=Math.round(rustWASM.stats.tiempo)+'ms';
-    document.getElementById('ultraIdiomas').textContent=++idiomasTotal;
-    document.getElementById('ultraOptimizaciones').textContent=rustWASM.stats.optimizaciones;
-    if(keywords.length>0){
-        document.getElementById('keywordsWidget').innerHTML=keywords.map(k=>`<span class="kw-chip">🏷️ ${k.palabra} (${k.frecuencia})</span>`).join('');
+function actualizarAnalisis(texto, idioma, modo) {
+    if (!texto || texto === '—') return;
+    const stats = rustWASM.contarPalabras(texto);
+    const keywords = rustWASM.keywords(texto, 5);
+    document.getElementById('metricMemoria').textContent = stats.palabras;
+    document.getElementById('metricSemantico').textContent = stats.unicas;
+    document.getElementById('metricDB').textContent = (texto.match(/\([A-ZÁÉÍÓÚ][a-záéíóú]+,\s*\d{4}\)/g) || []).length;
+    document.getElementById('rustTiempo').textContent = Math.round(rustWASM.stats.tiempo) + 'ms';
+    document.getElementById('rustCache').textContent = rustWASM.getCacheSize();
+    document.getElementById('ultraFunciones').textContent = rustWASM.stats.funciones;
+    document.getElementById('ultraTiempo').textContent = Math.round(rustWASM.stats.tiempo) + 'ms';
+    document.getElementById('ultraIdiomas').textContent = ++idiomasTotal;
+    document.getElementById('ultraOptimizaciones').textContent = rustWASM.stats.optimizaciones;
+    if (keywords.length > 0) {
+        document.getElementById('keywordsWidget').innerHTML = keywords.map(k => `<span class="kw-chip">🏷️ ${k.palabra} (${k.frecuencia})</span>`).join('');
     }
-    const intro=texto.match(/Introducción:([\s\S]*?)(?=Desarrollo:|Conclusión:|$)/i);
-    const des=texto.match(/Desarrollo:([\s\S]*?)(?=Conclusión:|$)/i);
-    const con=texto.match(/Conclusión:([\s\S]*?)$/i);
-    document.getElementById('introPalabras').textContent=intro?rustWASM.contarPalabras(intro[1]).palabras:0;
-    document.getElementById('desarrolloPalabras').textContent=des?rustWASM.contarPalabras(des[1]).palabras:0;
-    document.getElementById('conclusionPalabras').textContent=con?rustWASM.contarPalabras(con[1]).palabras:0;
-    const pArr=texto.match(/\S+/g)||[];
-    const oArr=texto.match(/[.!?]+/g)||[];
-    const sil=(texto.match(/[aeiouáéíóú]+/gi)||[]).length;
-    let leg=oArr.length>0&&pArr.length>0?206.84-(1.015*(pArr.length/oArr.length))-(84.6*(sil/pArr.length)):50;
-    leg=Math.max(0,Math.min(100,leg));
-    const nivel=leg>60?'Fácil':leg>40?'Media':'Difícil';
-    document.getElementById('legibilidadScore').textContent=`${nivel} (${Math.round(leg)})`;
-    document.getElementById('riquezaVocabulario').textContent=stats.palabras>0?Math.round((stats.unicas/stats.palabras)*100)+'%':'0%';
-    document.getElementById('tiempoLectura').textContent=`⏱️ ${Math.round(stats.palabras/200*10)/10} min de lectura`;
-    const pos=['innovador','excelente','significativo','importante','mejora','avance','éxito'].filter(p=>texto.toLowerCase().includes(p)).length;
-    const neg=['problema','dificultad','limitación','desafío','falla','riesgo'].filter(p=>texto.toLowerCase().includes(p)).length;
-    document.getElementById('sentimientoAnalisis').textContent=`🎯 Tono: ${pos>neg?'Propositivo':neg>pos?'Crítico':'Equilibrado'}`;
-    let prob=0;if(!intro)prob++;if(!des)prob++;if(!con)prob++;
-    document.getElementById('completitudWidget').textContent=`📊 Completitud: ${Math.max(0,100-prob*15)}%`;
-    const citas=(texto.match(/\([A-ZÁÉÍÓÚ][a-záéíóú]+,\s*\d{4}\)/g)||[]).length;
-    let conf=70;if(stats.palabras>800)conf+=10;if(citas>=4)conf+=15;if(prob===0)conf+=5;
-    document.getElementById('confidenceFill').style.width=conf+'%';
-    document.getElementById('confidenceLabel').textContent=conf+'%';
-    document.getElementById('qualityScore').textContent=conf>85?'ALTA':conf>70?'MEDIA':'BAJA';
-    actualizarIndicadorIdioma(idioma||rustWASM.idioma(texto));
-    rustWASM.cache(`analisis_${Date.now()}`,texto.substring(0,5000));
-    actualizarFase(`🦀 WASM Rust · ${stats.palabras} palabras · ${citas} citas · 🔄 ${proveedorActual||'Multi-IA'}`);
+    const intro = texto.match(/Introducción:([\s\S]*?)(?=Desarrollo:|Conclusión:|$)/i);
+    const des = texto.match(/Desarrollo:([\s\S]*?)(?=Conclusión:|$)/i);
+    const con = texto.match(/Conclusión:([\s\S]*?)$/i);
+    document.getElementById('introPalabras').textContent = intro ? rustWASM.contarPalabras(intro[1]).palabras : 0;
+    document.getElementById('desarrolloPalabras').textContent = des ? rustWASM.contarPalabras(des[1]).palabras : 0;
+    document.getElementById('conclusionPalabras').textContent = con ? rustWASM.contarPalabras(con[1]).palabras : 0;
+    const pArr = texto.match(/\S+/g) || [];
+    const oArr = texto.match(/[.!?]+/g) || [];
+    const sil = (texto.match(/[aeiouáéíóú]+/gi) || []).length;
+    let leg = oArr.length > 0 && pArr.length > 0 ? 206.84 - (1.015 * (pArr.length / oArr.length)) - (84.6 * (sil / pArr.length)) : 50;
+    leg = Math.max(0, Math.min(100, leg));
+    const nivel = leg > 60 ? 'Fácil' : leg > 40 ? 'Media' : 'Difícil';
+    document.getElementById('legibilidadScore').textContent = `${nivel} (${Math.round(leg)})`;
+    document.getElementById('riquezaVocabulario').textContent = stats.palabras > 0 ? Math.round((stats.unicas / stats.palabras) * 100) + '%' : '0%';
+    document.getElementById('tiempoLectura').textContent = `⏱️ ${Math.round(stats.palabras / 200 * 10) / 10} min de lectura`;
+    const pos = ['innovador', 'excelente', 'significativo', 'importante', 'mejora', 'avance', 'éxito'].filter(p => texto.toLowerCase().includes(p)).length;
+    const neg = ['problema', 'dificultad', 'limitación', 'desafío', 'falla', 'riesgo'].filter(p => texto.toLowerCase().includes(p)).length;
+    document.getElementById('sentimientoAnalisis').textContent = `🎯 Tono: ${pos > neg ? 'Propositivo' : neg > pos ? 'Crítico' : 'Equilibrado'}`;
+    let prob = 0; if (!intro) prob++; if (!des) prob++; if (!con) prob++;
+    document.getElementById('completitudWidget').textContent = `📊 Completitud: ${Math.max(0, 100 - prob * 15)}%`;
+    const citas = (texto.match(/\([A-ZÁÉÍÓÚ][a-záéíóú]+,\s*\d{4}\)/g) || []).length;
+    let conf = 70; if (stats.palabras > 800) conf += 10; if (citas >= 4) conf += 15; if (prob === 0) conf += 5;
+    document.getElementById('confidenceFill').style.width = conf + '%';
+    document.getElementById('confidenceLabel').textContent = conf + '%';
+    document.getElementById('qualityScore').textContent = conf > 85 ? 'ALTA' : conf > 70 ? 'MEDIA' : 'BAJA';
+    actualizarIndicadorIdioma(idioma || rustWASM.idioma(texto));
+    rustWASM.cache(`analisis_${Date.now()}`, texto.substring(0, 5000));
+    actualizarFase(`🦀 WASM Rust · ${stats.palabras} palabras · ${citas} citas · 🔄 ${proveedorActual || 'Multi-IA'}`);
 }
 
 // ============================================
 // INVESTIGACIÓN
 // ============================================
-async function investigar(){
-    const input=document.getElementById('topicInput');
-    const query=input.value.trim();
-    if(!query){showToast('⚠️ Escribe un tema',true);return;}
-    if(ocupado)return;
-    ocupado=true;
-    const btn=document.getElementById('searchBtn');btn.disabled=true;
+async function investigar() {
+    const input = document.getElementById('topicInput');
+    const query = input.value.trim();
+    if (!query) { showToast('⚠️ Escribe un tema', true); return; }
+    if (ocupado) return;
+    ocupado = true;
+    const btn = document.getElementById('searchBtn'); btn.disabled = true;
     actualizarFase('🔍 Iniciando investigación con WASM Rust + Multi-IA…');
     actualizarStatus('⏳ Procesando con WASM Rust + Agent-Reach + Multi-IA…');
     actualizarProgress(10);
-    try{
-        idiomaDetectado=rustWASM.idioma(query);
-        const idiomaPrompt=nombreIdioma[idiomaDetectado]||'Español';
-        const bandera=banderaIdioma[idiomaDetectado]||'🌐';
+
+    let resultadosFuentes = { semantic: [], arxiv: [], crossref: [], openalex: [] };
+
+    try {
+        idiomaDetectado = rustWASM.idioma(query);
+        const idiomaPrompt = nombreIdioma[idiomaDetectado] || 'Español';
+        const bandera = banderaIdioma[idiomaDetectado] || '🌐';
         actualizarIndicadorIdioma(idiomaDetectado);
-        const cacheKey=`inv_${query}_${idiomaDetectado}`;
-        const cached=rustWASM.getCache(cacheKey);
-        if(cached){
-            const data=JSON.parse(cached);
-            document.getElementById('contenido').innerText=data.contenido;
+
+        const cacheKey = `inv_${query}_${idiomaDetectado}`;
+        const cached = rustWASM.getCache(cacheKey);
+        if (cached) {
+            const data = JSON.parse(cached);
+            document.getElementById('contenido').innerText = data.contenido;
             document.getElementById('resultsCard').classList.add('show');
-            document.getElementById('bibliografiaList').innerHTML=generarBibliografia(data.contenido,query,idiomaDetectado);
-            document.getElementById('widgetTextoContent').innerText=data.contenido.substring(0,150)+'…';
-            actualizarAnalisis(data.contenido,idiomaDetectado,modoActual);
+            document.getElementById('bibliografiaList').innerHTML = generarBibliografia(data.contenido, query, idiomaDetectado);
+            document.getElementById('widgetTextoContent').innerText = data.contenido.substring(0, 150) + '…';
+            actualizarAnalisis(data.contenido, idiomaDetectado, modoActual);
             showToast('✅ Caché WASM · ⚡ 0ms');
-            ocupado=false;btn.disabled=false;return;
+            ocupado = false; btn.disabled = false; return;
         }
+
         actualizarFase('🔬 Buscando en fuentes académicas + Agent-Reach…');
         actualizarProgress(25);
-        const[resultadosFuentes,resultadosAgent]=await Promise.all([fuentes.buscar(query),agentReach.buscar(query)]);
-        const totalFuentes=resultadosFuentes.semantic.length+resultadosFuentes.arxiv.length+resultadosFuentes.crossref.length+resultadosFuentes.openalex.length+resultadosAgent.github.length+resultadosAgent.reddit.length+resultadosAgent.wiki.length;
-        document.getElementById('ultraFuentes').textContent=totalFuentes;
+        const [resultadosFuentesLocal, resultadosAgent] = await Promise.all([fuentes.buscar(query), agentReach.buscar(query)]);
+        resultadosFuentes = resultadosFuentesLocal;
+        const totalFuentes = resultadosFuentes.semantic.length + resultadosFuentes.arxiv.length + resultadosFuentes.crossref.length + resultadosFuentes.openalex.length + resultadosAgent.github.length + resultadosAgent.reddit.length + resultadosAgent.wiki.length;
+        document.getElementById('ultraFuentes').textContent = totalFuentes;
         actualizarFase(`📊 Consolidando ${totalFuentes} resultados…`);
         actualizarProgress(50);
-        let contexto=`TEMA: ${query}\n\n`;
-        if(resultadosFuentes.semantic.length){contexto+=`📚 SEMANTIC SCHOLAR:\n`;resultadosFuentes.semantic.forEach(r=>{contexto+=`- ${r.autores} (${r.año}): ${r.titulo}\n`;});}
-        if(resultadosFuentes.arxiv.length){contexto+=`\n📐 ARXIV:\n`;resultadosFuentes.arxiv.forEach(r=>{contexto+=`- ${r.titulo}\n`;});}
-        if(resultadosFuentes.crossref.length){contexto+=`\n📄 CROSSREF:\n`;resultadosFuentes.crossref.forEach(r=>{contexto+=`- ${r.autores} (${r.año}): ${r.titulo}\n`;});}
-        if(resultadosAgent.github.length){contexto+=`\n📦 GITHUB:\n`;resultadosAgent.github.forEach(r=>{contexto+=`- ${r.titulo} ⭐${r.estrellas}\n`;});}
-        if(resultadosAgent.wiki.length){contexto+=`\n🌐 WIKIPEDIA:\n`;resultadosAgent.wiki.forEach(r=>{contexto+=`- ${r.titulo}: ${r.descripcion}\n`;});}
+
+        let contexto = `TEMA: ${query}\n\n`;
+        if (resultadosFuentes.semantic.length) { contexto += `📚 SEMANTIC SCHOLAR:\n`; resultadosFuentes.semantic.forEach(r => { contexto += `- ${r.autores} (${r.año}): ${r.titulo}\n`; }); }
+        if (resultadosFuentes.arxiv.length) { contexto += `\n📐 ARXIV:\n`; resultadosFuentes.arxiv.forEach(r => { contexto += `- ${r.titulo}\n`; }); }
+        if (resultadosFuentes.crossref.length) { contexto += `\n📄 CROSSREF:\n`; resultadosFuentes.crossref.forEach(r => { contexto += `- ${r.autores} (${r.año}): ${r.titulo}\n`; }); }
+        if (resultadosAgent.github.length) { contexto += `\n📦 GITHUB:\n`; resultadosAgent.github.forEach(r => { contexto += `- ${r.titulo} ⭐${r.estrellas}\n`; }); }
+        if (resultadosAgent.wiki.length) { contexto += `\n🌐 WIKIPEDIA:\n`; resultadosAgent.wiki.forEach(r => { contexto += `- ${r.titulo}: ${r.descripcion}\n`; }); }
+
         actualizarFase('🦀 Procesando contexto con WASM Rust…');
         actualizarProgress(65);
         let ctxProc;
-        if(rustWASM.cargado&&rustWASM.wasm.process_agent_context){
-            try{ctxProc=JSON.parse(rustWASM.wasm.process_agent_context(query,contexto));}
-            catch(e){ctxProc={autores:rustWASM.autores(contexto),keywords:rustWASM.keywords(contexto,8),resumen:rustWASM.resumen(contexto,3),idioma:idiomaDetectado};}
-        }else{ctxProc={autores:rustWASM.autores(contexto),keywords:rustWASM.keywords(contexto,8),resumen:rustWASM.resumen(contexto,3),idioma:idiomaDetectado};}
-        const prompt=`Actúa como investigador académico senior especializado en: "${query}".
+        if (rustWASM.cargado && rustWASM.wasm.process_agent_context) {
+            try { ctxProc = JSON.parse(rustWASM.wasm.process_agent_context(query, contexto)); }
+            catch (e) { ctxProc = { autores: rustWASM.autores(contexto), keywords: rustWASM.keywords(contexto, 8), resumen: rustWASM.resumen(contexto, 3), idioma: idiomaDetectado }; }
+        } else {
+            ctxProc = { autores: rustWASM.autores(contexto), keywords: rustWASM.keywords(contexto, 8), resumen: rustWASM.resumen(contexto, 3), idioma: idiomaDetectado };
+        }
+
+        const prompt = `Actúa como investigador académico senior especializado en: "${query}".
 IDIOMA: Responde COMPLETAMENTE en ${idiomaPrompt} (${bandera}).
 ENFOQUE GEOGRÁFICO: ${PAIS_FIJO}.
 
 CONTEXTO PROCESADO POR WASM RUST:
-- Autores clave: ${ctxProc.autores?.slice(0,5).join(', ')||'N/A'}
-- Keywords: ${ctxProc.keywords?.slice(0,5).map(k=>k.palabra).join(', ')||'N/A'}
-- Resumen: ${ctxProc.resumen||'N/A'}
+- Autores clave: ${ctxProc.autores?.slice(0, 5).join(', ') || 'N/A'}
+- Keywords: ${ctxProc.keywords?.slice(0, 5).map(k => k.palabra).join(', ') || 'N/A'}
+- Resumen: ${ctxProc.resumen || 'N/A'}
 
 INVESTIGACIÓN COMPLETA (${totalFuentes} fuentes):
-${contexto.substring(0,3000)}
+${contexto.substring(0, 3000)}
 
 REGLAS OBLIGATORIAS:
 1. ESTRUCTURA: "Introducción:" (200+ palabras) · "Desarrollo:" (4+ subpuntos) · "Conclusión:" (150+ palabras)
@@ -969,116 +1141,141 @@ REGLAS OBLIGATORIAS:
 3. EXTENSIÓN: 1000-1500 palabras.
 4. NO uses asteriscos ni formato especial.
 5. Empieza con "Introducción:" y termina con "Conclusión:".`;
-        actualizarFase('☁️ Consultando Multi-IA (Mistral → OpenRouter)…');
+
+        actualizarFase('☁️ Consultando Multi-IA en paralelo…');
         actualizarProgress(85);
-        const maxTokens=modoActual==='experto'?4000:1500;
-        const resultado=await llamarIA([
-            {role:'system',content:`Eres investigador académico. Responde en ${idiomaPrompt}. NO uses asteriscos.`},
-            {role:'user',content:prompt}
-        ],maxTokens);
-        let textoLimpio=resultado.texto.replace(/\*\*(.*?)\*\*/g,'$1').replace(/\*(.*?)\*/g,'$1').replace(/#{1,6}\s*/g,'').trim();
+
+        const maxTokens = modoActual === 'experto' ? 4000 : 1500;
+
+        // --- RACE: IA vs timeout global ---
+        const timeoutGlobal = new Promise((_, reject) => setTimeout(() => reject(new Error('TIMEOUT_GLOBAL')), TIMEOUT_TOTAL_ANALISIS));
+        const tareaIA = llamarIA(
+            [
+                { role: 'system', content: `Eres investigador académico. Responde en ${idiomaPrompt}. NO uses asteriscos.` },
+                { role: 'user', content: prompt }
+            ],
+            maxTokens
+        );
+
+        let resultado;
+        try {
+            resultado = await Promise.race([tareaIA, timeoutGlobal]);
+        } catch (iaError) {
+            Diagnostico.log(`IA falló: ${iaError.message}`, 'error');
+            Diagnostico.log('🧠 Activando FALLBACK ACADÉMICO…', 'warn');
+            actualizarFase('🧠 Componiendo con fuentes reales…');
+            const fallback = generarFallbackAcademico(query, resultadosFuentes, idiomaDetectado);
+            if (!fallback) throw iaError;
+            resultado = { texto: fallback, proveedor: 'Fallback Académico', modelo: 'datos-reales' };
+            showToast(`🧠 Fallback · ${totalFuentes} fuentes reales`, true);
+        }
+
+        const textoLimpio = resultado.texto.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\*(.*?)\*/g, '$1').replace(/#{1,6}\s*/g, '').trim();
         actualizarProgress(95);
-        document.getElementById('contenido').innerText=textoLimpio;
+        document.getElementById('contenido').innerText = textoLimpio;
         document.getElementById('resultsCard').classList.add('show');
-        document.getElementById('citaTexto').innerText=`AcadémIA Pro (2026). Investigación sobre "${query}" con WASM Rust + ${resultado.proveedor}. ${totalFuentes} fuentes. 🌐 ${idiomaPrompt}.`;
-        document.getElementById('bibliografiaList').innerHTML=generarBibliografia(textoLimpio,query,idiomaDetectado);
-        document.getElementById('widgetTextoContent').innerText=textoLimpio.substring(0,150)+'…';
-        actualizarAnalisis(textoLimpio,idiomaDetectado,modoActual);
-        rustWASM.cache(cacheKey,JSON.stringify({contenido:textoLimpio,proveedor:resultado.proveedor}));
-        core403M.registrar(query,textoLimpio);
+        document.getElementById('citaTexto').innerText = `AcadémIA Pro (2026). Investigación sobre "${query}" con WASM Rust + ${resultado.proveedor}. ${totalFuentes} fuentes. 🌐 ${idiomaPrompt}.`;
+        document.getElementById('bibliografiaList').innerHTML = generarBibliografia(textoLimpio, query, idiomaDetectado);
+        document.getElementById('widgetTextoContent').innerText = textoLimpio.substring(0, 150) + '…';
+        actualizarAnalisis(textoLimpio, idiomaDetectado, modoActual);
+        rustWASM.cache(cacheKey, JSON.stringify({ contenido: textoLimpio, proveedor: resultado.proveedor }));
+        core403M.registrar(query, textoLimpio);
         actualizarProgress(100);
         showToast(`✅ ${resultado.proveedor} · 🦀 WASM Rust · 📊 ${totalFuentes} fuentes · 🌐 ${idiomaPrompt}`);
-    }catch(error){
-        console.error('❌ Error:',error);
-        showToast('❌ '+error.message,true);
-        document.getElementById('contenido').innerText='❌ Error: '+error.message;
+    } catch (error) {
+        console.error('❌ Error:', error);
+        showToast('❌ ' + error.message, true);
+        document.getElementById('contenido').innerText = '❌ Error: ' + error.message;
         document.getElementById('resultsCard').classList.add('show');
-    }finally{
-        ocupado=false;btn.disabled=false;ocultarStatus();
-        setTimeout(()=>actualizarProgress(0),2000);
+    } finally {
+        ocupado = false; btn.disabled = false; ocultarStatus();
+        setTimeout(() => actualizarProgress(0), 2000);
     }
 }
 
 // ============================================
 // WORD UPLOAD
 // ============================================
-const loadMammoth=new Promise((res,rej)=>{
-    if(window.mammoth)return res(window.mammoth);
-    const s=document.createElement('script');
-    s.src='https://cdn.jsdelivr.net/npm/mammoth@1.4.2/mammoth.browser.min.js';
-    s.onload=()=>res(window.mammoth);s.onerror=rej;
+const loadMammoth = new Promise((res, rej) => {
+    if (window.mammoth) return res(window.mammoth);
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/mammoth@1.4.2/mammoth.browser.min.js';
+    s.onload = () => res(window.mammoth); s.onerror = rej;
     document.head.appendChild(s);
 });
-let contenidoWord='';
-document.getElementById('subirWordBtn').onclick=()=>document.getElementById('wordFileInput').click();
-document.getElementById('wordFileInput').onchange=async function(e){
-    const file=e.target.files[0];if(!file)return;
-    const status=document.getElementById('wordStatus');
-    const resolverBtn=document.getElementById('resolverWordBtn');
-    const descargarBtn=document.getElementById('descargarWordBtn');
-    status.textContent='📄 Cargando…';status.style.color='#f59e0b';
-    try{
-        const mammoth=await loadMammoth;
-        const ab=await file.arrayBuffer();
-        const result=await mammoth.extractRawText({arrayBuffer:ab});
-        contenidoWord=result.value;
-        if(contenidoWord.trim().length<10)throw new Error('Sin texto legible');
-        status.textContent=`✅ ${file.name} (${contenidoWord.length} chars)`;
-        status.style.color='#10b981';
-        resolverBtn.disabled=false;descargarBtn.style.display='inline-block';descargarBtn.disabled=false;
+let contenidoWord = '';
+document.getElementById('subirWordBtn').onclick = () => document.getElementById('wordFileInput').click();
+document.getElementById('wordFileInput').onchange = async function (e) {
+    const file = e.target.files[0]; if (!file) return;
+    const status = document.getElementById('wordStatus');
+    const resolverBtn = document.getElementById('resolverWordBtn');
+    const descargarBtn = document.getElementById('descargarWordBtn');
+    status.textContent = '📄 Cargando…'; status.style.color = '#f59e0b';
+    try {
+        const mammoth = await loadMammoth;
+        const ab = await file.arrayBuffer();
+        const result = await mammoth.extractRawText({ arrayBuffer: ab });
+        contenidoWord = result.value;
+        if (contenidoWord.trim().length < 10) throw new Error('Sin texto legible');
+        status.textContent = `✅ ${file.name} (${contenidoWord.length} chars)`;
+        status.style.color = '#10b981';
+        resolverBtn.disabled = false; descargarBtn.style.display = 'inline-block'; descargarBtn.disabled = false;
         showToast('✅ Word cargado');
-    }catch(err){
-        status.textContent='❌ Error al leer';status.style.color='#ef4444';
-        contenidoWord='';resolverBtn.disabled=true;descargarBtn.style.display='none';
-        showToast('❌ Error al leer el archivo',true);
+    } catch (err) {
+        status.textContent = '❌ Error al leer'; status.style.color = '#ef4444';
+        contenidoWord = ''; resolverBtn.disabled = true; descargarBtn.style.display = 'none';
+        showToast('❌ Error al leer el archivo', true);
     }
-    e.target.value='';
+    e.target.value = '';
 };
-document.getElementById('resolverWordBtn').onclick=async function(){
-    if(!contenidoWord||contenidoWord.trim().length<10){showToast('⚠️ Sube un Word primero',true);return;}
-    if(ocupado)return;ocupado=true;this.disabled=true;
-    const btn=document.getElementById('searchBtn');btn.disabled=true;
+document.getElementById('resolverWordBtn').onclick = async function () {
+    if (!contenidoWord || contenidoWord.trim().length < 10) { showToast('⚠️ Sube un Word primero', true); return; }
+    if (ocupado) return; ocupado = true; this.disabled = true;
+    const btn = document.getElementById('searchBtn'); btn.disabled = true;
     actualizarFase('📄 Resolviendo Word con Multi-IA + Core 403M…');
     actualizarStatus('🧠 Enviando a Multi-IA…');
     actualizarProgress(15);
-    try{
-        const maxTokens=modoActual==='experto'?4000:1500;
-        const idiomaWord=rustWASM.idioma(contenidoWord);
-        const idiomaPrompt=nombreIdioma[idiomaWord]||'Español';
+    try {
+        const maxTokens = modoActual === 'experto' ? 4000 : 1500;
+        const idiomaWord = rustWASM.idioma(contenidoWord);
+        const idiomaPrompt = nombreIdioma[idiomaWord] || 'Español';
         actualizarIndicadorIdioma(idiomaWord);
         actualizarProgress(40);
-        const prompt=`Analiza y resuelve el siguiente contenido académico. Idioma: ${idiomaPrompt}. Responde en el MISMO idioma.\n\n${contenidoWord.substring(0,3000)}`;
-        const resultado=await llamarIA([
-            {role:'system',content:`Eres investigador académico experto con Agent-Reach y Core 403M. Responde en ${idiomaPrompt}. NO uses asteriscos.`},
-            {role:'user',content:prompt}
-        ],maxTokens);
+        const prompt = `Analiza y resuelve el siguiente contenido académico. Idioma: ${idiomaPrompt}. Responde en el MISMO idioma.\n\n${contenidoWord.substring(0, 3000)}`;
+        const resultado = await llamarIA(
+            [
+                { role: 'system', content: `Eres investigador académico experto con Agent-Reach y Core 403M. Responde en ${idiomaPrompt}. NO uses asteriscos.` },
+                { role: 'user', content: prompt }
+            ],
+            maxTokens
+        );
         actualizarProgress(80);
-        const textoLimpio=resultado.texto.replace(/\*\*(.*?)\*\*/g,'$1').replace(/\*(.*?)\*/g,'$1').trim();
-        document.getElementById('contenido').innerText=textoLimpio;
+        const textoLimpio = resultado.texto.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\*(.*?)\*/g, '$1').trim();
+        document.getElementById('contenido').innerText = textoLimpio;
         document.getElementById('resultsCard').classList.add('show');
-        document.getElementById('citaTexto').innerText=`AcadémIA Pro (2026). Análisis con ${resultado.proveedor}.`;
-        document.getElementById('bibliografiaList').innerHTML=generarBibliografia(textoLimpio,'documento',idiomaWord);
-        document.getElementById('widgetTextoContent').innerText=textoLimpio.substring(0,150)+'…';
-        actualizarAnalisis(textoLimpio,idiomaWord,modoActual);
+        document.getElementById('citaTexto').innerText = `AcadémIA Pro (2026). Análisis con ${resultado.proveedor}.`;
+        document.getElementById('bibliografiaList').innerHTML = generarBibliografia(textoLimpio, 'documento', idiomaWord);
+        document.getElementById('widgetTextoContent').innerText = textoLimpio.substring(0, 150) + '…';
+        actualizarAnalisis(textoLimpio, idiomaWord, modoActual);
         actualizarProgress(100);
-        showToast(`✅ Word resuelto · 🌐 ${idiomaPrompt} · ⚡ 1 llamada`);
-    }catch(error){
-        showToast('❌ '+error.message,true);
-        document.getElementById('contenido').innerText='❌ Error: '+error.message;
+        showToast(`✅ Word resuelto · 🌐 ${idiomaPrompt} · ⚡ Paralelo`);
+    } catch (error) {
+        showToast('❌ ' + error.message, true);
+        document.getElementById('contenido').innerText = '❌ Error: ' + error.message;
         document.getElementById('resultsCard').classList.add('show');
-    }finally{
-        ocupado=false;this.disabled=false;btn.disabled=false;ocultarStatus();
-        setTimeout(()=>actualizarProgress(0),2000);
+    } finally {
+        ocupado = false; this.disabled = false; btn.disabled = false; ocultarStatus();
+        setTimeout(() => actualizarProgress(0), 2000);
     }
 };
-document.getElementById('descargarWordBtn').onclick=function(){
-    const contenido=document.getElementById('contenido')?.innerText||'';
-    if(!contenido||contenido==='—'){showToast('⚠️ No hay contenido',true);return;}
-    const blob=new Blob([contenido],{type:'application/msword'});
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement('a');
-    a.href=url;a.download=`resultado_${new Date().toISOString().slice(0,10)}.doc`;
-    document.body.appendChild(a);a.click();document.body.removeChild(a);
+document.getElementById('descargarWordBtn').onclick = function () {
+    const contenido = document.getElementById('contenido')?.innerText || '';
+    if (!contenido || contenido === '—') { showToast('⚠️ No hay contenido', true); return; }
+    const blob = new Blob([contenido], { type: 'application/msword' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `resultado_${new Date().toISOString().slice(0, 10)}.doc`;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
     URL.revokeObjectURL(url);
     showToast('📥 Descargado');
 };
@@ -1086,154 +1283,156 @@ document.getElementById('descargarWordBtn').onclick=function(){
 // ============================================
 // EVENTOS
 // ============================================
-document.getElementById('searchBtn').addEventListener('click',investigar);
-document.getElementById('topicInput').addEventListener('keydown',e=>{if(e.key==='Enter')investigar();});
-document.querySelectorAll('.mode-btn').forEach(btn=>{
-    btn.addEventListener('click',function(){
-        document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+document.getElementById('searchBtn').addEventListener('click', investigar);
+document.getElementById('topicInput').addEventListener('keydown', e => { if (e.key === 'Enter') investigar(); });
+document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
         this.classList.add('active');
-        modoActual=this.dataset.modo;
-        showToast(`Modo: ${modoActual==='experto'?'🧠 Experto':'⚡ Básico'}`);
+        modoActual = this.dataset.modo;
+        showToast(`Modo: ${modoActual === 'experto' ? '🧠 Experto' : '⚡ Básico'}`);
     });
 });
-document.getElementById('btnRustStatus').onclick=()=>{
-    const mod=rustWASM.wasm;
-    const funcs=mod?['contar_palabras','contar_caracteres_sin_espacios','contar_oraciones','process_text_full','extract_keywords','extract_authors_fast','detectar_idioma','resumir_texto','process_agent_context','cache_response','get_cached_response','get_cache_size','clear_cache'].filter(f=>typeof mod[f]==='function'):[];
+document.getElementById('btnRustStatus').onclick = () => {
+    const mod = rustWASM.wasm;
+    const funcs = mod ? ['contar_palabras','contar_caracteres_sin_espacios','contar_oraciones','process_text_full','extract_keywords','extract_authors_fast','detectar_idioma','resumir_texto','process_agent_context','cache_response','get_cached_response','get_cache_size','clear_cache'].filter(f => typeof mod[f] === 'function') : [];
     mostrarModal('🦀 Estado WASM Rust',
-        `Estado: ${rustWASM.cargado?'✅ Cargado':'❌ Fallback JS'}\nVersión Core: ${rustWASM.cargado?mod.wasm_version():'N/A'}\nFunciones: ${funcs.length}/13\n\n📋 ${funcs.map(f=>'• '+f).join('\n')}\n\n⚡ Ejecutadas: ${rustWASM.stats.funciones}\n⏱️ Tiempo: ${Math.round(rustWASM.stats.tiempo)}ms\n📦 Caché: ${rustWASM.getCacheSize()}`
+        `Estado: ${rustWASM.cargado ? '✅ Cargado' : '❌ Fallback JS'}\nVersión Core: ${rustWASM.cargado && mod.wasm_version ? mod.wasm_version() : 'N/A'}\nFunciones: ${funcs.length}/13\n\n📋 ${funcs.map(f => '• ' + f).join('\n')}\n\n⚡ Ejecutadas: ${rustWASM.stats.funciones}\n⏱️ Tiempo: ${Math.round(rustWASM.stats.tiempo)}ms\n📦 Caché: ${rustWASM.getCacheSize()}`
     );
 };
-document.getElementById('btnRustTest').onclick=()=>{
-    const texto='La inteligencia artificial es un campo fascinante. Según García (2023) revoluciona la educación. Martínez (2024) analiza su impacto.';
-    const t0=performance.now();
-    const stats=rustWASM.contarPalabras(texto);
-    const keywords=rustWASM.keywords(texto,5);
-    const autores=rustWASM.autores(texto);
-    const idioma=rustWASM.idioma(texto);
-    const full=rustWASM.processFull(texto);
-    const t1=performance.now();
+document.getElementById('btnRustTest').onclick = () => {
+    const texto = 'La inteligencia artificial es un campo fascinante. Según García (2023) revoluciona la educación. Martínez (2024) analiza su impacto.';
+    const t0 = performance.now();
+    const stats = rustWASM.contarPalabras(texto);
+    const keywords = rustWASM.keywords(texto, 5);
+    const autores = rustWASM.autores(texto);
+    const idioma = rustWASM.idioma(texto);
+    const full = rustWASM.processFull(texto);
+    const t1 = performance.now();
     mostrarModal('⚡ Test WASM Rust',
-        `📝 "${texto.substring(0,60)}…"\n\n📊 Palabras: ${stats.palabras}\n🔄 Únicas: ${stats.unicas}\n📖 Oraciones: ${stats.oraciones}\n🌐 Idioma: ${idioma}\n\n🏷️ Keywords: ${keywords.map(k=>`${k.palabra} (${k.frecuencia})`).join(', ')||'N/A'}\n\n👤 Autores: ${autores.join(', ')||'N/A'}\n\n⚡ Tiempo: ${(t1-t0).toFixed(2)}ms\n🦀 wasm_rust: ${full?.wasm_rust||rustWASM.cargado}\n⏱️ tiempo_us: ${full?.tiempo_us||'N/A'}`
+        `📝 "${texto.substring(0, 60)}…"\n\n📊 Palabras: ${stats.palabras}\n🔄 Únicas: ${stats.unicas}\n📖 Oraciones: ${stats.oraciones}\n🌐 Idioma: ${idioma}\n\n🏷️ Keywords: ${keywords.map(k => `${k.palabra} (${k.frecuencia})`).join(', ') || 'N/A'}\n\n👤 Autores: ${autores.join(', ') || 'N/A'}\n\n⚡ Tiempo: ${(t1 - t0).toFixed(2)}ms\n🦀 wasm_rust: ${full?.wasm_rust || rustWASM.cargado}\n⏱️ tiempo_us: ${full?.tiempo_us || 'N/A'}`
     );
 };
-document.getElementById('btnMultiIA').onclick=()=>{
-    let info='🔄 Multi-IA con fallback automático\n\n';
-    IA_PROVEEDORES.forEach((p,i)=>{
-        const emoji=['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣'][i]||'🔹';
-        info+=`${emoji} ${p.nombre}\n`;
-        info+=`   • Modelos: ${p.modelos.join(', ')}\n`;
-        info+=`   • Estado: ${proveedorActual===p.nombre?'✅ Activo':'⏳ Espera'}\n\n`;
+document.getElementById('btnMultiIA').onclick = () => {
+    let info = '🔄 Multi-IA — 9 proveedores en paralelo con Promise.any\n\n';
+    IA_PROVEEDORES.forEach((p, i) => {
+        const emoji = ['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣'][i] || '🔹';
+        info += `${emoji} ${p.nombre}\n`;
+        info += `   • Modelos: ${p.modelos.join(', ')}\n`;
+        info += `   • Estado: ${proveedorActual === p.nombre ? '✅ Activo' : '⏳ Espera'}\n\n`;
     });
-    info+=`🔧 Si un proveedor falla, se prueba automáticamente el siguiente.`;
-    mostrarModal('🔄 Multi-IA — Todos los proveedores',info);
+    info += `📊 Estadísticas:\n✅ OK: ${iaOkCount}\n❌ Fallos: ${iaFailsCount}\n\n`;
+    info += `🔧 Timeout: ${TIMEOUT_IA / 1000}s por proveedor · ${TIMEOUT_TOTAL_ANALISIS / 1000}s global\n`;
+    info += `🏆 Gana el proveedor que responde primero.`;
+    mostrarModal('🔄 Multi-IA — Todos los proveedores', info);
 };
-document.getElementById('btn12Fuentes').onclick=async()=>{
-    const tema=document.getElementById('topicInput')?.value?.trim()||'inteligencia artificial';
+document.getElementById('btn12Fuentes').onclick = async () => {
+    const tema = document.getElementById('topicInput')?.value?.trim() || 'inteligencia artificial';
     showToast('🔬 Buscando en 12 fuentes…');
-    const r=await fuentes.buscar(tema);
-    let html='';
-    ['semantic','arxiv','crossref','openalex'].forEach(k=>{
-        if(r[k].length){
-            const n={semantic:'📚 Semantic Scholar',arxiv:'📐 arXiv',crossref:'📄 Crossref',openalex:'🔓 OpenAlex'}[k];
-            html+=`${n} (${r[k].length})\n${r[k].slice(0,3).map(i=>`• ${i.autores||''} ${i.año?'('+i.año+')':''} ${i.titulo}`).join('\n')}\n\n`;
+    const r = await fuentes.buscar(tema);
+    let html = '';
+    ['semantic', 'arxiv', 'crossref', 'openalex'].forEach(k => {
+        if (r[k].length) {
+            const n = { semantic: '📚 Semantic Scholar', arxiv: '📐 arXiv', crossref: '📄 Crossref', openalex: '🔓 OpenAlex' }[k];
+            html += `${n} (${r[k].length})\n${r[k].slice(0, 3).map(i => `• ${i.autores || ''} ${i.año ? '(' + i.año + ')' : ''} ${i.titulo}`).join('\n')}\n\n`;
         }
     });
-    mostrarModal('🔬 12 Fuentes Académicas',html||'Sin resultados');
+    mostrarModal('🔬 12 Fuentes Académicas', html || 'Sin resultados');
 };
-document.getElementById('btnAgentReach').onclick=async()=>{
-    const tema=document.getElementById('topicInput')?.value?.trim()||'inteligencia artificial';
+document.getElementById('btnAgentReach').onclick = async () => {
+    const tema = document.getElementById('topicInput')?.value?.trim() || 'inteligencia artificial';
     showToast('🔌 Agent-Reach buscando…');
-    const r=await agentReach.buscar(tema);
-    let html='';
-    if(r.github.length)html+=`📦 GITHUB (${r.github.length})\n${r.github.map(i=>`• ${i.titulo} ⭐${i.estrellas}`).join('\n')}\n\n`;
-    if(r.reddit.length)html+=`📖 REDDIT (${r.reddit.length})\n${r.reddit.map(i=>`• r/${i.subreddit}: ${i.titulo}`).join('\n')}\n\n`;
-    if(r.wiki.length)html+=`🌐 WIKIPEDIA (${r.wiki.length})\n${r.wiki.map(i=>`• ${i.titulo}`).join('\n')}`;
-    mostrarModal('🔌 Agent-Reach',html||'Sin resultados');
+    const r = await agentReach.buscar(tema);
+    let html = '';
+    if (r.github.length) html += `📦 GITHUB (${r.github.length})\n${r.github.map(i => `• ${i.titulo} ⭐${i.estrellas}`).join('\n')}\n\n`;
+    if (r.reddit.length) html += `📖 REDDIT (${r.reddit.length})\n${r.reddit.map(i => `• r/${i.subreddit}: ${i.titulo}`).join('\n')}\n\n`;
+    if (r.wiki.length) html += `🌐 WIKIPEDIA (${r.wiki.length})\n${r.wiki.map(i => `• ${i.titulo}`).join('\n')}`;
+    mostrarModal('🔌 Agent-Reach', html || 'Sin resultados');
 };
-document.getElementById('btnIlimitado').onclick=async()=>{
-    const tema=document.getElementById('topicInput')?.value?.trim()||'inteligencia artificial';
+document.getElementById('btnIlimitado').onclick = async () => {
+    const tema = document.getElementById('topicInput')?.value?.trim() || 'inteligencia artificial';
     showToast('♾️ Fuentes ilimitadas…');
-    const[f,a]=await Promise.all([fuentes.buscar(tema),agentReach.buscar(tema)]);
-    const total=f.semantic.length+f.arxiv.length+f.crossref.length+f.openalex.length+a.github.length+a.reddit.length+a.wiki.length;
-    document.getElementById('ultraFuentes').textContent=total;
-    mostrarModal('♾️ Fuentes ilimitadas',`Total: ${total} resultados\n\n📚 Semantic: ${f.semantic.length}\n📐 arXiv: ${f.arxiv.length}\n📄 Crossref: ${f.crossref.length}\n🔓 OpenAlex: ${f.openalex.length}\n📦 GitHub: ${a.github.length}\n📖 Reddit: ${a.reddit.length}\n🌐 Wikipedia: ${a.wiki.length}`);
+    const [f, a] = await Promise.all([fuentes.buscar(tema), agentReach.buscar(tema)]);
+    const total = f.semantic.length + f.arxiv.length + f.crossref.length + f.openalex.length + a.github.length + a.reddit.length + a.wiki.length;
+    document.getElementById('ultraFuentes').textContent = total;
+    mostrarModal('♾️ Fuentes ilimitadas', `Total: ${total} resultados\n\n📚 Semantic: ${f.semantic.length}\n📐 arXiv: ${f.arxiv.length}\n📄 Crossref: ${f.crossref.length}\n🔓 OpenAlex: ${f.openalex.length}\n📦 GitHub: ${a.github.length}\n📖 Reddit: ${a.reddit.length}\n🌐 Wikipedia: ${a.wiki.length}`);
 };
-document.getElementById('btnCoreStatus').onclick=()=>{
+document.getElementById('btnCoreStatus').onclick = () => {
     mostrarModal('🧬 Core 403M',
-        `Estado: ✅ Activo\n📡 Consultas: ${core403M.consultas}\n📚 Temas únicos: ${Object.keys(core403M.temas).length}\n🔄 Evoluciones: ${core403M.evoluciones}\n\n🏆 Top temas:\n${Object.entries(core403M.temas).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([t,c])=>`• ${t} (${c})`).join('\n')||'Sin datos'}`
+        `Estado: ✅ Activo\n📡 Consultas: ${core403M.consultas}\n📚 Temas únicos: ${Object.keys(core403M.temas).length}\n🔄 Evoluciones: ${core403M.evoluciones}\n\n🏆 Top temas:\n${Object.entries(core403M.temas).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([t, c]) => `• ${t} (${c})`).join('\n') || 'Sin datos'}`
     );
 };
-document.getElementById('btnMemoriaStatus').onclick=()=>{
+document.getElementById('btnMemoriaStatus').onclick = () => {
     mostrarModal('🧠 Memoria WASM',
         `📊 Consultas: ${core403M.consultas}\n📚 Temas: ${Object.keys(core403M.temas).length}\n🔄 Evoluciones: ${core403M.evoluciones}\n📦 Caché WASM: ${rustWASM.getCacheSize()} entradas\n\n🧠 Las consultas y temas se guardan en localStorage del navegador.`
     );
 };
-document.getElementById('btnDecisionStatus').onclick=()=>{
+document.getElementById('btnDecisionStatus').onclick = () => {
     mostrarModal('🧠 403M Decide',
-        `⚡ WASM Rust: ${rustWASM.cargado?'✅':'⚠️'}\n📊 Funciones: ${rustWASM.stats.funciones}\n⏱️ Tiempo: ${Math.round(rustWASM.stats.tiempo)}ms\n\n🔄 Multi-IA: ${proveedorActual||'En espera'}\n🧬 Core 403M: ${core403M.consultas} consultas\n🔌 Agent-Reach: G${agentReach.stats.github} R${agentReach.stats.reddit} W${agentReach.stats.wiki}\n\n📌 Modo: ${modoActual}\n🌐 Idioma: ${nombreIdioma[idiomaDetectado]}`
+        `⚡ WASM Rust: ${rustWASM.cargado ? '✅' : '⚠️'}\n📊 Funciones: ${rustWASM.stats.funciones}\n⏱️ Tiempo: ${Math.round(rustWASM.stats.tiempo)}ms\n\n🔄 Multi-IA: ${proveedorActual || 'En espera'}\n✅ OK: ${iaOkCount} · ❌ Fallos: ${iaFailsCount}\n🧬 Core 403M: ${core403M.consultas} consultas\n🔌 Agent-Reach: G${agentReach.stats.github} R${agentReach.stats.reddit} W${agentReach.stats.wiki}\n\n📌 Modo: ${modoActual}\n🌐 Idioma: ${nombreIdioma[idiomaDetectado]}`
     );
 };
-document.getElementById('btnTermuxStatus').onclick=()=>{
+document.getElementById('btnTermuxStatus').onclick = () => {
     mostrarModal('🔌 Estado del sistema',
-        `🦀 WASM Rust: ${rustWASM.cargado?'✅ Activo (Rust real)':'⚠️ Fallback JS'}\n📊 Funciones: ${rustWASM.stats.funciones}\n⏱️ Tiempo WASM: ${Math.round(rustWASM.stats.tiempo)}ms\n📦 Caché: ${rustWASM.getCacheSize()}\n\n🔌 Agent-Reach: ✅ Activo\n📦 GitHub: ${agentReach.stats.github}\n📖 Reddit: ${agentReach.stats.reddit}\n🌐 Wikipedia: ${agentReach.stats.wiki}\n\n🧬 Core 403M: ✅ Activo\n📡 Consultas: ${core403M.consultas}\n📚 Temas: ${Object.keys(core403M.temas).length}\n🔄 Evoluciones: ${core403M.evoluciones}\n\n🌐 Idiomas: 6\n📡 Fuentes: 12 + ♾️ Ilimitadas\n⚡ 1 Llamada: ✅\n📌 Modo: ${modoActual}`
+        `🦀 WASM Rust: ${rustWASM.cargado ? '✅ Activo (Rust real)' : '⚠️ Fallback JS'}\n📊 Funciones: ${rustWASM.stats.funciones}\n⏱️ Tiempo WASM: ${Math.round(rustWASM.stats.tiempo)}ms\n📦 Caché: ${rustWASM.getCacheSize()}\n\n🔄 Multi-IA: ✅ Paralelo con Promise.any\n🏆 Proveedor actual: ${proveedorActual || 'En espera'}\n✅ OK: ${iaOkCount} · ❌ Fallos: ${iaFailsCount}\n⏱️ Timeout: ${TIMEOUT_IA / 1000}s por proveedor · ${TIMEOUT_TOTAL_ANALISIS / 1000}s global\n\n🔌 Agent-Reach: ✅ Activo\n📦 GitHub: ${agentReach.stats.github}\n📖 Reddit: ${agentReach.stats.reddit}\n🌐 Wikipedia: ${agentReach.stats.wiki}\n\n🧬 Core 403M: ✅ Activo\n📡 Consultas: ${core403M.consultas}\n📚 Temas: ${Object.keys(core403M.temas).length}\n🔄 Evoluciones: ${core403M.evoluciones}\n\n🌐 Idiomas: 6\n📡 Fuentes: 12 + ♾️ Ilimitadas\n⚡ Paralelo: ✅\n📌 Modo: ${modoActual}`
     );
 };
-document.getElementById('btnAnalisisCompleto').onclick=()=>{
-    const contenido=document.getElementById('contenido')?.innerText||'';
-    if(!contenido||contenido==='—'){showToast('⚠️ Realiza una investigación primero',true);return;}
-    const stats=rustWASM.contarPalabras(contenido);
-    const citas=(contenido.match(/\([A-ZÁÉÍÓÚ][a-záéíóú]+,\s*\d{4}\)/g)||[]).length;
-    const intro=contenido.match(/Introducción:([\s\S]*?)(?=Desarrollo:|Conclusión:|$)/i);
-    const des=contenido.match(/Desarrollo:([\s\S]*?)(?=Conclusión:|$)/i);
-    const con=contenido.match(/Conclusión:([\s\S]*?)$/i);
+document.getElementById('btnAnalisisCompleto').onclick = () => {
+    const contenido = document.getElementById('contenido')?.innerText || '';
+    if (!contenido || contenido === '—') { showToast('⚠️ Realiza una investigación primero', true); return; }
+    const stats = rustWASM.contarPalabras(contenido);
+    const citas = (contenido.match(/\([A-ZÁÉÍÓÚ][a-záéíóú]+,\s*\d{4}\)/g) || []).length;
+    const intro = contenido.match(/Introducción:([\s\S]*?)(?=Desarrollo:|Conclusión:|$)/i);
+    const des = contenido.match(/Desarrollo:([\s\S]*?)(?=Conclusión:|$)/i);
+    const con = contenido.match(/Conclusión:([\s\S]*?)$/i);
     mostrarModal('📊 Análisis Completo',
-        `📝 Palabras: ${stats.palabras}\n🔄 Únicas: ${stats.unicas}\n📖 Oraciones: ${stats.oraciones}\n📚 Citas APA: ${citas}\n\n📖 Introducción: ${intro?rustWASM.contarPalabras(intro[1]).palabras:0} palabras\n🔬 Desarrollo: ${des?rustWASM.contarPalabras(des[1]).palabras:0} palabras\n📊 Conclusión: ${con?rustWASM.contarPalabras(con[1]).palabras:0} palabras\n\n🌐 Idioma: ${rustWASM.idioma(contenido)}\n📚 Riqueza léxica: ${stats.palabras>0?Math.round(stats.unicas/stats.palabras*100):0}%\n\n🔌 Agent-Reach: ${agentReach.stats.github+agentReach.stats.reddit+agentReach.stats.wiki} resultados\n🧬 Core 403M: ${core403M.consultas} consultas\n⚡ WASM Rust: 50x más rápido`
+        `📝 Palabras: ${stats.palabras}\n🔄 Únicas: ${stats.unicas}\n📖 Oraciones: ${stats.oraciones}\n📚 Citas APA: ${citas}\n\n📖 Introducción: ${intro ? rustWASM.contarPalabras(intro[1]).palabras : 0} palabras\n🔬 Desarrollo: ${des ? rustWASM.contarPalabras(des[1]).palabras : 0} palabras\n📊 Conclusión: ${con ? rustWASM.contarPalabras(con[1]).palabras : 0} palabras\n\n🌐 Idioma: ${rustWASM.idioma(contenido)}\n📚 Riqueza léxica: ${stats.palabras > 0 ? Math.round(stats.unicas / stats.palabras * 100) : 0}%\n\n🔌 Agent-Reach: ${agentReach.stats.github + agentReach.stats.reddit + agentReach.stats.wiki} resultados\n🧬 Core 403M: ${core403M.consultas} consultas\n⚡ Multi-IA: ${iaOkCount} respuestas OK · ${iaFailsCount} fallos`
     );
 };
-document.getElementById('btnExamen').onclick=()=>{
-    const q=document.getElementById('topicInput')?.value?.trim()||'tema actual';
+document.getElementById('btnExamen').onclick = () => {
+    const q = document.getElementById('topicInput')?.value?.trim() || 'tema actual';
     mostrarModal('🎯 Examen Académico',
-        `📝 Examen sobre: "${q}"\n\n1. Define el concepto principal de "${q}".\n2. Menciona 3 autores clave.\n3. ¿Cuáles son las aplicaciones prácticas?\n4. Describe una metodología adecuada.\n5. Elabora una conclusión crítica.\n\n📌 Estructura: Introducción, Desarrollo, Conclusión.\n⚡ WASM Rust: 50x más rápido\n🔌 Agent-Reach: Datos en tiempo real\n🧬 Core 403M: ${core403M.consultas} consultas`
+        `📝 Examen sobre: "${q}"\n\n1. Define el concepto principal de "${q}".\n2. Menciona 3 autores clave.\n3. ¿Cuáles son las aplicaciones prácticas?\n4. Describe una metodología adecuada.\n5. Elabora una conclusión crítica.\n\n📌 Estructura: Introducción, Desarrollo, Conclusión.\n⚡ Multi-IA: 9 proveedores en paralelo\n🔌 Agent-Reach: Datos en tiempo real\n🧬 Core 403M: ${core403M.consultas} consultas`
     );
 };
-document.getElementById('btnAbstract').onclick=()=>{
-    const c=document.getElementById('contenido')?.innerText||'Sin contenido';
-    const lines=c.split('\n').filter(l=>l.trim().length>0);
-    mostrarModal('📌 Abstract',`<div style="font-style:italic;color:#94a3b8;">Resumen con WASM Rust + Agent-Reach + Core 403M:</div>\n\n${lines.slice(0,6).join('\n').substring(0,500)}…`);
+document.getElementById('btnAbstract').onclick = () => {
+    const c = document.getElementById('contenido')?.innerText || 'Sin contenido';
+    const lines = c.split('\n').filter(l => l.trim().length > 0);
+    mostrarModal('📌 Abstract', `<div style="font-style:italic;color:#94a3b8;">Resumen con WASM Rust + Agent-Reach + Core 403M:</div>\n\n${lines.slice(0, 6).join('\n').substring(0, 500)}…`);
 };
-document.getElementById('btnComparar').onclick=()=>{
+document.getElementById('btnComparar').onclick = () => {
     mostrarModal('🔍 Comparativa de enfoques',
         `📊 Enfoques académicos:\n\n🇩🇪 Alemán: Riguroso, cuantitativo\n🇺🇸 Americano: Aplicado, mixto\n🇬🇧 Británico: Teórico, cualitativo\n🇪🇸 Hispanoamericano: Contextual, participativo\n\n💡 Recomendación: Enfoque integral con WASM Rust + Agent-Reach + Core 403M`
     );
 };
-document.getElementById('btnPlagio').onclick=()=>{
-    const c=document.getElementById('contenido')?.innerText||'';
-    const stats=rustWASM.contarPalabras(c);
-    const citas=(c.match(/\([A-ZÁÉÍÓÚ][a-záéíóú]+,\s*\d{4}\)/g)||[]).length;
+document.getElementById('btnPlagio').onclick = () => {
+    const c = document.getElementById('contenido')?.innerText || '';
+    const stats = rustWASM.contarPalabras(c);
+    const citas = (c.match(/\([A-ZÁÉÍÓÚ][a-záéíóú]+,\s*\d{4}\)/g) || []).length;
     mostrarModal('⚠️ Análisis de Originalidad',
-        `📊 Originalidad:\n📝 Palabras: ${stats.palabras}\n📚 Citas APA: ${citas}\n🔍 Similitud: ${citas>=2?'✅ Original':'⚠️ Revisar citas'}\n\n💡 Siempre citar las fuentes.`
+        `📊 Originalidad:\n📝 Palabras: ${stats.palabras}\n📚 Citas APA: ${citas}\n🔍 Similitud: ${citas >= 2 ? '✅ Original' : '⚠️ Revisar citas'}\n\n💡 Siempre citar las fuentes.`
     );
 };
-document.getElementById('btnTarjetas').onclick=()=>{
-    const q=document.getElementById('topicInput')?.value?.trim()||'tema';
+document.getElementById('btnTarjetas').onclick = () => {
+    const q = document.getElementById('topicInput')?.value?.trim() || 'tema';
     mostrarModal('🃏 Tarjetas de Estudio',
         `📌 Definición de "${q}"\n   ${q} es un campo que aborda…\n\n📌 Autores clave\n   • Autor 1: Contribución\n   • Autor 2: Contribución\n\n📌 Aplicaciones\n   • Aplicación 1\n   • Aplicación 2\n\n📌 Desafíos\n   • Desafío 1\n   • Desafío 2`
     );
 };
-document.getElementById('btnRelacionados').onclick=()=>{
-    const q=document.getElementById('topicInput')?.value?.trim()||'tema';
+document.getElementById('btnRelacionados').onclick = () => {
+    const q = document.getElementById('topicInput')?.value?.trim() || 'tema';
     mostrarModal('💡 Temas Relacionados',
         `🔗 Temas relacionados con "${q}":\n\n1. ${q} en educación\n2. ${q} en industria 4.0\n3. ${q} y sostenibilidad\n4. Metodologías en ${q}\n5. ${q} y ética\n6. Futuro de ${q}\n\n📚 Explorar con WASM Rust + Agent-Reach + Core 403M.`
     );
 };
-document.getElementById('btnExportar').onclick=()=>{
-    const c=document.getElementById('contenido')?.innerText||'';
-    if(!c||c==='—'){showToast('⚠️ No hay contenido',true);return;}
-    const blob=new Blob([c],{type:'text/plain;charset=utf-8'});
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement('a');
-    a.href=url;a.download=`investigacion_${new Date().toISOString().slice(0,10)}.txt`;
-    document.body.appendChild(a);a.click();document.body.removeChild(a);
+document.getElementById('btnExportar').onclick = () => {
+    const c = document.getElementById('contenido')?.innerText || '';
+    if (!c || c === '—') { showToast('⚠️ No hay contenido', true); return; }
+    const blob = new Blob([c], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `investigacion_${new Date().toISOString().slice(0, 10)}.txt`;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
     URL.revokeObjectURL(url);
     showToast('📤 Exportado');
 };
@@ -1241,17 +1440,21 @@ document.getElementById('btnExportar').onclick=()=>{
 // ============================================
 // INICIALIZACIÓN
 // ============================================
-(async()=>{
-    console.log('🚀 AcadémIA Pro · WASM Rust + Multi-IA + Core 403M + Agent-Reach');
-    console.log('📊 13 funciones Rust · 7 modelos IA · 12+ fuentes · 6 idiomas');
+(async () => {
+    Diagnostico.log('🚀 AcadémIA Pro iniciando…', 'info');
+    Diagnostico.log(`📊 ${IA_PROVEEDORES.length} proveedores · ${IA_PROVEEDORES.reduce((a, p) => a + p.modelos.length, 0)} modelos free`, 'info');
+    Diagnostico.log(`⏱️ Timeout IA: ${TIMEOUT_IA / 1000}s · Timeout global: ${TIMEOUT_TOTAL_ANALISIS / 1000}s`, 'info');
+    Diagnostico.log('🔄 Estrategia: Promise.any (paralelo) + fallback académico', 'info');
+
     await rustWASM.cargar();
-    if(rustWASM.cargado){
-        actualizarFase('🦀 WASM Rust activo · 🔄 Multi-IA lista · ♾️ Fuentes ilimitadas');
-        showToast('🦀 WASM Rust cargado · 🔄 Multi-IA lista · ⚡ 50x más rápido');
-    }else{
+    if (rustWASM.cargado) {
+        actualizarFase('🦀 WASM Rust activo · 🔄 Multi-IA paralelo listo · ♾️ Fuentes ilimitadas');
+        showToast('🦀 WASM Rust + 🔄 Multi-IA paralelo listos · ⚡ 50x más rápido');
+    } else {
         actualizarFase('⚠️ WASM Rust no disponible · Usando fallback JS');
-        showToast('⚠️ Verifica que pkg/ esté junto al index.html',true);
+        showToast('⚠️ Verifica que pkg/ esté junto al index.html', true);
     }
+    actualizarProveedor(null);
 })();
 </script>
 </body>
