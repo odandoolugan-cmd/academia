@@ -1,14 +1,1 @@
-# Binarios generados por wasm-pack (se regeneran con `wasm-pack build`)
-*.wasm
-*.js
-*.d.ts
-package.json
-
-# Excepción: conservar Cargo.toml, Cargo.lock y src/
-!Cargo.toml
-!Cargo.lock
-!src/
-
-# Target de Rust
-target/
-node-test/
+*
