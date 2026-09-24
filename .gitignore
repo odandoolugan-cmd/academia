@@ -1,2 +1,33 @@
-index.html.backup
-index.html.backup
+# === Backups ===
+*.backup
+*.local-backup
+
+# === Rust / Cargo ===
+target/
+**/target/
+Cargo.lock
+**/Cargo.lock
+
+# === WASM generado por wasm-pack (NO subir) ===
+**/pkg/*.wasm
+**/pkg/*.js
+**/pkg/*.d.ts
+**/pkg/package.json
+**/pkg_aristo/*.wasm
+**/pkg_aristo/*.js
+**/pkg_aristo/*.d.ts
+**/pkg_aristo/package.json
+
+# === node-test ===
+node-test/
+**/node-test/
+
+# === Node ===
+node_modules/
+npm-debug.log*
+
+# === Sistema ===
+.DS_Store
+Thumbs.db
+*.swp
+*.log
