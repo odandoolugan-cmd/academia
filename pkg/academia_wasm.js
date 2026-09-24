@@ -1,5 +1,3 @@
-/* @ts-self-types="./academia_wasm.d.ts" */
-
 /**
  * @param {string} key
  * @param {string} value
