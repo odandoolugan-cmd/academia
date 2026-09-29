@@ -118,6 +118,7 @@
         .word-btn:disabled{opacity:.4;cursor:not-allowed}
         .word-status{font-size:.68rem;color:#10b981;margin-left:8px}
 
+        .url-section{
             background:rgba(15,23,42,.6);border-radius:1rem;padding:1rem;
             margin-bottom:1rem;border:1px solid rgba(139,92,246,.3);
         }
@@ -130,10 +131,15 @@
         }
         .url-input:focus{outline:none;border-color:#8b5cf6;box-shadow:0 0 0 3px rgba(139,92,246,.15)}
         .url-input::placeholder{color:#64748b}
+        .url-btn{
             background:#1e293b;border:1px solid #334155;padding:8px 16px;
             border-radius:20px;font-size:.72rem;cursor:pointer;font-weight:600;
             color:#94a3b8;transition:.2s;
         }
+        .url-btn:hover{background:#334155;color:#fff;border-color:#8b5cf6}
+        .url-btn.primary{background:linear-gradient(90deg,#8b5cf6,#3b82f6);color:#fff;border:none}
+        .url-btn.primary:hover{transform:scale(1.02)}
+        .url-btn:disabled{opacity:.4;cursor:not-allowed}
         .url-status{font-size:.68rem;color:#10b981;margin-left:8px}
 
         /* TOOLBAR */
@@ -425,6 +431,17 @@
             </div>
         </div>
 
+        <!-- URL SECTION -->
+        <div class="url-section">
+            <div class="url-title">🔗 ANALIZADOR DE URL · Lee artículos, papers, webs y PDFs</div>
+            <div class="url-bar">
+                <input type="url" class="url-input" id="urlInput" placeholder="https://ejemplo.com/articulo o https://arxiv.org/abs/...">
+                <button class="url-btn primary" id="analizarUrlBtn">🔍 ANALIZAR URL</button>
+                <button class="url-btn" id="limpiarUrlBtn">🗑️ LIMPIAR</button>
+                <span class="url-status" id="urlStatus">⚡ Pega una URL…</span>
+            </div>
+        </div>
+
         <!-- TOOLBAR -->
         <div class="toolbar">
             <button class="tool" id="btnExamen">🎯 Examen</button>
@@ -682,10 +699,9 @@ class RustWASM {
         try {
             console.log('Cargando WASM Rust desde ./pkg/academia_wasm.js');
             await mod.default('./pkg/academia_wasm_bg.wasm');
-const vCache = Date.now();
-const mod = await import('./pkg/academia_wasm.js?v=' + vCache);
-await mod.default('./pkg/academia_wasm_bg.wasm?v=' + vCache);
-            this.wasm = mod; this.cargado = true;
+const v = Date.now();
+const mod = await import('./pkg/academia_wasm.js?v=' + v);
+await mod.default('./pkg/academia_wasm_bg.wasm?v=' + v);            this.wasm = mod; this.cargado = true;
             const v = mod.wasm_version ? mod.wasm_version() : 'unknown';
             const funcsBase = ['detectar_idioma_avanzado','detectar_muletillas_ia','detectar_pii','detectar_topicos','extract_authors_fast','extract_keywords','extract_ngramas','extraer_emails','extraer_entidades_nombradas','extraer_fechas','extraer_hashtags_menciones','extraer_numeros','extraer_urls','get_cache_size','get_cached_response','indice_flesch_espanol','indice_gunning_fog','longitud_media_oraciones','normalizar_texto','now_us','process_agent_context','process_text_full','resumir_texto','resumir_tfidf','sanitizar_texto','sentimiento_espanol','similitud_coseno','wasm_version'];
             const funcs = funcsBase.filter(f => typeof mod[f] === 'function');
@@ -1292,18 +1308,6 @@ function generarFallbackAcademico(tema, fuentes, idioma = 'es') {
     texto += `la aplicación de inteligencia artificial y la colaboración internacional. `;
     texto += `La combinación de ${origenes.size} bases de datos sugiere un ecosistema `;
     texto += `de investigación maduro y con capacidad de crecimiento.\n\n`;
-
-    // Añadir análisis de abstracts antes de la conclusión
-    if (conContenido.length > 0) {
-        texto += `Sub-tema 4b: Análisis detallado de los abstracts\n\n`;
-        texto += `A continuación se presenta un análisis de los principales hallazgos reportados en los abstracts:\n\n`;
-        conContenido.slice(0, 5).forEach((f, i) => {
-            if (f.contenidoExtraido && f.contenidoExtraido.length > 100) {
-                texto += `${i + 1}. ${f.autores || 'Autor'} (${f.año || 's.f.'}): `;
-                texto += `${f.contenidoExtraido.substring(0, 250).trim()}...\n\n`;
-            }
-        });
-    }
 
     texto += `Conclusión:\n\n`;
     texto += `El análisis de ${totalFuentes} publicaciones sobre "${tema}" permite concluir `;
@@ -2253,89 +2257,106 @@ function formatearDesglose(desglose, titulo, autor, fecha, url) {
     return html;
 }
 
+async function analizarURL() {
+    const url = document.getElementById('urlInput').value.trim();
+    if (!url) { showToast('⚠️ Pega una URL', true); return; }
+    if (!/^https?:\/\//i.test(url)) { showToast('⚠️ Debe empezar con http:// o https://', true); return; }
+    if (ocupado) return;
+    ocupado = true;
+    const btn = document.getElementById('analizarUrlBtn'); btn.disabled = true;
+    const status = document.getElementById('urlStatus');
+    status.textContent = '⏳ Cargando URL…'; status.style.color = '#f59e0b';
+    actualizarFase('🔗 Analizando URL: ' + url.substring(0, 60) + '…');
+    actualizarProgress(10);
+
+    try {
+        // 1. Extraer texto
+        const extracted = await extraerTextoDeURL(url);
+        status.textContent = '✅ ' + extracted.texto.length + ' chars'; status.style.color = '#10b981';
+        actualizarProgress(40);
+
+        // 2. Desglose con WASM Rust + Aristo
+        actualizarFase('🦀 Desglosando con WASM Rust + Aristo…');
+        const desglose = desgloseWASMRust(extracted.texto, extracted.titulo);
+        actualizarProgress(70);
+
+        // 3. Formatear
+        const informe = formatearDesglose(desglose, extracted.titulo, extracted.autor, extracted.fecha, url);
+
+        // 4. Mostrar en modal
+        mostrarModal('🔗 Análisis de URL', informe);
+        actualizarProgress(100);
+
+        // 5. Guardar el texto en el content-box por si quiere reutilizarlo
+        document.getElementById('contenido').innerText = extracted.texto.substring(0, 10000);
+        document.getElementById('resultsCard').classList.add('show');
+
+        // 6. Registrar en Core 403M
+        core403M.registrar(url, extracted.texto);
+        showToast('✅ URL analizada · ' + extracted.texto.length + ' chars');
+    } catch (e) {
+        console.error(e);
+        status.textContent = '❌ ' + e.message; status.style.color = '#ef4444';
+        showToast('❌ ' + e.message, true);
+    } finally {
+        ocupado = false; btn.disabled = false; ocultarStatus();
+        setTimeout(() => actualizarProgress(0), 2000);
+    }
+}
 
 
+document.getElementById('analizarUrlBtn').onclick = analizarURL;
+document.getElementById('urlInput').addEventListener('keydown', e => { if (e.key === 'Enter') analizarURL(); });
+document.getElementById('limpiarUrlBtn').onclick = () => {
+    document.getElementById('urlInput').value = '';
+    document.getElementById('urlStatus').textContent = '⚡ Pega una URL…';
+    document.getElementById('urlStatus').style.color = '#10b981';
+};
 
 
 // ============================================
 // 🔥 FALLBACK ENRIQUECIDO — Extrae contenido REAL de las URLs
 // ============================================
 async function enriquecerFuentesConURLs(fuentesObj, idioma = 'es') {
-    Diagnostico.log('Enriqueciendo fuentes con contenido real...', 'info');
-    const enriquecidas = JSON.parse(JSON.stringify(fuentesObj));
+    Diagnostico.log('Enriqueciendo fuentes con extracción de URLs...', 'info');
+    const enriquecidas = { ...fuentesObj };
     const promesas = [];
-    let contadorURLs = 0;
-    let contadorAbstracts = 0;
 
-    const esURLDeAPI = (url) => {
-        if (!url) return true;
-        const urlsAPI = [
-            '/api/', '/works?', '/search?', '/query?', '/graph/v1/',
-            'api.crossref.org', 'api.openalex.org', 'api.semanticscholar.org',
-            'api.core.ac.uk', 'doaj.org/api', 'hn.algolia.com',
-            'archive.org/advancedsearch', 'query.wikidata.org', 'api.github.com',
-            'reddit.com/search', 'wikipedia.org/w/api', 'export.arxiv.org/api'
-        ];
-        return urlsAPI.some(x => url.includes(x));
-    };
-
-    const tieneContenidoUtil = (fuente) => {
-        return !!(fuente.abstract && fuente.abstract.length > 80) ||
-               !!(fuente.descripcion && fuente.descripcion.length > 80) ||
-               !!(fuente.resumen && fuente.resumen.length > 80);
-    };
-
+    // Recorrer cada categoría de fuente
     for (const [categoria, lista] of Object.entries(fuentesObj)) {
         if (!Array.isArray(lista)) continue;
         for (let i = 0; i < lista.length; i++) {
             const fuente = lista[i];
-
-            // 1. Si ya tiene abstract util, usarlo directamente
-            if (tieneContenidoUtil(fuente)) {
-                enriquecidas[categoria][i] = {
-                    ...fuente,
-                    contenidoExtraido: fuente.abstract || fuente.descripcion || fuente.resumen,
-                    enriquecido: true,
-                    tipoContenido: 'abstract-api'
-                };
-                contadorAbstracts++;
-                Diagnostico.log('OK abstract ' + categoria + '[' + i + ']: ' + (fuente.abstract || fuente.descripcion).length + ' chars', 'ok');
-                continue;
-            }
-
-            // 2. Si tiene URL de documento real (no API), extraerla
-            if (fuente.url && !esURLDeAPI(fuente.url)) {
-                contadorURLs++;
-                promesas.push((async () => {
-                    try {
-                        const contenido = await extraerTextoDeURL(fuente.url);
-                        if (contenido && contenido.texto && contenido.texto.length > 100) {
-                            enriquecidas[categoria][i] = {
-                                ...fuente,
-                                contenidoExtraido: contenido.texto,
-                                tituloExtraido: contenido.titulo || fuente.titulo,
-                                enriquecido: true,
-                                tipoContenido: 'fetch-url'
-                            };
-                            Diagnostico.log('OK fetch ' + categoria + '[' + i + ']: ' + contenido.texto.length + ' chars', 'ok');
-                        }
-                    } catch (e) {
-                        Diagnostico.log('Error ' + categoria + '[' + i + ']: ' + e.message, 'warn');
-                    }
-                })());
-            }
+            if (!fuente.url) continue;
+            // Solo extraer si tiene URL válida y no es la misma
+            promesas.push((async () => {
+                try {
+                    const contenido = await extraerTextoDeURL(fuente.url);
+                    // Actualizar la fuente con datos extraídos
+                    enriquecidas[categoria][i] = {
+                        ...fuente,
+                        contenidoExtraido: contenido.texto.substring(0, 8000),
+                        tituloExtraido: contenido.titulo || fuente.titulo,
+                        autorExtraido: contenido.autor || fuente.autores,
+                        fechaExtraida: contenido.fecha || fuente.año,
+                        descripcionExtraida: contenido.descripcion || fuente.abstract,
+                        enriquecido: true
+                    };
+                    Diagnostico.log('✅ ' + fuente.url.substring(0, 50) + '… (' + contenido.texto.length + ' chars)', 'ok');
+                } catch (e) {
+                    Diagnostico.log('⚠️ No se pudo extraer: ' + fuente.url.substring(0, 50) + '… (' + e.message + ')', 'warn');
+                    // Dejar la fuente como estaba
+                }
+            })());
         }
     }
 
-    Diagnostico.log('Abstracts directos: ' + contadorAbstracts + ' | URLs a extraer: ' + contadorURLs, 'info');
-
-    if (promesas.length > 0) {
-        const timeout = new Promise(resolve => setTimeout(() => resolve('timeout'), 40000));
-        await Promise.race([Promise.allSettled(promesas), timeout]);
-    }
+    // Esperar todas con timeout global de 45s
+    const timeout = new Promise(resolve => setTimeout(() => resolve('timeout'), 45000));
+    await Promise.race([Promise.allSettled(promesas), timeout]);
 
     const enriquecidasCount = Object.values(enriquecidas).flat().filter(f => f.enriquecido).length;
-    Diagnostico.log('Fuentes enriquecidas totales: ' + enriquecidasCount, 'ok');
+    Diagnostico.log('📊 Fuentes enriquecidas: ' + enriquecidasCount, 'ok');
     return enriquecidas;
 }
 

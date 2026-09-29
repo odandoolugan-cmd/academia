@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Test WASM</title></head>
+<body>
+<h1>Test WASM Rust</h1>
+<pre id="output">Cargando…</pre>
+<script type="module">
+try {
+    const mod = await import('./pkg/academia_wasm.js?v=' + Date.now());
+    await mod.default('./pkg/academia_wasm_bg.wasm?v=' + Date.now());
+    const v = mod.wasm_version ? mod.wasm_version() : 'unknown';
+    const p = mod.contar_palabras ? mod.contar_palabras('Hola mundo, esto es una prueba') : 'no disponible';
+    document.getElementById('output').textContent = 
+        'WASM cargado OK\n' +
+        'Version: ' + v + '\n' +
+        'Palabras: ' + p + '\n' +
+        'Funciones: ' + Object.keys(mod).filter(k => typeof mod[k] === 'function').length;
+} catch (e) {
+    document.getElementById('output').textContent = 'ERROR:\n' + e.message + '\n\n' + e.stack;
+    console.error(e);
+}
+</script>
+</body>
+</html>

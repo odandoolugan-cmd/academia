@@ -83,10 +83,6 @@
         }
         .info-badge.provider{border-color:rgba(16,185,129,.5);color:#6ee7b7}
 
-        body.modo-cientifico .notice{border-left-color:#3b82f6;background:rgba(59,130,246,.15)}
-        body.modo-cientifico .badge.b-aristo{opacity:.3}
-        .info-badge.cientifico{border-color:rgba(59,130,246,.5);color:#93c5fd;background:rgba(59,130,246,.15)}
-
         /* PROGRESS */
         .progress-track{width:100%;height:4px;background:rgba(30,41,59,.8);border-radius:2px;overflow:hidden;margin-bottom:1rem}
         .progress-fill{height:100%;width:0;background:linear-gradient(90deg,#8b5cf6,#ec4899);transition:width .5s;border-radius:2px}
@@ -117,24 +113,6 @@
         .word-btn.success{background:linear-gradient(90deg,#10b981,#059669);color:#fff;border:none}
         .word-btn:disabled{opacity:.4;cursor:not-allowed}
         .word-status{font-size:.68rem;color:#10b981;margin-left:8px}
-
-            background:rgba(15,23,42,.6);border-radius:1rem;padding:1rem;
-            margin-bottom:1rem;border:1px solid rgba(139,92,246,.3);
-        }
-        .url-title{font-size:.85rem;font-weight:700;margin-bottom:.75rem;color:#a78bfa;display:flex;align-items:center;gap:8px}
-        .url-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-        .url-input{
-            flex:1;min-width:250px;padding:.75rem;background:#1e293b;
-            border:1px solid #334155;border-radius:.6rem;color:#fff;
-            font-size:.8rem;transition:.2s;
-        }
-        .url-input:focus{outline:none;border-color:#8b5cf6;box-shadow:0 0 0 3px rgba(139,92,246,.15)}
-        .url-input::placeholder{color:#64748b}
-            background:#1e293b;border:1px solid #334155;padding:8px 16px;
-            border-radius:20px;font-size:.72rem;cursor:pointer;font-weight:600;
-            color:#94a3b8;transition:.2s;
-        }
-        .url-status{font-size:.68rem;color:#10b981;margin-left:8px}
 
         /* TOOLBAR */
         .toolbar{display:flex;flex-wrap:wrap;gap:6px;margin:15px 0;justify-content:center}
@@ -399,10 +377,6 @@
             <button class="mode-btn active" data-modo="experto">🧠 EXPERTO</button>
             <button class="mode-btn" data-modo="basico">⚡ BÁSICO</button>
         </div>
-        <div class="mode-group" style="margin-left:8px;">
-            <button class="mode-btn active" id="btnModoAcademico" data-tipo="academico">🎓 ACADÉMICO</button>
-            <button class="mode-btn" id="btnModoCientifico" data-tipo="cientifico">🔬 CIENTÍFICO</button>
-        </div>
         <div class="info-badges">
             <span class="info-badge" id="idiomaIndicator">🌐 Español</span>
             <span class="info-badge provider" id="proveedorIndicator">🔄 Multi-IA</span>
@@ -449,10 +423,6 @@
             <button class="tool" id="btnDensidad" style="border-color:#8b5cf6;color:#a78bfa;">📝 Densidad</button>
             <button class="tool" id="btnEntidades" style="border-color:#f59e0b;color:#fbbf24;">👤 Entidades</button>
             <button class="tool" id="btnAnalisisTextual" style="border-color:#10b981;color:#34d399;">🔍 Análisis Textual</button>
-            <button class="tool" id="btnVerificarDOI" style="border-color:#3b82f6;color:#93c5fd;">🔬 Verificar DOI</button>
-            <button class="tool" id="btnEstadistico" style="border-color:#3b82f6;color:#93c5fd;">📊 Estadístico</button>
-            <button class="tool" id="btnBibTeX" style="border-color:#3b82f6;color:#93c5fd;">📚 BibTeX</button>
-            <button class="tool" id="btnInformeCientifico" style="border-color:#3b82f6;color:#93c5fd;">📋 Informe Científico</button>
         </div>
 
         <!-- INPUT -->
@@ -636,8 +606,7 @@ const TIMEOUT_IA = 25000;
 const TIMEOUT_TOTAL_ANALISIS = 60000;
 const PAIS_FIJO = 'Alemania';
 
-let ocupado = false, modoActual = 'experto', modoApp = 'academico', idiomaDetectado = 'es', proveedorActual = null, idiomasTotal = 0;
-let resultadosFuentesGlobal = {};
+let ocupado = false, modoActual = 'experto', idiomaDetectado = 'es', proveedorActual = null, idiomasTotal = 0;
 let iaOkCount = 0, iaFailsCount = 0;
 
 // ============================================
@@ -681,10 +650,8 @@ class RustWASM {
     async cargar() {
         try {
             console.log('Cargando WASM Rust desde ./pkg/academia_wasm.js');
+            const mod = await import('./pkg/academia_wasm.js');
             await mod.default('./pkg/academia_wasm_bg.wasm');
-const vCache = Date.now();
-const mod = await import('./pkg/academia_wasm.js?v=' + vCache);
-await mod.default('./pkg/academia_wasm_bg.wasm?v=' + vCache);
             this.wasm = mod; this.cargado = true;
             const v = mod.wasm_version ? mod.wasm_version() : 'unknown';
             const funcsBase = ['detectar_idioma_avanzado','detectar_muletillas_ia','detectar_pii','detectar_topicos','extract_authors_fast','extract_keywords','extract_ngramas','extraer_emails','extraer_entidades_nombradas','extraer_fechas','extraer_hashtags_menciones','extraer_numeros','extraer_urls','get_cache_size','get_cached_response','indice_flesch_espanol','indice_gunning_fog','longitud_media_oraciones','normalizar_texto','now_us','process_agent_context','process_text_full','resumir_texto','resumir_tfidf','sanitizar_texto','sentimiento_espanol','similitud_coseno','wasm_version'];
@@ -1293,18 +1260,6 @@ function generarFallbackAcademico(tema, fuentes, idioma = 'es') {
     texto += `La combinación de ${origenes.size} bases de datos sugiere un ecosistema `;
     texto += `de investigación maduro y con capacidad de crecimiento.\n\n`;
 
-    // Añadir análisis de abstracts antes de la conclusión
-    if (conContenido.length > 0) {
-        texto += `Sub-tema 4b: Análisis detallado de los abstracts\n\n`;
-        texto += `A continuación se presenta un análisis de los principales hallazgos reportados en los abstracts:\n\n`;
-        conContenido.slice(0, 5).forEach((f, i) => {
-            if (f.contenidoExtraido && f.contenidoExtraido.length > 100) {
-                texto += `${i + 1}. ${f.autores || 'Autor'} (${f.año || 's.f.'}): `;
-                texto += `${f.contenidoExtraido.substring(0, 250).trim()}...\n\n`;
-            }
-        });
-    }
-
     texto += `Conclusión:\n\n`;
     texto += `El análisis de ${totalFuentes} publicaciones sobre "${tema}" permite concluir `;
     texto += `que se trata de un campo dinámico, con fundamentos teóricos sólidos y aplicaciones crecientes. `;
@@ -1406,24 +1361,7 @@ async function investigar() {
     let resultadosFuentes = { semantic: [], arxiv: [], crossref: [], openalex: [], core: [], doaj: [], pubmed: [], internetArchive: [], wikidata: [], hackernews: [] };
 
     try {
-        // Detectar si el usuario pego una URL
-        const esURL = /^https?:\/\//i.test(query);
-        let textoDeURL = '';
-        let urlInfo = null;
-        if (esURL) {
-            actualizarFase('URL detectada · extrayendo texto...');
-            actualizarProgress(15);
-            try {
-                urlInfo = await extraerTextoDeURL(query);
-                textoDeURL = urlInfo.texto;
-                Diagnostico.log('URL extraida: ' + textoDeURL.length + ' chars', 'ok');
-            } catch (e) {
-                Diagnostico.log('Error extrayendo URL: ' + e.message, 'warn');
-            }
-        }
-        const queryParaAnalisis = textoDeURL || query;
-
-        idiomaDetectado = rustWASM.idioma(typeof queryParaAnalisis !== "undefined" ? queryParaAnalisis : query);
+        idiomaDetectado = rustWASM.idioma(query);
         const idiomaPrompt = nombreIdioma[idiomaDetectado] || 'Español';
         const bandera = banderaIdioma[idiomaDetectado] || '🌐';
         actualizarIndicadorIdioma(idiomaDetectado);
@@ -1443,26 +1381,14 @@ async function investigar() {
 
         actualizarFase('🔬 Buscando en 12 fuentes académicas + Agent-Reach…');
         actualizarProgress(25);
-        const [resultadosFuentesLocal, resultadosAgentRaw] = await Promise.all([fuentes.buscar(query), agentReach.buscar(query)]);
-        resultadosFuentes = filtrarFuentesPorModo(resultadosFuentesLocal);
-        const resultadosAgent = filtrarAgentReachPorModo(resultadosAgentRaw);
-        resultadosFuentesGlobal = resultadosFuentes;
+        const [resultadosFuentesLocal, resultadosAgent] = await Promise.all([fuentes.buscar(query), agentReach.buscar(query)]);
+        resultadosFuentes = resultadosFuentesLocal;
         const totalFuentes = Object.values(resultadosFuentes).flat().length + resultadosAgent.github.length + resultadosAgent.reddit.length + resultadosAgent.wiki.length;
         document.getElementById('ultraFuentes').textContent = totalFuentes;
         actualizarFase(`📊 Consolidando ${totalFuentes} resultados de 12 fuentes…`);
         actualizarProgress(50);
 
         let contexto = `TEMA: ${query}\n\n`;
-        // 🔥 NUEVO: Si hay texto de URL, añadirlo al contexto
-        if (textoDeURL) {
-            contexto += `🔗 CONTENIDO DE LA URL PROPORCIONADA:\n`;
-            if (urlInfo.titulo) contexto += `📰 Título: ${urlInfo.titulo}\n`;
-            if (urlInfo.autor) contexto += `✍️ Autor: ${urlInfo.autor}\n`;
-            if (urlInfo.fecha) contexto += `📅 Fecha: ${urlInfo.fecha}\n`;
-            if (urlInfo.descripcion) contexto += `📝 Descripción: ${urlInfo.descripcion}\n`;
-            contexto += `\n${textoDeURL.substring(0, 4000)}\n\n`;
-            contexto += `─────────────────────────────────────\n\n`;
-        }
         if (resultadosFuentes.semantic.length) { contexto += `📚 SEMANTIC SCHOLAR:\n`; resultadosFuentes.semantic.forEach(r => { contexto += `- ${r.autores} (${r.año}): ${r.titulo}${r.doi ? ' [DOI: ' + r.doi + ']' : ''}\n`; }); }
         if (resultadosFuentes.arxiv.length) { contexto += `\n📐 ARXIV:\n`; resultadosFuentes.arxiv.forEach(r => { contexto += `- ${r.autores} (${r.año}): ${r.titulo}\n`; }); }
         if (resultadosFuentes.crossref.length) { contexto += `\n📄 CROSSREF:\n`; resultadosFuentes.crossref.forEach(r => { contexto += `- ${r.autores} (${r.año}): ${r.titulo}\n`; }); }
@@ -1485,41 +1411,24 @@ async function investigar() {
             ctxProc = { autores: rustWASM.autores(contexto), keywords: rustWASM.keywords(contexto, 8), resumen: rustWASM.resumen(contexto, 3), idioma: idiomaDetectado };
         }
 
-        const reglasEstructura = modoApp === 'cientifico'
-            ? `1. ESTRUCTURA IMRyD: "Introducción:" · "Métodos:" · "Resultados:" · "Discusión:" · "Conclusión:"
-2. CITAS: Mínimo 8 citas APA 7 con DOI verificable cuando sea posible.
-3. EXTENSIÓN: 1500-2500 palabras.
-4. NO uses asteriscos ni formato especial.
-5. Cada afirmación respaldada por fuente con DOI o URL verificable.
-6. NO inventes datos: si no hay evidencia, indícalo.`
-            : `1. ESTRUCTURA: "Introducción:" (200+ palabras) · "Desarrollo:" (4+ subpuntos) · "Conclusión:" (150+ palabras)
-2. CITAS: Mínimo 5 citas APA 7 con autores y años reales.
-3. EXTENSIÓN: 1000-1500 palabras.
-4. NO uses asteriscos ni formato especial.`;
-
-        const rolIA = modoApp === 'cientifico'
-            ? 'investigador científico senior'
-            : 'investigador académico senior';
-
-        const fuentesTexto = modoApp === 'cientifico'
-            ? `${totalFuentes} fuentes de repositorios peer-reviewed`
-            : `${totalFuentes} fuentes de 12 repositorios`;
-
-        const prompt = `Actúa como ${rolIA} especializado en: "${query}".
+        const prompt = `Actúa como investigador académico senior especializado en: "${query}".
 IDIOMA: Responde COMPLETAMENTE en ${idiomaPrompt} (${bandera}).
 ENFOQUE GEOGRÁFICO: ${PAIS_FIJO}.
-MODO: ${modoApp.toUpperCase()}.
 
 CONTEXTO PROCESADO POR WASM RUST:
 - Autores clave: ${ctxProc.autores?.slice(0, 5).join(', ') || 'N/A'}
 - Keywords: ${ctxProc.keywords?.slice(0, 5).map(k => k.palabra).join(', ') || 'N/A'}
 - Resumen: ${ctxProc.resumen || 'N/A'}
 
-INVESTIGACIÓN COMPLETA (${fuentesTexto}):
+INVESTIGACIÓN COMPLETA (${totalFuentes} fuentes de 12 repositorios):
 ${contexto.substring(0, 3500)}
 
 REGLAS OBLIGATORIAS:
-${reglasEstructura}`;
+1. ESTRUCTURA: "Introducción:" (200+ palabras) · "Desarrollo:" (4+ subpuntos) · "Conclusión:" (150+ palabras)
+2. CITAS: Mínimo 5 citas APA 7 con autores y años reales de las fuentes.
+3. EXTENSIÓN: 1000-1500 palabras.
+4. NO uses asteriscos ni formato especial.
+5. Empieza con "Introducción:" y termina con "Conclusión:".`;
 
         actualizarFase('☁️ Consultando Multi-IA en paralelo…');
         actualizarProgress(85);
@@ -1541,23 +1450,12 @@ ${reglasEstructura}`;
             resultado = await Promise.race([tareaIA, timeoutGlobal]);
         } catch (iaError) {
             Diagnostico.log(`IA falló: ${iaError.message}`, 'error');
-            Diagnostico.log('🧠 Activando FALLBACK ACADÉMICO ENRIQUECIDO…', 'warn');
-            actualizarFase('🔥 Enriqueciendo fuentes con extracción de URLs…');
-            actualizarProgress(88);
-            // 🔥 NUEVO: Enriquecer fuentes extrayendo contenido de sus URLs
-            let fuentesEnriquecidas = resultadosFuentes;
-            try {
-                fuentesEnriquecidas = await enriquecerFuentesConURLs(resultadosFuentes, idiomaDetectado);
-            } catch (e) {
-                Diagnostico.log('Error enriqueciendo: ' + e.message, 'warn');
-            }
-            actualizarFase('🧠 Recomponiendo fallback con contenido real…');
-            actualizarProgress(92);
-            const fallback = await recomponerFallbackEnriquecido(query, fuentesEnriquecidas, idiomaDetectado) 
-                          || generarFallbackAcademico(query, resultadosFuentes, idiomaDetectado);
+            Diagnostico.log('🧠 Activando FALLBACK ACADÉMICO con 12 fuentes…', 'warn');
+            actualizarFase('🧠 Componiendo con 12 fuentes reales…');
+            const fallback = generarFallbackAcademico(query, resultadosFuentes, idiomaDetectado);
             if (!fallback) throw iaError;
-            resultado = { texto: fallback, proveedor: 'Fallback Enriquecido', modelo: 'datos-reales-extraidos' };
-            showToast(`🔥 Fallback enriquecido · ${totalFuentes} fuentes · URLs extraídas`, true);
+            resultado = { texto: fallback, proveedor: 'Fallback 12 fuentes', modelo: 'datos-reales' };
+            showToast(`🧠 Fallback · ${totalFuentes} fuentes reales`, true);
         }
 
         const textoLimpio = resultado.texto.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\*(.*?)\*/g, '$1').replace(/#{1,6}\s*/g, '').trim();
@@ -1985,807 +1883,6 @@ document.getElementById('btnAnalisisTextual').onclick = () => {
         `Tiempo total: ~5ms\n` +
         `Motor: Rust → WebAssembly`
     );
-};
-
-
-// ============================================
-// 🔗 ANALIZADOR DE URL — Lee webs, papers, PDFs
-// ============================================
-async function extraerTextoDeURL(url) {
-    Diagnostico.log('Obteniendo URL: ' + url, 'info');
-    // Intentar fetch directo
-    let html = '';
-    try {
-        const r = await fetchConTimeout(url, {
-            headers: { 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' }
-        }, 15000);
-        if (r.ok) {
-            html = await r.text();
-            Diagnostico.log('Fetch directo OK (' + html.length + ' chars)', 'ok');
-        } else {
-            throw new Error('HTTP ' + r.status);
-        }
-    } catch (e) {
-        Diagnostico.log('Fetch directo fallo: ' + e.message + ' · probando proxies CORS', 'warn');
-        // Probar proxies CORS
-        const proxies = [
-            'https://api.allorigins.win/raw?url=' + encodeURIComponent(url),
-            'https://corsproxy.io/?' + encodeURIComponent(url),
-            'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(url),
-            'https://thingproxy.freeboard.io/fetch/' + url
-        ];
-        for (const proxy of proxies) {
-            try {
-                const r = await fetchConTimeout(proxy, {}, 15000);
-                if (r.ok) {
-                    html = await r.text();
-                    Diagnostico.log('Proxy OK (' + html.length + ' chars)', 'ok');
-                    break;
-                }
-            } catch (e2) { continue; }
-        }
-        if (!html) throw new Error('No se pudo obtener la URL (CORS)');
-    }
-
-    // Extraer título
-    let titulo = '';
-    const tituloMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
-    if (tituloMatch) titulo = tituloMatch[1].trim();
-
-    // Extraer meta description
-    let descripcion = '';
-    const descMatch = html.match(/<meta[^>]*name=["']description["'][^>]*content=["']([^"']+)["']/i) ||
-                      html.match(/<meta[^>]*property=["']og:description["'][^>]*content=["']([^"']+)["']/i);
-    if (descMatch) descripcion = descMatch[1].trim();
-
-    // Extraer meta autor
-    let autor = '';
-    const autorMatch = html.match(/<meta[^>]*name=["']author["'][^>]*content=["']([^"']+)["']/i) ||
-                       html.match(/<meta[^>]*property=["']article:author["'][^>]*content=["']([^"']+)["']/i);
-    if (autorMatch) autor = autorMatch[1].trim();
-
-    // Extraer fecha
-    let fecha = '';
-    const fechaMatch = html.match(/<meta[^>]*property=["']article:published_time["'][^>]*content=["']([^"']+)["']/i) ||
-                       html.match(/<meta[^>]*name=["']date["'][^>]*content=["']([^"']+)["']/i);
-    if (fechaMatch) fecha = fechaMatch[1].trim();
-
-    // Extraer texto limpio del body
-    let bodyHtml = html;
-    const bodyMatch = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
-    if (bodyMatch) bodyHtml = bodyMatch[1];
-
-    // Eliminar script, style, nav, header, footer, aside, iframe, svg, form
-    bodyHtml = bodyHtml
-        .replace(/<script[\s\S]*?<\/script>/gi, '')
-        .replace(/<style[\s\S]*?<\/style>/gi, '')
-        .replace(/<nav[\s\S]*?<\/nav>/gi, '')
-        .replace(/<header[\s\S]*?<\/header>/gi, '')
-        .replace(/<footer[\s\S]*?<\/footer>/gi, '')
-        .replace(/<aside[\s\S]*?<\/aside>/gi, '')
-        .replace(/<iframe[\s\S]*?<\/iframe>/gi, '')
-        .replace(/<svg[\s\S]*?<\/svg>/gi, '')
-        .replace(/<form[\s\S]*?<\/form>/gi, '')
-        .replace(/<!--[\s\S]*?-->/g, '');
-
-    // Convertir a texto
-    let texto = bodyHtml
-        .replace(/<br\s*\/?>/gi, '\n')
-        .replace(/<\/p>/gi, '\n\n')
-        .replace(/<\/h[1-6]>/gi, '\n\n')
-        .replace(/<\/li>/gi, '\n')
-        .replace(/<\/div>/gi, '\n')
-        .replace(/<[^>]+>/g, ' ')
-        .replace(/&nbsp;/g, ' ')
-        .replace(/&amp;/g, '&')
-        .replace(/&lt;/g, '<')
-        .replace(/&gt;/g, '>')
-        .replace(/&quot;/g, '"')
-        .replace(/&#39;/g, "'")
-        .replace(/&[a-z]+;/gi, ' ')
-        .replace(/[ \t]+/g, ' ')
-        .replace(/\n\s*\n\s*\n+/g, '\n\n')
-        .trim();
-
-    // Decodificar entidades numéricas
-    texto = texto.replace(/&#(\d+);/g, (m, n) => String.fromCharCode(parseInt(n)));
-
-    return { texto, titulo, descripcion, autor, fecha, htmlOriginal: html };
-}
-
-function desgloseWASMRust(texto, titulo) {
-    const r = rustWASM;
-    const out = {};
-    // Básicas
-    out.stats = r.contarPalabras(texto);
-    // Keywords
-    out.keywords = r.keywords(texto, 10);
-    out.autores = r.autores(texto);
-    // Idioma
-    out.idioma = r.idioma(texto);
-    // Resumen
-    out.resumen = r.resumen(texto, 5);
-    // Funciones que necesitan llamada directa
-    if (r.cargado) {
-        try { out.flesch = JSON.parse(r.wasm.indice_flesch_espanol(texto)); } catch (e) { out.flesch = null; }
-        try { out.gunningFog = JSON.parse(r.wasm.indice_gunning_fog(texto)); } catch (e) { out.gunningFog = null; }
-        try { out.densidad = r.wasm.densidad_lexica(texto); } catch (e) { out.densidad = null; }
-        try { out.entidades = JSON.parse(r.wasm.extraer_entidades_nombradas(texto)); } catch (e) { out.entidades = null; }
-        try { out.topicos = JSON.parse(r.wasm.detectar_topicos(texto)); } catch (e) { out.topicos = null; }
-        try { out.ngramas = JSON.parse(r.wasm.extract_ngramas(texto, 8)); } catch (e) { out.ngramas = null; }
-        try { out.fechas = JSON.parse(r.wasm.extraer_fechas(texto)); } catch (e) { out.fechas = null; }
-        try { out.urls = JSON.parse(r.wasm.extraer_urls(texto)); } catch (e) { out.urls = null; }
-        try { out.emails = JSON.parse(r.wasm.extraer_emails(texto)); } catch (e) { out.emails = null; }
-        try { out.numeros = JSON.parse(r.wasm.extraer_numeros(texto)); } catch (e) { out.numeros = null; }
-        try { out.hashtags = JSON.parse(r.wasm.extraer_hashtags_menciones(texto)); } catch (e) { out.hashtags = null; }
-        try { out.pii = JSON.parse(r.wasm.detectar_pii(texto)); } catch (e) { out.pii = null; }
-        try { out.muletillas = JSON.parse(r.wasm.detectar_muletillas_ia(texto)); } catch (e) { out.muletillas = null; }
-        try { out.sentimiento = JSON.parse(r.wasm.sentimiento_espanol(texto)); } catch (e) { out.sentimiento = null; }
-        try { out.longMedia = r.wasm.longitud_media_oraciones(texto); } catch (e) { out.longMedia = null; }
-        try { out.processFull = r.processFull(texto); } catch (e) { out.processFull = null; }
-    }
-    // Aristo
-    if (aristoWASM.cargado) {
-        try { out.aristoFalacias = JSON.parse(aristoWASM.wasm.detectar_falacias(texto)); } catch (e) { out.aristoFalacias = null; }
-        try { out.aristoEscuela = aristoWASM.wasm.detectar_escuela_predominante(texto); } catch (e) { out.aristoEscuela = null; }
-        try { out.aristoTemas = JSON.parse(aristoWASM.wasm.detectar_temas_filosoficos(texto)); } catch (e) { out.aristoTemas = null; }
-        try { out.aristoArgumento = aristoWASM.wasm.analizar_argumento(texto); } catch (e) { out.aristoArgumento = null; }
-        try { out.aristoProfundidad = aristoWASM.wasm.profundidad_filosofica(texto); } catch (e) { out.aristoProfundidad = null; }
-    }
-    return out;
-}
-
-function formatearDesglose(desglose, titulo, autor, fecha, url) {
-    let html = '';
-    html += '🔗 URL: ' + url + '\n';
-    if (titulo) html += '📰 Título: ' + titulo + '\n';
-    if (autor) html += '✍️ Autor: ' + autor + '\n';
-    if (fecha) html += '📅 Fecha: ' + fecha + '\n';
-    html += '\n━━━ 📊 MÉTRICAS BÁSICAS ━━━\n';
-    html += 'Palabras: ' + (desglose.stats?.palabras || 0) + '\n';
-    html += 'Únicas: ' + (desglose.stats?.unicas || 0) + '\n';
-    html += 'Oraciones: ' + (desglose.stats?.oraciones || 0) + '\n';
-    html += 'Caracteres: ' + (desglose.stats?.caracteres || 0) + '\n';
-    html += 'Idioma: ' + (desglose.idioma || 'N/A') + '\n';
-
-    if (desglose.flesch) {
-        html += '\n━━━ 📖 LEGIBILIDAD ━━━\n';
-        html += 'Flesch: ' + desglose.flesch.score + ' (' + desglose.flesch.nivel + ')\n';
-        html += 'Gunning-Fog: ' + (desglose.gunningFog?.años_escolaridad || 'N/A') + ' años\n';
-        html += 'Densidad léxica: ' + (desglose.densidad ? (desglose.densidad * 100).toFixed(1) + '%' : 'N/A') + '\n';
-        html += 'Longitud media oración: ' + (desglose.longMedia ? desglose.longMedia.toFixed(1) + ' palabras' : 'N/A') + '\n';
-    }
-
-    if (desglose.sentimiento) {
-        html += '\n━━━ 🎯 SENTIMIENTO ━━━\n';
-        html += 'Tono: ' + (desglose.sentimiento.tono || desglose.sentimiento.sentimiento || JSON.stringify(desglose.sentimiento)) + '\n';
-    }
-
-    if (desglose.keywords && desglose.keywords.length > 0) {
-        html += '\n━━━ 🏷️ KEYWORDS ━━━\n';
-        html += desglose.keywords.slice(0, 10).map(k => '• ' + k.palabra + ' (' + k.frecuencia + ')').join('\n') + '\n';
-    }
-
-    if (desglose.autores && desglose.autores.length > 0) {
-        html += '\n━━━ 👤 AUTORES ━━━\n';
-        html += desglose.autores.slice(0, 10).join(', ') + '\n';
-    }
-
-    if (desglose.entidades && desglose.entidades.total > 0) {
-        html += '\n━━━ 👥 ENTIDADES (' + desglose.entidades.total + ') ━━━\n';
-        html += desglose.entidades.entidades.slice(0, 15).join(', ') + '\n';
-    }
-
-    if (desglose.topicos && desglose.topicos.total > 0) {
-        html += '\n━━━ 💭 TÓPICOS ━━━\n';
-        html += desglose.topicos.topicos.slice(0, 8).map(t => '• "' + t.frase + '" ×' + t.count).join('\n') + '\n';
-    }
-
-    if (desglose.ngramas && desglose.ngramas.bigramas && desglose.ngramas.bigramas.length > 0) {
-        html += '\n━━━ 🔄 BIGRAMAS ━━━\n';
-        html += desglose.ngramas.bigramas.slice(0, 8).map(b => '• "' + b.texto + '" ×' + b.count).join('\n') + '\n';
-    }
-
-    if (desglose.fechas && desglose.fechas.total > 0) {
-        html += '\n━━━ 📅 FECHAS ━━━\n';
-        html += (desglose.fechas.fechas || []).slice(0, 10).join(', ') + '\n';
-    }
-
-    if (desglose.urls && desglose.urls.total > 0) {
-        html += '\n━━━ 🔗 URLs ━━━\n';
-        html += (desglose.urls.urls || []).slice(0, 10).join('\n') + '\n';
-    }
-
-    if (desglose.emails && desglose.emails.total > 0) {
-        html += '\n━━━ 📧 EMAILS ━━━\n';
-        html += (desglose.emails.emails || []).join(', ') + '\n';
-    }
-
-    if (desglose.numeros && desglose.numeros.total > 0) {
-        html += '\n━━━ 🔢 NÚMEROS ━━━\n';
-        html += (desglose.numeros.numeros || []).slice(0, 15).join(', ') + '\n';
-    }
-
-    if (desglose.hashtags && (desglose.hashtags.hashtags?.length > 0 || desglose.hashtags.menciones?.length > 0)) {
-        html += '\n━━━ #️⃣ HASHTAGS ━━━\n';
-        if (desglose.hashtags.hashtags) html += 'Hashtags: ' + desglose.hashtags.hashtags.join(', ') + '\n';
-        if (desglose.hashtags.menciones) html += 'Menciones: ' + desglose.hashtags.menciones.join(', ') + '\n';
-    }
-
-    if (desglose.pii && desglose.pii.total > 0) {
-        html += '\n━━━ 🚨 PII DETECTADO ━━━\n';
-        html += JSON.stringify(desglose.pii, null, 2) + '\n';
-    }
-
-    if (desglose.muletillas && desglose.muletillas.total > 0) {
-        html += '\n━━━ 🤖 MULETILLAS IA ━━━\n';
-        html += JSON.stringify(desglose.muletillas, null, 2) + '\n';
-    }
-
-    if (desglose.resumen) {
-        html += '\n━━━ 📝 RESUMEN ━━━\n';
-        html += desglose.resumen.substring(0, 1500) + '\n';
-    }
-
-    if (desglose.aristoFalacias && desglose.aristoFalacias.total > 0) {
-        html += '\n━━━ 🏛️ FALACIAS ━━━\n';
-        html += 'Total: ' + desglose.aristoFalacias.total + '\n';
-        if (desglose.aristoFalacias.falacias) {
-            desglose.aristoFalacias.falacias.forEach((f, i) => { html += (i+1) + '. ' + (f.tipo || f.nombre || f) + '\n'; });
-        }
-    }
-
-    if (desglose.aristoEscuela) {
-        html += '\n━━━ 🎯 ESCUELA FILOSÓFICA ━━━\n';
-        html += desglose.aristoEscuela + '\n';
-    }
-
-    if (desglose.aristoTemas && desglose.aristoTemas.total > 0) {
-        html += '\n━━━ 💭 TEMAS FILOSÓFICOS ━━━\n';
-        html += JSON.stringify(desglose.aristoTemas, null, 2) + '\n';
-    }
-
-    if (desglose.aristoProfundidad) {
-        html += '\n━━━ 📚 PROFUNDIDAD FILOSÓFICA ━━━\n';
-        html += desglose.aristoProfundidad + '\n';
-    }
-
-    return html;
-}
-
-
-
-
-
-// ============================================
-// 🔥 FALLBACK ENRIQUECIDO — Extrae contenido REAL de las URLs
-// ============================================
-async function enriquecerFuentesConURLs(fuentesObj, idioma = 'es') {
-    Diagnostico.log('Enriqueciendo fuentes con contenido real...', 'info');
-    const enriquecidas = JSON.parse(JSON.stringify(fuentesObj));
-    const promesas = [];
-    let contadorURLs = 0;
-    let contadorAbstracts = 0;
-
-    const esURLDeAPI = (url) => {
-        if (!url) return true;
-        const urlsAPI = [
-            '/api/', '/works?', '/search?', '/query?', '/graph/v1/',
-            'api.crossref.org', 'api.openalex.org', 'api.semanticscholar.org',
-            'api.core.ac.uk', 'doaj.org/api', 'hn.algolia.com',
-            'archive.org/advancedsearch', 'query.wikidata.org', 'api.github.com',
-            'reddit.com/search', 'wikipedia.org/w/api', 'export.arxiv.org/api'
-        ];
-        return urlsAPI.some(x => url.includes(x));
-    };
-
-    const tieneContenidoUtil = (fuente) => {
-        return !!(fuente.abstract && fuente.abstract.length > 80) ||
-               !!(fuente.descripcion && fuente.descripcion.length > 80) ||
-               !!(fuente.resumen && fuente.resumen.length > 80);
-    };
-
-    for (const [categoria, lista] of Object.entries(fuentesObj)) {
-        if (!Array.isArray(lista)) continue;
-        for (let i = 0; i < lista.length; i++) {
-            const fuente = lista[i];
-
-            // 1. Si ya tiene abstract util, usarlo directamente
-            if (tieneContenidoUtil(fuente)) {
-                enriquecidas[categoria][i] = {
-                    ...fuente,
-                    contenidoExtraido: fuente.abstract || fuente.descripcion || fuente.resumen,
-                    enriquecido: true,
-                    tipoContenido: 'abstract-api'
-                };
-                contadorAbstracts++;
-                Diagnostico.log('OK abstract ' + categoria + '[' + i + ']: ' + (fuente.abstract || fuente.descripcion).length + ' chars', 'ok');
-                continue;
-            }
-
-            // 2. Si tiene URL de documento real (no API), extraerla
-            if (fuente.url && !esURLDeAPI(fuente.url)) {
-                contadorURLs++;
-                promesas.push((async () => {
-                    try {
-                        const contenido = await extraerTextoDeURL(fuente.url);
-                        if (contenido && contenido.texto && contenido.texto.length > 100) {
-                            enriquecidas[categoria][i] = {
-                                ...fuente,
-                                contenidoExtraido: contenido.texto,
-                                tituloExtraido: contenido.titulo || fuente.titulo,
-                                enriquecido: true,
-                                tipoContenido: 'fetch-url'
-                            };
-                            Diagnostico.log('OK fetch ' + categoria + '[' + i + ']: ' + contenido.texto.length + ' chars', 'ok');
-                        }
-                    } catch (e) {
-                        Diagnostico.log('Error ' + categoria + '[' + i + ']: ' + e.message, 'warn');
-                    }
-                })());
-            }
-        }
-    }
-
-    Diagnostico.log('Abstracts directos: ' + contadorAbstracts + ' | URLs a extraer: ' + contadorURLs, 'info');
-
-    if (promesas.length > 0) {
-        const timeout = new Promise(resolve => setTimeout(() => resolve('timeout'), 40000));
-        await Promise.race([Promise.allSettled(promesas), timeout]);
-    }
-
-    const enriquecidasCount = Object.values(enriquecidas).flat().filter(f => f.enriquecido).length;
-    Diagnostico.log('Fuentes enriquecidas totales: ' + enriquecidasCount, 'ok');
-    return enriquecidas;
-}
-
-async function recomponerFallbackEnriquecido(tema, fuentesEnriquecidas, idioma = 'es') {
-    Diagnostico.log('Recomponiendo fallback con contenido real...', 'info');
-    const todas = [];
-    const origenes = new Set();
-    const origenesMap = {
-        semantic: 'Semantic Scholar', arxiv: 'arXiv', crossref: 'Crossref',
-        openalex: 'OpenAlex', core: 'CORE', doaj: 'DOAJ', pubmed: 'PubMed',
-        internetArchive: 'Internet Archive', wikidata: 'Wikidata', hackernews: 'Hacker News'
-    };
-    for (const [key, nombre] of Object.entries(origenesMap)) {
-        const lista = fuentesEnriquecidas?.[key] || [];
-        lista.forEach(f => { todas.push({ ...f, origen: nombre }); origenes.add(nombre); });
-    }
-
-    const totalFuentes = todas.length;
-    if (totalFuentes === 0) return null;
-
-    // Filtrar las que tienen contenido real
-    const conContenido = todas.filter(f => f.contenidoExtraido && f.contenidoExtraido.length > 100);
-    const sinContenido = todas.filter(f => !f.contenidoExtraido);
-
-    // Extraer autores reales
-    const autoresUnicos = [...new Set(
-        todas.flatMap(f => {
-            const aut = f.autorExtraido || f.autores || '';
-            return aut.split(',').map(a => a.trim()).filter(a => a && a !== 'Desconocido');
-        })
-    )].slice(0, 15);
-
-    // Años
-    const años = todas.map(f => parseInt(f.fechaExtraida || f.año)).filter(y => !isNaN(y));
-    const añoMin = años.length > 0 ? Math.min(...años) : new Date().getFullYear() - 5;
-    const añoMax = años.length > 0 ? Math.max(...años) : new Date().getFullYear();
-
-    // Keywords agregadas de todos los contenidos
-    const todasKeywords = [];
-    for (const f of conContenido) {
-        try {
-            const kws = rustWASM.keywords(f.contenidoExtraido, 10);
-            kws.forEach(k => todasKeywords.push(k.palabra));
-        } catch(e) {}
-    }
-    const keywordsFrecuentes = [...new Set(todasKeywords)].slice(0, 20);
-
-    // Entidades agregadas
-    const todasEntidades = new Set();
-    for (const f of conContenido) {
-        if (rustWASM.cargado) {
-            try {
-                const e = JSON.parse(rustWASM.wasm.extraer_entidades_nombradas(f.contenidoExtraido));
-                if (e.entidades) e.entidades.forEach(x => todasEntidades.add(x));
-            } catch(e) {}
-        }
-    }
-
-    // Construir texto académico ENRIQUECIDO
-    let texto = '';
-    texto += `Introducción:\n\n`;
-    texto += `El presente trabajo aborda el tema "${tema}" desde una perspectiva académica integral. `;
-    texto += `La investigación se fundamenta en ${totalFuentes} publicaciones científicas recopiladas `;
-    texto += `de ${origenes.size} bases de datos internacionales (${[...origenes].join(', ')}). `;
-    if (conContenido.length > 0) {
-        texto += `De estas, ${conContenido.length} fueron enriquecidas con extracción directa de contenido desde sus URLs, `;
-        texto += `lo que permitió obtener texto completo, abstracts, autores y metadatos reales. `;
-    }
-    texto += `El análisis se enmarca en el contexto académico alemán, caracterizado por su rigor metodológico `;
-    texto += `y su énfasis en la fundamentación teórica sólida. `;
-    if (años.length > 0) {
-        texto += `La literatura revisada abarca un período desde ${añoMin} hasta ${añoMax}. `;
-    }
-    texto += `\n\n`;
-
-    texto += `Desarrollo:\n\n`;
-    texto += `Sub-tema 1: Estado del arte y publicaciones principales\n\n`;
-
-    // Ordenar: primero las que tienen contenido, luego las que no
-    const ordenadas = [...conContenido, ...sinContenido];
-
-    ordenadas.slice(0, 12).forEach((f, i) => {
-        texto += `${i + 1}. ${f.autorExtraido || f.autores} (${f.fechaExtraida || f.año}). "${f.tituloExtraido || f.titulo}". Fuente: ${f.origen}.`;
-        if (f.doi) texto += ` DOI: ${f.doi}`;
-        if (f.enriquecido) texto += ` [✨ ENRIQUECIDO]`;
-        texto += `\n`;
-        if (f.contenidoExtraido && f.contenidoExtraido.length > 100) {
-            // Resumen del contenido extraído
-            const resumen = rustWASM.resumen(f.contenidoExtraido, 3) || f.contenidoExtraido.substring(0, 500);
-            texto += `   Resumen extraído: ${resumen}\n`;
-            // Keywords específicas
-            try {
-                const kws = rustWASM.keywords(f.contenidoExtraido, 5);
-                if (kws.length > 0) {
-                    texto += `   Keywords: ${kws.map(k => k.palabra).join(', ')}\n`;
-                }
-            } catch(e) {}
-            // Tono / sentimiento
-            if (rustWASM.cargado) {
-                try {
-                    const sent = JSON.parse(rustWASM.wasm.sentimiento_espanol(f.contenidoExtraido));
-                    if (sent && sent.tono) texto += `   Tono: ${sent.tono}\n`;
-                } catch(e) {}
-            }
-            // Entidades
-            if (rustWASM.cargado) {
-                try {
-                    const ents = JSON.parse(rustWASM.wasm.extraer_entidades_nombradas(f.contenidoExtraido));
-                    if (ents.total > 0) texto += `   Entidades: ${ents.entidades.slice(0, 5).join(', ')}\n`;
-                } catch(e) {}
-            }
-        } else if (f.abstract && f.abstract.length > 40) {
-            texto += `   Resumen: ${f.abstract.substring(0, 300)}…\n`;
-        }
-        texto += `\n`;
-    });
-
-    // Sub-tema 2: autores reales
-    texto += `Sub-tema 2: Autores clave y contribuciones\n\n`;
-    if (autoresUnicos.length > 0) {
-        texto += `Los principales autores identificados son: ${autoresUnicos.slice(0, 8).join(', ')}. `;
-        texto += `Sus contribuciones han sido fundamentales para el desarrollo del campo.\n\n`;
-    }
-
-    // Sub-tema 3: keywords y entidades reales
-    texto += `Sub-tema 3: Análisis de contenido y palabras clave\n\n`;
-    if (keywordsFrecuentes.length > 0) {
-        texto += `Las palabras clave más frecuentes en el corpus son: ${keywordsFrecuentes.slice(0, 15).join(', ')}. `;
-    }
-    if (todasEntidades.size > 0) {
-        texto += `Se identificaron ${todasEntidades.size} entidades nombradas destacadas: ${[...todasEntidades].slice(0, 10).join(', ')}. `;
-    }
-    texto += `\n\n`;
-
-    // Sub-tema 4
-    texto += `Sub-tema 4: Desafíos y perspectivas futuras\n\n`;
-    texto += `Entre los desafíos identificados destacan la necesidad de mayor evidencia empírica, `;
-    texto += `la integración de enfoques interdisciplinarios y la consideración de contextos locales. `;
-    texto += `Las perspectivas futuras apuntan hacia mayor digitalización, aplicación de inteligencia artificial `;
-    texto += `y colaboración internacional.\n\n`;
-
-    // Conclusión
-    texto += `Conclusión:\n\n`;
-    texto += `El análisis de ${totalFuentes} publicaciones sobre "${tema}" permite concluir `;
-    texto += `que se trata de un campo dinámico. `;
-    if (conContenido.length > 0) {
-        texto += `La extracción directa de ${conContenido.length} URLs proporcionó datos verificables y contenido real `;
-        texto += `que enriquece significativamente esta revisión. `;
-    }
-    texto += `Se recomienda continuar explorando el tema con metodologías mixtas y mayor evidencia empírica.\n\n`;
-
-    // Ficha de datos
-    texto += `─────────────────────────────────────\n`;
-    texto += `📊 FICHA DE DATOS ENRIQUECIDA\n`;
-    texto += `─────────────────────────────────────\n`;
-    texto += `✅ Total de publicaciones: ${totalFuentes}\n`;
-    texto += `✨ Fuentes enriquecidas con URL: ${conContenido.length}\n`;
-    texto += `📚 Bases de datos: ${origenes.size}\n`;
-    texto += `   • ${[...origenes].join('\n   • ')}\n`;
-    texto += `👥 Autores únicos: ${autoresUnicos.length}\n`;
-    texto += `🔗 Con DOI: ${todas.filter(f => f.doi).length}\n`;
-    texto += `🏷️ Keywords agregadas: ${keywordsFrecuentes.length}\n`;
-    texto += `👥 Entidades identificadas: ${todasEntidades.size}\n`;
-    if (años.length > 0) texto += `📅 Rango temporal: ${añoMin} - ${añoMax}\n`;
-    texto += `─────────────────────────────────────\n`;
-    texto += `⚠️ MODO FALLBACK ENRIQUECIDO\n`;
-    texto += `Los ${IA_PROVEEDORES.length} proveedores de IA no respondieron.\n`;
-    texto += `Este análisis fue compuesto con datos REALES extraídos de ${conContenido.length} URLs.\n`;
-    texto += `─────────────────────────────────────`;
-
-    return texto;
-}
-
-
-// ============================================
-// 🔬 MODO CIENTÍFICO — Funciones (100% JS, sin Rust)
-// ============================================
-const FUENTES_CIENTIFICAS = ['semantic', 'arxiv', 'crossref', 'openalex', 'core', 'doaj', 'pubmed'];
-
-function filtrarFuentesPorModo(fuentesObj) {
-    if (modoApp !== 'cientifico') return fuentesObj;
-    const filtradas = {};
-    for (const key of FUENTES_CIENTIFICAS) {
-        filtradas[key] = fuentesObj[key] || [];
-    }
-    // Mantener internetArchive/wikidata/hackernews vacíos en modo cientifico
-    filtradas.internetArchive = [];
-    filtradas.wikidata = [];
-    filtradas.hackernews = [];
-    return filtradas;
-}
-
-function filtrarAgentReachPorModo(resultadosAgent) {
-    if (modoApp !== 'cientifico') return resultadosAgent;
-    return { github: [], reddit: [], wiki: resultadosAgent.wiki || [] };
-}
-
-// ============================================
-// 🔬 ANÁLISIS ESTADÍSTICO CIENTÍFICO (JS puro)
-// ============================================
-function ttrTypeTokenRatio(texto) {
-    const palabras = (texto.match(/[a-záéíóúüñ]+/gi) || []).map(p => p.toLowerCase());
-    if (palabras.length === 0) return 0;
-    const unicas = new Set(palabras);
-    return unicas.size / palabras.length;
-}
-
-function indiceHerdan(texto) {
-    const palabras = (texto.match(/[a-záéíóúüñ]+/gi) || []).map(p => p.toLowerCase());
-    if (palabras.length === 0) return 0;
-    const unicas = new Set(palabras).size;
-    return Math.log(unicas) / Math.log(palabras.length);
-}
-
-function indiceGuiraud(texto) {
-    const palabras = (texto.match(/[a-záéíóúüñ]+/gi) || []).map(p => p.toLowerCase());
-    if (palabras.length === 0) return 0;
-    const unicas = new Set(palabras).size;
-    return unicas / Math.sqrt(palabras.length);
-}
-
-function entropiaShannon(texto) {
-    const palabras = (texto.match(/[a-záéíóúüñ]+/gi) || []).map(p => p.toLowerCase());
-    if (palabras.length === 0) return 0;
-    const frec = {};
-    palabras.forEach(p => frec[p] = (frec[p] || 0) + 1);
-    const total = palabras.length;
-    return -Object.values(frec).reduce((acc, c) => {
-        const p = c / total;
-        return acc + p * Math.log2(p);
-    }, 0);
-}
-
-function distribucionLongitudes(texto) {
-    const palabras = (texto.match(/[a-záéíóúüñ]+/gi) || []);
-    const longitudes = palabras.map(p => p.length);
-    if (longitudes.length === 0) return { media: 0, desv: 0, min: 0, max: 0 };
-    const media = longitudes.reduce((a, b) => a + b, 0) / longitudes.length;
-    const varianza = longitudes.reduce((a, b) => a + Math.pow(b - media, 2), 0) / longitudes.length;
-    return {
-        media: media.toFixed(2),
-        desv: Math.sqrt(varianza).toFixed(2),
-        min: Math.min(...longitudes),
-        max: Math.max(...longitudes)
-    };
-}
-
-function analisisEstadistico(texto) {
-    const palabras = (texto.match(/[a-záéíóúüñ]+/gi) || []).map(p => p.toLowerCase());
-    const frec = {};
-    palabras.forEach(p => { if (p.length > 3) frec[p] = (frec[p] || 0) + 1; });
-    const topFrec = Object.entries(frec).sort((a, b) => b[1] - a[1]).slice(0, 20);
-
-    const oraciones = texto.split(/[.!?]+/).filter(o => o.trim().length > 0);
-    const longOraciones = oraciones.map(o => (o.match(/\S+/g) || []).length);
-    const mediaOracion = longOraciones.length > 0 ? longOraciones.reduce((a, b) => a + b, 0) / longOraciones.length : 0;
-
-    return {
-        palabrasTotales: palabras.length,
-        palabrasUnicas: new Set(palabras).size,
-        ttr: ttrTypeTokenRatio(texto),
-        herdan: indiceHerdan(texto),
-        guiraud: indiceGuiraud(texto),
-        entropia: entropiaShannon(texto),
-        longitudes: distribucionLongitudes(texto),
-        totalOraciones: oraciones.length,
-        mediaOracion: mediaOracion.toFixed(2),
-        topFrecuencias: topFrec
-    };
-}
-
-// ============================================
-// 🔬 VERIFICACIÓN DE DOI
-// ============================================
-async function verificarDOI(doi) {
-    if (!doi) return { verificado: false, razon: 'Sin DOI' };
-    try {
-        const r = await fetchConTimeout('https://api.crossref.org/works/' + encodeURIComponent(doi), {}, 8000);
-        if (r.ok) {
-            const d = await r.json();
-            return {
-                verificado: true,
-                titulo: d.message?.title?.[0] || '',
-                autor: d.message?.author?.[0]?.family || '',
-                año: d.message?.issued?.['date-parts']?.[0]?.[0] || '',
-                revista: d.message?.['container-title']?.[0] || ''
-            };
-        }
-        return { verificado: false, razon: 'HTTP ' + r.status };
-    } catch (e) {
-        return { verificado: false, razon: e.message };
-    }
-}
-
-async function verificarDOIsEnTexto(texto) {
-    const dois = [...new Set(texto.match(/10\.\d{4,}\/[^\s,)]+/g) || [])];
-    if (dois.length === 0) return { total: 0, verificados: 0, detalles: [] };
-    const resultados = await Promise.allSettled(dois.slice(0, 10).map(d => verificarDOI(d)));
-    const detalles = resultados.map((r, i) => ({
-        doi: dois[i],
-        ...(r.status === 'fulfilled' ? r.value : { verificado: false, razon: 'Error' })
-    }));
-    return {
-        total: dois.length,
-        verificados: detalles.filter(d => d.verificado).length,
-        detalles
-    };
-}
-
-// ============================================
-// 🔬 GENERAR BIBTEX
-// ============================================
-function generarBibTeX(texto, tema) {
-    const citas = texto.match(/\(([A-ZÁÉÍÓÚ][a-záéíóú]+),\s*(\d{4})\)/g) || [];
-    const unicas = [...new Set(citas)];
-    let bibtex = '% BibTeX generado por Academia Pro - Modo Cientifico\n% Tema: ' + tema + '\n\n';
-    unicas.forEach((cita, i) => {
-        const m = cita.match(/\(([^,]+),\s*(\d+)\)/);
-        if (!m) return;
-        const autor = m[1].replace(/[^A-Za-z]/g, '');
-        const year = m[2];
-        const key = autor.toLowerCase() + year + '_' + i;
-        bibtex += '@article{' + key + ',\n  author = {' + autor + '},\n  year = {' + year + '},\n  title = {Investigacion sobre ' + tema + '},\n  journal = {Revista Academica},\n  note = {Verificado por Academia Pro - Modo Cientifico}\n}\n\n';
-    });
-    return bibtex || '% No se encontraron citas';
-}
-
-// ============================================
-// 🔬 INFORME CIENTÍFICO
-// ============================================
-function generarInformeCientifico(texto, tema, fuentesUsadas) {
-    let html = 'INFORME CIENTIFICO\n\n';
-    html += 'Tema: ' + tema + '\n';
-    html += 'Modo: CIENTIFICO\n';
-    html += 'Fecha: ' + new Date().toLocaleDateString('es-ES') + '\n\n';
-
-    const totalFuentes = Object.values(fuentesUsadas).reduce((a, f) => a + (f.length || 0), 0);
-    html += 'FUENTES CONSULTADAS\n';
-    html += 'Total: ' + totalFuentes + '\n';
-    html += 'Repositorios peer-reviewed: ' + FUENTES_CIENTIFICAS.length + '\n\n';
-
-    const dois = texto.match(/10\.\d{4,}\/[^\s,)]+/g) || [];
-    html += 'IDENTIFICADORES PERSISTENTES\n';
-    html += 'DOIs detectados: ' + new Set(dois).size + '\n\n';
-
-    const citas = texto.match(/\([A-ZÁÉÍÓÚ][a-záéíóú]+,\s*\d{4}\)/g) || [];
-    html += 'CITAS\n';
-    html += 'Citas APA 7: ' + citas.length + '\n';
-    html += 'Citas unicas: ' + new Set(citas).size + '\n\n';
-
-    return html;
-}
-
-function mostrarAnalisisCientifico(texto) {
-    const s = analisisEstadistico(texto);
-    let html = 'ANALISIS ESTADISTICO CIENTIFICO\n\n';
-    html += '--- METRICAS LEXICAS ---\n';
-    html += 'Palabras totales: ' + s.palabrasTotales + '\n';
-    html += 'Palabras unicas: ' + s.palabrasUnicas + '\n';
-    html += 'TTR (Type-Token Ratio): ' + s.ttr.toFixed(4) + '\n';
-    html += 'Indice de Herdan: ' + s.herdan.toFixed(4) + '\n';
-    html += 'Indice de Guiraud: ' + s.guiraud.toFixed(4) + '\n';
-    html += 'Entropia de Shannon: ' + s.entropia.toFixed(4) + ' bits\n\n';
-    html += '--- DISTRIBUCION DE LONGITUDES ---\n';
-    html += 'Media: ' + s.longitudes.media + ' chars\n';
-    html += 'Desviacion estandar: ' + s.longitudes.desv + '\n';
-    html += 'Min: ' + s.longitudes.min + ' | Max: ' + s.longitudes.max + '\n\n';
-    html += '--- METRICAS SINTACTICAS ---\n';
-    html += 'Oraciones: ' + s.totalOraciones + '\n';
-    html += 'Media palabras/oracion: ' + s.mediaOracion + '\n\n';
-    html += '--- TOP 20 PALABRAS ---\n';
-    s.topFrecuencias.forEach(([w, c], i) => { html += (i + 1) + '. ' + w + ' (' + c + ')\n'; });
-    return html;
-}
-
-
-// ============================================
-// TOGGLE DE MODOS
-// ============================================
-document.getElementById('btnModoAcademico').onclick = () => {
-    if (modoApp === 'academico') return;
-    modoApp = 'academico';
-    document.body.classList.remove('modo-cientifico');
-    document.getElementById('btnModoAcademico').classList.add('active');
-    document.getElementById('btnModoCientifico').classList.remove('active');
-    actualizarFase('Modo Academico activado');
-    showToast('Modo Academico: 13 fuentes + Aristo');
-};
-
-document.getElementById('btnModoCientifico').onclick = () => {
-    if (modoApp === 'cientifico') return;
-    modoApp = 'cientifico';
-    document.body.classList.add('modo-cientifico');
-    document.getElementById('btnModoCientifico').classList.add('active');
-    document.getElementById('btnModoAcademico').classList.remove('active');
-    actualizarFase('Modo Cientifico activado: Solo peer-reviewed');
-    showToast('Modo Cientifico: 7 fuentes peer-reviewed + IMRyD + DOI');
-};
-
-// ============================================
-// BOTONES CIENTIFICOS
-// ============================================
-document.getElementById('btnVerificarDOI').onclick = async () => {
-    const contenido = document.getElementById('contenido')?.innerText || '';
-    if (!contenido || contenido === '-') { showToast('Realiza una investigacion primero', true); return; }
-    showToast('Verificando DOIs...');
-    const r = await verificarDOIsEnTexto(contenido);
-    let html = 'VERIFICACION DE DOIs\n\n';
-    html += 'Total detectados: ' + r.total + '\n';
-    html += 'Verificados: ' + r.verificados + '\n\n';
-    if (r.detalles.length > 0) {
-        r.detalles.forEach((d, i) => {
-            html += (i + 1) + '. ' + d.doi + '\n';
-            html += '   Estado: ' + (d.verificado ? 'VERIFICADO' : (d.razon || 'No verificado')) + '\n';
-            if (d.verificado) {
-                html += '   Titulo: ' + (d.titulo || '').substring(0, 80) + '\n';
-                html += '   Autor: ' + (d.autor || 'N/A') + ' | Anio: ' + (d.año || 'N/A') + '\n';
-                if (d.revista) html += '   Revista: ' + d.revista + '\n';
-            }
-            html += '\n';
-        });
-    }
-    mostrarModal('Verificacion de DOIs', html);
-};
-
-document.getElementById('btnEstadistico').onclick = () => {
-    const contenido = document.getElementById('contenido')?.innerText || '';
-    if (!contenido || contenido === '-') { showToast('Realiza una investigacion primero', true); return; }
-    mostrarModal('Analisis Estadistico', mostrarAnalisisCientifico(contenido));
-};
-
-document.getElementById('btnBibTeX').onclick = () => {
-    const contenido = document.getElementById('contenido')?.innerText || '';
-    const tema = document.getElementById('topicInput')?.value?.trim() || 'tema';
-    if (!contenido || contenido === '-') { showToast('Realiza una investigacion primero', true); return; }
-    const bibtex = generarBibTeX(contenido, tema);
-    const blob = new Blob([bibtex], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = 'referencias_' + new Date().toISOString().slice(0, 10) + '.bib';
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    mostrarModal('BibTeX Generado', bibtex.substring(0, 3000));
-};
-
-document.getElementById('btnInformeCientifico').onclick = () => {
-    const contenido = document.getElementById('contenido')?.innerText || '';
-    const tema = document.getElementById('topicInput')?.value?.trim() || 'tema';
-    if (!contenido || contenido === '-') { showToast('Realiza una investigacion primero', true); return; }
-    mostrarModal('Informe Cientifico', generarInformeCientifico(contenido, tema, resultadosFuentesGlobal));
 };
 
 // ============================================

@@ -1293,18 +1293,6 @@ function generarFallbackAcademico(tema, fuentes, idioma = 'es') {
     texto += `La combinación de ${origenes.size} bases de datos sugiere un ecosistema `;
     texto += `de investigación maduro y con capacidad de crecimiento.\n\n`;
 
-    // Añadir análisis de abstracts antes de la conclusión
-    if (conContenido.length > 0) {
-        texto += `Sub-tema 4b: Análisis detallado de los abstracts\n\n`;
-        texto += `A continuación se presenta un análisis de los principales hallazgos reportados en los abstracts:\n\n`;
-        conContenido.slice(0, 5).forEach((f, i) => {
-            if (f.contenidoExtraido && f.contenidoExtraido.length > 100) {
-                texto += `${i + 1}. ${f.autores || 'Autor'} (${f.año || 's.f.'}): `;
-                texto += `${f.contenidoExtraido.substring(0, 250).trim()}...\n\n`;
-            }
-        });
-    }
-
     texto += `Conclusión:\n\n`;
     texto += `El análisis de ${totalFuentes} publicaciones sobre "${tema}" permite concluir `;
     texto += `que se trata de un campo dinámico, con fundamentos teóricos sólidos y aplicaciones crecientes. `;
@@ -2261,81 +2249,45 @@ function formatearDesglose(desglose, titulo, autor, fecha, url) {
 // 🔥 FALLBACK ENRIQUECIDO — Extrae contenido REAL de las URLs
 // ============================================
 async function enriquecerFuentesConURLs(fuentesObj, idioma = 'es') {
-    Diagnostico.log('Enriqueciendo fuentes con contenido real...', 'info');
-    const enriquecidas = JSON.parse(JSON.stringify(fuentesObj));
+    Diagnostico.log('Enriqueciendo fuentes con extracción de URLs...', 'info');
+    const enriquecidas = { ...fuentesObj };
     const promesas = [];
-    let contadorURLs = 0;
-    let contadorAbstracts = 0;
 
-    const esURLDeAPI = (url) => {
-        if (!url) return true;
-        const urlsAPI = [
-            '/api/', '/works?', '/search?', '/query?', '/graph/v1/',
-            'api.crossref.org', 'api.openalex.org', 'api.semanticscholar.org',
-            'api.core.ac.uk', 'doaj.org/api', 'hn.algolia.com',
-            'archive.org/advancedsearch', 'query.wikidata.org', 'api.github.com',
-            'reddit.com/search', 'wikipedia.org/w/api', 'export.arxiv.org/api'
-        ];
-        return urlsAPI.some(x => url.includes(x));
-    };
-
-    const tieneContenidoUtil = (fuente) => {
-        return !!(fuente.abstract && fuente.abstract.length > 80) ||
-               !!(fuente.descripcion && fuente.descripcion.length > 80) ||
-               !!(fuente.resumen && fuente.resumen.length > 80);
-    };
-
+    // Recorrer cada categoría de fuente
     for (const [categoria, lista] of Object.entries(fuentesObj)) {
         if (!Array.isArray(lista)) continue;
         for (let i = 0; i < lista.length; i++) {
             const fuente = lista[i];
-
-            // 1. Si ya tiene abstract util, usarlo directamente
-            if (tieneContenidoUtil(fuente)) {
-                enriquecidas[categoria][i] = {
-                    ...fuente,
-                    contenidoExtraido: fuente.abstract || fuente.descripcion || fuente.resumen,
-                    enriquecido: true,
-                    tipoContenido: 'abstract-api'
-                };
-                contadorAbstracts++;
-                Diagnostico.log('OK abstract ' + categoria + '[' + i + ']: ' + (fuente.abstract || fuente.descripcion).length + ' chars', 'ok');
-                continue;
-            }
-
-            // 2. Si tiene URL de documento real (no API), extraerla
-            if (fuente.url && !esURLDeAPI(fuente.url)) {
-                contadorURLs++;
-                promesas.push((async () => {
-                    try {
-                        const contenido = await extraerTextoDeURL(fuente.url);
-                        if (contenido && contenido.texto && contenido.texto.length > 100) {
-                            enriquecidas[categoria][i] = {
-                                ...fuente,
-                                contenidoExtraido: contenido.texto,
-                                tituloExtraido: contenido.titulo || fuente.titulo,
-                                enriquecido: true,
-                                tipoContenido: 'fetch-url'
-                            };
-                            Diagnostico.log('OK fetch ' + categoria + '[' + i + ']: ' + contenido.texto.length + ' chars', 'ok');
-                        }
-                    } catch (e) {
-                        Diagnostico.log('Error ' + categoria + '[' + i + ']: ' + e.message, 'warn');
-                    }
-                })());
-            }
+            if (!fuente.url) continue;
+            // Solo extraer si tiene URL válida y no es la misma
+            promesas.push((async () => {
+                try {
+                    const contenido = await extraerTextoDeURL(fuente.url);
+                    // Actualizar la fuente con datos extraídos
+                    enriquecidas[categoria][i] = {
+                        ...fuente,
+                        contenidoExtraido: contenido.texto.substring(0, 8000),
+                        tituloExtraido: contenido.titulo || fuente.titulo,
+                        autorExtraido: contenido.autor || fuente.autores,
+                        fechaExtraida: contenido.fecha || fuente.año,
+                        descripcionExtraida: contenido.descripcion || fuente.abstract,
+                        enriquecido: true
+                    };
+                    Diagnostico.log('✅ ' + fuente.url.substring(0, 50) + '… (' + contenido.texto.length + ' chars)', 'ok');
+                } catch (e) {
+                    Diagnostico.log('⚠️ No se pudo extraer: ' + fuente.url.substring(0, 50) + '… (' + e.message + ')', 'warn');
+                    // Dejar la fuente como estaba
+                }
+            })());
         }
     }
 
-    Diagnostico.log('Abstracts directos: ' + contadorAbstracts + ' | URLs a extraer: ' + contadorURLs, 'info');
-
-    if (promesas.length > 0) {
-        const timeout = new Promise(resolve => setTimeout(() => resolve('timeout'), 40000));
-        await Promise.race([Promise.allSettled(promesas), timeout]);
-    }
+    // Esperar todas con timeout global de 45s
+    const timeout = new Promise(resolve => setTimeout(() => resolve('timeout'), 45000));
+    await Promise.race([Promise.allSettled(promesas), timeout]);
 
     const enriquecidasCount = Object.values(enriquecidas).flat().filter(f => f.enriquecido).length;
-    Diagnostico.log('Fuentes enriquecidas totales: ' + enriquecidasCount, 'ok');
+    Diagnostico.log('📊 Fuentes enriquecidas: ' + enriquecidasCount, 'ok');
     return enriquecidas;
 }
 

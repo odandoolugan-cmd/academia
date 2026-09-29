@@ -1365,5 +1365,80 @@ pub fn calcular_hash_sha256(texto: &str) -> String {
 
 
 
+#[wasm_bindgen]
+pub fn ttr_type_token_ratio(texto: &str) -> f64 {
+    let palabras: Vec<String> = texto.split_whitespace()
+        .map(|p| p.to_lowercase().replace(|c: char| !c.is_alphanumeric(), ""))
+        .filter(|p| !p.is_empty())
+        .collect();
+    if palabras.is_empty() { return 0.0; }
+    let unicas: std::collections::HashSet<&String> = palabras.iter().collect();
+    unicas.len() as f64 / palabras.len() as f64
+}
 
+#[wasm_bindgen]
+pub fn entropia_shannon(texto: &str) -> f64 {
+    let palabras: Vec<String> = texto.split_whitespace()
+        .map(|p| p.to_lowercase().replace(|c: char| !c.is_alphanumeric(), ""))
+        .filter(|p| !p.is_empty())
+        .collect();
+    if palabras.is_empty() { return 0.0; }
+    let mut frec: std::collections::HashMap<String, usize> = std::collections::HashMap::new();
+    for p in &palabras { *frec.entry(p.clone()).or_insert(0) += 1; }
+    let total = palabras.len() as f64;
+    -frec.values().map(|&c| {
+        let p = c as f64 / total;
+        p * p.log2()
+    }).sum::<f64>()
+}
 
+#[wasm_bindgen]
+pub fn extraer_dois(texto: &str) -> String {
+    let mut dois: Vec<String> = Vec::new();
+    for palabra in texto.split_whitespace() {
+        // Limpiar puntuación
+        let limpia = palabra.trim_matches(|c: char| {
+            c == ',' || c == ')' || c == ']' || c == '}' || c == '.' || c == ';' || c == ':'
+        });
+        // Buscar patrones que empiecen con "10." y tengan "/"
+        if limpia.starts_with("10.") && limpia.contains('/') {
+            // Verificar que después de "10." haya al menos 4 dígitos
+            if let Some(resto) = limpia.strip_prefix("10.") {
+                let digitos_iniciales: String = resto.chars().take_while(|c| c.is_ascii_digit()).collect();
+                if digitos_iniciales.len() >= 4 {
+                    if !dois.contains(&limpia.to_string()) {
+                        dois.push(limpia.to_string());
+                    }
+                }
+            }
+        }
+    }
+    let json = format!(
+        "{{\"total\":{},\"dois\":[{}]}}",
+        dois.len(),
+        dois.iter().map(|d| format!("\"{}\"", d)).collect::<Vec<_>>().join(",")
+    );
+    json
+}
+
+#[wasm_bindgen]
+pub fn detectar_estructura_imryd(texto: &str) -> String {
+    let t = texto.to_lowercase();
+    let tiene_intro = t.contains("introducción") || t.contains("introduccion");
+    let tiene_metodos = t.contains("métodos") || t.contains("metodos") || t.contains("metodología");
+    let tiene_resultados = t.contains("resultados");
+    let tiene_discusion = t.contains("discusión") || t.contains("discusion");
+    let tiene_conclusion = t.contains("conclusión") || t.contains("conclusion");
+    let secciones = vec![tiene_intro, tiene_metodos, tiene_resultados, tiene_discusion, tiene_conclusion];
+    let completas = secciones.iter().filter(|&&x| x).count();
+    serde_json::json!({
+        "completo": completas == 5,
+        "completas": completas,
+        "total": 5,
+        "introduccion": tiene_intro,
+        "metodos": tiene_metodos,
+        "resultados": tiene_resultados,
+        "discusion": tiene_discusion,
+        "conclusion": tiene_conclusion
+    }).to_string()
+}

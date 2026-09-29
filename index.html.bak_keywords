@@ -1293,18 +1293,6 @@ function generarFallbackAcademico(tema, fuentes, idioma = 'es') {
     texto += `La combinación de ${origenes.size} bases de datos sugiere un ecosistema `;
     texto += `de investigación maduro y con capacidad de crecimiento.\n\n`;
 
-    // Añadir análisis de abstracts antes de la conclusión
-    if (conContenido.length > 0) {
-        texto += `Sub-tema 4b: Análisis detallado de los abstracts\n\n`;
-        texto += `A continuación se presenta un análisis de los principales hallazgos reportados en los abstracts:\n\n`;
-        conContenido.slice(0, 5).forEach((f, i) => {
-            if (f.contenidoExtraido && f.contenidoExtraido.length > 100) {
-                texto += `${i + 1}. ${f.autores || 'Autor'} (${f.año || 's.f.'}): `;
-                texto += `${f.contenidoExtraido.substring(0, 250).trim()}...\n\n`;
-            }
-        });
-    }
-
     texto += `Conclusión:\n\n`;
     texto += `El análisis de ${totalFuentes} publicaciones sobre "${tema}" permite concluir `;
     texto += `que se trata de un campo dinámico, con fundamentos teóricos sólidos y aplicaciones crecientes. `;
