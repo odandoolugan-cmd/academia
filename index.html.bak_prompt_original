@@ -973,20 +973,9 @@ function ocultarStatus() { document.getElementById('statusMessage').classList.re
 function actualizarFase(msg) { document.getElementById('faseInfo').textContent = msg; }
 function actualizarProgress(p) { document.getElementById('progressBar').style.width = `${Math.min(100, p)}%`; }
 function actualizarIndicadorIdioma(idioma) {
-    // Limpiar el idioma si viene como JSON
-    let idiomaLimpio = idioma;
-    if (typeof idioma === 'string' && idioma.includes('{')) {
-        try {
-            const parsed = JSON.parse(idioma);
-            idiomaLimpio = parsed.IDIOMA || parsed.idioma || 'ES';
-        } catch (e) {
-            idiomaLimpio = 'ES';
-        }
-    }
-    const b = banderaIdioma[idiomaLimpio] || '🌐';
-    const n = nombreIdioma[idiomaLimpio] || 'Desconocido';
+    const b = banderaIdioma[idioma] || '🌐'; const n = nombreIdioma[idioma] || 'Desconocido';
     document.getElementById('idiomaIndicator').textContent = `${b} ${n}`;
-    document.getElementById('idiomaWidget').textContent = `${b} ${String(idiomaLimpio).toUpperCase()}`;
+    document.getElementById('idiomaWidget').textContent = `${b} ${idioma.toUpperCase()}`;
 }
 function generarBibliografia(texto, tema, idioma) {
     const autores = autoresPorIdioma[idioma] || autoresPorIdioma['es'];
@@ -1558,22 +1547,16 @@ async function investigar() {
         }
 
         const reglasEstructura = modoApp === 'cientifico'
-            ? `REGLAS MODO CIENTÍFICO (IMRyD):
-1. ESTRUCTURA IMRyD OBLIGATORIA: "Introducción:" · "Métodos:" · "Resultados:" · "Discusión:" · "Conclusión:"
-2. CITAS: Mínimo 8 citas APA 7 de las fuentes proporcionadas.
+            ? `1. ESTRUCTURA IMRyD: "Introducción:" · "Métodos:" · "Resultados:" · "Discusión:" · "Conclusión:"
+2. CITAS: Mínimo 8 citas APA 7 con DOI verificable cuando sea posible.
 3. EXTENSIÓN: 1500-2500 palabras.
 4. NO uses asteriscos ni formato especial.
-5. Lenguaje TÉCNICO y OBJETIVO.
-6. Puedes complementar con conocimiento general cuando enriquezca el análisis.
-7. Empieza con "Introducción:" y termina con "Conclusión:".`
-            : `REGLAS MODO ACADÉMICO (LIBRE):
-1. ESTRUCTURA: "Introducción:" (200+ palabras) · "Desarrollo:" (4+ subpuntos) · "Conclusión:" (150+ palabras)
-2. CITAS: Mínimo 5 citas APA 7. Usa TODAS las fuentes relevantes que conozcas (pioneros, clásicos, contemporáneos).
-3. EXTENSIÓN: 1200-2000 palabras.
-4. NO uses asteriscos ni formato especial.
-5. LIBERTAD TOTAL para citar autores relevantes: Kuhn, Popper, Feyerabend, Cassini, Lander, etc. son bienvenidos.
-6. Sé riguroso pero accesible.
-7. Empieza con "Introducción:" y termina con "Conclusión:".`;
+5. Cada afirmación respaldada por fuente con DOI o URL verificable.
+6. NO inventes datos: si no hay evidencia, indícalo.`
+            : `1. ESTRUCTURA: "Introducción:" (200+ palabras) · "Desarrollo:" (4+ subpuntos) · "Conclusión:" (150+ palabras)
+2. CITAS: Mínimo 5 citas APA 7 con autores y años reales.
+3. EXTENSIÓN: 1000-1500 palabras.
+4. NO uses asteriscos ni formato especial.`;
 
         const rolIA = modoApp === 'cientifico'
             ? 'investigador científico senior'
@@ -1608,7 +1591,7 @@ ${reglasEstructura}`;
         const timeoutGlobal = new Promise((_, reject) => setTimeout(() => reject(new Error('TIMEOUT_GLOBAL')), TIMEOUT_TOTAL_ANALISIS));
         const tareaIA = llamarIA(
             [
-                { role: 'system', content: `Eres investigador académico senior. Tienes LIBERTAD TOTAL para citar autores relevantes (pioneros, clásicos, contemporáneos). Responde en ${idiomaPrompt}. NO uses asteriscos.` },
+                { role: 'system', content: `Eres investigador académico. Responde en ${idiomaPrompt}. NO uses asteriscos.` },
                 { role: 'user', content: prompt }
             ],
             maxTokens
@@ -1712,7 +1695,7 @@ document.getElementById('resolverWordBtn').onclick = async function () {
         const prompt = `Analiza y resuelve el siguiente contenido académico. Idioma: ${idiomaPrompt}. Responde en el MISMO idioma.\n\n${contenidoWord.substring(0, 3000)}`;
         const resultado = await llamarIA(
             [
-                { role: 'system', content: `Eres investigador académico senior. Tienes LIBERTAD TOTAL para citar autores. Responde en ${idiomaPrompt}. NO uses asteriscos.` },
+                { role: 'system', content: `Eres investigador académico experto con Agent-Reach y Core 403M. Responde en ${idiomaPrompt}. NO uses asteriscos.` },
                 { role: 'user', content: prompt }
             ],
             maxTokens
