@@ -1,8 +1,8 @@
 [package]
-name = "ciencia_wasm"
+name = "aristo_wasm"
 version = "0.1.0"
 edition = "2021"
-description = "Módulo WASM científico para AcadémIA Pro"
+description = "Módulo WASM de filosofía para Aristóteles IA"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
@@ -15,8 +15,9 @@ js-sys = "0.3"
 
 [profile.release]
 opt-level = "s"
-lto = false
+lto = true
 codegen-units = 1
+panic = "abort"
 
 [package.metadata.wasm-pack.profile.release]
 wasm-opt = false

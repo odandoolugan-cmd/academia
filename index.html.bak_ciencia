@@ -371,12 +371,6 @@
             <span class="item">📦 Caché: <strong id="rustCache">0</strong></span>
             <span class="item">🧠 <strong id="rustVersion">—</strong></span>
         </div>
-        <div class="status-row aristo">
-            <span class="lbl">🔬 Ciencia WASM:</span>
-            <span class="item"><strong id="cienciaStatus">⏳ Cargando…</strong></span>
-            <span class="item">📊 Funciones: <strong id="cienciaFuncCount">0</strong></span>
-            <span class="item">🧠 <strong id="cienciaVersion">—</strong></span>
-        </div>
         <div class="status-row core">
             <span class="lbl">🧬 Core 403M:</span>
             <span class="item"><strong id="coreStatus" class="ok">⏳ Iniciando…</strong></span>
@@ -459,21 +453,6 @@
             <button class="tool" id="btnEstadistico" style="border-color:#3b82f6;color:#93c5fd;">📊 Estadístico</button>
             <button class="tool" id="btnBibTeX" style="border-color:#3b82f6;color:#93c5fd;">📚 BibTeX</button>
             <button class="tool" id="btnInformeCientifico" style="border-color:#3b82f6;color:#93c5fd;">📋 Informe Científico</button>
-            <button class="tool" id="btnTTR" style="border-color:#10b981;color:#34d399;">📊 TTR</button>
-            <button class="tool" id="btnEntropia" style="border-color:#10b981;color:#34d399;">🎲 Entropía</button>
-            <button class="tool" id="btnHerdan" style="border-color:#10b981;color:#34d399;">📈 Herdan</button>
-            <button class="tool" id="btnGuiraud" style="border-color:#10b981;color:#34d399;">📉 Guiraud</button>
-            <button class="tool" id="btnDOIs" style="border-color:#10b981;color:#34d399;">🔗 DOIs</button>
-            <button class="tool" id="btnIMRyD" style="border-color:#10b981;color:#34d399;">📋 IMRyD</button>
-            <button class="tool" id="btnMetodologia" style="border-color:#10b981;color:#34d399;">🔬 Metodología</button>
-            <button class="tool" id="btnComplejidad" style="border-color:#10b981;color:#34d399;">🧮 Complejidad</button>
-            <button class="tool" id="btnCitasAPA" style="border-color:#10b981;color:#34d399;">📚 Citas APA</button>
-            <button class="tool" id="btnValidarAPA" style="border-color:#10b981;color:#34d399;">✅ Validar APA</button>
-            <button class="tool" id="btnCienciaFalacias" style="border-color:#8b5cf6;color:#c4b5fd;">🔍 Falacias</button>
-            <button class="tool" id="btnCienciaArgumento" style="border-color:#8b5cf6;color:#c4b5fd;">📊 Argumento</button>
-            <button class="tool" id="btnCienciaCoherencia" style="border-color:#8b5cf6;color:#c4b5fd;">✅ Coherencia</button>
-            <button class="tool" id="btnCienciaParadigma" style="border-color:#8b5cf6;color:#c4b5fd;">🎯 Paradigma</button>
-            <button class="tool" id="btnCienciaEstado" style="border-color:#8b5cf6;color:#c4b5fd;">🔬 Estado Ciencia</button>
         </div>
 
         <!-- INPUT -->
@@ -775,47 +754,6 @@ await mod.default('./pkg/academia_wasm_bg.wasm?v=' + vCache);
     }
 }
 const rustWASM = new RustWASM();
-
-// ============================================
-// 🔬 CIENCIA WASM — Módulo científico (25 funciones)
-// ============================================
-class CienciaWASM {
-    constructor() { this.wasm = null; this.cargado = false; }
-    async cargar() {
-        try {
-            console.log('🔬 Cargando Ciencia WASM desde ./pkg_ciencia/ciencia_wasm.js…');
-            const vCache = Date.now();
-            const mod = await import('./pkg_ciencia/ciencia_wasm.js?v=' + vCache);
-            await mod.default('./pkg_ciencia/ciencia_wasm_bg.wasm?v=' + vCache);
-            this.wasm = mod; this.cargado = true;
-            
-            // Contar funciones
-            const funcs = [
-                'ttr_type_token_ratio','entropia_shannon','indice_herdan','indice_guiraud',
-                'extraer_dois','detectar_estructura_imryd','detectar_metodologia','calcular_indice_complejidad',
-                'extraer_citas_apa','validar_formato_apa','detectar_falacias','analizar_argumento',
-                'validar_coherencia','detectar_escuela_predominante','comparar_filosofos',
-                'pregunta_socratica','glosario_filosofico','listar_escuelas','listar_filosofos',
-                'cita_filosofica','detectar_temas_filosoficos','profundidad_filosofica',
-                'resumen_filosofico','aristo_stats','aristo_version'
-            ].filter(f => typeof mod[f] === 'function');
-            
-            console.log('✅ Ciencia WASM cargado · ' + funcs.length + '/25 funciones activas');
-            document.getElementById('cienciaStatus').textContent = '✅ Activo';
-            document.getElementById('cienciaStatus').className = 'ok';
-            document.getElementById('cienciaFuncCount').textContent = funcs.length;
-            document.getElementById('cienciaVersion').textContent = 'v' + (mod.aristo_version ? mod.aristo_version() : '1');
-            return true;
-        } catch (e) {
-            console.warn('⚠️ Ciencia WASM no disponible:', e.message);
-            document.getElementById('cienciaStatus').textContent = '⚠️ No disponible';
-            document.getElementById('cienciaStatus').className = 'bad';
-            return false;
-        }
-    }
-}
-const cienciaWASM = new CienciaWASM();
-
 
 // ============================================
 // 🔄 MULTI-IA PARALELO
@@ -2850,186 +2788,6 @@ document.getElementById('btnInformeCientifico').onclick = () => {
     mostrarModal('Informe Cientifico', generarInformeCientifico(contenido, tema, resultadosFuentesGlobal));
 };
 
-
-// ============================================
-// 🔬 BOTONES CIENCIA WASM
-// ============================================
-function cienciaGuard() {
-    if (!cienciaWASM.cargado) { showToast('⚠️ Ciencia WASM no disponible', true); return false; }
-    return true;
-}
-
-document.getElementById('btnTTR').onclick = () => {
-    if (!cienciaGuard()) return;
-    const texto = obtenerTextoActivo();
-    if (!texto) { showToast('⚠️ Escribe un tema primero', true); return; }
-    const ttr = cienciaWASM.wasm.ttr_type_token_ratio(texto);
-    mostrarModal('📊 TTR (Type-Token Ratio)', 'TTR: ' + (ttr * 100).toFixed(2) + '%\n\n💡 Rango ideal: 40-60%\n\n' + (ttr > 0.6 ? '✅ Vocabulario rico' : ttr < 0.4 ? '⚠️ Vocabulario repetitivo' : '✅ Vocabulario equilibrado'));
-};
-
-document.getElementById('btnEntropia').onclick = () => {
-    if (!cienciaGuard()) return;
-    const texto = obtenerTextoActivo();
-    if (!texto) { showToast('⚠️ Escribe un tema primero', true); return; }
-    const ent = cienciaWASM.wasm.entropia_shannon(texto);
-    mostrarModal('🎲 Entropía de Shannon', 'Entropía: ' + ent.toFixed(4) + ' bits\n\n💡 Mayor entropía = mayor diversidad léxica');
-};
-
-document.getElementById('btnHerdan').onclick = () => {
-    if (!cienciaGuard()) return;
-    const texto = obtenerTextoActivo();
-    if (!texto) { showToast('⚠️ Escribe un tema primero', true); return; }
-    const h = cienciaWASM.wasm.indice_herdan(texto);
-    mostrarModal('📈 Índice de Herdan', 'Herdan: ' + h.toFixed(4) + '\n\n💡 Mide la riqueza léxica (0-1)');
-};
-
-document.getElementById('btnGuiraud').onclick = () => {
-    if (!cienciaGuard()) return;
-    const texto = obtenerTextoActivo();
-    if (!texto) { showToast('⚠️ Escribe un tema primero', true); return; }
-    const g = cienciaWASM.wasm.indice_guiraud(texto);
-    mostrarModal('📉 Índice de Guiraud', 'Guiraud: ' + g.toFixed(4) + '\n\n💡 Mide la diversidad léxica corregida por longitud');
-};
-
-document.getElementById('btnDOIs').onclick = () => {
-    if (!cienciaGuard()) return;
-    const texto = obtenerTextoActivo();
-    if (!texto) { showToast('⚠️ Escribe un tema primero', true); return; }
-    const r = JSON.parse(cienciaWASM.wasm.extraer_dois(texto));
-    let html = '🔗 DOIs detectados: ' + r.total + '\n\n';
-    if (r.dois && r.dois.length > 0) {
-        r.dois.forEach((d, i) => { html += (i + 1) + '. ' + d + '\n'; });
-    } else {
-        html += 'No se detectaron DOIs.';
-    }
-    mostrarModal('🔗 DOIs', html);
-};
-
-document.getElementById('btnIMRyD').onclick = () => {
-    if (!cienciaGuard()) return;
-    const texto = obtenerTextoActivo();
-    if (!texto) { showToast('⚠️ Escribe un tema primero', true); return; }
-    const r = JSON.parse(cienciaWASM.wasm.detectar_estructura_imryd(texto));
-    let html = '📋 ESTRUCTURA IMRyD\n\n';
-    html += 'Completas: ' + r.completas + '/' + r.total + '\n';
-    html += 'Completo: ' + (r.completo ? '✅ SÍ' : '❌ NO') + '\n\n';
-    html += '━━━ Secciones ━━━\n';
-    html += (r.introduccion ? '✅' : '❌') + ' Introducción\n';
-    html += (r.metodos ? '✅' : '❌') + ' Métodos\n';
-    html += (r.resultados ? '✅' : '❌') + ' Resultados\n';
-    html += (r.discusion ? '✅' : '❌') + ' Discusión\n';
-    html += (r.conclusion ? '✅' : '❌') + ' Conclusión';
-    mostrarModal('📋 IMRyD', html);
-};
-
-document.getElementById('btnMetodologia').onclick = () => {
-    if (!cienciaGuard()) return;
-    const texto = obtenerTextoActivo();
-    if (!texto) { showToast('⚠️ Escribe un tema primero', true); return; }
-    const r = JSON.parse(cienciaWASM.wasm.detectar_metodologia(texto));
-    let html = '🔬 METODOLOGÍA\n\n';
-    html += 'Total detectadas: ' + r.total + '\n\n';
-    if (r.metodologias && r.metodologias.length > 0) {
-        r.metodologias.forEach((m, i) => { html += (i + 1) + '. ' + m + '\n'; });
-    } else {
-        html += 'No se detectaron metodologías específicas.';
-    }
-    mostrarModal('🔬 Metodología', html);
-};
-
-document.getElementById('btnComplejidad').onclick = () => {
-    if (!cienciaGuard()) return;
-    const texto = obtenerTextoActivo();
-    if (!texto) { showToast('⚠️ Escribe un tema primero', true); return; }
-    const c = cienciaWASM.wasm.calcular_indice_complejidad(texto);
-    mostrarModal('🧮 Índice de Complejidad', 'Complejidad: ' + c.toFixed(2) + '\n\n💡 Mide la dificultad de lectura');
-};
-
-document.getElementById('btnCitasAPA').onclick = () => {
-    if (!cienciaGuard()) return;
-    const texto = obtenerTextoActivo();
-    if (!texto) { showToast('⚠️ Escribe un tema primero', true); return; }
-    const r = JSON.parse(cienciaWASM.wasm.extraer_citas_apa(texto));
-    let html = '📚 CITAS APA DETECTADAS: ' + r.total + '\n\n';
-    if (r.citas && r.citas.length > 0) {
-        r.citas.forEach((c, i) => { html += (i + 1) + '. ' + c + '\n'; });
-    } else {
-        html += 'No se detectaron citas APA.';
-    }
-    mostrarModal('📚 Citas APA', html);
-};
-
-document.getElementById('btnValidarAPA').onclick = () => {
-    if (!cienciaGuard()) return;
-    const texto = obtenerTextoActivo();
-    if (!texto) { showToast('⚠️ Escribe un tema primero', true); return; }
-    const r = JSON.parse(cienciaWASM.wasm.validar_formato_apa(texto));
-    let html = '✅ VALIDACIÓN APA\n\n';
-    html += 'Válidas: ' + r.validas + '\n';
-    html += 'Inválidas: ' + r.invalidas + '\n';
-    html += 'Total: ' + r.total + '\n\n';
-    html += r.invalidas === 0 ? '✅ Todas las citas son válidas' : '⚠️ Hay citas con formato incorrecto';
-    mostrarModal('✅ Validar APA', html);
-};
-
-document.getElementById('btnCienciaFalacias').onclick = () => {
-    if (!cienciaGuard()) return;
-    const texto = obtenerTextoActivo();
-    if (!texto) { showToast('⚠️ Escribe un tema primero', true); return; }
-    try {
-        const r = JSON.parse(cienciaWASM.wasm.detectar_falacias(texto));
-        let html = '🔍 FALACIAS DETECTADAS: ' + r.total + '\n\n';
-        if (r.falacias && r.falacias.length > 0) {
-            r.falacias.forEach((f, i) => { html += (i + 1) + '. ' + (f.tipo || f.nombre || f) + '\n'; });
-        } else {
-            html += 'No se detectaron falacias lógicas.';
-        }
-        mostrarModal('🔍 Falacias', html);
-    } catch (e) { showToast('Error: ' + e.message, true); }
-};
-
-document.getElementById('btnCienciaArgumento').onclick = () => {
-    if (!cienciaGuard()) return;
-    const texto = obtenerTextoActivo();
-    if (!texto) { showToast('⚠️ Escribe un tema primero', true); return; }
-    try {
-        const r = cienciaWASM.wasm.analizar_argumento(texto);
-        mostrarModal('📊 Análisis de Argumento', r);
-    } catch (e) { showToast('Error: ' + e.message, true); }
-};
-
-document.getElementById('btnCienciaCoherencia').onclick = () => {
-    if (!cienciaGuard()) return;
-    const texto = obtenerTextoActivo();
-    if (!texto) { showToast('⚠️ Escribe un tema primero', true); return; }
-    try {
-        const r = cienciaWASM.wasm.validar_coherencia(texto);
-        mostrarModal('✅ Validar Coherencia', r);
-    } catch (e) { showToast('Error: ' + e.message, true); }
-};
-
-document.getElementById('btnCienciaParadigma').onclick = () => {
-    if (!cienciaGuard()) return;
-    const texto = obtenerTextoActivo();
-    if (!texto) { showToast('⚠️ Escribe un tema primero', true); return; }
-    try {
-        const r = cienciaWASM.wasm.detectar_escuela_predominante(texto);
-        mostrarModal('🎯 Paradigma', r);
-    } catch (e) { showToast('Error: ' + e.message, true); }
-};
-
-document.getElementById('btnCienciaEstado').onclick = () => {
-    if (!cienciaWASM.cargado) {
-        mostrarModal('🔬 Ciencia WASM', 'Estado: ⚠️ No cargado');
-        return;
-    }
-    const funcs = ['ttr_type_token_ratio','entropia_shannon','indice_herdan','indice_guiraud','extraer_dois','detectar_estructura_imryd','detectar_metodologia','calcular_indice_complejidad','extraer_citas_apa','validar_formato_apa','detectar_falacias','analizar_argumento','validar_coherencia','detectar_escuela_predominante','comparar_filosofos','pregunta_socratica','glosario_filosofico','listar_escuelas','listar_filosofos','cita_filosofica','detectar_temas_filosoficos','profundidad_filosofica','resumen_filosofico','aristo_stats','aristo_version'];
-    const disponibles = funcs.filter(f => typeof cienciaWASM.wasm[f] === 'function');
-    mostrarModal('🔬 Estado Ciencia WASM',
-        'Estado: ✅ Activo\nFunciones: ' + disponibles.length + '/25\n\n📋 ' + disponibles.map(f => '• ' + f).join('\n')
-    );
-};
-
 // ============================================
 // INICIALIZACIÓN
 // ============================================
@@ -3039,7 +2797,7 @@ document.getElementById('btnCienciaEstado').onclick = () => {
     Diagnostico.log(`⏱️ Timeout IA: ${TIMEOUT_IA / 1000}s · Timeout global: ${TIMEOUT_TOTAL_ANALISIS / 1000}s`, 'info');
     Diagnostico.log('🔄 Estrategia: Promise.any (paralelo) + fallback académico de 12 fuentes', 'info');
 
-    await Promise.all([rustWASM.cargar(), cienciaWASM.cargar()]);
+    await rustWASM.cargar();
     if (rustWASM.cargado) {
         actualizarFase('🦀 WASM Rust activo · 🔄 Multi-IA paralelo listo · ♾️ Fallback de 12 fuentes');
         showToast('🦀 WASM Rust + 🔄 Multi-IA paralelo · 🧠 Fallback 12 fuentes · ⚡ 50x');

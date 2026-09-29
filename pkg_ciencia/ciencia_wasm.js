@@ -1,4 +1,4 @@
-/* @ts-self-types="./aristo_wasm.d.ts" */
+/* @ts-self-types="./ciencia_wasm.d.ts" */
 
 /**
  * @param {string} texto
@@ -49,6 +49,17 @@ export function aristo_version() {
     } finally {
         wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
     }
+}
+
+/**
+ * @param {string} texto
+ * @returns {number}
+ */
+export function calcular_indice_complejidad(texto) {
+    const ptr0 = passStringToWasm0(texto, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    const len0 = WASM_VECTOR_LEN;
+    const ret = wasm.calcular_indice_complejidad(ptr0, len0);
+    return ret;
 }
 
 /**
@@ -112,6 +123,25 @@ export function detectar_escuela_predominante(texto) {
  * @param {string} texto
  * @returns {string}
  */
+export function detectar_estructura_imryd(texto) {
+    let deferred2_0;
+    let deferred2_1;
+    try {
+        const ptr0 = passStringToWasm0(texto, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ret = wasm.detectar_estructura_imryd(ptr0, len0);
+        deferred2_0 = ret[0];
+        deferred2_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred2_0, deferred2_1, 1);
+    }
+}
+
+/**
+ * @param {string} texto
+ * @returns {string}
+ */
 export function detectar_falacias(texto) {
     let deferred2_0;
     let deferred2_1;
@@ -119,6 +149,25 @@ export function detectar_falacias(texto) {
         const ptr0 = passStringToWasm0(texto, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
         const len0 = WASM_VECTOR_LEN;
         const ret = wasm.detectar_falacias(ptr0, len0);
+        deferred2_0 = ret[0];
+        deferred2_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred2_0, deferred2_1, 1);
+    }
+}
+
+/**
+ * @param {string} texto
+ * @returns {string}
+ */
+export function detectar_metodologia(texto) {
+    let deferred2_0;
+    let deferred2_1;
+    try {
+        const ptr0 = passStringToWasm0(texto, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ret = wasm.detectar_metodologia(ptr0, len0);
         deferred2_0 = ret[0];
         deferred2_1 = ret[1];
         return getStringFromWasm0(ret[0], ret[1]);
@@ -147,6 +196,55 @@ export function detectar_temas_filosoficos(texto) {
 }
 
 /**
+ * @param {string} texto
+ * @returns {number}
+ */
+export function entropia_shannon(texto) {
+    const ptr0 = passStringToWasm0(texto, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    const len0 = WASM_VECTOR_LEN;
+    const ret = wasm.entropia_shannon(ptr0, len0);
+    return ret;
+}
+
+/**
+ * @param {string} texto
+ * @returns {string}
+ */
+export function extraer_citas_apa(texto) {
+    let deferred2_0;
+    let deferred2_1;
+    try {
+        const ptr0 = passStringToWasm0(texto, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ret = wasm.extraer_citas_apa(ptr0, len0);
+        deferred2_0 = ret[0];
+        deferred2_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred2_0, deferred2_1, 1);
+    }
+}
+
+/**
+ * @param {string} texto
+ * @returns {string}
+ */
+export function extraer_dois(texto) {
+    let deferred2_0;
+    let deferred2_1;
+    try {
+        const ptr0 = passStringToWasm0(texto, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ret = wasm.extraer_dois(ptr0, len0);
+        deferred2_0 = ret[0];
+        deferred2_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred2_0, deferred2_1, 1);
+    }
+}
+
+/**
  * @param {string} termino
  * @returns {string}
  */
@@ -163,6 +261,28 @@ export function glosario_filosofico(termino) {
     } finally {
         wasm.__wbindgen_free(deferred2_0, deferred2_1, 1);
     }
+}
+
+/**
+ * @param {string} texto
+ * @returns {number}
+ */
+export function indice_guiraud(texto) {
+    const ptr0 = passStringToWasm0(texto, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    const len0 = WASM_VECTOR_LEN;
+    const ret = wasm.indice_guiraud(ptr0, len0);
+    return ret;
+}
+
+/**
+ * @param {string} texto
+ * @returns {number}
+ */
+export function indice_herdan(texto) {
+    const ptr0 = passStringToWasm0(texto, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    const len0 = WASM_VECTOR_LEN;
+    const ret = wasm.indice_herdan(ptr0, len0);
+    return ret;
 }
 
 /**
@@ -250,19 +370,49 @@ export function resumen_filosofico(texto) {
  * @param {string} texto
  * @returns {number}
  */
+export function ttr_type_token_ratio(texto) {
+    const ptr0 = passStringToWasm0(texto, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    const len0 = WASM_VECTOR_LEN;
+    const ret = wasm.ttr_type_token_ratio(ptr0, len0);
+    return ret;
+}
+
+/**
+ * @param {string} texto
+ * @returns {number}
+ */
 export function validar_coherencia(texto) {
     const ptr0 = passStringToWasm0(texto, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
     const len0 = WASM_VECTOR_LEN;
     const ret = wasm.validar_coherencia(ptr0, len0);
     return ret;
 }
+
+/**
+ * @param {string} texto
+ * @returns {string}
+ */
+export function validar_formato_apa(texto) {
+    let deferred2_0;
+    let deferred2_1;
+    try {
+        const ptr0 = passStringToWasm0(texto, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ret = wasm.validar_formato_apa(ptr0, len0);
+        deferred2_0 = ret[0];
+        deferred2_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred2_0, deferred2_1, 1);
+    }
+}
 function __wbg_get_imports() {
     const import0 = {
         __proto__: null,
-        __wbg___wbindgen_throw_5d9e815e6fdf150f: function(arg0, arg1) {
+        __wbg___wbindgen_throw_41e9ee4f547fc59a: function(arg0, arg1) {
             throw new Error(getStringFromWasm0(arg0, arg1));
         },
-        __wbg_random_7bce4e9e78e2e0d0: function() {
+        __wbg_random_5a4cafd2f02395ff: function() {
             const ret = Math.random();
             return ret;
         },
@@ -278,7 +428,7 @@ function __wbg_get_imports() {
     };
     return {
         __proto__: null,
-        "./aristo_wasm_bg.js": import0,
+        "./ciencia_wasm_bg.js": import0,
     };
 }
 
@@ -442,7 +592,7 @@ async function __wbg_init(module_or_path) {
     }
 
     if (module_or_path === undefined) {
-        module_or_path = new URL('aristo_wasm_bg.wasm', import.meta.url);
+        module_or_path = new URL('ciencia_wasm_bg.wasm', import.meta.url);
     }
     const imports = __wbg_get_imports();
 

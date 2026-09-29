@@ -1,0 +1,33 @@
+/* tslint:disable */
+/* eslint-disable */
+export const memory: WebAssembly.Memory;
+export const analizar_argumento: (a: number, b: number) => [number, number];
+export const aristo_stats: () => [number, number];
+export const aristo_version: () => [number, number];
+export const calcular_indice_complejidad: (a: number, b: number) => number;
+export const cita_filosofica: () => [number, number];
+export const comparar_filosofos: (a: number, b: number, c: number, d: number) => [number, number];
+export const detectar_escuela_predominante: (a: number, b: number) => [number, number];
+export const detectar_estructura_imryd: (a: number, b: number) => [number, number];
+export const detectar_falacias: (a: number, b: number) => [number, number];
+export const detectar_metodologia: (a: number, b: number) => [number, number];
+export const detectar_temas_filosoficos: (a: number, b: number) => [number, number];
+export const entropia_shannon: (a: number, b: number) => number;
+export const extraer_citas_apa: (a: number, b: number) => [number, number];
+export const extraer_dois: (a: number, b: number) => [number, number];
+export const glosario_filosofico: (a: number, b: number) => [number, number];
+export const indice_guiraud: (a: number, b: number) => number;
+export const indice_herdan: (a: number, b: number) => number;
+export const listar_escuelas: () => [number, number];
+export const listar_filosofos: () => [number, number];
+export const pregunta_socratica: (a: number, b: number) => [number, number];
+export const profundidad_filosofica: (a: number, b: number) => number;
+export const resumen_filosofico: (a: number, b: number) => [number, number];
+export const ttr_type_token_ratio: (a: number, b: number) => number;
+export const validar_coherencia: (a: number, b: number) => number;
+export const validar_formato_apa: (a: number, b: number) => [number, number];
+export const __wbindgen_externrefs: WebAssembly.Table;
+export const __wbindgen_malloc: (a: number, b: number) => number;
+export const __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
+export const __wbindgen_free: (a: number, b: number, c: number) => void;
+export const __wbindgen_start: () => void;
