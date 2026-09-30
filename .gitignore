@@ -1,33 +1,16 @@
-# === Backups ===
-*.backup
-*.local-backup
+# Backups
+*.bak
+*.bak*
+*.corrupto
 
-# === Rust / Cargo ===
-target/
-**/target/
-Cargo.lock
-**/Cargo.lock
+# Temporales
+PYEOF
+script_test.js
+test-*.html
 
-# === WASM generado por wasm-pack (NO subir) ===
-**/pkg/*.wasm
-**/pkg/*.js
-**/pkg/*.d.ts
-**/pkg/package.json
-**/pkg_aristo/*.wasm
-**/pkg_aristo/*.js
-**/pkg_aristo/*.d.ts
-**/pkg_aristo/package.json
+# Python
+__pycache__/
+*.pyc
 
-# === node-test ===
-node-test/
-**/node-test/
-
-# === Node ===
+# Node
 node_modules/
-npm-debug.log*
-
-# === Sistema ===
-.DS_Store
-Thumbs.db
-*.swp
-*.log

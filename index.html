@@ -474,6 +474,10 @@
             <button class="tool" id="btnCienciaCoherencia" style="border-color:#8b5cf6;color:#c4b5fd;">✅ Coherencia</button>
             <button class="tool" id="btnCienciaParadigma" style="border-color:#8b5cf6;color:#c4b5fd;">🎯 Paradigma</button>
             <button class="tool" id="btnCienciaEstado" style="border-color:#8b5cf6;color:#c4b5fd;">🔬 Estado Ciencia</button>
+            <button class="tool" id="btnPaperContinuo" style="border-color:#f59e0b;color:#fbbf24;">📝 Paper Continuo</button>
+            <button class="tool" id="btnComparativo" style="border-color:#ec4899;color:#f472b6;">📊 Comparativo</button>
+            <button class="tool" id="btnBibTeX" style="border-color:#10b981;color:#34d399;">📚 BibTeX</button>
+            <button class="tool" id="btnVerificarDOIs" style="border-color:#3b82f6;color:#93c5fd;">🔗 Verificar DOIs</button>
         </div>
 
         <!-- INPUT -->
@@ -685,6 +689,16 @@ function fetchConTimeout(url, opciones = {}, timeoutMs = 8000) {
 
 const nombreIdioma = {'es':'Español','en':'Inglés','de':'Alemán','fr':'Francés','pt':'Portugués','it':'Italiano'};
 const banderaIdioma = {'es':'🇪🇸','en':'🇬🇧','de':'🇩🇪','fr':'🇫🇷','pt':'🇵🇹','it':'🇮🇹'};
+// Autores clásicos para enriquecer citas (1800-1950)
+const AUTORES_CLASICOS = {
+    'es': ['Darwin, C.', 'Humboldt, A.', 'Ortega y Gasset, J.', 'Unamuno, M.'],
+    'en': ['Darwin, C.', 'Einstein, A.', 'Popper, K.', 'Kuhn, T.', 'Feyerabend, P.'],
+    'de': ['Humboldt, A.', 'Einstein, A.', 'Planck, M.', 'Kant, I.', 'Hegel, G.'],
+    'fr': ['Poincaré, H.', 'Pasteur, L.', 'Descartes, R.', 'Bergson, H.'],
+    'pt': ['Darwin, C.', 'Einstein, A.'],
+    'it': ['Galilei, G.', 'Leonardo da Vinci', 'Vico, G.']
+};
+
 const autoresPorIdioma = {
     'es':['García, J.','Martínez, L.','López, M.','Fernández, R.','Gómez, P.','Sánchez, C.'],
     'en':['Smith, J.','Johnson, R.','Williams, M.','Brown, D.','Jones, P.','Miller, S.'],
@@ -747,8 +761,14 @@ await mod.default('./pkg/academia_wasm_bg.wasm?v=' + vCache);
     }
     processFull(t) {
         if (!this.cargado) return null;
-        try { this.stats.funciones++; const r = JSON.parse(this.wasm.process_text_full(t)); if (r.tiempo_us) this.stats.tiempo += r.tiempo_us / 1000; return r; }
-        catch (e) { return null; }
+        try {
+            this.stats.funciones++;
+            const t0 = performance.now();
+            const r = JSON.parse(this.wasm.process_text_full(t));
+            const t1 = performance.now();
+            this.stats.tiempo += (t1 - t0);
+            return r;
+        } catch (e) { return null; }
     }
     keywords(t, n = 8) {
         if (!this.cargado) return [];
@@ -1097,7 +1117,7 @@ const fuentes = {
                     titulo: tm[1].replace(/\s+/g, ' ').trim(),
                     autores: authm ? authm.map(a => a.replace(/<\/?name>/g, '')).slice(0, 3).join(', ') : 'Desconocido',
                     año: 's.f.',
-                    abstract: sm ? sm[1].replace(/\s+/g, ' ').trim().substring(0, 300) : '',
+                    abstract: sm ? sm[1].replace(/\s+/g, ' ').trim() : '',  // Completo
                     url: idm ? idm[1] : null,
                     fuente: 'arXiv'
                 });
@@ -1142,7 +1162,7 @@ const fuentes = {
                 titulo: i.title || '',
                 autores: i.authors?.map(a => a.name).join(', ') || 'Desconocido',
                 año: i.yearPublished || 's.f.',
-                abstract: i.abstract?.substring(0, 300) || '',
+                abstract: i.abstract || '',  // Completo, sin límite
                 url: i.downloadUrl || i.fullTextIdentifier,
                 fuente: 'CORE'
             }));
@@ -1156,7 +1176,7 @@ const fuentes = {
                 titulo: i.bibjson?.title || '',
                 autores: i.bibjson?.author?.map(a => a.name).join(', ') || 'Desconocido',
                 año: i.bibjson?.year || 's.f.',
-                abstract: i.bibjson?.abstract?.substring(0, 300) || '',
+                abstract: i.bibjson?.abstract || '',  // Completo, sin límite
                 url: i.bibjson?.link?.[0]?.url || null,
                 fuente: 'DOAJ'
             }));
@@ -1185,12 +1205,13 @@ const fuentes = {
     },
     async internetArchive(t) {
         try {
-            const r = await fetchConTimeout(`https://archive.org/advancedsearch.php?q=${encodeURIComponent(t)}+AND+mediatype:texts&fl[]=title,creator,year,identifier&rows=5&output=json`, {}, 6000);
+            const r = await fetchConTimeout(`https://archive.org/advancedsearch.php?q=${encodeURIComponent(t)}+AND+mediatype:texts&fl[]=title,creator,year,identifier,description&rows=5&output=json`, {}, 6000);
             const d = await r.json();
             return (d.response?.docs || []).map(x => ({
                 titulo: x.title || '',
                 autores: Array.isArray(x.creator) ? x.creator.slice(0, 3).join(', ') : (x.creator || 'Desconocido'),
                 año: x.year || 's.f.',
+                abstract: x.description || '',  // Descripción oficial
                 url: `https://archive.org/details/${x.identifier}`,
                 fuente: 'Internet Archive'
             }));
@@ -1417,6 +1438,7 @@ function generarFallbackAcademico(tema, fuentes, idioma = 'es') {
 // ============================================
 function actualizarAnalisis(texto, idioma, modo) {
     if (!texto || texto === '—') return;
+    const _t0_wasm = performance.now();
     const stats = rustWASM.contarPalabras(texto);
     const keywords = rustWASM.keywords(texto, 5);
     document.getElementById('metricMemoria').textContent = stats.palabras;
@@ -1431,12 +1453,21 @@ function actualizarAnalisis(texto, idioma, modo) {
     if (keywords.length > 0) {
         document.getElementById('keywordsWidget').innerHTML = keywords.map(k => `<span class="kw-chip">🏷️ ${k.palabra} (${k.frecuencia})</span>`).join('');
     }
-    const intro = texto.match(/Introducción:([\s\S]*?)(?=Desarrollo:|Conclusión:|$)/i);
-    const des = texto.match(/Desarrollo:([\s\S]*?)(?=Conclusión:|$)/i);
+    // Detectar estructura (académico o IMRyD)
+    const intro = texto.match(/Introducción:([\s\S]*?)(?=Desarrollo:|Métodos:|Conclusión:|$)/i);
+    const des = texto.match(/(?:Desarrollo|Métodos|Resultados|Discusión):([\s\S]*?)(?=Conclusión:|$)/i);
     const con = texto.match(/Conclusión:([\s\S]*?)$/i);
-    document.getElementById('introPalabras').textContent = intro ? rustWASM.contarPalabras(intro[1]).palabras : 0;
-    document.getElementById('desarrolloPalabras').textContent = des ? rustWASM.contarPalabras(des[1]).palabras : 0;
-    document.getElementById('conclusionPalabras').textContent = con ? rustWASM.contarPalabras(con[1]).palabras : 0;
+    const intPalabras = intro ? rustWASM.contarPalabras(intro[1]).palabras : 0;
+    const desPalabras = des ? rustWASM.contarPalabras(des[1]).palabras : 0;
+    const conPalabras = con ? rustWASM.contarPalabras(con[1]).palabras : 0;
+    document.getElementById('introPalabras').textContent = intPalabras;
+    document.getElementById('desarrolloPalabras').textContent = desPalabras;
+    document.getElementById('conclusionPalabras').textContent = conPalabras;
+
+    // Detectar si es IMRyD
+    const esIMRyD = /Métodos:/i.test(texto) || /Resultados:/i.test(texto) || /Discusión:/i.test(texto);
+    const tipoEstructura = esIMRyD ? 'IMRyD' : 'Académico';
+    const seccionesCompletas = (intPalabras > 50 ? 1 : 0) + (desPalabras > 100 ? 1 : 0) + (conPalabras > 50 ? 1 : 0);
     const pArr = texto.match(/\S+/g) || [];
     const oArr = texto.match(/[.!?]+/g) || [];
     const sil = (texto.match(/[aeiouáéíóú]+/gi) || []).length;
@@ -1449,8 +1480,13 @@ function actualizarAnalisis(texto, idioma, modo) {
     const pos = ['innovador', 'excelente', 'significativo', 'importante', 'mejora', 'avance', 'éxito'].filter(p => texto.toLowerCase().includes(p)).length;
     const neg = ['problema', 'dificultad', 'limitación', 'desafío', 'falla', 'riesgo'].filter(p => texto.toLowerCase().includes(p)).length;
     document.getElementById('sentimientoAnalisis').textContent = `🎯 Tono: ${pos > neg ? 'Propositivo' : neg > pos ? 'Crítico' : 'Equilibrado'}`;
-    let prob = 0; if (!intro) prob++; if (!des) prob++; if (!con) prob++;
-    document.getElementById('completitudWidget').textContent = `📊 Completitud: ${Math.max(0, 100 - prob * 15)}%`;
+    // Calcular completitud según secciones detectadas
+    let prob = 0; 
+    if (!intro) prob++; 
+    if (!des) prob++; 
+    if (!con) prob++;
+    const completitud = Math.max(0, 100 - prob * 15);
+    document.getElementById('completitudWidget').textContent = `📊 Completitud: ${completitud}% (${tipoEstructura})`;
     const citas = (texto.match(/\([A-ZÁÉÍÓÚ][a-záéíóú]+,\s*\d{4}\)/g) || []).length;
     let conf = 70; if (stats.palabras > 800) conf += 10; if (citas >= 4) conf += 15; if (prob === 0) conf += 5;
     document.getElementById('confidenceFill').style.width = conf + '%';
@@ -1458,7 +1494,17 @@ function actualizarAnalisis(texto, idioma, modo) {
     document.getElementById('qualityScore').textContent = conf > 85 ? 'ALTA' : conf > 70 ? 'MEDIA' : 'BAJA';
     actualizarIndicadorIdioma(idioma || rustWASM.idioma(texto));
     rustWASM.cache(`analisis_${Date.now()}`, texto.substring(0, 5000));
-    actualizarFase(`🦀 WASM Rust · ${stats.palabras} palabras · ${citas} citas · 🔄 ${proveedorActual || 'Multi-IA'}`);
+    const _t1_wasm = performance.now();
+    const _tiempoTotal = Math.round(_t1_wasm - _t0_wasm);
+    rustWASM.stats.tiempo += _tiempoTotal;
+
+    // Actualizar widgets con el tiempo acumulado
+    const _tiempoAcumulado = Math.round(rustWASM.stats.tiempo);
+    document.getElementById('rustTiempo').textContent = _tiempoAcumulado + 'ms';
+    document.getElementById('ultraTiempo').textContent = _tiempoAcumulado + 'ms';
+    document.getElementById('ultraOptimizaciones').textContent = rustWASM.stats.optimizaciones;
+
+    actualizarFase(`🦀 WASM Rust · ${stats.palabras} palabras · ${citas} citas · ⏱️ ${_tiempoTotal}ms · 🔄 ${proveedorActual || 'Multi-IA'}`);
 }
 
 // ============================================
@@ -1558,22 +1604,32 @@ async function investigar() {
         }
 
         const reglasEstructura = modoApp === 'cientifico'
-            ? `REGLAS MODO CIENTÍFICO (IMRyD):
-1. ESTRUCTURA IMRyD OBLIGATORIA: "Introducción:" · "Métodos:" · "Resultados:" · "Discusión:" · "Conclusión:"
-2. CITAS: Mínimo 8 citas APA 7 de las fuentes proporcionadas.
-3. EXTENSIÓN: 1500-2500 palabras.
-4. NO uses asteriscos ni formato especial.
-5. Lenguaje TÉCNICO y OBJETIVO.
-6. Puedes complementar con conocimiento general cuando enriquezca el análisis.
-7. Empieza con "Introducción:" y termina con "Conclusión:".`
-            : `REGLAS MODO ACADÉMICO (LIBRE):
-1. ESTRUCTURA: "Introducción:" (200+ palabras) · "Desarrollo:" (4+ subpuntos) · "Conclusión:" (150+ palabras)
-2. CITAS: Mínimo 5 citas APA 7. Usa TODAS las fuentes relevantes que conozcas (pioneros, clásicos, contemporáneos).
-3. EXTENSIÓN: 1200-2000 palabras.
-4. NO uses asteriscos ni formato especial.
-5. LIBERTAD TOTAL para citar autores relevantes: Kuhn, Popper, Feyerabend, Cassini, Lander, etc. son bienvenidos.
-6. Sé riguroso pero accesible.
-7. Empieza con "Introducción:" y termina con "Conclusión:".`;
+            ? `REGLAS MODO CIENTÍFICO (NIVEL PhD RIGUROSO):
+1. NIVEL: Investigador PhD con publicaciones Q1-Q2, pero RIGUROSO.
+2. ESTRUCTURA IMRyD OBLIGATORIA: "Introducción:" · "Métodos:" · "Resultados:" · "Discusión:" · "Conclusión:"
+3. CITAS: Mínimo 10 citas APA 7. PRIORIZA las fuentes proporcionadas.
+4. FUENTES OBLIGATORIAS: Cita AL MENOS 6 autores de las fuentes proporcionadas.
+5. CLÁSICOS: Puedes citar 2-3 clásicos (Popper, Kuhn, Darwin, Humboldt) SOLO si aportan valor.
+6. NO INVENTES: NO cites autores que no estén en las fuentes O que no sean clásicos del tema.
+7. EXTENSIÓN: 2000-3000 palabras.
+8. RANGO TEMPORAL: 1800-actualidad.
+9. NO uses asteriscos ni formato especial.
+10. Lenguaje TÉCNICO y OBJETIVO, no ensayístico.
+11. Incluye: análisis crítico, limitaciones y recomendaciones.
+12. Si no hay evidencia en fuentes, escribe "[Sin evidencia en fuentes]".
+13. Empieza con "Introducción:" y termina con "Conclusión:".`
+            : `REGLAS MODO ACADÉMICO (NIVEL PhD RIGUROSO):
+1. NIVEL: Investigador PhD, RIGUROSO pero accesible.
+2. ESTRUCTURA: "Introducción:" (300+ palabras) · "Desarrollo:" (5+ subpuntos) · "Conclusión:" (200+ palabras)
+3. CITAS: Mínimo 8 citas APA 7. PRIORIZA las fuentes proporcionadas.
+4. FUENTES OBLIGATORIAS: Cita AL MENOS 5 autores de las fuentes proporcionadas.
+5. CLÁSICOS: Puedes citar 2-3 clásicos (Popper, Kuhn, Feyerabend) SOLO si están directamente relacionados con el tema.
+6. NO INVENTES: NO cites autores que no estén en las fuentes O que no sean clásicos reconocidos del tema.
+7. RANGO TEMPORAL: 1800-actualidad (precursores + contemporáneos).
+8. EXTENSIÓN: 1500-2500 palabras.
+9. NO uses asteriscos.
+10. Sé riguroso pero sin irte por las ramas. Cada párrafo debe aportar al tema.
+11. Empieza con "Introducción:" y termina con "Conclusión:".`;
 
         const rolIA = modoApp === 'cientifico'
             ? 'investigador científico senior'
@@ -1625,7 +1681,10 @@ ${reglasEstructura}`;
             // 🔥 NUEVO: Enriquecer fuentes extrayendo contenido de sus URLs
             let fuentesEnriquecidas = resultadosFuentes;
             try {
+                // Primero: extraer contenido de URLs
                 fuentesEnriquecidas = await enriquecerFuentesConURLs(resultadosFuentes, idiomaDetectado);
+                // Segundo: obtener abstracts de Semantic Scholar
+                fuentesEnriquecidas = await enriquecerConSemantic(fuentesEnriquecidas);
             } catch (e) {
                 Diagnostico.log('Error enriqueciendo: ' + e.message, 'warn');
             }
@@ -2435,8 +2494,32 @@ async function recomponerFallbackEnriquecido(tema, fuentesEnriquecidas, idioma =
     if (totalFuentes === 0) return null;
 
     // Filtrar las que tienen contenido real
-    const conContenido = todas.filter(f => f.contenidoExtraido && f.contenidoExtraido.length > 100);
-    const sinContenido = todas.filter(f => !f.contenidoExtraido);
+    // 🔥 APLICAR FILTROS EN CASCADA
+    Diagnostico.log('Total fuentes iniciales: ' + todas.length, 'info');
+    
+    // 1. Deduplicar
+    const sinDuplicados = deduplicarFuentes(todas);
+    Diagnostico.log('Tras deduplicar: ' + sinDuplicados.length, 'info');
+    
+    // 2. Filtrar basura
+    const sinBasura = filtrarBasura(sinDuplicados);
+    Diagnostico.log('Tras filtrar basura: ' + sinBasura.length, 'info');
+    
+    // 3. Filtrar por relevancia al tema
+    const relevantes = sinBasura.filter(f => esRelevante(f, tema));
+    Diagnostico.log('Tras filtrar por relevancia: ' + relevantes.length, 'info');
+    
+    // 4. Clasificar por tipo
+    const conContenido = relevantes.filter(f => f.contenidoExtraido && f.contenidoExtraido.length > 100);
+    const conAbstract = relevantes.filter(f => f.abstract && f.abstract.length > 80 && !f.contenidoExtraido);
+    const sinContenido = relevantes.filter(f => !f.contenidoExtraido && !f.abstract);
+    
+    // 5. Ordenar: primero con DOI, luego sin DOI
+    conContenido.sort((a, b) => (b.doi ? 1 : 0) - (a.doi ? 1 : 0));
+    conAbstract.sort((a, b) => (b.doi ? 1 : 0) - (a.doi ? 1 : 0));
+    sinContenido.sort((a, b) => (b.doi ? 1 : 0) - (a.doi ? 1 : 0));
+    
+    Diagnostico.log('Con contenido: ' + conContenido.length + ' | Con abstract: ' + conAbstract.length + ' | Sin contenido: ' + sinContenido.length, 'ok');
 
     // Extraer autores reales
     const autoresUnicos = [...new Set(
@@ -2492,45 +2575,108 @@ async function recomponerFallbackEnriquecido(tema, fuentesEnriquecidas, idioma =
     texto += `Desarrollo:\n\n`;
     texto += `Sub-tema 1: Estado del arte y publicaciones principales\n\n`;
 
-    // Ordenar: primero las que tienen contenido, luego las que no
-    const ordenadas = [...conContenido, ...sinContenido];
+    // Ordenar: contenido > abstract > sin contenido
+    const ordenadas = [...conContenido, ...conAbstract, ...sinContenido];
 
-    ordenadas.slice(0, 12).forEach((f, i) => {
-        texto += `${i + 1}. ${f.autorExtraido || f.autores} (${f.fechaExtraida || f.año}). "${f.tituloExtraido || f.titulo}". Fuente: ${f.origen}.`;
+    ordenadas.slice(0, 15).forEach((f, i) => {
+        const titulo = f.tituloExtraido || f.titulo || 'Sin título';
+        const autor = f.autorExtraido || f.autores || 'Desconocido';
+        const año = f.fechaExtraida || f.año || 's.f.';
+        texto += `${i + 1}. ${autor} (${año}). "${titulo}". Fuente: ${f.origen}.`;
         if (f.doi) texto += ` DOI: ${f.doi}`;
-        if (f.enriquecido) texto += ` [✨ ENRIQUECIDO]`;
-        texto += `\n`;
-        if (f.contenidoExtraido && f.contenidoExtraido.length > 100) {
-            // Resumen del contenido extraído
-            const resumen = rustWASM.resumen(f.contenidoExtraido, 3) || f.contenidoExtraido.substring(0, 500);
-            texto += `   Resumen extraído: ${resumen}\n`;
-            // Keywords específicas
-            try {
-                const kws = rustWASM.keywords(f.contenidoExtraido, 5);
-                if (kws.length > 0) {
-                    texto += `   Keywords: ${kws.map(k => k.palabra).join(', ')}\n`;
-                }
-            } catch(e) {}
-            // Tono / sentimiento
-            if (rustWASM.cargado) {
-                try {
-                    const sent = JSON.parse(rustWASM.wasm.sentimiento_espanol(f.contenidoExtraido));
-                    if (sent && sent.tono) texto += `   Tono: ${sent.tono}\n`;
-                } catch(e) {}
-            }
-            // Entidades
-            if (rustWASM.cargado) {
-                try {
-                    const ents = JSON.parse(rustWASM.wasm.extraer_entidades_nombradas(f.contenidoExtraido));
-                    if (ents.total > 0) texto += `   Entidades: ${ents.entidades.slice(0, 5).join(', ')}\n`;
-                } catch(e) {}
-            }
-        } else if (f.abstract && f.abstract.length > 40) {
-            texto += `   Resumen: ${f.abstract.substring(0, 300)}…\n`;
+        if (f.url) texto += ` URL: ${f.url}`;
+        if (f.enriquecido) {
+            const origen = f.tipoContenido === 'abstract-api' ? 'abstract' : 'URL';
+            texto += ` [ENRIQUECIDO vía ${origen}: ${f.contenidoExtraido.length} chars]`;
+        }
+        if (f.enriquecidoSemantic) {
+            texto += ` [ABSTRACT Semantic Scholar]`;
+        }
+        if (f.venue) {
+            texto += ` Publicado en: ${f.venue}.`;
         }
         texto += `\n`;
+
+        // Extraer el mejor contenido disponible (prioriza el más largo)
+        const candidatos = [
+            f.contenidoExtraido,
+            f.abstract,
+            f.descripcion,
+            f.descripcionExtraida
+        ].filter(c => c && c.length > 80);
+
+        let contenido = candidatos.sort((a, b) => b.length - a.length)[0] || '';
+
+                if (contenido) {
+            // 1. RESUMEN EXTENDIDO (más oraciones)
+            let extracto = '';
+            if (rustWASM.cargado && rustWASM.wasm.resumir_texto) {
+                try {
+                    extracto = rustWASM.resumen(contenido, 8);  // 8 oraciones en vez de 3
+                } catch (e) {
+                    extracto = contenido.substring(0, 2000);
+                }
+            } else {
+                extracto = contenido.substring(0, 2000);
+            }
+            texto += `   Resumen Extendido: ${extracto.trim()}
+`;
+
+            // 2. CONTEXTO COMPLETO (más chars)
+            if (contenido.length > 500) {
+                const contexto = contenido.substring(0, Math.min(2500, contenido.length)).trim();
+                texto += `   Contexto Completo: ${contexto}
+`;
+            }
+
+            // 3. ANÁLISIS POR WASM
+            if (rustWASM.cargado) {
+                // Keywords
+                try {
+                    const kws = rustWASM.keywords(contenido, 10);
+                    if (kws.length > 0) {
+                        texto += `   Keywords: ${kws.map(k => k.palabra + ' (' + k.frecuencia + ')').join(', ')}
+`;
+                    }
+                } catch (e) {}
+                
+                // Tono
+                try {
+                    const sent = JSON.parse(rustWASM.wasm.sentimiento_espanol(contenido));
+                    if (sent && sent.tono) texto += `   Tono: ${sent.tono}
+`;
+                } catch (e) {}
+                
+                // Entidades
+                try {
+                    const ents = JSON.parse(rustWASM.wasm.extraer_entidades_nombradas(contenido));
+                    if (ents.total > 0) {
+                        texto += `   Entidades: ${ents.entidades.slice(0, 8).join(', ')}
+`;
+                    }
+                } catch (e) {}
+                
+                // Tópicos
+                try {
+                    const tops = JSON.parse(rustWASM.wasm.detectar_topicos(contenido));
+                    if (tops.total > 0) {
+                        texto += `   Tópicos: ${tops.topicos.slice(0, 5).map(t => t.frase).join(', ')}
+`;
+                    }
+                } catch (e) {}
+            }
+            
+            texto += `   [Contenido total: ${contenido.length} chars]
+`;
+        } else {
+            texto += `   [Sin abstract disponible en la fuente]
+`;
+        }
+        texto += `
+`;
     });
 
+    // Sub-tema 2: autores reales
     // Sub-tema 2: autores reales
     texto += `Sub-tema 2: Autores clave y contribuciones\n\n`;
     if (autoresUnicos.length > 0) {
@@ -3045,6 +3191,366 @@ document.getElementById('btnCienciaEstado').onclick = () => {
         'Estado: ✅ Activo\nFunciones: ' + disponibles.length + '/25\n\n📋 ' + disponibles.map(f => '• ' + f).join('\n')
     );
 };
+
+
+// ============================================
+// 📚 OBTENER ABSTRACT DE DOI (vía Semantic Scholar)
+// ============================================
+async function obtenerAbstractDeDOI(doi) {
+    if (!doi) return null;
+    try {
+        const r = await fetchConTimeout(
+            `https://api.semanticscholar.org/graph/v1/paper/DOI:${encodeURIComponent(doi)}?fields=title,abstract,authors,year,venue,externalIds`,
+            {},
+            8000
+        );
+        if (!r.ok) return null;
+        const d = await r.json();
+        return {
+            abstract: d.abstract || null,
+            titulo: d.title || null,
+            autores: d.authors?.map(a => a.name).join(', ') || null,
+            año: d.year || null,
+            venue: d.venue || null
+        };
+    } catch (e) {
+        return null;
+    }
+}
+
+async function enriquecerConSemantic(fuentesObj) {
+    Diagnostico.log('Enriqueciendo con Semantic Scholar...', 'info');
+    const enriquecidas = JSON.parse(JSON.stringify(fuentesObj));
+    const promesas = [];
+    
+    for (const [categoria, lista] of Object.entries(fuentesObj)) {
+        if (!Array.isArray(lista)) continue;
+        for (let i = 0; i < lista.length; i++) {
+            const fuente = lista[i];
+            if (!fuente.doi) continue;
+            if (fuente.abstract && fuente.abstract.length > 50) continue; // Ya tiene abstract
+            
+            promesas.push((async () => {
+                try {
+                    const info = await obtenerAbstractDeDOI(fuente.doi);
+                    if (info && info.abstract) {
+                        enriquecidas[categoria][i] = {
+                            ...fuente,
+                            abstract: info.abstract,
+                            titulo: info.titulo || fuente.titulo,
+                            autores: info.autores || fuente.autores,
+                            año: info.año || fuente.año,
+                            venue: info.venue,
+                            enriquecidoSemantic: true
+                        };
+                        Diagnostico.log('Semantic OK ' + fuente.doi + ': ' + info.abstract.length + ' chars', 'ok');
+                    }
+                } catch (e) {
+                    Diagnostico.log('Semantic error ' + fuente.doi + ': ' + e.message, 'warn');
+                }
+            })());
+        }
+    }
+    
+    if (promesas.length > 0) {
+        const timeout = new Promise(resolve => setTimeout(() => resolve('timeout'), 30000));
+        await Promise.race([Promise.allSettled(promesas), timeout]);
+    }
+    
+    const totalEnriquecidos = Object.values(enriquecidas).flat().filter(f => f.enriquecidoSemantic).length;
+    Diagnostico.log('Enriquecidos con Semantic: ' + totalEnriquecidos, 'ok');
+    return enriquecidas;
+}
+
+
+// ============================================
+// 📝 PAPER CONTINUO — Ensayo cohesionado
+// ============================================
+async function generarPaperContinuo(tema) {
+    showToast('📝 Generando paper continuo...');
+    const contenido = document.getElementById('contenido')?.innerText || '';
+    if (!contenido || contenido === '—') { showToast('⚠️ Realiza una investigación primero', true); return; }
+    
+    // Extraer fuentes del contexto actual
+    const fuentes = resultadosFuentesGlobal || {};
+    const todas = Object.values(fuentes).flat();
+    
+    if (todas.length === 0) { showToast('⚠️ No hay fuentes disponibles', true); return; }
+    
+    // Construir prompt para paper continuo
+    let contexto = `TEMA: ${tema}
+
+FUENTES DISPONIBLES (${todas.length}):
+`;
+    todas.slice(0, 15).forEach((f, i) => {
+        contexto += `${i + 1}. ${f.autores || 'Desconocido'} (${f.año || 's.f.'}). "${f.titulo}".`;
+        if (f.doi) contexto += ` DOI: ${f.doi}.`;
+        if (f.abstract || f.contenidoExtraido) {
+            const abs = (f.abstract || f.contenidoExtraido).substring(0, 400);
+            contexto += ` Resumen: ${abs}...`;
+        }
+        contexto += '\n';
+    });
+    
+    const prompt = `Escribe un ENSAYO ACADÉMICO CONTINUO Y COHESIONADO sobre "${tema}".
+
+REGLAS:
+1. NO listes fuentes con números. Escribe un texto continuo.
+2. Integra las fuentes en la narrativa (cita en contexto).
+3. ESTRUCTURA: "Introducción:" · "Desarrollo:" (sin subpuntos numerados) · "Conclusión:"
+4. Cada párrafo debe conectar con el anterior (usa conectores).
+5. EXTENSIÓN: 2500-3500 palabras.
+6. Cita APA 7: (Autor, año) integrado en el texto.
+7. NO uses asteriscos ni formato especial.
+8. MANTÉN EL HILO: no repitas información, avanza el argumento.
+9. Nivel académico PhD.
+
+FUENTES:
+${contexto.substring(0, 4000)}`;
+    
+    try {
+        const resultado = await llamarIA([
+            { role: 'system', content: `Eres un escritor académico con PhD. Escribes ensayos continuos y cohesionados. NO uses asteriscos ni listas numeradas.` },
+            { role: 'user', content: prompt }
+        ], 5000);
+        
+        const textoLimpio = resultado.texto.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\*(.*?)\*/g, '$1').trim();
+        document.getElementById('contenido').innerText = textoLimpio;
+        document.getElementById('resultsCard').classList.add('show');
+        actualizarAnalisis(textoLimpio, idiomaDetectado, modoActual);
+        showToast('✅ Paper continuo generado');
+    } catch (e) {
+        showToast('❌ ' + e.message, true);
+    }
+}
+
+// ============================================
+// 📊 ANÁLISIS COMPARATIVO — Comparar autores
+// ============================================
+async function generarComparativo(tema) {
+    showToast('📊 Generando comparativo...');
+    const fuentes = resultadosFuentesGlobal || {};
+    const todas = Object.values(fuentes).flat();
+    
+    if (todas.length < 2) { showToast('⚠️ Necesitas al menos 2 fuentes', true); return; }
+    
+    // Extraer autores únicos
+    const autoresUnicos = [...new Set(
+        todas.flatMap(f => (f.autores || '').split(',').map(a => a.trim()).filter(a => a && a !== 'Desconocido'))
+    )].slice(0, 6);
+    
+    if (autoresUnicos.length < 2) { showToast('⚠️ No hay suficientes autores', true); return; }
+    
+    let contexto = `TEMA: ${tema}
+
+AUTORES DISPONIBLES:
+`;
+    autoresUnicos.forEach((autor, i) => {
+        const fuentesAutor = todas.filter(f => (f.autores || '').includes(autor));
+        contexto += `\n${i + 1}. ${autor}: ${fuentesAutor.length} publicaciones\n`;
+        fuentesAutor.slice(0, 2).forEach(f => {
+            contexto += `   - "${f.titulo}" (${f.año})\n`;
+            if (f.abstract) contexto += `     Resumen: ${f.abstract.substring(0, 200)}...\n`;
+        });
+    });
+    
+    const prompt = `Realiza un ANÁLISIS COMPARATIVO entre los autores sobre "${tema}".
+
+ESTRUCTURA:
+1. "Introducción al comparativo:" — presenta los autores y sus enfoques
+2. "Análisis por autor:" — para cada autor, resume su posición
+3. "Puntos de convergencia:" — ¿en qué coinciden?
+4. "Puntos de divergencia:" — ¿en qué difieren?
+5. "Síntesis comparativa:" — conclusión integrando las perspectivas
+
+REGLAS:
+- Cita a cada autor con (Autor, año)
+- Usa tablas si es útil (formato texto)
+- Nivel PhD, lenguaje técnico
+- NO uses asteriscos
+- EXTENSIÓN: 1500-2000 palabras
+
+AUTORES:
+${contexto.substring(0, 4000)}`;
+    
+    try {
+        const resultado = await llamarIA([
+            { role: 'system', content: `Eres investigador PhD especializado en análisis comparativo. NO uses asteriscos.` },
+            { role: 'user', content: prompt }
+        ], 4000);
+        
+        const textoLimpio = resultado.texto.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\*(.*?)\*/g, '$1').trim();
+        mostrarModal('📊 Análisis Comparativo', textoLimpio);
+    } catch (e) {
+        showToast('❌ ' + e.message, true);
+    }
+}
+
+// ============================================
+// 📚 EXPORTAR BIBTEX
+// ============================================
+function exportarBibTeX() {
+    const fuentes = resultadosFuentesGlobal || {};
+    const todas = Object.values(fuentes).flat();
+    
+    if (todas.length === 0) { showToast('⚠️ No hay fuentes para exportar', true); return; }
+    
+    let bibtex = '% BibTeX generado por AcadémIA Pro\n';
+    bibtex += '% Fecha: ' + new Date().toLocaleDateString('es-ES') + '\n';
+    bibtex += '% Total de fuentes: ' + todas.length + '\n\n';
+    
+    const usados = new Set();
+    todas.forEach((f, i) => {
+        const autor = (f.autores || 'Desconocido').split(',')[0].replace(/[^A-Za-z]/g, '');
+        const año = f.año || 's.f.';
+        const key = autor.toLowerCase() + año.replace(/[^0-9]/g, '') + '_' + i;
+        
+        if (usados.has(key)) return;
+        usados.add(key);
+        
+        bibtex += '@article{' + key + ',\n';
+        bibtex += '  author = {' + (f.autores || 'Desconocido') + '},\n';
+        bibtex += '  year = {' + año + '},\n';
+        bibtex += '  title = {' + (f.titulo || 'Sin título') + '},\n';
+        if (f.doi) bibtex += '  doi = {' + f.doi + '},\n';
+        if (f.url) bibtex += '  url = {' + f.url + '},\n';
+        if (f.fuente) bibtex += '  journal = {' + f.fuente + '},\n';
+        if (f.abstract) bibtex += '  abstract = {' + f.abstract.substring(0, 500).replace(/[{}]/g, '') + '},\n';
+        bibtex += '  note = {Recuperado de AcadémIA Pro}\n';
+        bibtex += '}\n\n';
+    });
+    
+    // Descargar
+    const blob = new Blob([bibtex], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'referencias_' + new Date().toISOString().slice(0, 10) + '.bib';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    mostrarModal('📚 BibTeX Exportado', 'Se han exportado ' + usados.size + ' referencias.\n\n' + bibtex.substring(0, 2000));
+}
+
+// ============================================
+// 🔗 VERIFICAR DOIs
+// ============================================
+async function verificarTodosDOIs() {
+    const fuentes = resultadosFuentesGlobal || {};
+    const todas = Object.values(fuentes).flat();
+    const conDOI = todas.filter(f => f.doi);
+    
+    if (conDOI.length === 0) { showToast('⚠️ No hay DOIs para verificar', true); return; }
+    
+    showToast('🔗 Verificando ' + conDOI.length + ' DOIs...');
+    
+    let html = '🔗 VERIFICACIÓN DE DOIs\n\n';
+    html += 'Total de DOIs: ' + conDOI.length + '\n\n';
+    
+    let verificados = 0;
+    for (const f of conDOI.slice(0, 10)) {
+        try {
+            const r = await fetchConTimeout(`https://api.crossref.org/works/${encodeURIComponent(f.doi)}`, {}, 5000);
+            if (r.ok) {
+                const d = await r.json();
+                html += '✅ ' + f.doi + '\n';
+                html += '   Título: ' + (d.message?.title?.[0] || 'N/A').substring(0, 100) + '\n';
+                html += '   Autor: ' + (d.message?.author?.[0]?.family || 'N/A') + '\n';
+                html += '   Año: ' + (d.message?.issued?.['date-parts']?.[0]?.[0] || 'N/A') + '\n';
+                html += '   Revista: ' + (d.message?.['container-title']?.[0] || 'N/A') + '\n\n';
+                verificados++;
+            } else {
+                html += '❌ ' + f.doi + ' — HTTP ' + r.status + '\n\n';
+            }
+        } catch (e) {
+            html += '❌ ' + f.doi + ' — ' + e.message + '\n\n';
+        }
+    }
+    
+    html += '━━━ RESUMEN ━━━\n';
+    html += 'Verificados: ' + verificados + '/' + conDOI.length + '\n';
+    
+    mostrarModal('🔗 Verificación de DOIs', html);
+}
+
+// ============================================
+// LISTENERS
+// ============================================
+document.getElementById('btnPaperContinuo').onclick = () => {
+    const tema = document.getElementById('topicInput')?.value?.trim() || 'tema';
+    generarPaperContinuo(tema);
+};
+
+document.getElementById('btnComparativo').onclick = () => {
+    const tema = document.getElementById('topicInput')?.value?.trim() || 'tema';
+    generarComparativo(tema);
+};
+
+document.getElementById('btnBibTeX').onclick = exportarBibTeX;
+
+document.getElementById('btnVerificarDOIs').onclick = verificarTodosDOIs;
+
+
+// ============================================
+// 🧹 FILTRADO Y DEDUPLICACIÓN DE FUENTES
+// ============================================
+function normalizarTitulo(titulo) {
+    return (titulo || '').toLowerCase()
+        .replace(/[^a-z0-9áéíóúñ]/g, '')
+        .trim();
+}
+
+function deduplicarFuentes(fuentes) {
+    const vistos = new Set();
+    return fuentes.filter(f => {
+        const clave = normalizarTitulo(f.titulo) + '_' + (f.año || '');
+        if (vistos.has(clave)) return false;
+        vistos.add(clave);
+        return true;
+    });
+}
+
+function esRelevante(f, tema) {
+    const titulo = (f.titulo || '').toLowerCase();
+    const abstract = (f.abstract || f.contenidoExtraido || '').toLowerCase();
+    const temaPalabras = tema.toLowerCase()
+        .split(/[\s,]+/)
+        .filter(p => p.length > 4);
+    
+    if (temaPalabras.length === 0) return true;
+    
+    // Al menos 1 palabra clave del tema en título o abstract
+    return temaPalabras.some(p => titulo.includes(p) || abstract.includes(p));
+}
+
+function filtrarBasura(fuentes) {
+    const titulosBasura = ['final', 'bibliografia', 'indice', 'prefacio', 'notas', 
+                           'apendice', 'glosario', 'referencias', 'dead', 'sin titulo'];
+    const patronesBasura = [
+        /^\[?hd[ei]/,              // Novelas [HdE-XXX]
+        /heroes del espacio/i,      // Colección pulp
+        /bolsilibros/i,             // Colección pulp
+        /^\[dead\]/i              // Hacker News dead
+    ];
+    
+    return fuentes.filter(f => {
+        const titulo = (f.titulo || '').toLowerCase().trim();
+        const tituloLimpio = titulo.replace(/[^a-z0-9áéíóúñ\s]/g, '').trim();
+        
+        // Descartar si título está en lista negra
+        if (titulosBasura.some(b => tituloLimpio === b)) return false;
+        
+        // Descartar si matchea patrones basura
+        if (patronesBasura.some(p => p.test(f.titulo || ''))) return false;
+        
+        // Descartar si no tiene contenido NI abstract NI DOI
+        if (!f.abstract && !f.contenidoExtraido && !f.doi) return false;
+        
+        return true;
+    });
+}
 
 // ============================================
 // INICIALIZACIÓN
